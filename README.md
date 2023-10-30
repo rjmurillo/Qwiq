@@ -1,7 +1,8 @@
 QWIQ
 =======
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/MicrosoftEdge/Microsoft.Qwiq/blob/master/LICENSE) [![AppVeyor](https://img.shields.io/appveyor/ci/MicrosoftEdge/Microsoft-Qwiq.svg)]() [![qwiq MyGet Build Status](https://www.myget.org/BuildSource/Badge/qwiq?identifier=6c2b6200-0621-4b3f-ba6b-b28d2b785765)](https://www.myget.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/MicrosoftEdge/Microsoft.Qwiq/blob/master/LICENSE) [![AppVeyor](https://img.shields.io/appveyor/ci/MicrosoftEdge/Microsoft-Qwiq.svg)][![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frjmurillo%2FMicrosoft.Qwiq.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Frjmurillo%2FMicrosoft.Qwiq?ref=badge_shield)
+() [![qwiq MyGet Build Status](https://www.myget.org/BuildSource/Badge/qwiq?identifier=6c2b6200-0621-4b3f-ba6b-b28d2b785765)](https://www.myget.org/)
 
 [![MyGet](https://img.shields.io/myget/qwiq/v/Microsoft.Qwiq.Core.svg)]() [![MyGet](https://img.shields.io/myget/qwiq/vpre/Microsoft.Qwiq.Core.svg)]()
 
@@ -99,3 +100,7 @@ $items = $store.Query(@"
 
 Once you're familiar with Git and GitHub, clone the repository and start contributing!
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Frjmurillo%2FMicrosoft.Qwiq.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Frjmurillo%2FMicrosoft.Qwiq?ref=badge_large)
