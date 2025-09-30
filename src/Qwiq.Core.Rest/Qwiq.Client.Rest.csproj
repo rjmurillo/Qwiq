@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props" Condition="Exists('..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props')" />
   <Import Project="..\..\build\targets\common.props" />
   <PropertyGroup>
@@ -21,7 +21,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0" />
+    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
     <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0" />
     <PackageReference Include="Microsoft.TeamFoundation.DistributedTask.Common" Version="15.112.1" />
@@ -32,5 +32,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
     <PackageReference Include="UtilPack.NuGet.MSBuild" Version="2.8.0" />
   </ItemGroup>
-  <Import Project="..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets" Condition="Exists('..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets')" />
 </Project>
