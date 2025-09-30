@@ -316,3 +316,6 @@ __pycache__/
 
 # Visual Studio Workspace Bootstrapper
 .tools/
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
