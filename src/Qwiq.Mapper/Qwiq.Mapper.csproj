@@ -1,80 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props" Condition="Exists('..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props')" />
   <Import Project="..\..\build\targets\common.props" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <ProjectGuid>{016E8D93-4195-4639-BCD5-77633E8E1681}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Qwiq.Mapper</RootNamespace>
-    <AssemblyName>Qwiq.Mapper</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs">
       <Link>Properties\AssemblyInfo.Common.cs</Link>
     </Compile>
-    <Compile Include="AnnotatedPropertyValidator.cs" />
-    <Compile Include="Attributes\AttributeMapperStrategy.cs" />
-    <Compile Include="IAnnotatedPropertyValidator.cs" />
-    <Compile Include="Attributes\NoExceptionAttributeMapperStrategy.cs" />
-    <Compile Include="Attributes\FieldDefinitionAttribute.cs" />
-    <Compile Include="Attributes\IPropertyInspector.cs" />
-    <Compile Include="Attributes\IPropertyReflector.cs" />
-    <Compile Include="Attributes\PropertyInspector.cs" />
-    <Compile Include="Attributes\PropertyReflector.cs" />
-    <Compile Include="Attributes\PropertyReflectorBase.cs" />
-    <Compile Include="Attributes\WorkItemLinkAttribute.cs" />
-    <Compile Include="Attributes\WorkItemLinksMapperStrategy.cs" />
-    <Compile Include="Attributes\WorkItemTypeAttribute.cs" />
-    <Compile Include="FieldMapper.cs" />
-    <Compile Include="IWorkItemMapper.cs" />
-    <Compile Include="IWorkItemMapperStrategy.cs" />
-    <Compile Include="AttributeMapException.cs" />
-    <Compile Include="MapperTeamFoundationServerWorkItemQueryProvider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkItemMapper.cs" />
-    <Compile Include="WorkItemMapperContract.cs" />
-    <Compile Include="WorkItemMapperStrategyBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Qwiq.Mapper.nuspec" />
+    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" />
+    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj">
-      <Project>{8AC61B6E-BEC1-482D-A043-C65D2D343B35}</Project>
-      <Name>Qwiq.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj">
-      <Project>{1edeb333-3084-42bd-b273-4009b4b18541}</Project>
-      <Name>Qwiq.Linq</Name>
-    </ProjectReference>
+    <PackageReference Include="FastMember" Version="1.1.0" />
+    <PackageReference Include="GitVersionTask" Version="4.0.0" />
+    <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0" />
+    <PackageReference Include="UtilPack.NuGet.MSBuild" Version="2.8.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props'))" />
-    <Error Condition="!Exists('..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props'))" />
-  </Target>
   <Import Project="..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets" Condition="Exists('..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets')" />
 </Project>
