@@ -17,6 +17,6 @@
     <PackageReference Include="FastMember" />
     <PackageReference Include="GitVersionTask" />
     <PackageReference Include="Microsoft.Net.Compilers" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+
   </ItemGroup>
 </Project>

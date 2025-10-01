@@ -26,6 +26,6 @@
     <PackageReference Include="Microsoft.Tpl.Dataflow" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+
   </ItemGroup>
 </Project>

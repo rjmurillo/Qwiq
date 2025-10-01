@@ -19,6 +19,6 @@
     <PackageReference Include="Microsoft.Net.Compilers" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
     <RootNamespace>Qwiq</RootNamespace>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -38,12 +39,12 @@
     <PackageReference Include="GitVersionTask" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" />
-    <PackageReference Include="Microsoft.Net.Compilers" />
+
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+
     <PackageReference Include="WindowsAzure.ServiceBus" />
   </ItemGroup>
 </Project>

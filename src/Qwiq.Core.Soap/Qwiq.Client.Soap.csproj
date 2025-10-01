@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+
     <PackageReference Include="WindowsAzure.ServiceBus" />
   </ItemGroup>
 </Project>
