@@ -3,6 +3,7 @@
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\src\AssemblyInfo.Common.cs">
