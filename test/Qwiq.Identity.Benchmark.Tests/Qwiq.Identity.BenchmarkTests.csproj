@@ -30,10 +30,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Microsoft.DotNet.InternalAbstractions" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" />
-    <PackageReference Include="Microsoft.Net.Compilers">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />

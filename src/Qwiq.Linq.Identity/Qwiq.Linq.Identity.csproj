@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq.Linq</RootNamespace>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs">
@@ -19,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GitVersionTask" />
-    <PackageReference Include="Microsoft.Net.Compilers" />
+
 
   </ItemGroup>
 </Project>

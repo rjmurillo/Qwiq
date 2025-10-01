@@ -10,10 +10,6 @@
   <ItemGroup>
     <PackageReference Include="GitVersionTask" />
     <PackageReference Include="Humanizer.Core" />
-    <PackageReference Include="Microsoft.Net.Compilers">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="Should" />

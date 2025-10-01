@@ -3,6 +3,7 @@
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs">
@@ -20,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="GitVersionTask" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
-    <PackageReference Include="Microsoft.Net.Compilers" />
+
     <PackageReference Include="Microsoft.TeamFoundation.DistributedTask.Common" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
     <PackageReference Include="Microsoft.Tpl.Dataflow" />
