@@ -21,69 +21,69 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.10.11" />
-    <PackageReference Include="BenchmarkDotNet.Core" Version="0.10.11" />
-    <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" Version="0.10.11" />
-    <PackageReference Include="GitVersionTask" Version="4.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="1.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.6.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.6.1" />
-    <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
-    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="2.0.4" />
-    <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0">
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="BenchmarkDotNet.Core" />
+    <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" />
+    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="Microsoft.DotNet.InternalAbstractions" />
+    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" />
+    <PackageReference Include="Microsoft.Net.Compilers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Should" Version="1.1.20" />
-    <PackageReference Include="System.AppContext" Version="4.3.0" />
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="1.4.0" />
-    <PackageReference Include="System.Console" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.FileVersionInfo" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.StackTrace" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
-    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Globalization" Version="4.3.0" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Linq" Version="4.3.0" />
-    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
-    <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Metadata" Version="1.5.0" />
-    <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.2" />
-    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
-    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Threading" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.4.0" />
-    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
-    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
-    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.3.2" />
+    <PackageReference Include="Microsoft.Win32.Registry" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Should" />
+    <PackageReference Include="System.AppContext" />
+    <PackageReference Include="System.Collections" />
+    <PackageReference Include="System.Collections.Concurrent" />
+    <PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="System.Console" />
+    <PackageReference Include="System.Diagnostics.Debug" />
+    <PackageReference Include="System.Diagnostics.FileVersionInfo" />
+    <PackageReference Include="System.Diagnostics.StackTrace" />
+    <PackageReference Include="System.Diagnostics.Tools" />
+    <PackageReference Include="System.Dynamic.Runtime" />
+    <PackageReference Include="System.Globalization" />
+    <PackageReference Include="System.IO.Compression" />
+    <PackageReference Include="System.IO.FileSystem" />
+    <PackageReference Include="System.IO.FileSystem.Primitives" />
+    <PackageReference Include="System.Linq" />
+    <PackageReference Include="System.Linq.Expressions" />
+    <PackageReference Include="System.Reflection" />
+    <PackageReference Include="System.Reflection.Metadata" />
+    <PackageReference Include="System.Reflection.Primitives" />
+    <PackageReference Include="System.Resources.ResourceManager" />
+    <PackageReference Include="System.Runtime" />
+    <PackageReference Include="System.Runtime.Extensions" />
+    <PackageReference Include="System.Runtime.Handles" />
+    <PackageReference Include="System.Runtime.InteropServices" />
+    <PackageReference Include="System.Runtime.Numerics" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" />
+    <PackageReference Include="System.Security.Cryptography.Encoding" />
+    <PackageReference Include="System.Security.Cryptography.Primitives" />
+    <PackageReference Include="System.Security.Cryptography.X509Certificates" />
+    <PackageReference Include="System.Text.Encoding" />
+    <PackageReference Include="System.Text.Encoding.CodePages" />
+    <PackageReference Include="System.Text.Encoding.Extensions" />
+    <PackageReference Include="System.Threading" />
+    <PackageReference Include="System.Threading.Tasks" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" />
+    <PackageReference Include="System.Threading.Thread" />
+    <PackageReference Include="System.ValueTuple" />
+    <PackageReference Include="System.Xml.ReaderWriter" />
+    <PackageReference Include="System.Xml.XDocument" />
+    <PackageReference Include="System.Xml.XmlDocument" />
+    <PackageReference Include="System.Xml.XmlSerializer" />
+    <PackageReference Include="System.Xml.XPath" />
+    <PackageReference Include="System.Xml.XPath.XDocument" />
+    <PackageReference Include="WindowsAzure.ServiceBus" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

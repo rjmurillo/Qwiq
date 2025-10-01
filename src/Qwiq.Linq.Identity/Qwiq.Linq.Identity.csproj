@@ -18,8 +18,8 @@
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0" />
-    <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" Version="2.8.0" />
+    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Microsoft.Net.Compilers" />
+    <PackageReference Include="UtilPack.NuGet.MSBuild" />
   </ItemGroup>
 </Project>

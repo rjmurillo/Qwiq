@@ -18,20 +18,20 @@
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
-    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.9" />
-    <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0" />
-    <PackageReference Include="Microsoft.TeamFoundation.DistributedTask.Common" Version="15.112.1" />
-    <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="15.112.1" />
-    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="15.112.1" />
-    <PackageReference Include="Microsoft.Tpl.Dataflow" Version="4.5.24" />
-    <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="15.112.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" Version="15.112.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="4.0.4.403061554" />
-    <PackageReference Include="UtilPack.NuGet.MSBuild" Version="2.8.0" />
-    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.3.2" />
+    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" />
+    <PackageReference Include="Microsoft.Net.Compilers" />
+    <PackageReference Include="Microsoft.TeamFoundation.DistributedTask.Common" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" />
+    <PackageReference Include="Microsoft.Tpl.Dataflow" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+    <PackageReference Include="UtilPack.NuGet.MSBuild" />
+    <PackageReference Include="WindowsAzure.ServiceBus" />
   </ItemGroup>
 </Project>
