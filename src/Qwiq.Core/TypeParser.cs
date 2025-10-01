@@ -49,7 +49,7 @@ namespace Qwiq
         }
 
         [CanBeNull]
-        private static object ParseImpl([NotNull] Type destinationType, [CanBeNull] object value)
+        private static object ParseImpl([JetBrains.Annotations.NotNull] Type destinationType, [CanBeNull] object value)
         {
             var valueIsNull = ValueRepresentsNull(value);
             var canAcceptNull = destinationType.CanAcceptNull();
@@ -117,7 +117,7 @@ namespace Qwiq
 
         [CanBeNull]
         private static object ParseImpl(
-            [NotNull] Type destinationType,
+            [JetBrains.Annotations.NotNull] Type destinationType,
             [CanBeNull] object value,
             [CanBeNull] object defaultValue)
         {
@@ -271,7 +271,7 @@ namespace Qwiq
         }
 
         [MustUseReturnValue]
-        private static TypeConverter GetTypeConverter([NotNull] Type valueType)
+        private static TypeConverter GetTypeConverter([JetBrains.Annotations.NotNull] Type valueType)
         {
             var hashtable = TypeConverters;
 

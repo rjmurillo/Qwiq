@@ -20,6 +20,6 @@ namespace Qwiq
         bool HasAuthenticated { get; }
 
         /// <summary> This is used to convert dates and times to UTC. </summary>
-        TimeZone TimeZone { get; }
+        TimeZoneInfo TimeZone { get; }
     }
 }

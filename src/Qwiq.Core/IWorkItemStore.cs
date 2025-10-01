@@ -41,7 +41,7 @@ namespace Qwiq
         ///     Gets the time zone.
         /// </summary>
         /// <value>The time zone.</value>
-        TimeZone TimeZone { get; }
+        TimeZoneInfo TimeZone { get; }
 
         /// <summary>
         ///     Gets the work item link types associated with this instance.
