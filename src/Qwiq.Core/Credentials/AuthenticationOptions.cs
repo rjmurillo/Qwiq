@@ -112,7 +112,7 @@ namespace Qwiq.Credentials
 
             if (t.HasFlag(AuthenticationTypes.Windows))
             {
-                var storage = new VssClientCredentialStorage();
+                var storage = new VssClientCredentialStorage("Qwiq", null);
 
                 // User did not specify a username or a password, so use the process identity
                 yield return new VssClientCredentials(new WindowsCredential(false))

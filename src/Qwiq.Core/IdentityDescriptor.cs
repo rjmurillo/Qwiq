@@ -1,13 +1,46 @@
-﻿using Microsoft.VisualStudio.Services.Identity;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Common;
 
 namespace Qwiq
 {
+    /// <summary>
+    /// Simple identity type mapper to replace the legacy IdentityTypeMapper
+    /// </summary>
+    internal static class SimpleIdentityTypeMapper
+    {
+        private static readonly Dictionary<string, byte> TypeNameToId = new Dictionary<string, byte>
+        {
+            { "Microsoft.IdentityModel.Claims.ClaimsIdentity", 1 },
+            { "Microsoft.TeamFoundation.Identity", 2 },
+            { "Microsoft.TeamFoundation.ServiceIdentity", 3 },
+            { "System.Security.Principal.WindowsIdentity", 4 }
+        };
+
+        private static readonly Dictionary<byte, string> TypeIdToName = new Dictionary<byte, string>
+        {
+            { 1, "Microsoft.IdentityModel.Claims.ClaimsIdentity" },
+            { 2, "Microsoft.TeamFoundation.Identity" },
+            { 3, "Microsoft.TeamFoundation.ServiceIdentity" },
+            { 4, "System.Security.Principal.WindowsIdentity" }
+        };
+
+        public static byte GetTypeIdFromName(string typeName)
+        {
+            return TypeNameToId.TryGetValue(typeName, out var id) ? id : (byte)0;
+        }
+
+        public static string GetTypeNameFromId(byte typeId)
+        {
+            return TypeIdToName.TryGetValue(typeId, out var name) ? name : string.Empty;
+        }
+    }
+
     public class IdentityDescriptor : IIdentityDescriptor, IComparable<IdentityDescriptor>, IEquatable<IdentityDescriptor>
     {
         [NotNull] private string _identifier;
+        [NotNull] private string _identityType;
 
         /// <summary>
         /// </summary>
@@ -42,12 +75,13 @@ namespace Qwiq
 
         public string IdentityType
         {
-            get => IdentityTypeMapper.Instance.GetTypeNameFromId(IdentityTypeId);
+            get => _identityType;
             private set
             {
                 if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
                 if (value.Length > IdentityConstants.MaxTypeLength) throw new ArgumentOutOfRangeException(nameof(value));
-                IdentityTypeId = IdentityTypeMapper.Instance.GetTypeIdFromName(value);
+                _identityType = value;
+                IdentityTypeId = SimpleIdentityTypeMapper.GetTypeIdFromName(value);
             }
         }
 
@@ -86,7 +120,7 @@ namespace Qwiq
 
         public override string ToString()
         {
-            return IdentityTypeMapper.Instance.GetTypeNameFromId(IdentityTypeId) + ";" + _identifier;
+            return IdentityType + ";" + _identifier;
         }
     }
 }
