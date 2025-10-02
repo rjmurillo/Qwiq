@@ -1,31 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Qwiq.Tests.Common</RootNamespace>
     <AssemblyName>Microsoft.Qwiq.Tests.Common</AssemblyName>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Humanizer.Core" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="Should" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Qwiq.Core\Extensions.cs">
-      <Link>Extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Qwiq.Core\GenericComparer.cs">
-      <Link>GenericComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\ReSharper.Annotations.cs">
-      <Link>Properties\ReSharper.Annotations.cs</Link>
-    </Compile>
-  </ItemGroup>
-</Project>
+  </ItemGroup></Project>

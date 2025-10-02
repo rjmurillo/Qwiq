@@ -1,25 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.ServiceModel" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  </ItemGroup>  <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" />

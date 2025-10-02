@@ -1,10 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
@@ -13,23 +11,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DocumentationFile>bin\Release\Qwiq.Identity.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.Annotations.cs">
-      <Link>Properties\ReSharper.Annotations.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  </PropertyGroup>  <ItemGroup>
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Newtonsoft.Json" />

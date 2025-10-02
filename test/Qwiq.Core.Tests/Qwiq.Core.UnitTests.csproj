@@ -1,13 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq</RootNamespace>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" />
@@ -35,13 +33,7 @@
       </ItemGroup>
     </When>
     <Otherwise />
-  </Choose>
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  </Choose>  <ItemGroup>
     <ProjectReference Include="..\..\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" />

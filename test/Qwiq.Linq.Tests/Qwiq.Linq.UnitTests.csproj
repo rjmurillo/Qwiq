@@ -1,24 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq.Linq</RootNamespace>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
     <PackageReference Include="Should" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  </ItemGroup>  <ItemGroup>
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Linq\Qwiq.Linq.csproj" />
     <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" />

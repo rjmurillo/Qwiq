@@ -1,16 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq.Mapper</RootNamespace>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="BenchmarkDotNet.Core" />
     <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" />
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
@@ -72,13 +70,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceModel" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+  </ItemGroup>  <ItemGroup>
     <ProjectReference Include="..\Qwiq.Benchmark\Qwiq.Benchmark.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Mapper\Qwiq.Mapper.csproj" />

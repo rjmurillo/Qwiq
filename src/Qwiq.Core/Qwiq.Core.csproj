@@ -1,34 +1,32 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq</RootNamespace>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
+    <RunCodeAnalysis>true</RunCodeAnalysis>  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Services" />
   </ItemGroup>
+  
+  <!-- InternalsVisibleTo declarations for testing and client libraries -->
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.Annotations.cs">
-      <Link>Properties\ReSharper.Annotations.cs</Link>
-    </Compile>
-    <Compile Update="IWorkItemLinkInfo.Extensions.cs">
-      <DependentUpon>IWorkItemLinkInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IWorkItemLinkType.Extensions.cs">
-      <DependentUpon>IWorkItemLinkType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="IWorkItemLinkTypeEnd.Extensions.cs">
-      <DependentUpon>IWorkItemLinkTypeEnd.cs</DependentUpon>
-    </Compile>
+    <InternalsVisibleTo Include="Qwiq.Core.UnitTests" />
+    <InternalsVisibleTo Include="Qwiq.Mocks" />
+    <InternalsVisibleTo Include="Qwiq.Client.Soap" />
+    <InternalsVisibleTo Include="Qwiq.Client.Rest" />
+    <InternalsVisibleTo Include="Qwiq.Integration.Tests" />
+    <InternalsVisibleTo Include="Qwiq.Relatives.Tests" />
+    <InternalsVisibleTo Include="Qwiq.IntegrationTests" />
+    <InternalsVisibleTo Include="Qwiq.Identity.Soap" />
+    <InternalsVisibleTo Include="Qwiq.Mapper" />
+    <InternalsVisibleTo Include="Qwiq.Mapper.Identity" />
+    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />
+    <InternalsVisibleTo Include="Microsoft.Qwiq.Tests.Common" />
   </ItemGroup>
+  
   <ItemGroup>
     <None Update="Qwiq.Core.nuspec">
       <SubType>Designer</SubType>
@@ -36,7 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core" />
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" />
 

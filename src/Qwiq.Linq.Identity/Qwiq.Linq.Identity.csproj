@@ -1,25 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq.Linq</RootNamespace>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="..\ReSharper.Annotations.cs">
-      <Link>Properties\ReSharper.Annotations.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>  <ItemGroup>
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" />
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
 
 
   </ItemGroup>
