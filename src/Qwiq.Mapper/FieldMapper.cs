@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Qwiq.Linq;
 using Qwiq.Mapper.Attributes;
@@ -44,9 +43,7 @@ namespace Qwiq.Mapper
             return customAttributes.Select(ca => ca.GetTypeName()).OrderBy(name => name);
             // Order alphabetically so string comparisons work and we don't needlessly permute our queries
         }
-
-        [CanBeNull]
-        private static T GetFieldAttribute<T>([NotNull] Type type, [NotNull] string propertyName)
+        private static T GetFieldAttribute<T>( Type type, string propertyName)
         {
             Contract.Requires(type != null);
             Contract.Requires(!string.IsNullOrEmpty(propertyName));

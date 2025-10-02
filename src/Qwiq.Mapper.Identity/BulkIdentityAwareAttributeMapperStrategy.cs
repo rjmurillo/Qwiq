@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 
 using FastMember;
-using JetBrains.Annotations;
 using Qwiq.Identity;
 using Qwiq.Mapper.Attributes;
 
@@ -90,15 +89,8 @@ namespace Qwiq.Mapper
             }
         }
 
-        protected internal virtual void AssignFieldValue(
-            [NotNull] Type targetWorkItemType,
-            [NotNull] IWorkItem sourceWorkItem,
-            [NotNull] object targetWorkItem,
-            [NotNull] PropertyInfo property,
-            [NotNull] string fieldName,
-            bool convert,
-            [CanBeNull] object nullSub,
-            [CanBeNull] object fieldValue)
+        protected internal virtual void AssignFieldValue( Type targetWorkItemType, IWorkItem sourceWorkItem, object targetWorkItem, PropertyInfo property, string fieldName,
+            bool convert, object nullSub, object fieldValue)
         {
             // Coalesce fieldValue and nullSub
 

@@ -1,5 +1,4 @@
 using Castle.DynamicProxy;
-using JetBrains.Annotations;
 
 using System.Diagnostics.Contracts;
 
@@ -7,25 +6,13 @@ namespace Qwiq.Exceptions
 {
     internal static class ExceptionHandlingDynamicProxyFactory
     {
-        [NotNull]
         private static readonly ProxyGenerator Generator = new ProxyGenerator();
-
-        [NotNull]
         private static readonly ProxyGenerationOptions Options =
                 new ProxyGenerationOptions { BaseTypeForInterfaceProxy = typeof(ProxyBase) };
-
-        [NotNull]
         private static readonly IExceptionExploder[] ExceptionExploders = { new AggregateExceptionExploder(), new InnerExceptionExploder() };
-
-        [NotNull]
         private static readonly IExceptionMapper[] ExceptionMappers = { new InvalidOperationExceptionMapper(), new TransientExceptionMapper() };
-
-        [NotNull]
         private static readonly ExceptionHandlingDynamicProxy Proxy = new ExceptionHandlingDynamicProxy(new ExceptionMapper(ExceptionExploders, ExceptionMappers));
-
-        [JetBrains.Annotations.Pure]
-        [NotNull]
-        internal static T Create<T>([NotNull] T instance)
+        internal static T Create<T>( T instance)
             where T : class
         {
             Contract.Requires(instance != null);
@@ -33,13 +20,7 @@ namespace Qwiq.Exceptions
 
             return (T)Generator.CreateInterfaceProxyWithTarget(typeof(T), instance, Options, Proxy);
         }
-
-        [NotNull]
-        [JetBrains.Annotations.Pure]
-        internal static T Create<T>(
-            [NotNull] T instance,
-            [NotNull] IExceptionExploder[] exploders,
-            [NotNull] IExceptionMapper[] mappers)
+        internal static T Create<T>( T instance, IExceptionExploder[] exploders, IExceptionMapper[] mappers)
             where T : class
         {
             Contract.Requires(instance != null);

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
 namespace Qwiq.Mocks
 {
@@ -9,15 +8,9 @@ namespace Qwiq.Mocks
     /// Maintains legacy behavior of MockWorkItemStore: WIQL queries return all items, links return all links. Work items are only restricted when querying by ID
     /// </summary>
     public class MockQuery : IQuery
-    {
-        [CanBeNull] private readonly string _wiql;
-        [CanBeNull] private readonly IEnumerable<int> _ids;
-        [NotNull] private readonly MockWorkItemStore _store;
+    { private readonly string _wiql; private readonly IEnumerable<int> _ids; private readonly MockWorkItemStore _store;
 
-        public MockQuery(
-            [NotNull] MockWorkItemStore store,  
-            [CanBeNull] string wiql = null,
-            [CanBeNull] IEnumerable<int> ids = null)
+        public MockQuery( MockWorkItemStore store, string wiql = null, IEnumerable<int> ids = null)
         {
             _wiql = wiql;
             _ids = ids;

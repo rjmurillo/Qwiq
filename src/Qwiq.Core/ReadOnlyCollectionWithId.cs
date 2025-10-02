@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -15,15 +14,12 @@ namespace Qwiq
 
 
 
-        protected ReadOnlyObjectWithIdCollection([CanBeNull] List<T> items, [CanBeNull] Func<T, string> nameFunc)
+        protected ReadOnlyObjectWithIdCollection( List<T> items, Func<T, string> nameFunc)
             : this(items, nameFunc, arg => arg.Id)
         {
         }
 
-        protected ReadOnlyObjectWithIdCollection(
-            [CanBeNull] List<T> items,
-            [CanBeNull] Func<T, string> nameFunc,
-            [NotNull] Func<T, TId> idFunc)
+        protected ReadOnlyObjectWithIdCollection( List<T> items, Func<T, string> nameFunc, Func<T, TId> idFunc)
             : base(items, nameFunc)
         {
             Contract.Requires(idFunc != null);
@@ -32,31 +28,26 @@ namespace Qwiq
             _mapById = new Dictionary<TId, int>(items?.Count ?? 0);
         }
 
-        protected ReadOnlyObjectWithIdCollection([CanBeNull] List<T> items)
+        protected ReadOnlyObjectWithIdCollection( List<T> items)
             : base(items)
         {
             _idFunc = a => a.Id;
             _mapById = new Dictionary<TId, int>(items?.Count ?? 0);
         }
 
-        protected ReadOnlyObjectWithIdCollection([CanBeNull] IEnumerable<T> items)
+        protected ReadOnlyObjectWithIdCollection( IEnumerable<T> items)
             :base(items)
         {
             _idFunc = a => a.Id;
             _mapById = new Dictionary<TId, int>();
         }
 
-        protected ReadOnlyObjectWithIdCollection(
-            [NotNull] Func<IEnumerable<T>> itemFactory,
-            [CanBeNull] Func<T, string> nameFunc)
+        protected ReadOnlyObjectWithIdCollection( Func<IEnumerable<T>> itemFactory, Func<T, string> nameFunc)
             :this(itemFactory, nameFunc, arg => arg.Id)
         {
         }
 
-        protected ReadOnlyObjectWithIdCollection(
-            [NotNull] Func<IEnumerable<T>> itemFactory,
-            [CanBeNull] Func<T, string> nameFunc,
-            [NotNull] Func<T, TId> idFunc)
+        protected ReadOnlyObjectWithIdCollection( Func<IEnumerable<T>> itemFactory, Func<T, string> nameFunc, Func<T, TId> idFunc)
             :base(itemFactory, nameFunc)
         {
             _idFunc = idFunc ?? throw new ArgumentNullException(nameof(idFunc));

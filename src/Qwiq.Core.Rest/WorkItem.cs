@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
@@ -12,24 +11,14 @@ namespace Qwiq.Client.Rest
 {
     internal class WorkItem : Qwiq.WorkItem
     {
-        [NotNull]
         private readonly Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem _item;
-
-        [NotNull]
         private readonly Func<string, IWorkItemLinkType> _linkFunc;
-
-        [CanBeNull]
         private IFieldCollection _fields;
-
-        [CanBeNull]
         private LinkCollection _links;
 
         private Uri _uri;
 
-        public WorkItem(
-            [NotNull] Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem item,
-            [NotNull] IWorkItemType wit,
-            [NotNull] Func<string, IWorkItemLinkType> linkFunc)
+        public WorkItem( Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem item, IWorkItemType wit, Func<string, IWorkItemLinkType> linkFunc)
             : base(wit)
         {
             Contract.Requires(item != null);

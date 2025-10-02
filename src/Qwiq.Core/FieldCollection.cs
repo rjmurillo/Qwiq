@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -17,10 +16,7 @@ namespace Qwiq
 
         private readonly IRevisionInternal _revision;
 
-        internal FieldCollection(
-            [NotNull] IRevisionInternal revision,
-            [NotNull] IFieldDefinitionCollection definitions,
-            [NotNull] Func<IRevisionInternal, IFieldDefinition, IField> fieldFactory)
+        internal FieldCollection( IRevisionInternal revision, IFieldDefinitionCollection definitions, Func<IRevisionInternal, IFieldDefinition, IField> fieldFactory)
         {
             _revision = revision;
             _definitions = definitions;
@@ -143,7 +139,7 @@ namespace Qwiq
             return GetEnumerator();
         }
 
-        protected internal void SetField([NotNull] IField field)
+        protected internal void SetField( IField field)
         {
             if (field == null) throw new ArgumentNullException(nameof(field));
             if (!_definitions.Contains(field.ReferenceName)) throw new InvalidOperationException();

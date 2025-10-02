@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Microsoft.VisualStudio.Services.Common;
 
@@ -34,10 +33,7 @@ namespace Qwiq.Identity
         /// var ims = ...;
         /// var mapper = new IdentityAliasMapper(ims, "CD4C5751-F4E6-41D5-A4C9-EFFD66BC8E9C", "contoso.com");
         /// </example>
-        public IdentityAliasValueConverter(
-            [NotNull] IIdentityManagementService identityManagementService,
-            [NotNull] string tenantId,
-            [NotNull] [ItemNotNull] params string[] domains)
+        public IdentityAliasValueConverter( IIdentityManagementService identityManagementService, string tenantId,  params string[] domains)
         {
             Contract.Requires(!string.IsNullOrEmpty(tenantId));
             Contract.Requires(identityManagementService != null);

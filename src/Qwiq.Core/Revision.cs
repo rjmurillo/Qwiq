@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -13,8 +12,7 @@ namespace Qwiq
 
         private IFieldCollection _fields;
 
-        internal Revision(
-            [NotNull] IFieldDefinitionCollection definitions,
+        internal Revision( IFieldDefinitionCollection definitions,
             int revision)
         {
             Rev = revision;
@@ -22,7 +20,7 @@ namespace Qwiq
             FieldDefinitions = definitions;
         }
 
-        internal Revision([NotNull] IWorkItem workItem, int revision)
+        internal Revision( IWorkItem workItem, int revision)
         {
             WorkItem = workItem ?? throw new ArgumentNullException(nameof(workItem));
             Rev = revision;

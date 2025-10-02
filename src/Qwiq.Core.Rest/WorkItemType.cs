@@ -1,20 +1,15 @@
-﻿using System;
+using System;
 using System.Diagnostics.Contracts;
 
-using JetBrains.Annotations;
 
 namespace Qwiq.Client.Rest
 {
     internal class WorkItemType : Qwiq.WorkItemType
     {
-
-        [NotNull]
         private readonly Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItemType _type;
-
-        [CanBeNull]
         private IFieldDefinitionCollection _fdc;
 
-        internal WorkItemType([NotNull] Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItemType type)
+        internal WorkItemType( Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItemType type)
             : base(
                 type.Name,
                 type.Description,

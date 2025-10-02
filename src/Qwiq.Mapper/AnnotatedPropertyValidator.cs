@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Qwiq.Mapper.Attributes;
 using System;
 using System.Collections.Concurrent;
@@ -15,7 +14,7 @@ namespace Qwiq.Mapper
         private readonly IPropertyInspector _inspector;
         private Func<IWorkItem, PropertyInfo, bool> _propertyInfoValidator;
 
-        public AnnotatedPropertyValidator([NotNull] IPropertyInspector inspector)
+        public AnnotatedPropertyValidator( IPropertyInspector inspector)
         {
             _inspector = inspector ?? throw new ArgumentNullException(nameof(inspector));
             PropertyInfoValidator = (item, info) =>

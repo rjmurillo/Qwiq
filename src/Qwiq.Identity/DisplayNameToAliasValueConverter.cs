@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Common;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ namespace Qwiq.Identity
         /// </summary>
         /// <param name="identityManagementService">The identity management service.</param>
         /// <exception cref="ArgumentNullException">identityManagementService</exception>
-        public DisplayNameToAliasValueConverter([NotNull] IIdentityManagementService identityManagementService)
+        public DisplayNameToAliasValueConverter( IIdentityManagementService identityManagementService)
         {
             Contract.Requires(identityManagementService != null);
 
