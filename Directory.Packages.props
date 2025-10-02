@@ -11,7 +11,7 @@
     <PackageVersion Include="BenchmarkDotNet.Toolchains.Roslyn" Version="0.10.11" />
     <PackageVersion Include="Castle.Core" Version="4.0.0" />
     <PackageVersion Include="FastMember" Version="1.1.0" />
-    <PackageVersion Include="GitVersionTask" Version="5.5.1" />
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.133" />
     <PackageVersion Include="Humanizer.Core" Version="2.2.0" />
     <PackageVersion Include="JetBrains.dotMemoryUnit" Version="2.3.20160517.113140" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
