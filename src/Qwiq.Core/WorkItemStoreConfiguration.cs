@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 
 namespace Qwiq
 {
@@ -32,9 +31,6 @@ namespace Qwiq
             {
                 const int MinimumBatchSize = 50;
                 const int MaximumBatchSize = 200;
-
-                Contract.Requires(value >= MinimumBatchSize);
-                Contract.Requires(value <= MaximumBatchSize);
 
                 if (value < MinimumBatchSize || value > MaximumBatchSize) throw new PageSizeRangeException();
 

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
@@ -11,7 +10,6 @@ namespace Qwiq.Client.Rest
         internal WorkItemLinkTypeEnd( WorkItemRelationType item)
             : base(item.ReferenceName)
         {
-            Contract.Requires(item != null);
 
             if (item == null) throw new ArgumentNullException(nameof(item));
             Name = string.Intern(item.Name);

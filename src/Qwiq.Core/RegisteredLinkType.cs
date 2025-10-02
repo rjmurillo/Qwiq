@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq
@@ -8,7 +7,6 @@ namespace Qwiq
     {
         public RegisteredLinkType( string name)
         {
-            Contract.Requires(!string.IsNullOrEmpty(name));
             Name = name != null ? string.Intern(name) : throw new ArgumentNullException(nameof(name));
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq.Client.Rest
@@ -9,7 +8,6 @@ namespace Qwiq.Client.Rest
         internal IdentityDescriptor( Microsoft.VisualStudio.Services.Identity.IdentityDescriptor descriptor)
             : base(descriptor.IdentityType, descriptor.Identifier)
         {
-            Contract.Requires(descriptor != null);
             
             if (descriptor == null) throw new ArgumentNullException(nameof(descriptor));
         }

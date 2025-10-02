@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq.Client.Rest
@@ -16,8 +15,6 @@ namespace Qwiq.Client.Rest
                 null,
                 NewWorkItemImpl)
         {
-            Contract.Requires(type != null);
-            Contract.Requires(type != null);
 
             _type = type ?? throw new ArgumentNullException(nameof(type));
         }
@@ -50,12 +47,6 @@ namespace Qwiq.Client.Rest
              * return new WorkItemProxy(result);
              *
              */
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_type != null);
         }
     }
 }

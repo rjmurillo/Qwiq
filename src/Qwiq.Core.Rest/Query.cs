@@ -2,7 +2,6 @@ using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -30,7 +29,6 @@ namespace Qwiq.Client.Rest
             : this(query, false, workItemStore)
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
-            Contract.Requires(workItemStore != null);
 
             _ids = new HashSet<int>(ids);
         }
@@ -38,7 +36,6 @@ namespace Qwiq.Client.Rest
         internal Query(Wiql query, bool timePrecision, WorkItemStore workItemStore)
 
         {
-            Contract.Requires(workItemStore != null);
 
             _workItemStore = workItemStore ?? throw new ArgumentNullException(nameof(workItemStore));
             _timePrecision = timePrecision;
@@ -234,7 +231,6 @@ namespace Qwiq.Client.Rest
         }
         private List<IWorkItem> RunQueryImpl()
         {
-            Contract.Ensures(Contract.Result<List<IWorkItem>>() != null);
 
             if (_ids == null && _query != null)
             {
@@ -257,7 +253,6 @@ namespace Qwiq.Client.Rest
         }
         private IEnumerable<IWorkItem> RunQueryImplLazy()
         {
-            Contract.Ensures(Contract.Result<IEnumerable<IWorkItem>>() != null);
 
             if (_ids == null && _query != null)
             {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 
@@ -16,7 +15,6 @@ namespace Qwiq.Client.Soap
 
         internal QueryFactory( WorkItemStore store)
         {
-            Contract.Requires(store != null);
 
             _store = store ?? throw new ArgumentNullException(nameof(store));
         }

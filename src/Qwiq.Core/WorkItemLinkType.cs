@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 
 
@@ -18,9 +17,6 @@ namespace Qwiq
         internal WorkItemLinkType( string referenceName, IWorkItemLinkTypeEnd forward, IWorkItemLinkTypeEnd reverse)
             : this(referenceName)
         {
-            Contract.Requires(!string.IsNullOrEmpty(referenceName));
-            Contract.Requires(forward != null);
-            Contract.Requires(reverse != null);
 
             _forward = forward ?? throw new ArgumentNullException(nameof(forward));
             _reverse = reverse ?? throw new ArgumentNullException(nameof(reverse));
@@ -31,9 +27,6 @@ namespace Qwiq
         internal WorkItemLinkType( string referenceName, Lazy<IWorkItemLinkTypeEnd> forward, Lazy<IWorkItemLinkTypeEnd> reverse)
             : this(referenceName)
         {
-            Contract.Requires(!string.IsNullOrEmpty(referenceName));
-            Contract.Requires(forward != null);
-            Contract.Requires(reverse != null);
 
             _forwardFac = forward ?? throw new ArgumentNullException(nameof(forward));
             _reverseFac = reverse ?? throw new ArgumentNullException(nameof(reverse));
@@ -41,7 +34,6 @@ namespace Qwiq
 
         internal WorkItemLinkType( string referenceName)
         {
-            Contract.Requires(!string.IsNullOrEmpty(referenceName));
             
             if (string.IsNullOrWhiteSpace(referenceName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(referenceName));

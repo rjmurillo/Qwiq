@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -45,8 +44,6 @@ namespace Qwiq.Mapper
         }
         private static T GetFieldAttribute<T>( Type type, string propertyName)
         {
-            Contract.Requires(type != null);
-            Contract.Requires(!string.IsNullOrEmpty(propertyName));
 
             var property = type.GetProperty(propertyName);
 

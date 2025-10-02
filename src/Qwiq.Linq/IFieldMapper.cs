@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq.Linq
@@ -8,7 +7,6 @@ namespace Qwiq.Linq
     /// <summary>
     /// Maps friendly names to and from reference names
     /// </summary>
-    [ContractClass(typeof(FieldMapperContract))]
     public interface IFieldMapper
     {
         /// <summary>

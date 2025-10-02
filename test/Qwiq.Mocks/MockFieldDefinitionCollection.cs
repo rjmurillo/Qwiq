@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qwiq.Mocks
@@ -23,7 +22,6 @@ namespace Qwiq.Mocks
         public MockFieldDefinitionCollection(  IEnumerable<IFieldDefinition> fieldDefinitions)
             : this(fieldDefinitions.ToList())
         {
-            Contract.Requires(fieldDefinitions != null);
         }
 
         public override IFieldDefinition this[string name]

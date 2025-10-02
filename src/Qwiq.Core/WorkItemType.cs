@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq
@@ -15,9 +14,6 @@ namespace Qwiq
         internal WorkItemType( string name, string description, Lazy<IFieldDefinitionCollection> fieldDefinitions,
             Func<IWorkItem> workItemFactory = null)
         {
-            Contract.Requires(name != null);
-            Contract.Requires(!string.IsNullOrEmpty(name));
-            Contract.Requires(fieldDefinitions != null);
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));

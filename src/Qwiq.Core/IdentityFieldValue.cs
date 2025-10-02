@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.Services.Common;
 using System;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -37,7 +36,6 @@ namespace Qwiq
         public IdentityFieldValue( ITeamFoundationIdentity identity)
             : this(identity.DisplayName, identity.Descriptor?.Identifier, identity.TeamFoundationId.ToString())
         {
-            Contract.Requires(identity != null);
 
             if (identity == null) throw new ArgumentNullException(nameof(identity));
         }

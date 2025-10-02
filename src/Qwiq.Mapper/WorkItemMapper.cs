@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -17,8 +16,6 @@ namespace Qwiq.Mapper
 
         public WorkItemMapper( params IWorkItemMapperStrategy[] mapperStrategies)
         {
-            Contract.Requires(mapperStrategies != null);
-
             if (mapperStrategies == null) throw new ArgumentNullException(nameof(mapperStrategies));
             if (mapperStrategies.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(mapperStrategies));
 
@@ -27,8 +24,6 @@ namespace Qwiq.Mapper
 
         public WorkItemMapper( IEnumerable<IWorkItemMapperStrategy> mapperStrategies)
         {
-            Contract.Requires(mapperStrategies != null);
-
             MapperStrategies = mapperStrategies?.ToList() ?? throw new ArgumentNullException(nameof(mapperStrategies));
         }
 
@@ -77,8 +72,7 @@ namespace Qwiq.Mapper
         }
         private static ObjectActivator OptimizedCtorExpressionCache( Type type)
         {
-            Contract.Requires(type != null);
-            Contract.Ensures(Contract.Result<ObjectActivator>() != null);
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             return OptimizedCtorExpression.GetOrAdd(
                 type.TypeHandle,

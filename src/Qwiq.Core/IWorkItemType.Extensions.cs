@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qwiq
@@ -9,7 +8,6 @@ namespace Qwiq
     {
         public static IWorkItem NewWorkItem( this IWorkItemType wit, IEnumerable<KeyValuePair<string, object>> values)
         {
-            Contract.Requires(wit != null);
 
             if (wit == null) throw new ArgumentNullException(nameof(wit));
             var wi = wit.NewWorkItem();
@@ -24,8 +22,6 @@ namespace Qwiq
         }
         public static IEnumerable<IWorkItem> NewWorkItems( this IWorkItemType wit,  IEnumerable<IEnumerable<KeyValuePair<string, object>>> values)
         {
-            Contract.Requires(values != null);
-            Contract.Requires(wit != null);
 
             if (wit == null) throw new ArgumentNullException(nameof(wit));
             if (values == null) throw new ArgumentNullException(nameof(values));

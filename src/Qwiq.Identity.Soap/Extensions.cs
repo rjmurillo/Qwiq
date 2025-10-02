@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 
 using Qwiq.Client.Soap;
@@ -18,7 +17,6 @@ namespace Qwiq.Identity.Soap
         /// <exception cref="ArgumentNullException">teamProjectCollection</exception>
         public static IIdentityManagementService GetIdentityManagementService( this ITeamProjectCollection teamProjectCollection)
         {
-            Contract.Requires(teamProjectCollection != null);
 
             if (teamProjectCollection == null) throw new ArgumentNullException(nameof(teamProjectCollection));
             return ((IInternalTeamProjectCollection)teamProjectCollection).GetService<IIdentityManagementService2>().AsProxy();

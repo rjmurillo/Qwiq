@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq
@@ -10,7 +9,6 @@ namespace Qwiq
         internal Hyperlink( string location, string comment = null)
             : base(comment, BaseLinkType.Hyperlink)
         {
-            Contract.Requires(!string.IsNullOrEmpty(location));
 
             if (string.IsNullOrEmpty(location)) throw new ArgumentException("Value cannot be null or empty.", nameof(location));
             Location = location;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 
@@ -35,15 +34,10 @@ namespace Qwiq.Identity
         /// </example>
         public IdentityAliasValueConverter( IIdentityManagementService identityManagementService, string tenantId,  params string[] domains)
         {
-            Contract.Requires(!string.IsNullOrEmpty(tenantId));
-            Contract.Requires(identityManagementService != null);
-            Contract.Requires(domains != null);
-            Contract.Requires(domains.Length > 0);
-            Contract.Requires(domains.All(item => item != null));
-
             if (domains == null) throw new ArgumentNullException(nameof(domains));
             if (string.IsNullOrEmpty(tenantId)) throw new ArgumentException("Value cannot be null or empty.", nameof(tenantId));
             if (domains.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(domains));
+            if (domains.Any(item => item == null)) throw new ArgumentException("Value cannot contain null elements.", nameof(domains));
             _identityManagementService = identityManagementService ?? throw new ArgumentNullException(nameof(identityManagementService));
             _tenantId = tenantId;
             _domains = domains;

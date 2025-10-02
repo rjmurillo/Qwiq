@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -14,8 +13,6 @@ namespace Qwiq.Linq
         {
             if (projections == null) throw new ArgumentNullException(nameof(projections));
             if (data == null) throw new ArgumentNullException(nameof(data));
-            Contract.Requires(projections != null);
-            Contract.Requires(data != null);
 
             var projectedData = data;
             foreach (var projection in projections)

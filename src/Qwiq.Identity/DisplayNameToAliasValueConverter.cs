@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.Services.Common;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qwiq.Identity
@@ -21,8 +20,6 @@ namespace Qwiq.Identity
         /// <exception cref="ArgumentNullException">identityManagementService</exception>
         public DisplayNameToAliasValueConverter( IIdentityManagementService identityManagementService)
         {
-            Contract.Requires(identityManagementService != null);
-
             _identityManagementService = identityManagementService ?? throw new ArgumentNullException(nameof(identityManagementService));
         }
 

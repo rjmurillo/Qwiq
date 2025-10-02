@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -15,7 +14,6 @@ namespace Qwiq.Client.Soap
 
         internal Query( Microsoft.TeamFoundation.WorkItemTracking.Client.Query query, int pageSize)
         {
-            Contract.Requires(query != null);
 
             _query = query ?? throw new ArgumentNullException(nameof(query));
             _pageSize = pageSize;

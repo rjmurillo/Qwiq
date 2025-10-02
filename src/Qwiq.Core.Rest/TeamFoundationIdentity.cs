@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.Services.Identity;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qwiq.Client.Rest
@@ -20,7 +19,6 @@ namespace Qwiq.Client.Rest
                   identity.MemberOf?.Select(item => item.AsProxy()).ToArray() ?? Enumerable.Empty<IIdentityDescriptor>(),
                   identity.Members?.Select(item => item.AsProxy()).ToArray() ?? Enumerable.Empty<IIdentityDescriptor>())
         {
-            Contract.Requires(identity != null);
 
             _identity = identity ?? throw new ArgumentNullException(nameof(identity));
             DisplayName = identity.DisplayName;

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 
@@ -44,7 +43,6 @@ namespace Qwiq.Mocks
         public MockWorkItem( IWorkItemType workItemType, int id)
             : this(workItemType, new KeyValuePair<string, object>(CoreFieldRefNames.Id, id))
         {
-            Contract.Requires(id > 0);
         }
 
         public MockWorkItem( IWorkItemType workItemType, int id, params KeyValuePair<string, object>[] fieldValues)
@@ -53,7 +51,6 @@ namespace Qwiq.Mocks
                    fieldValues?.Union(new[] { new KeyValuePair<string, object>(CoreFieldRefNames.Id, id) })
                               .ToDictionary(k => k.Key, e => e.Value, StringComparer.OrdinalIgnoreCase) ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase) { { CoreFieldRefNames.Id, id } })
         {
-            Contract.Requires(id > 0);
         }
 
         public MockWorkItem( IWorkItemType workItemType, params KeyValuePair<string, object>[] fieldValues)

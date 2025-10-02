@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Qwiq
 {
@@ -22,7 +21,6 @@ namespace Qwiq
         protected ReadOnlyObjectWithIdCollection( List<T> items, Func<T, string> nameFunc, Func<T, TId> idFunc)
             : base(items, nameFunc)
         {
-            Contract.Requires(idFunc != null);
 
             _idFunc = idFunc ?? throw new ArgumentNullException(nameof(idFunc));
             _mapById = new Dictionary<TId, int>(items?.Count ?? 0);

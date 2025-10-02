@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Qwiq
 {
@@ -19,8 +18,6 @@ namespace Qwiq
         protected ReadOnlyObjectWithNameCollection( Func<IEnumerable<T>> itemFactory, Func<T, string> nameFunc)
         : this()
         {
-            Contract.Requires(itemFactory != null);
-            Contract.Requires(nameFunc != null);
 
             ItemFactory = itemFactory ?? throw new ArgumentNullException(nameof(itemFactory));
             _nameFunc = nameFunc;

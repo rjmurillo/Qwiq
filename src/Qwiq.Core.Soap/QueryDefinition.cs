@@ -1,4 +1,3 @@
-using System.Diagnostics.Contracts;
 
 namespace Qwiq.Client.Soap
 {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq
@@ -24,28 +23,23 @@ namespace Qwiq
         protected internal WorkItem( IWorkItemType workItemType, Dictionary<string, object> fields)
             : base(fields)
         {
-            Contract.Requires(workItemType != null);
 
             _type = workItemType ?? throw new ArgumentNullException(nameof(workItemType));
         }
 
         protected internal WorkItem( IWorkItemType workItemType)
         {
-            Contract.Requires(workItemType != null);
 
             _type = workItemType ?? throw new ArgumentNullException(nameof(workItemType));
         }
 
         protected internal WorkItem( Lazy<IWorkItemType> type)
         {
-            Contract.Requires(type != null);
             _lazyType = type;
         }
 
         protected internal WorkItem( IWorkItemType workItemType, Func<IFieldCollection> fieldCollectionFactory)
         {
-            Contract.Requires(workItemType != null);
-            Contract.Requires(fieldCollectionFactory != null);
             _type = workItemType ?? throw new ArgumentNullException(nameof(workItemType));
             _fieldFactory = fieldCollectionFactory ?? throw new ArgumentNullException(nameof(fieldCollectionFactory));
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Qwiq.Exceptions
 {
@@ -11,8 +10,6 @@ namespace Qwiq.Exceptions
 
         public ExceptionMapper( IExceptionExploder[] exploders, IExceptionMapper[] mappers)
         {
-            Contract.Requires(exploders != null);
-            Contract.Requires(mappers != null);
 
             _exploders = exploders ?? throw new ArgumentNullException(nameof(exploders));
             _mappers = mappers ?? throw new ArgumentNullException(nameof(mappers));

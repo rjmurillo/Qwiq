@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 namespace Qwiq
 {
@@ -85,7 +84,6 @@ namespace Qwiq
         }
         protected virtual object GetValue( string name)
         {
-            Contract.Requires(!string.IsNullOrEmpty(name));
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");
             _fields.TryGetValue(name, out object val);
 

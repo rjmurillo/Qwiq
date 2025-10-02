@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -22,8 +21,6 @@ namespace Qwiq.Linq
 
         public Query( IQueryProvider provider, IWiqlQueryBuilder builder)
         {
-            Contract.Requires(provider != null);
-            Contract.Requires(builder != null);
 
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
@@ -32,9 +29,6 @@ namespace Qwiq.Linq
 
         public Query( IQueryProvider provider, IWiqlQueryBuilder builder, Expression expression)
         {
-            Contract.Requires(provider != null);
-            Contract.Requires(builder != null);
-            Contract.Requires(expression != null);
 
             if (expression == null) throw new ArgumentNullException(nameof(expression));
             if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type)) throw new ArgumentOutOfRangeException(nameof(expression));

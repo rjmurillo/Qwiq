@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Qwiq
 {
@@ -9,8 +8,6 @@ namespace Qwiq
     {
         internal FieldDefinition(int id, string referenceName, string name)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(referenceName));
-            Contract.Requires(!string.IsNullOrWhiteSpace(name));
 
             if (string.IsNullOrWhiteSpace(referenceName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(referenceName));
@@ -34,8 +31,6 @@ namespace Qwiq
 
         internal FieldDefinition( string referenceName, string name)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(referenceName));
-            Contract.Requires(!string.IsNullOrWhiteSpace(name));
 
             if (string.IsNullOrWhiteSpace(referenceName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(referenceName));

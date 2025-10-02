@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq.Mapper
 {
-    [ContractClass(typeof(WorkItemMapperContract))]
     public interface IWorkItemMapper
     {
         ///  <summary>

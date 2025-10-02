@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -21,9 +20,6 @@ namespace Qwiq.Client.Rest
         public WorkItem( Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem item, IWorkItemType wit, Func<string, IWorkItemLinkType> linkFunc)
             : base(wit)
         {
-            Contract.Requires(item != null);
-            Contract.Requires(wit != null);
-            Contract.Requires(linkFunc != null);
             _item = item ?? throw new ArgumentNullException(nameof(item));
             _linkFunc = linkFunc ?? throw new ArgumentNullException(nameof(linkFunc));
             Url = _item.Url;
@@ -36,9 +32,6 @@ namespace Qwiq.Client.Rest
             Func<string, IWorkItemLinkType> linkFunc)
             : base(wit)
         {
-            Contract.Requires(item != null);
-            Contract.Requires(wit != null);
-            Contract.Requires(linkFunc != null);
             _item = item ?? throw new ArgumentNullException(nameof(item));
             _linkFunc = linkFunc ?? throw new ArgumentNullException(nameof(linkFunc));
             Url = _item.Url;
@@ -139,12 +132,6 @@ namespace Qwiq.Client.Rest
 #if DEBUG
             Trace.WriteLine($"Set \'{name}\' to {value.ToUsefulString()}");
 #endif
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(_item != null);
         }
     }
 }

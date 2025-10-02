@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -10,8 +9,6 @@ namespace Qwiq.Mocks
         public MockRevision( Dictionary<string, object> dictionary, int index)
             :base(new MockFieldDefinitionCollection(dictionary.Keys.Select(MockFieldDefinition.Create)), index)
         {
-            Contract.Requires(dictionary != null);
-            Contract.Requires(index > 0);
 
             foreach (var kvp in dictionary)
             {

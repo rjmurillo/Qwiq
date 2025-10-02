@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq
 {
-    [ContractClass(typeof(TeamFoundationIdentityContract))]
     public interface ITeamFoundationIdentity
     {
         /// <summary>
@@ -98,15 +96,12 @@ namespace Qwiq
         /// </summary>
         IEnumerable<KeyValuePair<string, object>> GetProperties();
     }
-
-    [ContractClassFor(typeof(ITeamFoundationIdentity))]
     internal abstract class TeamFoundationIdentityContract : ITeamFoundationIdentity
     {
         public IIdentityDescriptor Descriptor
         {
             get
             {
-                Contract.Ensures(Contract.Result<IIdentityDescriptor>() != null);
 
                 return default(IIdentityDescriptor);
             }
@@ -119,7 +114,6 @@ namespace Qwiq
         {
             get
             {
-                Contract.Ensures(Contract.Result<IEnumerable<IIdentityDescriptor>>() != null);
 
                 return default(IEnumerable<IIdentityDescriptor>);
             }
@@ -129,7 +123,6 @@ namespace Qwiq
         {
             get
             {
-                Contract.Ensures(Contract.Result<IEnumerable<IIdentityDescriptor>>() != null);
 
                 return default(IEnumerable<IIdentityDescriptor>);
             }
@@ -142,7 +135,6 @@ namespace Qwiq
         {
             get
             {
-                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
                 return default(string);
             }
@@ -155,7 +147,6 @@ namespace Qwiq
         {
             get
             {
-                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
                 return default(string);
             }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 
 namespace Qwiq.Linq
@@ -13,7 +12,6 @@ namespace Qwiq.Linq
 
         public CachingFieldMapper( IFieldMapper innerMapper)
         {
-            Contract.Requires(innerMapper != null);
 
             _innerMapper = innerMapper ?? throw new ArgumentNullException(nameof(innerMapper));
             _cache = new ConcurrentDictionary<string, object>();
@@ -42,9 +40,6 @@ namespace Qwiq.Linq
 
         private string GenerateCacheKey( Type type, string method, string propertyName = "")
         {
-            Contract.Requires(type != null);
-            Contract.Requires(method != null);
-            Contract.Requires(propertyName != null);
 
             return type.AssemblyQualifiedName + method + propertyName;
         }

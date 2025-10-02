@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 
 
@@ -13,7 +12,6 @@ namespace Qwiq.Client.Rest
 
         private QueryFactory( WorkItemStore store)
         {
-            Contract.Requires(store != null);
 
             _store = store ?? throw new ArgumentNullException(nameof(store));
         }
@@ -57,7 +55,6 @@ namespace Qwiq.Client.Rest
 
         public static IQueryFactory GetInstance( WorkItemStore store)
         {
-            Contract.Requires(store != null);
 
             return new QueryFactory(store);
         }

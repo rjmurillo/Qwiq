@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -13,7 +12,6 @@ namespace Qwiq.Client.Rest
     {
         internal LinkCollection( List<WorkItemRelation> relations, Func<string, IWorkItemLinkType> linkFunc)
         {
-            Contract.Requires(linkFunc != null);
 
             if (relations == null) return;
             if (linkFunc == null) throw new ArgumentNullException(nameof(linkFunc));

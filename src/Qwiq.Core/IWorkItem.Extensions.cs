@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 
@@ -10,9 +9,6 @@ namespace Qwiq
     {
         public static void AddRelatedLink( this IWorkItem workItem, IWorkItemStore store, int targetId)
         {
-            Contract.Requires(workItem != null);
-            Contract.Requires(store != null);
-            Contract.Requires(targetId > 0);
 
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
@@ -23,9 +19,6 @@ namespace Qwiq
         }
         public static void AddParentLink( this IWorkItem workItem, IWorkItemStore store, int parentId)
         {
-            Contract.Requires(workItem != null);
-            Contract.Requires(store != null);
-            Contract.Requires(parentId > 0);
 
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
@@ -36,9 +29,6 @@ namespace Qwiq
         }
         public static void AddChildLink( this IWorkItem workItem, IWorkItemStore store, int childId)
         {
-            Contract.Requires(workItem != null);
-            Contract.Requires(store != null);
-            Contract.Requires(childId > 0);
 
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
@@ -49,10 +39,6 @@ namespace Qwiq
         }
         public static void AddChildrenLink( this IWorkItem workItem, IWorkItemStore store, params int[] childrenIds)
         {
-            Contract.Requires(workItem != null);
-            Contract.Requires(store != null);
-            Contract.Requires(childrenIds != null);
-            Contract.Requires(childrenIds.Length > 0);
 
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
