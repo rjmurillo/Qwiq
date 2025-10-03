@@ -5,13 +5,13 @@ namespace Qwiq
 {
     public class Project : IProject, IEquatable<IProject>
     {
-        private readonly Lazy<IWorkItemClassificationNodeCollection<int>> _area;
+        private readonly Lazy<IWorkItemClassificationNodeCollection<int>>? _area;
 
-        private readonly Lazy<IWorkItemClassificationNodeCollection<int>> _iteration;
+        private readonly Lazy<IWorkItemClassificationNodeCollection<int>>? _iteration;
 
-        private readonly Lazy<IWorkItemTypeCollection> _wits;
+        private readonly Lazy<IWorkItemTypeCollection>? _wits;
 
-        private readonly Lazy<IQueryFolderCollection> _queryHierarchy;
+        private readonly Lazy<IQueryFolderCollection>? _queryHierarchy;
 
         internal Project(
             Guid guid,
@@ -35,24 +35,24 @@ namespace Qwiq
         {
         }
 
-        public bool Equals(IProject other)
+        public bool Equals(IProject? other)
         {
             return ProjectComparer.Default.Equals(this, other);
         }
 
-        public IWorkItemClassificationNodeCollection<int> AreaRootNodes => _area.Value;
+        public IWorkItemClassificationNodeCollection<int> AreaRootNodes => _area!.Value;
 
         public Guid Guid { get; }
 
-        public IWorkItemClassificationNodeCollection<int> IterationRootNodes => _iteration.Value;
+        public IWorkItemClassificationNodeCollection<int> IterationRootNodes => _iteration!.Value;
 
-        public string Name { get; }
+        public string Name { get; } = string.Empty;
 
-        public Uri Uri { get; }
+        public Uri Uri { get; } = null!;
 
-        public IWorkItemTypeCollection WorkItemTypes => _wits.Value;
+        public IWorkItemTypeCollection WorkItemTypes => _wits!.Value;
 
-        public IQueryFolderCollection QueryHierarchy => _queryHierarchy.Value;
+        public IQueryFolderCollection QueryHierarchy => _queryHierarchy!.Value;
 
         public override bool Equals(object obj)
         {

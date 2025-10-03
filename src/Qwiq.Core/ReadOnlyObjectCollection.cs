@@ -9,8 +9,8 @@ namespace Qwiq
     {
         private readonly object _lockObj = new object();
         private volatile bool _alreadyInit;
-        private Func<IEnumerable<T>> _itemFactory;
-        private Lazy<IEnumerable<T>> _lazyItems;
+        private Func<IEnumerable<T>>? _itemFactory;
+        private Lazy<IEnumerable<T>>? _lazyItems;
 
         protected ReadOnlyObjectCollection( Func<IEnumerable<T>> itemFactory)
         {
@@ -34,7 +34,7 @@ namespace Qwiq
             Initialize();
         }
 
-        protected internal List<T> List { get; set; }
+        protected internal List<T> List { get; set; } = new List<T>();
 
         public virtual int Count
         {
@@ -45,7 +45,7 @@ namespace Qwiq
             }
         }
 
-        protected Func<IEnumerable<T>> ItemFactory
+        protected Func<IEnumerable<T>>? ItemFactory
         {
             get => _itemFactory;
             set
@@ -53,7 +53,7 @@ namespace Qwiq
                 _itemFactory = value;
                 lock (_lockObj)
                 {
-                    _lazyItems = new Lazy<IEnumerable<T>>(_itemFactory);
+                    _lazyItems = value != null ? new Lazy<IEnumerable<T>>(value) : null;
                     Initialize();
                 }
             }
@@ -127,7 +127,7 @@ namespace Qwiq
                         else for (var i = 0; i < List.Count; i++) Add(List[i], i);
 
                         _alreadyInit = true;
-                        _lazyItems = null;
+                        _lazyItems = null!;
                     }
                 }
         }
