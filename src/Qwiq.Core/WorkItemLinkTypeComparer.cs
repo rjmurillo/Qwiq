@@ -10,7 +10,7 @@ namespace Qwiq
         {
         }
 
-        public override bool Equals(IWorkItemLinkType x, IWorkItemLinkType y)
+        public override bool Equals(IWorkItemLinkType? x, IWorkItemLinkType? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
@@ -23,7 +23,7 @@ namespace Qwiq
                 && WorkItemLinkTypeEndComparer.Default.Equals(x.ReverseEnd, y.ReverseEnd);
         }
 
-        public override int GetHashCode(IWorkItemLinkType obj)
+        public override int GetHashCode(IWorkItemLinkType? obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 

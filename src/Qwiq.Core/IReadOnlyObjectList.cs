@@ -29,6 +29,6 @@ namespace Qwiq
         ///     or the default value of the type if the operation failed.
         /// </param>
         /// <returns><c>true</c> if the name was found in the read-only list; otherwise, <c>false</c>.</returns>
-        bool TryGetByName(string name, out T value);
+        bool TryGetByName(string name, out T? value);
     }
 }

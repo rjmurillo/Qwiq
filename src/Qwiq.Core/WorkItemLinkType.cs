@@ -6,22 +6,19 @@ namespace Qwiq
 {
     public class WorkItemLinkType : IWorkItemLinkType, IEquatable<IWorkItemLinkType>
     {
-        private readonly Lazy<IWorkItemLinkTypeEnd> _forwardFac;
+        private readonly Lazy<IWorkItemLinkTypeEnd>? _forwardFac;
 
-        private readonly Lazy<IWorkItemLinkTypeEnd> _reverseFac;
+        private readonly Lazy<IWorkItemLinkTypeEnd>? _reverseFac;
 
-        private IWorkItemLinkTypeEnd _forward;
+        private IWorkItemLinkTypeEnd? _forward;
 
-        private IWorkItemLinkTypeEnd _reverse;
+        private IWorkItemLinkTypeEnd? _reverse;
 
-        internal WorkItemLinkType( string referenceName, IWorkItemLinkTypeEnd forward, IWorkItemLinkTypeEnd reverse)
+        internal WorkItemLinkType(string referenceName, IWorkItemLinkTypeEnd forward, IWorkItemLinkTypeEnd reverse)
             : this(referenceName)
         {
-
             _forward = forward ?? throw new ArgumentNullException(nameof(forward));
             _reverse = reverse ?? throw new ArgumentNullException(nameof(reverse));
-            _forwardFac = null;
-            _reverseFac = null;
         }
 
         internal WorkItemLinkType( string referenceName, Lazy<IWorkItemLinkTypeEnd> forward, Lazy<IWorkItemLinkTypeEnd> reverse)
@@ -51,12 +48,12 @@ namespace Qwiq
 
         public IWorkItemLinkTypeEnd ReverseEnd => CoerceReverseValue();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemLinkTypeComparer.Default.Equals(this, obj as IWorkItemLinkType);
         }
 
-        public bool Equals(IWorkItemLinkType other)
+        public bool Equals(IWorkItemLinkType? other)
         {
             return WorkItemLinkTypeComparer.Default.Equals(this, other);
         }
@@ -85,12 +82,12 @@ namespace Qwiq
 
         private IWorkItemLinkTypeEnd CoerceForwardValue()
         {
-            return _forward ?? (_forward = _forwardFac.Value);
+            return _forward ?? (_forward = _forwardFac!.Value);
         }
 
         private IWorkItemLinkTypeEnd CoerceReverseValue()
         {
-            return _reverse ?? (_reverse = _reverseFac.Value);
+            return _reverse ?? (_reverse = _reverseFac!.Value);
         }
 
         public string Name => ReferenceName;

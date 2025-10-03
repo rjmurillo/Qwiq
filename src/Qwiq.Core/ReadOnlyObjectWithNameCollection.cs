@@ -12,8 +12,8 @@ namespace Qwiq
     {
         
         private readonly object _lockObj = new object();
-        private readonly Func<T, string> _nameFunc;
-        private IDictionary<string, int> _mapByName;
+        private readonly Func<T, string>? _nameFunc;
+        private IDictionary<string, int> _mapByName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         protected ReadOnlyObjectWithNameCollection( Func<IEnumerable<T>> itemFactory, Func<T, string> nameFunc)
         : this()
@@ -30,13 +30,13 @@ namespace Qwiq
             Initialize();
         }
 
-        protected ReadOnlyObjectWithNameCollection( IEnumerable<T> items)
-            : this(() => items, null)
+        protected ReadOnlyObjectWithNameCollection(IEnumerable<T> items)
+            : this(() => items, null!)
         {
         }
 
-        protected ReadOnlyObjectWithNameCollection( List<T> items)
-            : this(items, null)
+        protected ReadOnlyObjectWithNameCollection(List<T> items)
+            : this(items, null!)
         {
         }
 
@@ -73,7 +73,7 @@ namespace Qwiq
             return _mapByName.ContainsKey(name);
         }
 
-        public virtual bool TryGetByName(string name, out T value)
+        public virtual bool TryGetByName(string name, out T? value)
         {
             if (string.IsNullOrEmpty(name))
             {
