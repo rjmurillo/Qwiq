@@ -20,13 +20,13 @@ namespace Qwiq
         }
 
         [DebuggerStepThrough]
-        public bool Equals(IWorkItemTypeCollection other)
+        public bool Equals(IWorkItemTypeCollection? other)
         {
             return WorkItemTypeCollectionComparer.Default.Equals(this, other);
         }
 
         [DebuggerStepThrough]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemTypeCollectionComparer.Default.Equals(this, obj as IWorkItemTypeCollection);
         }
