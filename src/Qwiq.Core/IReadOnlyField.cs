@@ -5,7 +5,7 @@ namespace Qwiq
     {
         string Name { get; }
         string ReferenceName { get; }
-        object Value { get; }
+        object? Value { get; }
         IFieldDefinition FieldDefinition { get; }
     }
 }

@@ -28,15 +28,15 @@ namespace Qwiq
 
         public virtual bool IsValid => ValidationState == ValidationState.Valid;
 
-        public virtual string Name => FieldDefinition.Name;
+        public virtual string Name => FieldDefinition.Name!;
 
-        public virtual object OriginalValue => throw new NotImplementedException();
+        public virtual object? OriginalValue => throw new NotImplementedException();
 
         public virtual string ReferenceName => FieldDefinition.ReferenceName;
 
         public virtual ValidationState ValidationState => throw new NotImplementedException();
 
-        public virtual object Value
+        public virtual object? Value
         {
             get => _revision.GetCurrentFieldValue(FieldDefinition);
             set => _revision.SetFieldValue(FieldDefinition, value);
