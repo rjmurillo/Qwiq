@@ -4,8 +4,8 @@ namespace Qwiq
 {
     internal interface IRevisionInternal
     {
-        object GetCurrentFieldValue( IFieldDefinition fieldDefinition);
+        object? GetCurrentFieldValue( IFieldDefinition fieldDefinition);
 
-        void SetFieldValue( IFieldDefinition fieldDefinition, object value);
+        void SetFieldValue( IFieldDefinition fieldDefinition, object? value);
     }
 }

@@ -26,7 +26,7 @@ namespace Qwiq
             return sb.ToString();
         }
 
-        internal static string ToUsefulString( this object obj)
+        internal static string ToUsefulString( this object? obj)
         {
             string str;
             if (obj == null) return "[null]";

@@ -48,17 +48,17 @@ namespace Qwiq
             }
         }
 
-        public bool Equals(IWorkItemCore other)
+        public bool Equals(IWorkItemCore? other)
         {
             return NullableIdentifiableComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return NullableIdentifiableComparer.Default.Equals(this, obj as IWorkItemCore);
         }
 
-        public object GetCurrentFieldValue(IFieldDefinition fieldDefinition)
+        public object? GetCurrentFieldValue(IFieldDefinition fieldDefinition)
         {
             if (fieldDefinition == null) throw new ArgumentNullException(nameof(fieldDefinition));
             return GetValue(fieldDefinition.ReferenceName);

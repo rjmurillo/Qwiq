@@ -7,7 +7,7 @@
         }
 
         internal new static NullableIdentifiableComparer Default => Nested.Instance;
-        public override bool Equals(IIdentifiable<int?> x, IIdentifiable<int?> y)
+        public override bool Equals(IIdentifiable<int?>? x, IIdentifiable<int?>? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
@@ -16,7 +16,7 @@
             return GenericComparer<int?>.Default.Equals(x.Id, y.Id);
         }
 
-        public override int GetHashCode(IIdentifiable<int?> obj)
+        public override int GetHashCode(IIdentifiable<int?>? obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 
