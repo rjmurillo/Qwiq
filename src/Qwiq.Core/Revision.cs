@@ -8,9 +8,9 @@ namespace Qwiq
     {
         internal IFieldDefinitionCollection FieldDefinitions { get; }
 
-        private readonly Dictionary<int, object> _values;
+        private readonly Dictionary<int, object>? _values;
 
-        private IFieldCollection _fields;
+        private IFieldCollection? _fields;
 
         internal Revision( IFieldDefinitionCollection definitions,
             int revision)
@@ -18,6 +18,7 @@ namespace Qwiq
             Rev = revision;
             _values = new Dictionary<int, object>();
             FieldDefinitions = definitions;
+            WorkItem = null;
         }
 
         internal Revision( IWorkItem workItem, int revision)
@@ -42,9 +43,9 @@ namespace Qwiq
 
         public int? Rev { get; }
 
-        public string Url => WorkItem?.Url;
+        public string? Url => WorkItem?.Url;
 
-        public IWorkItem WorkItem { get; }
+        public IWorkItem? WorkItem { get; }
 
         public virtual object this[string name]
         {
@@ -61,7 +62,7 @@ namespace Qwiq
             throw new NotSupportedException();
         }
 
-        object IWorkItemCore.this[string name]
+        object? IWorkItemCore.this[string name]
         {
             get => this[name];
             set => throw new NotSupportedException();
@@ -72,7 +73,7 @@ namespace Qwiq
         {
             if (WorkItem != null) return WorkItem.Fields[fieldDefinition.ReferenceName];
 
-            return _values[fieldDefinition.Id];
+            return _values![fieldDefinition.Id];
         }
 
         /// <inheritdoc />
@@ -81,8 +82,8 @@ namespace Qwiq
             throw new InvalidOperationException();
         }
 
-        internal bool HasValue(int fieldId) => _values.ContainsKey(fieldId);
+        internal bool HasValue(int fieldId) => _values!.ContainsKey(fieldId);
 
-        internal void SetFieldValue(int fieldId, object value) => _values[fieldId] = value;
+        internal void SetFieldValue(int fieldId, object value) => _values![fieldId] = value;
     }
 }

@@ -4,7 +4,7 @@ namespace Qwiq
     {
         internal new static WorkItemLinkInfoComparer Default => Nested.Instance;
 
-        public override bool Equals(IWorkItemLinkInfo x, IWorkItemLinkInfo y)
+        public override bool Equals(IWorkItemLinkInfo? x, IWorkItemLinkInfo? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
@@ -14,7 +14,7 @@ namespace Qwiq
                    && x.TargetId == y.TargetId;
         }
 
-        public override int GetHashCode(IWorkItemLinkInfo obj)
+        public override int GetHashCode(IWorkItemLinkInfo? obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 

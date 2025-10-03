@@ -7,8 +7,8 @@ namespace Qwiq
 {
     public class WorkItemLinkInfo : IWorkItemLinkInfo
     {
-        private Lazy<IWorkItemLinkTypeEnd> _lazyLinkTypeEnd;
-        private IWorkItemLinkTypeEnd _linkTypeEnd;
+        private Lazy<IWorkItemLinkTypeEnd>? _lazyLinkTypeEnd;
+        private IWorkItemLinkTypeEnd? _linkTypeEnd;
 
         internal WorkItemLinkInfo(int sourceId, int targetId, IWorkItemLinkTypeEnd linkTypeEnd)
         {
@@ -24,7 +24,7 @@ namespace Qwiq
             _lazyLinkTypeEnd = linkTypeEnd ?? throw new ArgumentNullException(nameof(linkTypeEnd));
         }
 
-        public IWorkItemLinkTypeEnd LinkType
+        public IWorkItemLinkTypeEnd? LinkType
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Qwiq
                 if (_lazyLinkTypeEnd != null)
                 {
                     _linkTypeEnd = _lazyLinkTypeEnd.Value;
-                    _lazyLinkTypeEnd = null;
+                    _lazyLinkTypeEnd = null!;
                     return _linkTypeEnd;
                 }
 
@@ -51,7 +51,7 @@ namespace Qwiq
         }
 
         [DebuggerStepThrough]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemLinkInfoComparer.Default.Equals(this, obj as IWorkItemLinkInfo);
         }

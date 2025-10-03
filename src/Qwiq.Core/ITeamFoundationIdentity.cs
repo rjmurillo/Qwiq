@@ -84,7 +84,7 @@ namespace Qwiq
         /// Attribute accessor. Will return the caller supplied default value if attribute
         /// is not present (will not throw).
         /// </summary>
-        string GetAttribute(string name, string defaultValue);
+        string GetAttribute(string name, string? defaultValue);
 
         /// <summary>Property accessor. Will throw if not found.</summary>
         object GetProperty(string name);
@@ -103,7 +103,7 @@ namespace Qwiq
             get
             {
 
-                return default(IIdentityDescriptor);
+                return default(IIdentityDescriptor)!;
             }
         }
 
@@ -115,7 +115,7 @@ namespace Qwiq
             get
             {
 
-                return default(IEnumerable<IIdentityDescriptor>);
+                return default(IEnumerable<IIdentityDescriptor>)!;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Qwiq
             get
             {
 
-                return default(IEnumerable<IIdentityDescriptor>);
+                return default(IEnumerable<IIdentityDescriptor>)!;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Qwiq
             get
             {
 
-                return default(string);
+                return default(string)!;
             }
         }
 
@@ -148,7 +148,7 @@ namespace Qwiq
             get
             {
 
-                return default(string);
+                return default(string)!;
             }
         }
 

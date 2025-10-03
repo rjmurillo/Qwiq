@@ -5,7 +5,7 @@ namespace Qwiq
 {
     public interface IWorkItemLinkInfo : IEquatable<IWorkItemLinkInfo>
     {
-        IWorkItemLinkTypeEnd LinkType { get; }
+        IWorkItemLinkTypeEnd? LinkType { get; }
 
         int SourceId { get; }
 
