@@ -156,7 +156,7 @@ namespace Qwiq
         public abstract int UniqueUserId { get; }
 
         /// <inheritdoc />
-        public abstract string GetAttribute(string name, string defaultValue);
+        public abstract string GetAttribute(string name, string? defaultValue);
 
         /// <inheritdoc />
         public abstract object GetProperty(string name);

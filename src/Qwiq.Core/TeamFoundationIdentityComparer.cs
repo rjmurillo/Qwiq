@@ -6,14 +6,14 @@ namespace Qwiq
     {
         internal new static TeamFoundationIdentityComparer Default => Nested.Instance;
 
-        public override int GetHashCode(ITeamFoundationIdentity obj)
+        public override int GetHashCode(ITeamFoundationIdentity? obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 
             return IdentityDescriptorComparer.Default.GetHashCode(obj.Descriptor);
         }
 
-        public override bool Equals(ITeamFoundationIdentity x, ITeamFoundationIdentity y)
+        public override bool Equals(ITeamFoundationIdentity? x, ITeamFoundationIdentity? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

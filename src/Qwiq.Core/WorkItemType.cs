@@ -6,13 +6,13 @@ namespace Qwiq
 {
     public class WorkItemType : IWorkItemType, IEquatable<IWorkItemType>
     {
-        private IFieldDefinitionCollection _fdc;
-        private readonly Lazy<IFieldDefinitionCollection> _lazyFieldDefinitions;
+        private IFieldDefinitionCollection? _fdc;
+        private readonly Lazy<IFieldDefinitionCollection>? _lazyFieldDefinitions;
 
-        private Func<IFieldDefinitionCollection> _fieldDefinitionFactory;
+        private Func<IFieldDefinitionCollection>? _fieldDefinitionFactory;
 
         internal WorkItemType( string name, string description, Lazy<IFieldDefinitionCollection> fieldDefinitions,
-            Func<IWorkItem> workItemFactory = null)
+            Func<IWorkItem>? workItemFactory = null)
         {
 
             if (string.IsNullOrWhiteSpace(name))
@@ -24,7 +24,7 @@ namespace Qwiq
             Description = description == null ? string.Empty : string.Intern(description);
         }
 
-        protected internal Func<IFieldDefinitionCollection> FieldDefinitionFactory
+        protected internal Func<IFieldDefinitionCollection>? FieldDefinitionFactory
         {
             get => _fieldDefinitionFactory;
             internal set
@@ -34,7 +34,7 @@ namespace Qwiq
             }
         }
 
-        protected internal Func<IWorkItem> WorkItemFactory { get; internal set; }
+        protected internal Func<IWorkItem>? WorkItemFactory { get; internal set; }
 
         public bool Equals( IWorkItemType other)
         {
@@ -43,13 +43,13 @@ namespace Qwiq
 
         public string Description { get; }
 
-        public virtual IFieldDefinitionCollection FieldDefinitions => _fdc ?? (_fdc = FieldDefinitionFactory == null ? _lazyFieldDefinitions.Value : FieldDefinitionFactory());
+        public virtual IFieldDefinitionCollection FieldDefinitions => _fdc ?? (_fdc = FieldDefinitionFactory == null ? _lazyFieldDefinitions!.Value : FieldDefinitionFactory());
 
         public string Name { get; }
 
         public IWorkItem NewWorkItem()
         {
-            return WorkItemFactory();
+            return WorkItemFactory!();
         }
 
         public override bool Equals(object obj)

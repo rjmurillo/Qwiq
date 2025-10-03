@@ -8,7 +8,7 @@ namespace Qwiq
     public abstract class TeamFoundationIdentity : ITeamFoundationIdentity, IEquatable<ITeamFoundationIdentity>
     {
         protected internal static readonly IIdentityDescriptor[] ZeroLengthArrayOfIdentityDescriptor = new IIdentityDescriptor[0];
-        private string _uniqueName;
+        private string? _uniqueName;
 
         protected internal TeamFoundationIdentity(
             bool isActive,
@@ -51,7 +51,7 @@ namespace Qwiq
         {
             get
             {
-                var schema = GetAttribute(IdentityAttributeTags.SchemaClassName, null);
+                var schema = GetAttribute(IdentityAttributeTags.SchemaClassName, string.Empty);
                 if (!string.IsNullOrEmpty(schema) && string.Equals(
                         schema,
                         IdentityConstants.SchemaClassGroup,
@@ -74,7 +74,7 @@ namespace Qwiq
         {
             get
             {
-                if (!string.IsNullOrEmpty(_uniqueName)) return _uniqueName;
+                if (!string.IsNullOrEmpty(_uniqueName)) return _uniqueName!;
 
                 var domain = GetAttribute(IdentityAttributeTags.Domain, string.Empty);
                 var account = GetAttribute(IdentityAttributeTags.AccountName, string.Empty);
@@ -101,17 +101,17 @@ namespace Qwiq
 
         public int UniqueUserId { get; }
 
-        public bool Equals(ITeamFoundationIdentity other)
+        public bool Equals(ITeamFoundationIdentity? other)
         {
             return Comparer.TeamFoundationIdentity.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as ITeamFoundationIdentity);
         }
 
-        public abstract string GetAttribute(string name, string defaultValue);
+        public abstract string GetAttribute(string name, string? defaultValue);
 
         public override int GetHashCode()
         {

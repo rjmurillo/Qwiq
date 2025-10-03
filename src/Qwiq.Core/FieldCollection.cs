@@ -77,8 +77,8 @@ namespace Qwiq
 
         public virtual IField GetById(int id)
         {
-            if (!TryGetById(id, out IField byId)) throw new DeniedOrNotExistException();
-            return byId;
+            if (!TryGetById(id, out IField? byId)) throw new DeniedOrNotExistException();
+            return byId!;
         }
 
         [DebuggerStepThrough]
@@ -100,14 +100,14 @@ namespace Qwiq
             return -1;
         }
 
-        public bool TryGetById(int id, out IField value)
+        public bool TryGetById(int id, out IField? value)
         {
             if (_cache.TryGetValue(id, out value)) return true;
             try
             {
-                if (_definitions.TryGetById(id, out IFieldDefinition def))
+                if (_definitions.TryGetById(id, out IFieldDefinition? def))
                 {
-                    value = _fieldFactory(_revision, def);
+                    value = _fieldFactory(_revision, def!);
                     _cache[id] = value;
                     return true;
                 }
@@ -115,22 +115,23 @@ namespace Qwiq
             catch (WorkItemTypeDeniedOrNotExistException)
             {
             }
+            value = null;
             return false;
         }
 
-        public bool TryGetByName(string name, out IField value)
+        public bool TryGetByName(string name, out IField? value)
         {
             if (name == null)
             {
                 value = null;
                 return false;
             }
-            if (!_definitions.TryGetByName(name, out IFieldDefinition def))
+            if (!_definitions.TryGetByName(name, out IFieldDefinition? def))
             {
                 value = null;
                 return false;
             }
-            return TryGetById(def.Id, out value);
+            return TryGetById(def!.Id, out value);
         }
 
         [DebuggerStepThrough]
