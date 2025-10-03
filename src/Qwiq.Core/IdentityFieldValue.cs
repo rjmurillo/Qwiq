@@ -49,13 +49,15 @@ namespace Qwiq
         ///     CD4C5751-F4E6-41D5-A4C9-EFFD66BC8E9C\chrisjohns@contoso.com).
         /// </param>
         /// <param name="teamFoundationId">The security identifier (SID) for the identity.</param>
-        public IdentityFieldValue(string displayName, string identifier, string teamFoundationId)
+        public IdentityFieldValue(string? displayName, string? identifier, string? teamFoundationId)
             : this(displayName)
         {
             Identifier = identifier;
 
             if (!string.IsNullOrEmpty(teamFoundationId) && Guid.TryParse(teamFoundationId, out Guid tfsid))
                 TeamFoundationId = teamFoundationId;
+
+            if (Identifier == null) return;
 
             var arr = Identifier.Split(IdentityConstants.DomainAccountNameSeparator);
             if (arr.Length != 2 || arr[1] == TeamFoundationId) return;
@@ -81,23 +83,23 @@ namespace Qwiq
             }
         }
 
-        public IdentityFieldValue(string displayName)
+        public IdentityFieldValue(string? displayName)
         {
             DisplayPart = displayName;
 
             if (string.IsNullOrEmpty(displayName)) return;
 
-            if (TryGetVsid(displayName, out Guid guid2, out string str))
+            if (TryGetVsid(displayName, out Guid guid2, out string? str))
             {
                 DisplayPart = str;
                 return;
             }
-            if (TryGetDomainAndAccountName(displayName, out string str2))
+            if (TryGetDomainAndAccountName(displayName, out string? str2))
             {
                 AccountName = str2;
 
-                var strArray = str2.Split(IdentityConstants.DomainAccountNameSeparator);
-                if (strArray.Length != 2) return;
+                var strArray = str2?.Split(IdentityConstants.DomainAccountNameSeparator);
+                if (strArray?.Length != 2) return;
 
                 Domain = strArray[0];
                 LogonName = strArray[1];
@@ -107,7 +109,7 @@ namespace Qwiq
             if (TryGetAccountName(displayName, out str2))
             {
                 AccountName = str2;
-                if (str2.Contains("@"))
+                if (str2?.Contains("@") == true)
                 {
                     Email = str2;
                     LogonName = str2.Split('@')[0];
@@ -125,38 +127,38 @@ namespace Qwiq
         ///     This can be in the UPN format (e.g. user@domain.com) or the down-level logon name format (e.g.
         ///     domain\user).
         /// </remarks>
-        public string AccountName { get; }
+        public string? AccountName { get; }
 
         /// <summary>
         ///     Gets the display name.
         /// </summary>
         /// <value>The display name without the account name, if it exists.</value>
-        public string DisplayName => !string.IsNullOrEmpty(DisplayPart) ? DisplayPart.Split('<')[0].Trim() : DisplayPart;
+        public string? DisplayName => !string.IsNullOrEmpty(DisplayPart) ? DisplayPart.Split('<')[0].Trim() : DisplayPart;
 
         /// <summary>
         ///     Gets the display part.
         /// </summary>
         /// <value>The display name.</value>
-        public string DisplayPart { get; }
+        public string? DisplayPart { get; }
 
         /// <summary>
         ///     Gets the domain.
         /// </summary>
         /// <value>The domain.</value>
-        public string Domain { get; }
+        public string? Domain { get; }
 
         /// <summary>
         ///     Gets the email.
         /// </summary>
         /// <value>The email.</value>
-        public string Email { get; }
+        public string? Email { get; }
 
         /// <summary>
         ///     Gets the full name.
         /// </summary>
         /// <value>The full name as determined by the descriptor identifier.</value>
         /// <seealso cref="IIdentityDescriptor.Identifier" />
-        public string Identifier { get; }
+        public string? Identifier { get; }
 
         /// <summary>
         ///     Gets the name of the identity.
@@ -165,7 +167,7 @@ namespace Qwiq
         ///     The <see cref="Email" /> if it exists, the qualified <see cref="Domain" />\<see cref="LogonName" /> if it exists,
         ///     the <see cref="LogonName" />if it exists, or empty.
         /// </value>
-        public string IdentityName
+        public string? IdentityName
         {
             get
             {
@@ -186,29 +188,29 @@ namespace Qwiq
         ///     Gets the user account (logon) name.
         /// </summary>
         /// <value>The logon name parsed from <see cref="Identifier" />, User Principal Name, or down-level logon name.</value>
-        public string LogonName { get; }
+        public string? LogonName { get; }
 
-        public string TeamFoundationId { get; }
+        public string? TeamFoundationId { get; }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="IdentityFieldValue"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>If <paramref name="value"/> is null, null; otherwise, <see cref="IdentityName"/>.</returns>
-        public static implicit operator string(IdentityFieldValue value)
+        public static implicit operator string?(IdentityFieldValue? value)
         {
             return value?.ToString();
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public override string? ToString()
         {
             return string.IsNullOrEmpty(IdentityName)
                        ? DisplayName
                        : IdentityName;
         }
 
-        private static bool TryGetAccountName(string search, out string acccountName)
+        private static bool TryGetAccountName(string search, out string? acccountName)
         {
             var match = AccountNameRegex.Match(search);
             acccountName = null;
@@ -220,7 +222,7 @@ namespace Qwiq
             return false;
         }
 
-        private static bool TryGetDisplayName(string search, out string displayName)
+        private static bool TryGetDisplayName(string search, out string? displayName)
         {
             var match = DisplayNameRegex.Match(search);
             displayName = null;
@@ -232,7 +234,7 @@ namespace Qwiq
             return false;
         }
 
-        private static bool TryGetDomainAndAccountName(string search, out string domainAndAcccountName)
+        private static bool TryGetDomainAndAccountName(string search, out string? domainAndAcccountName)
         {
             var match = DomainAccountRegex.Match(search);
             domainAndAcccountName = null;
