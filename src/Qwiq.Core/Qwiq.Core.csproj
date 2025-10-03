@@ -4,7 +4,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Qwiq</RootNamespace>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>  </PropertyGroup>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ServiceModel" />
