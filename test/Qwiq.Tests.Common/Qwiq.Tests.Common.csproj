@@ -4,7 +4,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Microsoft.Qwiq.Tests.Common</RootNamespace>
     <AssemblyName>Microsoft.Qwiq.Tests.Common</AssemblyName>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
   </ItemGroup>
