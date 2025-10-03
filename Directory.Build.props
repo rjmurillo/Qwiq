@@ -25,6 +25,7 @@
     <!-- C# Language Version and Nullable Reference Types -->
     <LangVersion>latest</LangVersion>
     <Nullable>annotations</Nullable>
+    <!-- Individual projects can override with <Nullable>enable</Nullable> -->
   </PropertyGroup>
 
   <!-- InternalsVisibleTo for testing and mocking -->
