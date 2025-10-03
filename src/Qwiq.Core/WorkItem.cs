@@ -94,7 +94,7 @@ namespace Qwiq
 
         public virtual IWorkItemType Type => _type ?? _lazyType?.Value ?? throw new InvalidOperationException($"No value specified for {nameof(Type)}.");
 
-        public override object this[string name]
+        public override object? this[string name]
         {
             get
             {
@@ -121,7 +121,7 @@ namespace Qwiq
                 if (_useFields)
                     try
                     {
-                        Fields[name].Value = value;
+                        Fields[name].Value = value!;
                     }
                     catch (NotSupportedException)
                     {
