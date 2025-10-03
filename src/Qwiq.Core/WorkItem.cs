@@ -12,11 +12,11 @@ namespace Qwiq
     /// <seealso cref="IWorkItem" />
     public abstract class WorkItem : WorkItemCommon, IWorkItem, IRevisionInternal, IEquatable<IWorkItem>
     {
-        private readonly Lazy<IWorkItemType> _lazyType;
-        private readonly IWorkItemType _type;
-        private Func<IFieldCollection> _fieldFactory;
+        private readonly Lazy<IWorkItemType>? _lazyType;
+        private readonly IWorkItemType? _type;
+        private Func<IFieldCollection>? _fieldFactory;
 
-        private IFieldCollection _fields;
+        private IFieldCollection? _fields;
 
         private bool _useFields = true;
 
@@ -151,12 +151,12 @@ namespace Qwiq
             throw new NotSupportedException();
         }
 
-        public virtual IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd linkTypeEnd = null)
+        public virtual IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd? linkTypeEnd = null)
         {
             throw new NotSupportedException();
         }
 
-        public bool Equals(IWorkItem other)
+        public bool Equals(IWorkItem? other)
         {
             return WorkItemComparer.Default.Equals(this, other);
         }
