@@ -2,7 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     <OutputType>Library</OutputType>
-    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>  </PropertyGroup>  <ItemGroup>
+    <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>  <ItemGroup>
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Identity\Qwiq.Identity.csproj" />
   </ItemGroup>
