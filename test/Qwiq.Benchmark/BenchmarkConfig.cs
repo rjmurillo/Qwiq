@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Diagnostics.Windows;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Validators;
@@ -17,7 +16,6 @@ namespace Qwiq.Benchmark
 
             // GC and Memory Allocation
             Add(new BenchmarkDotNet.Diagnosers.MemoryDiagnoser());
-            Add(new InliningDiagnoser());
 
             // Checks whether any of the referenced assemblies is non-optimized
             Add(JitOptimizationsValidator.FailOnError);
