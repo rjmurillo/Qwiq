@@ -7,6 +7,15 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>..\..\build\rulesets\ship.ruleset</CodeAnalysisRuleSet>
+    
+    <!-- NuGet Package Metadata (migrated from Qwiq.Identity.nuspec) -->
+    <IsPackable>true</IsPackable>
+    <Authors>LeCantaloop</Authors>
+    <Owners>LeCantaloop, rjmurillo</Owners>
+    <PackageProjectUrl>https://github.com/LeCantaloop/Qwiq</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/LeCantaloop/Qwiq/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>Microsoft Team Foundation Server TFS VSO Visual Studio Online VisualStudio Agile WIT Work Item Tracking Object Model VSTS TeamFoundation TFSOM</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +35,6 @@
 
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Qwiq.Identity.nuspec" />
   </ItemGroup>
 
 </Project>
