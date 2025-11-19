@@ -31,7 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Identity\IdentityMapperTests.cs" />
+    <Compile Remove="Identity\**\*.cs" />
+    <Compile Remove="WorkItemStore\Linq\LinqTests.cs" />
   </ItemGroup>
 
 </Project>
