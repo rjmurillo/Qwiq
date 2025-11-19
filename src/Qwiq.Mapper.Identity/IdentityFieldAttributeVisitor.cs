@@ -27,7 +27,7 @@ namespace Qwiq.Linq.Visitors
         public IdentityFieldAttributeVisitor([NotNull] IIdentityValueConverter<string, object> valueConverter)
         {
             Contract.Requires(valueConverter != null);
-            
+
             _valueConverter = valueConverter ?? throw new ArgumentNullException(nameof(valueConverter));
         }
 

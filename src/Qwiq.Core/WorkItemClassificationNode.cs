@@ -7,7 +7,7 @@ namespace Qwiq
 
     public class WorkItemClassificationNode<TId> : IWorkItemClassificationNode<TId>, IEquatable<IWorkItemClassificationNode<TId>>
     {
-        
+
 
         public WorkItemClassificationNode(TId id, NodeType nodeType, [NotNull] string name, Uri uri)
         {

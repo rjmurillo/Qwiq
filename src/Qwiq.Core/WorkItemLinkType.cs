@@ -43,7 +43,7 @@ namespace Qwiq
         internal WorkItemLinkType([NotNull] string referenceName)
         {
             Contract.Requires(!string.IsNullOrEmpty(referenceName));
-            
+
             if (string.IsNullOrWhiteSpace(referenceName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(referenceName));
 

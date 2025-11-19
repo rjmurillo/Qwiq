@@ -40,7 +40,7 @@ namespace Qwiq
         }
 
         protected ReadOnlyObjectWithIdCollection([CanBeNull] IEnumerable<T> items)
-            :base(items)
+            : base(items)
         {
             _idFunc = a => a.Id;
             _mapById = new Dictionary<TId, int>();
@@ -49,7 +49,7 @@ namespace Qwiq
         protected ReadOnlyObjectWithIdCollection(
             [NotNull] Func<IEnumerable<T>> itemFactory,
             [CanBeNull] Func<T, string> nameFunc)
-            :this(itemFactory, nameFunc, arg => arg.Id)
+            : this(itemFactory, nameFunc, arg => arg.Id)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Qwiq
             [NotNull] Func<IEnumerable<T>> itemFactory,
             [CanBeNull] Func<T, string> nameFunc,
             [NotNull] Func<T, TId> idFunc)
-            :base(itemFactory, nameFunc)
+            : base(itemFactory, nameFunc)
         {
             _idFunc = idFunc ?? throw new ArgumentNullException(nameof(idFunc));
             _mapById = new Dictionary<TId, int>();

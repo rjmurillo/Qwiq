@@ -175,7 +175,7 @@ namespace Qwiq.Linq
 
         public override void Given()
         {
-            _values = new[] {"person1", "person2"};
+            _values = new[] { "person1", "person2" };
             base.Given();
         }
 
@@ -322,7 +322,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_where_clause_has_a_lazy_ienumerable_in_the_expression : WiqlQueryBuilderContextSpecification
     {
-        private readonly string[] _aliases = {"person1", "person2"};
+        private readonly string[] _aliases = { "person1", "person2" };
         private IEnumerable<string> _filteredAliases;
 
         public override void Given()
@@ -369,7 +369,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_an_ienumerable_contains_constants_with_special_wiql_characters : WiqlQueryBuilderContextSpecification
     {
-        private readonly string[] _values = {"Robert O'Sullivan", "Robert O'Laney"};
+        private readonly string[] _values = { "Robert O'Sullivan", "Robert O'Laney" };
 
         public override void When()
         {
@@ -516,7 +516,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] > 1))";
-            Actual = Query.Where(item => item.Id > 1).Select(item => new {One = item.Id, Two = item.Title}).ToString();
+            Actual = Query.Where(item => item.Id > 1).Select(item => new { One = item.Id, Two = item.Title }).ToString();
         }
 
         [TestMethod]

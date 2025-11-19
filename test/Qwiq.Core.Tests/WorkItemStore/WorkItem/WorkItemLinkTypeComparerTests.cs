@@ -51,7 +51,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         [TestMethod]
         public void Object_HashCodes_are_equal()
         {
-             _first.GetHashCode().ShouldEqual(_second.GetHashCode());
+            _first.GetHashCode().ShouldEqual(_second.GetHashCode());
         }
 
         [TestMethod]

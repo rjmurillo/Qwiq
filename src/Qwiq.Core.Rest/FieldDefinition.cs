@@ -10,7 +10,7 @@ namespace Qwiq.Client.Rest
     internal class FieldDefinition : Qwiq.FieldDefinition
     {
         internal FieldDefinition([NotNull] WorkItemFieldReference field)
-            :base(field.ReferenceName, field.Name)
+            : base(field.ReferenceName, field.Name)
         {
             Contract.Requires(field != null);
 

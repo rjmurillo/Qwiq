@@ -23,7 +23,7 @@ namespace Qwiq.Mocks
         private int _tempId;
 
         public MockWorkItem([CanBeNull] string workItemType, [CanBeNull] params IField[] fields)
-            : this(new MockWorkItemType(workItemType ?? "Mock", CoreFieldDefinitions.All.Union(fields.Select(f=>f.FieldDefinition))))
+            : this(new MockWorkItemType(workItemType ?? "Mock", CoreFieldDefinitions.All.Union(fields.Select(f => f.FieldDefinition))))
         {
             if (fields == null) return;
 

@@ -37,7 +37,7 @@ namespace Qwiq.Exceptions
         public override void Given()
         {
             ExceptionExploders = new IExceptionExploder[0];
-            ExceptionMappers = new[] {new MockArgumentExceptionMapper()};
+            ExceptionMappers = new[] { new MockArgumentExceptionMapper() };
             Input = new ArgumentException(null, MockArgumentExceptionMapper.MockParamName);
             base.Given();
         }
@@ -75,7 +75,7 @@ namespace Qwiq.Exceptions
         public override void Given()
         {
             CountingMapper = new MockArgumentExceptionMapper();
-            ExceptionExploders = new[] {new InnerExceptionExploder()};
+            ExceptionExploders = new[] { new InnerExceptionExploder() };
             ExceptionMappers = new[] { CountingMapper };
             Input = new ArgumentException("One", new ArgumentException("Two", new ArgumentException("Three")));
             base.Given();
@@ -95,7 +95,7 @@ namespace Qwiq.Exceptions
         public override void Given()
         {
             ExceptionExploders = new IExceptionExploder[0];
-            ExceptionMappers = new[] {new MockVssExceptionMapper<T>(HandledErrorCodes.ToArray())};
+            ExceptionMappers = new[] { new MockVssExceptionMapper<T>(HandledErrorCodes.ToArray()) };
             base.Given();
         }
     }
@@ -105,7 +105,7 @@ namespace Qwiq.Exceptions
     {
         public override void Given()
         {
-            HandledErrorCodes = new int[] {};
+            HandledErrorCodes = new int[] { };
             Input = new VssServiceException("TFabcd: This is a sample exception");
             base.Given();
         }
@@ -123,7 +123,7 @@ namespace Qwiq.Exceptions
         private readonly int _errorCode = 12345;
         public override void Given()
         {
-            HandledErrorCodes = new[] {_errorCode};
+            HandledErrorCodes = new[] { _errorCode };
             Input = new VssServiceException($"TF{_errorCode}: This is a sample exception");
             base.Given();
         }

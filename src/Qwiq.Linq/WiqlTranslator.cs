@@ -56,7 +56,7 @@ namespace Qwiq.Linq
             }
 
 
-        var workItemTypeRestriction = FieldMapper.GetWorkItemType(query.UnderlyingQueryType).ToList();
+            var workItemTypeRestriction = FieldMapper.GetWorkItemType(query.UnderlyingQueryType).ToList();
             if (workItemTypeRestriction.Any())
             {
                 query.WhereClauses.Enqueue(new TypeRestrictionFragment(workItemTypeRestriction));
@@ -102,7 +102,7 @@ namespace Qwiq.Linq
                     case WiqlExpressionType.Contains:
                         return VisitContains((ContainsExpression)node);
                     case WiqlExpressionType.Indexer:
-                        return VisitIndexer((IndexerExpression) node);
+                        return VisitIndexer((IndexerExpression)node);
                     case WiqlExpressionType.WasEver:
                         return VisitWasEver((WasEverExpression)node);
                     case WiqlExpressionType.InGroup:

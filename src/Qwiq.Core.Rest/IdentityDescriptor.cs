@@ -11,7 +11,7 @@ namespace Qwiq.Client.Rest
             : base(descriptor.IdentityType, descriptor.Identifier)
         {
             Contract.Requires(descriptor != null);
-            
+
             if (descriptor == null) throw new ArgumentNullException(nameof(descriptor));
         }
     }

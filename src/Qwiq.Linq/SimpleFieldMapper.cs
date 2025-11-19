@@ -25,7 +25,7 @@ namespace Qwiq.Linq
         };
 
         // REVIEW: Replace with more constrained set of fields
-        private static readonly IEnumerable<string> FieldNames = new[] {"*"};
+        private static readonly IEnumerable<string> FieldNames = new[] { "*" };
 
         public IEnumerable<string> GetWorkItemType(Type type)
         {

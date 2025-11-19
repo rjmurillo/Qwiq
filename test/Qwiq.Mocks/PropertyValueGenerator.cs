@@ -14,7 +14,7 @@ namespace Qwiq.Mocks
         protected const string Chars = "$%#@!*abcdefghijklmnopqrstuvwxyz1234567890?;:ABCDEFGHIJKLMNOPQRSTUVWXYZ^&";
 
         public PropertyValueGenerator()
-            :this(null)
+            : this(null)
         {
         }
 

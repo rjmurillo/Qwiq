@@ -275,7 +275,7 @@ namespace Qwiq
         {
             var hashtable = TypeConverters;
 
-            var typeConverter = (TypeConverter) hashtable[valueType];
+            var typeConverter = (TypeConverter)hashtable[valueType];
             if (typeConverter != null) return typeConverter;
 
             lock (hashtable)

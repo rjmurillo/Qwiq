@@ -36,7 +36,7 @@ namespace Qwiq.Exceptions
             var exception1 = new ArgumentException();
             var exception2 = new ArgumentException();
 
-            ExpectedExceptions = new[] {exception1, exception2};
+            ExpectedExceptions = new[] { exception1, exception2 };
 
             Exception = new AggregateException(exception1, new AggregateException(exception2, new AggregateException()));
         }

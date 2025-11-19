@@ -12,7 +12,7 @@ namespace Qwiq
     public abstract class ReadOnlyObjectWithNameCollection<T> : ReadOnlyObjectCollection<T>, IReadOnlyObjectWithNameCollection<T>
     //TODO: Restrict T to INamed
     {
-        
+
         private readonly object _lockObj = new object();
 
         [CanBeNull]
