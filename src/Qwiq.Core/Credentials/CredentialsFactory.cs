@@ -34,8 +34,7 @@ namespace Qwiq.Credentials
 
             yield return new VssCredentials(new VssOAuthAccessTokenCredential(accessToken))
             {
-                PromptType = CredentialPromptType.DoNotPrompt,
-                Storage = new VssClientCredentialStorage()
+                PromptType = CredentialPromptType.DoNotPrompt
             };
         }
 

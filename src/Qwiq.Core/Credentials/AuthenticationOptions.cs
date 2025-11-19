@@ -112,17 +112,14 @@ namespace Qwiq.Credentials
 
             if (t.HasFlag(AuthenticationTypes.Windows))
             {
-                var storage = new VssClientCredentialStorage();
-
                 // User did not specify a username or a password, so use the process identity
                 yield return new VssClientCredentials(new WindowsCredential(false))
                                  {
-                                     Storage = storage,
                                      PromptType = CredentialPromptType.DoNotPrompt
                                  };
 
                 // Use the Windows identity of the logged on user
-                yield return new VssClientCredentials(true) { Storage = storage, PromptType = CredentialPromptType.PromptIfNeeded };
+                yield return new VssClientCredentials(true) { PromptType = CredentialPromptType.PromptIfNeeded };
             }
         }
 
