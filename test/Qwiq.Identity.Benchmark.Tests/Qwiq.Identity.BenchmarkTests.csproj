@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Qwiq.Identity.Tests\Mocks\MockIdentityManagementService.cs" Link="Mocks\MockIdentityManagementService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
 
