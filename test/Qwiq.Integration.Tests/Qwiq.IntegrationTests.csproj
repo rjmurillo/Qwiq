@@ -32,9 +32,11 @@
 
   <ItemGroup>
     <Compile Remove="Identity\**\*.cs" />
+    <Compile Remove="IntegrationSettings.cs" />
     <Compile Remove="Mapper\Identity\**\*.cs" />
     <Compile Remove="WorkItemStore\Linq\LinqTests.cs" />
     <Compile Remove="WorkItemStore\MemoryTests.cs" />
+    <Compile Remove="WorkItemStore\Soap\**\*.cs" />
     <Compile Remove="WorkItemStore\WorkItem\**\*.cs" />
   </ItemGroup>
 
