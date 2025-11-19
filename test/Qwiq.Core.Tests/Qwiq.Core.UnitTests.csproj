@@ -4,8 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Qwiq</RootNamespace>
     <AssemblyName>Qwiq.Core.UnitTests</AssemblyName>
-    <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

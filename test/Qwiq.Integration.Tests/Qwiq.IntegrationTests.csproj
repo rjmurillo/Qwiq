@@ -4,8 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Qwiq.Integration.Tests</RootNamespace>
     <AssemblyName>Qwiq.IntegrationTests</AssemblyName>
-    <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

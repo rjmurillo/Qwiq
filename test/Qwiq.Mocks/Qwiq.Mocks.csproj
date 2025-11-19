@@ -4,9 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Qwiq.Mocks</RootNamespace>
     <AssemblyName>Qwiq.Mocks</AssemblyName>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

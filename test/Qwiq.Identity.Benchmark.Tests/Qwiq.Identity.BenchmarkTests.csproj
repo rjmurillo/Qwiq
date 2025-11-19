@@ -4,8 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Qwiq.Benchmark</RootNamespace>
     <AssemblyName>Qwiq.Identity.BenchmarkTests</AssemblyName>
-    <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
