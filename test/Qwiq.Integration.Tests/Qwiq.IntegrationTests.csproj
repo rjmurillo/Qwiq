@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Compile Remove="Identity\**\*.cs" />
+    <Compile Remove="Mapper\Identity\**\*.cs" />
     <Compile Remove="WorkItemStore\Linq\LinqTests.cs" />
   </ItemGroup>
 
