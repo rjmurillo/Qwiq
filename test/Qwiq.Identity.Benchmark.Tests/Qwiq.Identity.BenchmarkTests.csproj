@@ -29,7 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Qwiq.Identity.Tests\Mocks\MockIdentityManagementService.cs" Link="Mocks\MockIdentityManagementService.cs" />
+    <Compile Include="..\Qwiq.Identity.Tests\Mocks\IdentityMockType.cs" Link="Mocks\IdentityMockType.cs" />
+    <Compile Include="..\Qwiq.Identity.Tests\Mocks\MockIdentityDescriptor.cs" Link="Mocks\MockIdentityDescriptor.cs" />
   </ItemGroup>
 
   <ItemGroup>
