@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.6.3" />
     <PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
@@ -19,6 +20,7 @@
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Linq\Qwiq.Linq.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Mapper\Qwiq.Mapper.csproj" />
+    <ProjectReference Include="..\Qwiq.Benchmark\Qwiq.Benchmark.csproj" />
     <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" />
     <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" />
   </ItemGroup>
