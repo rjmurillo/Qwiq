@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
-    <ProjectReference Include="..\..\src\Qwiq.Client.Rest\Qwiq.Client.Rest.csproj" />
+    <ProjectReference Include="..\..\src\Qwiq.Core.Rest\Qwiq.Client.Rest.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Identity\Qwiq.Identity.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Linq\Qwiq.Linq.csproj" />
     <ProjectReference Include="..\..\src\Qwiq.Mapper\Qwiq.Mapper.csproj" />
