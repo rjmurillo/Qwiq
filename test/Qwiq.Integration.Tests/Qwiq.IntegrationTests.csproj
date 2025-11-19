@@ -33,7 +33,9 @@
   <ItemGroup>
     <Compile Remove="Identity\**\*.cs" />
     <Compile Remove="IntegrationSettings.cs" />
+    <Compile Remove="Linq\**\*.cs" />
     <Compile Remove="Mapper\Identity\**\*.cs" />
+    <Compile Remove="Project\**\*.cs" />
     <Compile Remove="WorkItemStore\**\*.cs" />
   </ItemGroup>
 
