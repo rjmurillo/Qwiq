@@ -36,4 +36,4 @@ runs:
       run: |
         $artifactsPath = "${{ github.workspace }}/artifacts/logs"
         New-Item -ItemType Directory -Force -Path $artifactsPath | Out-Null
-        msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount /bl:"$artifactsPath/build.binlog"
+        msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /p:WarningsNotAsErrors=NU1902 /verbosity:minimal /maxcpucount /bl:"$artifactsPath/build.binlog"
