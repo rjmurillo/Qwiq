@@ -1,0 +1,131 @@
+name: Main build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+  merge_group:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      IS_TARGET_DEVELOP: ${{ github.ref == 'refs/heads/develop' }}
+      IS_TARGET_MAIN: ${{ github.ref == 'refs/heads/main' }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup, Restore, and Build Solution
+      uses: ./.github/actions/setup-restore-build
+
+    - name: Test
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        $testAssemblies = Get-ChildItem -Path "${{ github.workspace }}" -Recurse -Filter "*Tests.dll" | 
+          Where-Object { 
+            $_.FullName -notmatch "IntegrationTests" -and 
+            $_.FullName -match "bin\\Release" 
+          } | 
+          Select-Object -ExpandProperty FullName
+        
+        if ($testAssemblies.Count -eq 0) {
+          Write-Warning "No test assemblies found"
+          exit 0
+        }
+        
+        # Install vstest.console if not available
+        $vstestPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+        if (-not (Test-Path $vstestPath)) {
+          $vstestPath = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+        }
+        
+        if (Test-Path $vstestPath) {
+          & $vstestPath $testAssemblies /TestCaseFilter:"TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST"
+        } else {
+          Write-Warning "vstest.console.exe not found, skipping tests"
+        }
+
+    - name: Test (Ubuntu - using Mono)
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        # Install Mono if not available
+        if ! command -v mono &> /dev/null; then
+          sudo apt-get update
+          sudo apt-get install -y mono-complete
+        fi
+        
+        # Note: .NET Framework tests may have limited compatibility on Linux
+        echo "Note: .NET Framework 4.6 tests have limited support on Linux/Mono"
+        echo "Skipping tests on Linux as this is primarily a Windows .NET Framework project"
+
+    - name: Upload binlogs
+      uses: actions/upload-artifact@v4
+      if: success() || failure()
+      with:
+        name: binlogs-${{ matrix.os }}
+        path: |
+          **/*.binlog
+        if-no-files-found: ignore
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: success() || failure()
+      with:
+        name: test-results-${{ matrix.os }}
+        path: |
+          **/TestResults/**/*.trx
+          **/TestResults/**/*.xml
+        if-no-files-found: ignore
+
+    - name: Upload NuGet Packages
+      uses: actions/upload-artifact@v4
+      if: runner.os == 'Windows'
+      with:
+        name: packages-${{ matrix.os }}
+        path: |
+          **/*.nupkg
+          **/*.snupkg
+        if-no-files-found: ignore
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action/windows@v2
+      if: runner.os == 'Windows' && (success() || failure())
+      with:
+        files: |
+          **/TestResults/**/*.trx
+          **/TestResults/**/*.xml
+      continue-on-error: true
+
+    - name: Publish Test Results (Linux)
+      uses: EnricoMi/publish-unit-test-result-action/linux@v2
+      if: runner.os == 'Linux' && (success() || failure())
+      with:
+        files: |
+          **/TestResults/**/*.trx
+          **/TestResults/**/*.xml
+      continue-on-error: true

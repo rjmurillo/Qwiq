@@ -1,0 +1,37 @@
+name: Setup, Restore, and Build Solution
+description: Sets up .NET, restores NuGet packages, and builds the solution
+
+runs:
+  using: composite
+  steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          4.6.x
+          6.0.x
+          8.0.x
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+      if: runner.os == 'Windows'
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+      with:
+        nuget-version: 'latest'
+
+    - name: Initialize Environment
+      shell: pwsh
+      run: |
+        if (Test-Path "${{ github.workspace }}/init.ps1") {
+          & "${{ github.workspace }}/init.ps1"
+        }
+
+    - name: Restore NuGet packages
+      shell: pwsh
+      run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive
+
+    - name: Build Solution
+      shell: pwsh
+      run: msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
