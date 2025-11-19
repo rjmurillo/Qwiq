@@ -53,6 +53,9 @@ jobs:
           } | 
           Select-Object -ExpandProperty FullName
         
+        Write-Host "Found $($testAssemblies.Count) test assemblies:"
+        $testAssemblies | ForEach-Object { Write-Host "  $_" }
+        
         if ($testAssemblies.Count -eq 0) {
           Write-Warning "No test assemblies found"
           exit 0
@@ -135,6 +138,7 @@ jobs:
         files: |
           **/TestResults/**/*.trx
           **/TestResults/**/*.xml
+        comment_mode: off
       continue-on-error: true
 
     - name: Publish Test Results (Linux)
@@ -144,4 +148,5 @@ jobs:
         files: |
           **/TestResults/**/*.trx
           **/TestResults/**/*.xml
+        comment_mode: off
       continue-on-error: true
