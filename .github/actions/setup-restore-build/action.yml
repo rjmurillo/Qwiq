@@ -12,20 +12,6 @@ runs:
       with:
         nuget-version: 'latest'
 
-    - name: Setup GitVersion
-      uses: gittools/actions/gitversion/setup@v3.0.0
-      with:
-        versionSpec: '6.0.x'
-
-    - name: Execute GitVersion
-      uses: gittools/actions/gitversion/execute@v3.0.0
-      with:
-        useConfigFile: true
-        configFilePath: GitVersion.yml
-        disableShallowCloneCheck: true
-        additionalArguments: '/verbosity diag'
-      continue-on-error: true
-
     - name: Cache NuGet packages
       uses: actions/cache@v4
       with:

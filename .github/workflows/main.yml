@@ -38,6 +38,22 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup GitVersion
+      if: runner.os == 'Windows'
+      uses: gittools/actions/gitversion/setup@v3.0.0
+      with:
+        versionSpec: '6.0.x'
+
+    - name: Execute GitVersion
+      if: runner.os == 'Windows'
+      uses: gittools/actions/gitversion/execute@v3.0.0
+      with:
+        useConfigFile: true
+        configFilePath: GitVersion.yml
+        disableShallowCloneCheck: true
+        additionalArguments: '/verbosity diag'
+      continue-on-error: true
+
     - name: Setup, Restore, and Build Solution
       if: runner.os == 'Windows'
       uses: ./.github/actions/setup-restore-build
