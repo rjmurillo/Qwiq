@@ -15,7 +15,7 @@ namespace Qwiq.Benchmark
             Add(Job.Clr.With(Jit.RyuJit).With(Platform.AnyCpu).With(new GcMode { Server = true }));
 
             // GC and Memory Allocation
-            Add(new BenchmarkDotNet.Diagnosers.MemoryDiagnoser());
+            AddDiagnoser(BenchmarkDotNet.Diagnosers.MemoryDiagnoser.Default);
 
             // Checks whether any of the referenced assemblies is non-optimized
             Add(JitOptimizationsValidator.FailOnError);
