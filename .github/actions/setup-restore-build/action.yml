@@ -29,7 +29,7 @@ runs:
 
     - name: Restore NuGet packages
       shell: pwsh
-      run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
+      run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing -NoWarn NU1902
 
     - name: Build Solution
       shell: pwsh
