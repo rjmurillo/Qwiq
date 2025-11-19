@@ -4,6 +4,7 @@ using System.Linq;
 
 using Qwiq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Should.Core.Assertions;
 
 namespace Should
 {
@@ -33,11 +34,11 @@ namespace Should
 
             if (noContain.Any() || source.Any())
             {
-                var message = $"Should contain only: {expected.EachToUsefulString()} \r\nentire list: {collection.EachToUsefulString()}";
+                var message = $"Should contain only: {string.Join(", ", expected)} \r\nentire list: {string.Join(", ", collection)}";
 
-                if (noContain.Any()) message += "\ndoes not contain: " + noContain.EachToUsefulString();
+                if (noContain.Any()) message += "\ndoes not contain: " + string.Join(", ", noContain);
 
-                if (source.Any()) message += "\ndoes contain but shouldn't: " + source.EachToUsefulString();
+                if (source.Any()) message += "\ndoes contain but shouldn't: " + string.Join(", ", source);
 
                 throw new AssertFailedException(message);
             }

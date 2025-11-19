@@ -13,12 +13,12 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Qwiq.Core.UnitTests")]
 [assembly: InternalsVisibleTo("Qwiq.Mocks")]
+[assembly: InternalsVisibleTo("Qwiq.Tests.Common")]
 [assembly: InternalsVisibleTo("Qwiq.Client.Soap")]
 [assembly: InternalsVisibleTo("Qwiq.Client.Rest")]
 [assembly: InternalsVisibleTo("Qwiq.Integration.Tests")]
 [assembly: InternalsVisibleTo("Qwiq.Relatives.Tests")]
 [assembly: InternalsVisibleTo("Qwiq.IntegrationTests")]
-[assembly: InternalsVisibleTo("Qwiq.Core.UnitTests")]
 [assembly: InternalsVisibleTo("Qwiq.Identity.Soap")]
 [assembly: InternalsVisibleTo("Qwiq.Mapper")]
 [assembly: InternalsVisibleTo("Qwiq.Mapper.Identity")]
