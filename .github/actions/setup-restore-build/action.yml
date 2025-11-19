@@ -1,25 +1,35 @@
 name: Setup, Restore, and Build Solution
-description: Sets up .NET, restores NuGet packages, and builds the solution
+description: Sets up build tools, restores NuGet packages, and builds the solution (Windows only)
 
 runs:
   using: composite
   steps:
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          4.6.x
-          6.0.x
-          8.0.x
-
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
-      if: runner.os == 'Windows'
 
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
       with:
         nuget-version: 'latest'
+
+    - name: Setup GitVersion
+      uses: gittools/actions/gitversion/setup@v3.0.0
+      with:
+        versionSpec: '6.x'
+
+    - name: Execute GitVersion
+      uses: gittools/actions/gitversion/execute@v3.0.0
+      with:
+        useConfigFile: true
+        configFilePath: GitVersion.yml
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
 
     - name: Initialize Environment
       shell: pwsh
@@ -30,8 +40,11 @@ runs:
 
     - name: Restore NuGet packages
       shell: pwsh
-      run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive
+      run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
 
     - name: Build Solution
       shell: pwsh
-      run: msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
+      run: |
+        $artifactsPath = "${{ github.workspace }}/artifacts/logs"
+        New-Item -ItemType Directory -Force -Path $artifactsPath | Out-Null
+        msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount /bl:"$artifactsPath/build.binlog"
