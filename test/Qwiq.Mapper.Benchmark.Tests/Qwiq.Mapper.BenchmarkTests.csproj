@@ -1,39 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\build\targets\common.props" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <ProjectGuid>{DB2C0AC6-CF65-412E-93A3-D3F51857BED9}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net481</TargetFramework>
     <RootNamespace>Qwiq.Mapper</RootNamespace>
     <AssemblyName>Qwiq.Mapper.BenchmarkTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\..\build\rulesets\noship.ruleset</CodeAnalysisRuleSet>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.10.11" />
     <PackageReference Include="BenchmarkDotNet.Core" Version="0.10.11" />
     <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" Version="0.10.11" />
-    <PackageReference Include="GitVersionTask" Version="4.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.6.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.6.1" />
     <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="2.0.4" />
-    <PackageReference Include="Microsoft.Net.Compilers" Version="2.10.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
@@ -85,58 +69,21 @@
     <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
     <PackageReference Include="WindowsAzure.ServiceBus" Version="3.3.2" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <ProjectReference Include="..\Qwiq.Benchmark\Qwiq.Benchmark.csproj" />
+    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" />
+    <ProjectReference Include="..\..\src\Qwiq.Mapper\Qwiq.Mapper.csproj" />
+    <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" />
+    <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs">
-      <Link>Properties\AssemblyInfo.Common.cs</Link>
-    </Compile>
-    <Compile Include="AttributeMapper\Given_a_set_of_WorkItems_with_an_AttributeMapperStrategy.cs" />
-    <Compile Include="Mocks\MockModel.cs" />
-    <Compile Include="Mocks\SubMockModel.cs" />
-    <Compile Include="PocoMapping.cs" />
-    <Compile Include="PocoMappingWithLinks.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Qwiq.Benchmark\Qwiq.Benchmark.csproj">
-      <Project>{D9ED32D7-03FA-468B-AD1A-249CEF9C6CDB}</Project>
-      <Name>Qwiq.Benchmark</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj">
-      <Project>{8AC61B6E-BEC1-482D-A043-C65D2D343B35}</Project>
-      <Name>Qwiq.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Qwiq.Mapper\Qwiq.Mapper.csproj">
-      <Project>{016E8D93-4195-4639-BCD5-77633E8E1681}</Project>
-      <Name>Qwiq.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj">
-      <Project>{DB07E690-4B77-414F-91C7-1A48C9F01F24}</Project>
-      <Name>Qwiq.Mocks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj">
-      <Project>{B45C92B0-AC36-409D-86A5-5428C87384C3}</Project>
-      <Name>Qwiq.Tests.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
