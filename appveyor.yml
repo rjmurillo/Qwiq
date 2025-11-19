@@ -7,14 +7,14 @@ init:
 install:
 - choco install gitversion.portable -version 4.0.0-beta0012 -pre -y
 cache:
-- packages -> **\packages.config
+- '%USERPROFILE%\.nuget\packages -> **\*.csproj'
 nuget:
   account_feed: true
   project_feed: true
 before_build:
 - ps: >-
     .\init.ps1;
-    & .\.tools\nuget.exe restore -NonInteractive -DisableParallelProcessing;
+    dotnet restore;
     C:\ProgramData\chocolatey\bin\gfv.exe /l console /output buildserver;
 build:
   publish_nuget: true
