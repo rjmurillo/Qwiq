@@ -1,0 +1,27 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    This file neutralizes NuGet's EnsureNuGetPackageBuildImports target to prevent build failures
+    when legacy packages are removed from packages.config but their Import statements remain in
+    project files during the migration process.
+    
+    WHY THIS EXISTS:
+    - Legacy packages.config-based projects have Import statements for package targets/props
+    - NuGet injects an EnsureNuGetPackageBuildImports target that fails the build if imported
+      files are missing
+    - We are removing GitVersionTask 4.0.0 and Microsoft.Net.Compilers 2.10.0 because they are
+      incompatible with MSBuild 17.x on windows-latest (Windows Server 2025)
+    - This override allows the build to succeed while we clean up the Import statements
+    
+    WHEN TO REMOVE:
+    - This file can be removed once all projects have been migrated from packages.config to
+      PackageReference format, OR
+    - Once all Import statements referencing legacy package targets/props have been removed
+      from project files
+    
+    ALTERNATIVE:
+    - If you prefer not to have this file, upgrade GitVersionTask to a version compatible with
+      MSBuild 17.x and keep Microsoft.Net.Compilers removed (MSBuild 17.x has built-in Roslyn)
+  -->
+  
+  <Target Name="EnsureNuGetPackageBuildImports" />
+</Project>
