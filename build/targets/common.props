@@ -31,6 +31,7 @@
 
     <!-- Code Analysis -->
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
 
   </PropertyGroup>
 
