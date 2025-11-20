@@ -20,7 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <WarningsAsErrors />
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>1591</NoWarn>
+    <NoWarn>1591;CA1704</NoWarn>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <!--<OutputPath>$(SolutionDir)\bin\$(Configuration)\</OutputPath>-->
     <OutputPath>bin\$(Configuration)\</OutputPath>
