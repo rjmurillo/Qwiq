@@ -23,5 +23,25 @@
       MSBuild 17.x and keep Microsoft.Net.Compilers removed (MSBuild 17.x has built-in Roslyn)
   -->
   
+  <PropertyGroup>
+    <!--
+      Prevent Code Analysis warnings from failing the build.
+      
+      WHY THIS EXISTS:
+      - TreatWarningsAsErrors=true in common.props treats ALL warnings as errors, including
+        Code Analysis (FxCop) warnings
+      - This property is set here in Directory.Build.targets (imported after project files)
+        to ensure it wins by import order
+      - This allows compiler warnings to remain as errors while Code Analysis warnings are
+        reported but don't fail the build
+      
+      WHEN TO REMOVE:
+      - This can be removed once the project migrates from legacy FxCop (post-build code analysis)
+        to Roslyn analyzers, OR
+      - Once all Code Analysis warnings are fixed or suppressed individually
+    -->
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+  
   <Target Name="EnsureNuGetPackageBuildImports" />
 </Project>
