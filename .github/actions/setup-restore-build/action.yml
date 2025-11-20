@@ -31,6 +31,37 @@ runs:
       shell: pwsh
       run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
 
+    - name: Remove incompatible MSBuild packages
+      shell: pwsh
+      run: |
+        # Remove GitVersionTask 4.0.0 and Microsoft.Net.Compilers 2.10.0 which are incompatible with MSBuild 17.x
+        # The workflow already uses GitVersion.Tool separately, so GitVersionTask is redundant
+        # MSBuild 17.x has built-in Roslyn compilers, so Microsoft.Net.Compilers is also redundant
+        Write-Host "Removing incompatible MSBuild packages..."
+        $pkgRoot = Join-Path $Env:GITHUB_WORKSPACE 'packages'
+        
+        if (Test-Path $pkgRoot) {
+          # Remove GitVersionTask
+          $gv = Get-ChildItem -Path $pkgRoot -Directory -Filter 'GitVersionTask.*' -ErrorAction SilentlyContinue
+          if ($gv) {
+            $gv | ForEach-Object { 
+              Write-Host "Removing: $($_.FullName)"
+              Remove-Item -Recurse -Force $_.FullName 
+            }
+          }
+          
+          # Remove Microsoft.Net.Compilers
+          $compiler = Get-ChildItem -Path $pkgRoot -Directory -Filter 'Microsoft.Net.Compilers.*' -ErrorAction SilentlyContinue
+          if ($compiler) {
+            $compiler | ForEach-Object { 
+              Write-Host "Removing: $($_.FullName)"
+              Remove-Item -Recurse -Force $_.FullName 
+            }
+          }
+          
+          Write-Host "Package removal complete"
+        }
+
     - name: Build Solution
       shell: pwsh
       run: |
@@ -44,7 +75,5 @@ runs:
         Write-Host "Building solution: $solutionPath"
         Write-Host "Binary log will be saved to: $binlogPath"
         
-        # Disable GitVersionTask to avoid MSBuild 17.x compatibility issues
-        # The workflow already uses GitVersion.Tool separately, so this is redundant
-        # Disable parallelism to avoid MSBuild engine races with older tasks
-        msbuild "$solutionPath" /p:Configuration=Release /p:Platform="Any CPU" /p:WarningsNotAsErrors=NU1902 /p:GitVersionTaskBuildTools_CanCallDirectly=false /verbosity:minimal /m:1 /nr:false /p:BuildInParallel=false /p:UseSharedCompilation=false /bl:"$binlogPath"
+        # Build with standard settings
+        msbuild "$solutionPath" /p:Configuration=Release /p:Platform="Any CPU" /p:WarningsNotAsErrors=NU1902 /verbosity:minimal /bl:"$binlogPath"
