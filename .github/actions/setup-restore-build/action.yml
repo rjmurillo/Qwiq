@@ -27,62 +27,9 @@ runs:
           & "${{ github.workspace }}/init.ps1"
         }
 
-    - name: Create Directory.Build.targets to override EnsureNuGetPackageBuildImports
-      shell: pwsh
-      run: |
-        # Create a temporary Directory.Build.targets file to override the NuGet package import validation
-        # This allows us to safely remove incompatible packages without triggering "missing import" errors
-        $targetPath = Join-Path $Env:GITHUB_WORKSPACE 'Directory.Build.targets'
-        Write-Host "Creating Directory.Build.targets at: $targetPath"
-        $lines = @(
-          '<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">'
-          '  <Target Name="EnsureNuGetPackageBuildImports" />'
-          '</Project>'
-        )
-        $lines | Set-Content -Path $targetPath -Encoding UTF8
-        Write-Host "Directory.Build.targets created successfully"
-
     - name: Restore NuGet packages
       shell: pwsh
       run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
-
-    - name: Remove incompatible MSBuild packages
-      shell: pwsh
-      run: |
-        # Remove GitVersionTask 4.0.0 and Microsoft.Net.Compilers 2.10.0 which are incompatible with MSBuild 17.x
-        # The workflow already uses GitVersion.Tool separately, so GitVersionTask is redundant
-        # MSBuild 17.x has built-in Roslyn compilers, so Microsoft.Net.Compilers is also redundant
-        # The Directory.Build.targets override prevents "missing import" errors
-        Write-Host "Removing incompatible MSBuild packages..."
-        $pkgRoot = Join-Path $Env:GITHUB_WORKSPACE 'packages'
-        
-        if (Test-Path $pkgRoot) {
-          # Remove GitVersionTask
-          $gv = Get-ChildItem -Path $pkgRoot -Directory -Filter 'GitVersionTask.*' -ErrorAction SilentlyContinue
-          if ($gv) {
-            $gv | ForEach-Object { 
-              Write-Host "Removing: $($_.FullName)"
-              Remove-Item -Recurse -Force $_.FullName 
-            }
-          } else {
-            Write-Host "No GitVersionTask packages found"
-          }
-          
-          # Remove Microsoft.Net.Compilers
-          $compiler = Get-ChildItem -Path $pkgRoot -Directory -Filter 'Microsoft.Net.Compilers.*' -ErrorAction SilentlyContinue
-          if ($compiler) {
-            $compiler | ForEach-Object { 
-              Write-Host "Removing: $($_.FullName)"
-              Remove-Item -Recurse -Force $_.FullName 
-            }
-          } else {
-            Write-Host "No Microsoft.Net.Compilers packages found"
-          }
-          
-          Write-Host "Package removal complete"
-        } else {
-          Write-Host "Packages folder not found: $pkgRoot"
-        }
 
     - name: Build Solution
       shell: pwsh
