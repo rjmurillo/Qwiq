@@ -31,45 +31,6 @@ runs:
       shell: pwsh
       run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
 
-    - name: Remove incompatible MSBuild tasks
-      shell: pwsh
-      run: |
-        # Remove GitVersionTask 4.0.0 and Microsoft.Net.Compilers 2.10.0 which are incompatible with MSBuild 17.x
-        # The workflow already uses GitVersion.Tool separately, so GitVersionTask is redundant
-        Write-Host "Checking for incompatible MSBuild task packages..."
-        $pkgRoot = Join-Path $Env:GITHUB_WORKSPACE 'packages'
-        Write-Host "Workspace: $Env:GITHUB_WORKSPACE"
-        Write-Host "Packages root: $pkgRoot"
-        
-        if (Test-Path $pkgRoot) {
-          Write-Host "Listing packages directory:"
-          Get-ChildItem -Path $pkgRoot -Directory | Select-Object -First 10 | ForEach-Object { Write-Host "  - $($_.Name)" }
-          
-          # Remove GitVersionTask
-          $gv = Get-ChildItem -Path $pkgRoot -Directory -Filter 'GitVersionTask.*' -ErrorAction SilentlyContinue
-          if ($gv) {
-            $gv | ForEach-Object { 
-              Write-Host "Removing incompatible package: $($_.FullName)"
-              Remove-Item -Recurse -Force $_.FullName 
-            }
-          } else {
-            Write-Host "No GitVersionTask.* found under $pkgRoot"
-          }
-          
-          # Remove Microsoft.Net.Compilers
-          $compiler = Get-ChildItem -Path $pkgRoot -Directory -Filter 'Microsoft.Net.Compilers.*' -ErrorAction SilentlyContinue
-          if ($compiler) {
-            $compiler | ForEach-Object { 
-              Write-Host "Removing incompatible package: $($_.FullName)"
-              Remove-Item -Recurse -Force $_.FullName 
-            }
-          } else {
-            Write-Host "No Microsoft.Net.Compilers.* found under $pkgRoot"
-          }
-        } else {
-          Write-Host "Packages folder not found: $pkgRoot"
-        }
-
     - name: Build Solution
       shell: pwsh
       run: |
