@@ -38,12 +38,8 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Run init.ps1
-      run: .\init.ps1
-      shell: pwsh
-
     - name: Restore NuGet packages
-      run: nuget restore Qwiq.sln -NonInteractive
+      run: nuget restore Qwiq.sln -NonInteractive -DisableParallelProcessing
 
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
