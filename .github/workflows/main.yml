@@ -37,12 +37,14 @@ jobs:
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
+      with:
+        msbuild-architecture: x64
 
     - name: Restore NuGet packages
       run: nuget restore Qwiq.sln -NonInteractive -DisableParallelProcessing
 
     - name: Build solution
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
+      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /m:1 /nr:false /p:UseSharedCompilation=false /verbosity:minimal
 
     - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.2
