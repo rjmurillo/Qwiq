@@ -23,12 +23,7 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -40,48 +35,23 @@ jobs:
       with:
         nuget-version: 'latest'
 
-    - name: Setup MSBuild (Windows)
-      if: runner.os == 'Windows'
+    - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Setup Mono (Ubuntu)
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y mono-complete msbuild
-      shell: bash
-
-    - name: Run init.ps1 (Windows)
-      if: runner.os == 'Windows'
+    - name: Run init.ps1
       run: .\init.ps1
       shell: pwsh
 
-    - name: Run init.ps1 (Ubuntu)
-      if: runner.os == 'Linux'
-      run: pwsh ./init.ps1
-      shell: bash
-      continue-on-error: true
-
     - name: Restore NuGet packages
       run: nuget restore Qwiq.sln -NonInteractive
-      continue-on-error: ${{ runner.os == 'Linux' }}
 
-    - name: Build solution (Windows)
-      if: runner.os == 'Windows'
+    - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
 
-    - name: Build solution (Ubuntu)
-      if: runner.os == 'Linux'
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /verbosity:minimal /maxcpucount
-      shell: bash
-      continue-on-error: true
-
-    - name: Setup VSTest (Windows)
-      if: runner.os == 'Windows'
+    - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.2
 
-    - name: Run tests (Windows)
-      if: runner.os == 'Windows'
+    - name: Run tests
       run: |
         $testAssemblies = Get-ChildItem -Path . -Recurse -Filter "*Tests.dll" | 
           Where-Object { 
@@ -102,19 +72,11 @@ jobs:
       shell: pwsh
       continue-on-error: true
 
-    - name: Run tests (Ubuntu)
-      if: runner.os == 'Linux'
-      run: |
-        echo "Note: .NET Framework 4.6 tests are not fully supported on Linux/Mono"
-        find . -name "*Tests.dll" -path "*/bin/Release/*" ! -path "*IntegrationTests*" -exec echo "Found test assembly: {}" \;
-      shell: bash
-      continue-on-error: true
-
     - name: Upload test results
       uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
-        name: test-results-${{ matrix.os }}
+        name: test-results
         path: |
           **/*.trx
         if-no-files-found: ignore
@@ -123,7 +85,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
-        name: packages-${{ matrix.os }}
+        name: packages
         path: |
           **/*.nupkg
         if-no-files-found: ignore
@@ -132,7 +94,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
-        name: binaries-${{ matrix.os }}
+        name: binaries
         path: |
           **/bin/Release/**/*.dll
           **/bin/Release/**/*.exe
