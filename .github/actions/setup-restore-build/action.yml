@@ -32,14 +32,14 @@ runs:
       run: |
         # Create a temporary Directory.Build.targets file to override the NuGet package import validation
         # This allows us to safely remove incompatible packages without triggering "missing import" errors
-        $targetContent = @'
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="EnsureNuGetPackageBuildImports" />
-</Project>
-'@
         $targetPath = Join-Path $Env:GITHUB_WORKSPACE 'Directory.Build.targets'
         Write-Host "Creating Directory.Build.targets at: $targetPath"
-        Set-Content -Path $targetPath -Value $targetContent -Encoding UTF8
+        $lines = @(
+          '<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">'
+          '  <Target Name="EnsureNuGetPackageBuildImports" />'
+          '</Project>'
+        )
+        $lines | Set-Content -Path $targetPath -Encoding UTF8
         Write-Host "Directory.Build.targets created successfully"
 
     - name: Restore NuGet packages
