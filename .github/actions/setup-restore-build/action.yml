@@ -31,9 +31,21 @@ runs:
       shell: pwsh
       run: nuget restore "${{ github.workspace }}/Qwiq.sln" -NonInteractive -DisableParallelProcessing
 
+    - name: Remove incompatible MSBuild tasks
+      shell: pwsh
+      run: |
+        # Remove GitVersionTask 4.0.0 which is incompatible with MSBuild 17.x on windows-2022
+        # The workflow already uses GitVersion.Tool separately, so this is redundant
+        $gitVersionTaskPath = "${{ github.workspace }}/packages/GitVersionTask.*"
+        if (Test-Path $gitVersionTaskPath) {
+          Write-Host "Removing GitVersionTask package to avoid MSBuild internal error"
+          Remove-Item -Recurse -Force $gitVersionTaskPath
+        }
+
     - name: Build Solution
       shell: pwsh
       run: |
         $artifactsPath = "${{ github.workspace }}/artifacts/logs"
         New-Item -ItemType Directory -Force -Path $artifactsPath | Out-Null
-        msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /p:WarningsNotAsErrors=NU1902 /verbosity:minimal /maxcpucount /bl:"$artifactsPath/build.binlog"
+        # Disable parallelism to avoid MSBuild engine races with older tasks
+        msbuild "${{ github.workspace }}/Qwiq.sln" /p:Configuration=Release /p:Platform="Any CPU" /p:WarningsNotAsErrors=NU1902 /verbosity:minimal /m:1 /nr:false /p:BuildInParallel=false /p:UseSharedCompilation=false /bl:"$artifactsPath/build.binlog"
