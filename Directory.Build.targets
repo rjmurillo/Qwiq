@@ -32,9 +32,10 @@
         rule violations, even if they're only warnings
       - This exit code propagates to MSBuild, causing CI builds to fail with
         "Process completed with exit code 1" despite showing "0 error(s)"
-      - CodeAnalysisTreatWarningsAsErrors=false changes how violations are reported but
-        doesn't change FxCopCmd's process exit code
-      - MSBuild 17.x on windows-latest (Windows Server 2025) is more strict about exit codes
+      - Setting RunCodeAnalysis=false alone doesn't work because the Code Analysis target
+        is already wired into BuildDependsOn before this property is evaluated
+      - The no-op target below overrides the actual RunCodeAnalysis target, preventing
+        FxCopCmd from running at all
       
       WHEN TO REMOVE:
       - This can be removed once the project migrates from legacy FxCop (post-build code
@@ -48,6 +49,12 @@
     -->
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
+  
+  <!--
+    Override the RunCodeAnalysis target with a no-op for Release builds.
+    This prevents FxCopCmd from running even if the target was already added to BuildDependsOn.
+  -->
+  <Target Name="RunCodeAnalysis" Condition="'$(Configuration)'=='Release'" />
   
   <Target Name="EnsureNuGetPackageBuildImports" />
 </Project>
