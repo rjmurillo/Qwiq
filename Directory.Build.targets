@@ -23,24 +23,30 @@
       MSBuild 17.x and keep Microsoft.Net.Compilers removed (MSBuild 17.x has built-in Roslyn)
   -->
   
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <!--
-      Prevent Code Analysis warnings from failing the build.
+      Disable legacy post-build Code Analysis in Release builds.
       
       WHY THIS EXISTS:
-      - TreatWarningsAsErrors=true in common.props treats ALL warnings as errors, including
-        Code Analysis (FxCop) warnings
-      - This property is set here in Directory.Build.targets (imported after project files)
-        to ensure it wins by import order
-      - This allows compiler warnings to remain as errors while Code Analysis warnings are
-        reported but don't fail the build
+      - Legacy FxCopCmd.exe (post-build code analysis) exits with code 1 when there are
+        rule violations, even if they're only warnings
+      - This exit code propagates to MSBuild, causing CI builds to fail with
+        "Process completed with exit code 1" despite showing "0 error(s)"
+      - CodeAnalysisTreatWarningsAsErrors=false changes how violations are reported but
+        doesn't change FxCopCmd's process exit code
+      - MSBuild 17.x on windows-latest (Windows Server 2025) is more strict about exit codes
       
       WHEN TO REMOVE:
-      - This can be removed once the project migrates from legacy FxCop (post-build code analysis)
-        to Roslyn analyzers, OR
+      - This can be removed once the project migrates from legacy FxCop (post-build code
+        analysis) to Roslyn analyzers (which run during compilation and respect
+        TreatWarningsAsErrors properly), OR
       - Once all Code Analysis warnings are fixed or suppressed individually
+      
+      ALTERNATIVE:
+      - If you want Code Analysis to run in CI, migrate to Roslyn (FxCop) analyzers by
+        adding the Microsoft.CodeAnalysis.NetAnalyzers NuGet package
     -->
-    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   
   <Target Name="EnsureNuGetPackageBuildImports" />
