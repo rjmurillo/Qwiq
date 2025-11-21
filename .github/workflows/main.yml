@@ -44,7 +44,7 @@ jobs:
       run: nuget restore Qwiq.sln -NonInteractive -DisableParallelProcessing
 
     - name: Build solution
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /m:1 /nr:false /p:UseSharedCompilation=false /p:DisableGitVersionTask=true /verbosity:minimal
+      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /m:1 /nr:false /p:UseSharedCompilation=false /verbosity:minimal
 
     - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.2
