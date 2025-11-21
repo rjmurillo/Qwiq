@@ -316,3 +316,6 @@ __pycache__/
 
 # Visual Studio Workspace Bootstrapper
 .tools/*.exe
+
+# NuGet executables
+.nuget/*.exe
