@@ -20,7 +20,6 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemGroup>
-    </PackageReference>
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     <PackageReference Include="Should" Version="1.1.20" />

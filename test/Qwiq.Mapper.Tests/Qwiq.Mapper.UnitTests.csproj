@@ -21,7 +21,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
-    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="15.112.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
