@@ -33,13 +33,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj">
-      <Project>{B3654D2D-B4D4-405C-9AEC-FC1859A87E74}  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
-</Project>
+      <Project>{B3654D2D-B4D4-405C-9AEC-FC1859A87E74}</Project>
       <Name>Qwiq.Identity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj">
-      <Project>{1edeb333-3084-42bd-b273-4009b4b18541}  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
-</Project>
+      <Project>{1edeb333-3084-42bd-b273-4009b4b18541}</Project>
       <Name>Qwiq.Linq</Name>
     </ProjectReference>
   </ItemGroup>
@@ -54,7 +52,5 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props'))" />
-      <Error Condition="!Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets'))" />
   </Target>
-  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
 </Project>
