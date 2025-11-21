@@ -28,31 +28,5 @@ namespace Qwiq.Linq.Visitors
         {
             return new LinkedList<T>(source);
         }
-
-        /// <summary>
-        ///     Creates a SHA-256 fingerprint of the string.
-        /// </summary>
-        /// <remarks>
-        ///     This method uses SHA-256 instead of MD5 for stronger cryptographic security.
-        ///     The implementation is optimized for low allocations by:
-        ///     - Reusing a static SHA256 instance
-        ///     - Avoiding ToCharArray() allocation by passing the string directly
-        ///     - Using a pre-sized StringBuilder
-        /// </remarks>
-        public static string ToSha256Fingerprint(this string s)
-        {
-            // SHA256 produces 32 bytes, which becomes 64 hex characters
-            var bytes = Encoding.Unicode.GetBytes(s);
-            var hash = SHA256.HashData(bytes);
-
-            // Pre-allocate StringBuilder with exact capacity (32 bytes * 2 chars per byte)
-            var sb = new StringBuilder(64);
-            foreach (var b in hash)
-            {
-                sb.Append(b.ToString("X2"));
-            }
-
-            return sb.ToString();
-        }
     }
 }
