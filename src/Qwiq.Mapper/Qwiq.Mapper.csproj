@@ -59,11 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj">
-      <Project>{8AC61B6E-BEC1-482D-A043-C65D2D343B35}</Project>
+      <Project>{8AC61B6E-BEC1-482D-A043-C65D2D343B35}  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
+</Project>
       <Name>Qwiq.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj">
-      <Project>{1edeb333-3084-42bd-b273-4009b4b18541}</Project>
+      <Project>{1edeb333-3084-42bd-b273-4009b4b18541}  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
+</Project>
       <Name>Qwiq.Linq</Name>
     </ProjectReference>
   </ItemGroup>
@@ -73,8 +75,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\UtilPack.NuGet.MSBuild.2.8.0\build\UtilPack.NuGet.MSBuild.props'))" />
-    <Error Condition="!Exists('..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets'))" />
   </Target>
-  <Import Project="..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets" Condition="Exists('..\..\packages\GitVersionTask.4.0.0\build\GitVersionTask.targets')" />
+  <Import Project="..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets" Condition="Exists('..\..\packages\Nerdbank.GitVersioning.3.6.143\build\Nerdbank.GitVersioning.targets')" />
 </Project>
