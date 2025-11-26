@@ -25,3 +25,5 @@ using System.Runtime.InteropServices;
 #else
 [assembly:AssemblyConfiguration("Release")]
 #endif
+[assembly: InternalsVisibleTo("Qwiq.Client.Rest")]
+[assembly: InternalsVisibleTo("Qwiq.Client.Soap")]

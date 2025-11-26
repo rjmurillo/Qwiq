@@ -1,16 +1,19 @@
 <Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <!-- Shared assembly information -->
+    <Company>Microsoft Corporation</Company>
+    <Product>Microsoft® Quick Work Item Queries</Product>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- Add Nerdbank.GitVersioning for all projects -->
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.143" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
     
     <!-- Add Microsoft.CodeAnalysis.NetAnalyzers to replace deprecated FxCop -->
     <!-- See: https://learn.microsoft.com/en-us/visualstudio/code-quality/migrate-from-legacy-analysis-to-net-analyzers -->
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
   </ItemGroup>
 </Project>
