@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -13,7 +12,6 @@ namespace Qwiq
         ///     Gets the unique identifier for the identity's provider.
         /// </summary>
         /// <value>The descriptor.</value>
-        [NotNull]
         IIdentityDescriptor Descriptor { get; }
 
         /// <summary>
@@ -23,7 +21,6 @@ namespace Qwiq
         /// <remarks>
         /// If the identity provider does not supply a full name, and no custom display name is set, another property like account name or email address will be used as the display name.
         /// </remarks>
-        [NotNull]
         string DisplayName { get; }
 
         /// <summary>
@@ -41,14 +38,12 @@ namespace Qwiq
         ///     Gets the set of <see cref="IIdentityDescriptor" /> of groups containing this identity.
         /// </summary>
         /// <value>The member of.</value>
-        [NotNull]
         IEnumerable<IIdentityDescriptor> MemberOf { get; }
 
         /// <summary>
         ///     Gets the set of <see cref="IIdentityDescriptor" />s for members of this identity.
         /// </summary>
         /// <value>The members.</value>
-        [NotNull]
         IEnumerable<IIdentityDescriptor> Members { get; }
 
         /// <summary>
@@ -75,7 +70,6 @@ namespace Qwiq
         ///     CONTOSO\DanJ:1
         /// </example>
         /// <value>The unique name of the identity.</value>
-        [NotNull]
         string UniqueName { get; }
 
         /// <summary>

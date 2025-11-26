@@ -1,27 +1,24 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public class WorkItemLinkInfo : IWorkItemLinkInfo
     {
-        [CanBeNull]
         private Lazy<IWorkItemLinkTypeEnd> _lazyLinkTypeEnd;
 
-        [CanBeNull]
         private IWorkItemLinkTypeEnd _linkTypeEnd;
 
-        internal WorkItemLinkInfo(int sourceId, int targetId, [CanBeNull] IWorkItemLinkTypeEnd linkTypeEnd)
+        internal WorkItemLinkInfo(int sourceId, int targetId,  IWorkItemLinkTypeEnd linkTypeEnd)
         {
             SourceId = sourceId;
             TargetId = targetId;
             _linkTypeEnd = linkTypeEnd;
         }
 
-        internal WorkItemLinkInfo(int sourceId, int targetId, [NotNull] Lazy<IWorkItemLinkTypeEnd> linkTypeEnd)
+        internal WorkItemLinkInfo(int sourceId, int targetId,  Lazy<IWorkItemLinkTypeEnd> linkTypeEnd)
         {
             SourceId = sourceId;
             TargetId = targetId;

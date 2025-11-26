@@ -1,12 +1,11 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public class RelatedLink : Link, IRelatedLink
     {
-        internal RelatedLink(int related, [CanBeNull] IWorkItemLinkTypeEnd linkTypeEnd = null, [CanBeNull] string comment = null)
+        internal RelatedLink(int related,  IWorkItemLinkTypeEnd linkTypeEnd = null,  string comment = null)
             : base(comment, BaseLinkType.RelatedLink)
         {
             RelatedWorkItemId = related;

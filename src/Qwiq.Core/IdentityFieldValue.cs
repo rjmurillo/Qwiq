@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Common;
 using System;
 using System.Diagnostics.Contracts;
@@ -35,7 +34,7 @@ namespace Qwiq
         /// </summary>
         /// <param name="identity">The identity.</param>
         /// <exception cref="ArgumentNullException">identity</exception>
-        public IdentityFieldValue([NotNull] ITeamFoundationIdentity identity)
+        public IdentityFieldValue( ITeamFoundationIdentity identity)
             : this(identity.DisplayName, identity.Descriptor?.Identifier, identity.TeamFoundationId.ToString())
         {
             Contract.Requires(identity != null);

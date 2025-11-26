@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="Should" />
+    <PackageReference Include="FluentAssertions" />
   </ItemGroup>
 
   <ItemGroup>

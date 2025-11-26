@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -22,7 +21,6 @@ namespace Qwiq
 
         new int HyperlinkCount { get; }
 
-        [NotNull]
         IFieldCollection Fields { get; }
 
         /// <summary>

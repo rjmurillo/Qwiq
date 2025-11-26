@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -25,13 +24,11 @@ namespace Qwiq.Client.Rest
 
         private readonly bool _timePrecision;
 
-        [NotNull]
         private readonly WorkItemStore _workItemStore;
 
-        [CanBeNull]
         private HashSet<int> _ids;
 
-        internal Query([NotNull] IEnumerable<int> ids, Wiql query, [NotNull] WorkItemStore workItemStore)
+        internal Query( IEnumerable<int> ids, Wiql query,  WorkItemStore workItemStore)
             : this(query, false, workItemStore)
         {
             if (ids == null) throw new ArgumentNullException(nameof(ids));
@@ -40,7 +37,7 @@ namespace Qwiq.Client.Rest
             _ids = new HashSet<int>(ids);
         }
 
-        internal Query(Wiql query, bool timePrecision, [NotNull] WorkItemStore workItemStore)
+        internal Query(Wiql query, bool timePrecision,  WorkItemStore workItemStore)
 
         {
             Contract.Requires(workItemStore != null);
@@ -63,7 +60,6 @@ namespace Qwiq.Client.Rest
             return wit.LinkTypeEnds;
         }
 
-        [ItemNotNull]
         public IEnumerable<IWorkItemLinkInfo> RunLinkQuery()
         {
             // REVIEW: Create an IWorkItemLinkInfo like IWorkItemLinkTypeEndCollection and IWorkItemCollection
@@ -157,9 +153,7 @@ namespace Qwiq.Client.Rest
             return retval;
         }
 
-        [JetBrains.Annotations.Pure]
-        [NotNull]
-        private IWorkItemType LookUpWorkItemType([NotNull] Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem)
+        private IWorkItemType LookUpWorkItemType( Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem workItem)
         {
             if (!workItem.Fields.TryGetValue(CoreFieldRefNames.TeamProject, out object tp))
             {
@@ -243,7 +237,6 @@ namespace Qwiq.Client.Rest
             }
         }
 
-        [NotNull]
         private List<IWorkItem> RunQueryImpl()
         {
             Contract.Ensures(Contract.Result<List<IWorkItem>>() != null);
@@ -268,7 +261,6 @@ namespace Qwiq.Client.Rest
             return LoadWorkItemsEagerly(results);
         }
 
-        [NotNull]
         private IEnumerable<IWorkItem> RunQueryImplLazy()
         {
             Contract.Ensures(Contract.Result<IEnumerable<IWorkItem>>() != null);

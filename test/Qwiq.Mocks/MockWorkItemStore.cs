@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Common;
 
 namespace Qwiq.Mocks
@@ -25,7 +24,7 @@ namespace Qwiq.Mocks
         {
         }
 
-        public MockWorkItemStore([InstantHandle][NotNull] Func<ITeamProjectCollection> tpcFactory, [InstantHandle][NotNull] Func<MockWorkItemStore, IQueryFactory> queryFactory)
+        public MockWorkItemStore( Func<ITeamProjectCollection> tpcFactory,  Func<MockWorkItemStore, IQueryFactory> queryFactory)
         {
             if (tpcFactory == null) throw new ArgumentNullException(nameof(tpcFactory));
             if (queryFactory == null) throw new ArgumentNullException(nameof(queryFactory));

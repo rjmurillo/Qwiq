@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Should;
-using Should.Core.Exceptions;
+
 
 namespace Qwiq.Linq
 {
@@ -691,7 +691,7 @@ namespace Qwiq.Linq
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EqualException))]
+        [ExpectedException(typeof(System.Exception))]
         public void the_column_written_to_WIQL_in_SELECT_is_the_projected_property()
         {
             Actual.ShouldEqual(Expected);

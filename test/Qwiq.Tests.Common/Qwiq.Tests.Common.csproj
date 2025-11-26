@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Humanizer.Core" />
     <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="Should" />
   </ItemGroup>
 
   <ItemGroup>

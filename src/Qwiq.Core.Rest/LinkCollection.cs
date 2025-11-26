@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
@@ -12,7 +11,7 @@ namespace Qwiq.Client.Rest
 {
     internal class LinkCollection : ReadOnlyObjectWithNameCollection<ILink>, ICollection<ILink>
     {
-        internal LinkCollection([CanBeNull] List<WorkItemRelation> relations, [NotNull] Func<string, IWorkItemLinkType> linkFunc)
+        internal LinkCollection( List<WorkItemRelation> relations,  Func<string, IWorkItemLinkType> linkFunc)
         {
             Contract.Requires(linkFunc != null);
 

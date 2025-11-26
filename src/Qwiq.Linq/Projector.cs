@@ -5,13 +5,12 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 
-using JetBrains.Annotations;
 
 namespace Qwiq.Linq
 {
     public static class Projector
     {
-        public static object Project([NotNull] IEnumerable<LambdaExpression> projections, [NotNull] IEnumerable<object> data)
+        public static object Project( IEnumerable<LambdaExpression> projections,  IEnumerable<object> data)
         {
             if (projections == null) throw new ArgumentNullException(nameof(projections));
             if (data == null) throw new ArgumentNullException(nameof(data));

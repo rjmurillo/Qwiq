@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using System;
 using System.Diagnostics.Contracts;
 
@@ -8,7 +7,7 @@ namespace Qwiq
     /// </summary>
     public class FieldDefinition : IFieldDefinition, IEquatable<IFieldDefinition>
     {
-        internal FieldDefinition(int id, [NotNull] string referenceName, [NotNull] string name)
+        internal FieldDefinition(int id,  string referenceName,  string name)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(referenceName));
             Contract.Requires(!string.IsNullOrWhiteSpace(name));
@@ -33,7 +32,7 @@ namespace Qwiq
             }
         }
 
-        internal FieldDefinition([NotNull] string referenceName, [NotNull] string name)
+        internal FieldDefinition( string referenceName,  string name)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(referenceName));
             Contract.Requires(!string.IsNullOrWhiteSpace(name));

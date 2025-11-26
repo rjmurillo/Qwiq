@@ -1,5 +1,4 @@
 using Castle.DynamicProxy;
-using JetBrains.Annotations;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -10,10 +9,9 @@ namespace Qwiq.Exceptions
     [DebuggerStepThrough]
     public class ExceptionHandlingDynamicProxy : IInterceptor
     {
-        [NotNull]
         private readonly IExceptionMapper _exceptionMapper;
 
-        public ExceptionHandlingDynamicProxy([NotNull] IExceptionMapper exceptionMapper)
+        public ExceptionHandlingDynamicProxy( IExceptionMapper exceptionMapper)
         {
             Contract.Requires(exceptionMapper != null);
 

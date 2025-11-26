@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -16,7 +15,7 @@ namespace Qwiq
 
         private IWorkItemLinkTypeEnd _reverse;
 
-        internal WorkItemLinkType([NotNull] string referenceName, [NotNull] IWorkItemLinkTypeEnd forward, [NotNull] IWorkItemLinkTypeEnd reverse)
+        internal WorkItemLinkType( string referenceName,  IWorkItemLinkTypeEnd forward,  IWorkItemLinkTypeEnd reverse)
             : this(referenceName)
         {
             Contract.Requires(!string.IsNullOrEmpty(referenceName));
@@ -29,7 +28,7 @@ namespace Qwiq
             _reverseFac = null;
         }
 
-        internal WorkItemLinkType([NotNull] string referenceName, [NotNull] Lazy<IWorkItemLinkTypeEnd> forward, [NotNull] Lazy<IWorkItemLinkTypeEnd> reverse)
+        internal WorkItemLinkType( string referenceName,  Lazy<IWorkItemLinkTypeEnd> forward,  Lazy<IWorkItemLinkTypeEnd> reverse)
             : this(referenceName)
         {
             Contract.Requires(!string.IsNullOrEmpty(referenceName));
@@ -40,7 +39,7 @@ namespace Qwiq
             _reverseFac = reverse ?? throw new ArgumentNullException(nameof(reverse));
         }
 
-        internal WorkItemLinkType([NotNull] string referenceName)
+        internal WorkItemLinkType( string referenceName)
         {
             Contract.Requires(!string.IsNullOrEmpty(referenceName));
 

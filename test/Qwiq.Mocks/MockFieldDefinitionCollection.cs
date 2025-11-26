@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +20,7 @@ namespace Qwiq.Mocks
         {
         }
 
-        public MockFieldDefinitionCollection([InstantHandle][NotNull] IEnumerable<IFieldDefinition> fieldDefinitions)
+        public MockFieldDefinitionCollection( IEnumerable<IFieldDefinition> fieldDefinitions)
             : this(fieldDefinitions.ToList())
         {
             Contract.Requires(fieldDefinitions != null);

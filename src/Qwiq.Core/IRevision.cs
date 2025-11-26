@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 
 namespace Qwiq
@@ -13,7 +12,6 @@ namespace Qwiq
         /// <summary>
         /// Gets the fields of the work item in this revision.
         /// </summary>
-        [NotNull]
         IFieldCollection Fields { get; }
 
         /// <summary>
@@ -29,7 +27,6 @@ namespace Qwiq
         /// <summary>
         /// Gets the work item that is stored in this revision.
         /// </summary>
-        [NotNull]
         IWorkItem WorkItem { get; }
 
         /// <summary>
@@ -37,8 +34,7 @@ namespace Qwiq
         /// </summary>
         /// <param name="name">The field of interest in the work item of this revision.</param>
         /// <returns>The value of the specified field.</returns>
-        [CanBeNull]
-        new object this[[NotNull] string name] { get; }
+        new object this[ string name] { get; }
 
         /// <summary>
         /// Gets the tagline for this revision.
