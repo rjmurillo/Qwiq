@@ -28,7 +28,7 @@ QWIQ is a **Q**uick **W**ork **I**tem **Q**uery library for Team Foundation Serv
 - **.NET 8 SDK**
 - **Git**
 
-?? See [BUILDING.md](BUILDING.md) for detailed build instructions.
+?? See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed build instructions.
 
 ## Installation
 
@@ -123,35 +123,31 @@ dotnet build
 dotnet test
 ```
 
-For detailed build instructions, see [BUILDING.md](BUILDING.md).
+For detailed build and contribution instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Contributing
 
 We welcome contributions! To get started:
 
-1. **Read the guides**
-   - [BUILDING.md](BUILDING.md) - Build setup
-   - [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
-
+1. **Read the guide** - [CONTRIBUTING.md](CONTRIBUTING.md) has everything you need
 2. **Fork and clone** the repository
-
 3. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-4. **Make your changes** following the [coding standards](CONTRIBUTING.md#coding-standards)
-
+4. **Make your changes** following the coding standards
 5. **Submit a pull request**
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for complete details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for complete details on:
+- Building from source
+- Development workflow
+- Coding standards
+- Testing guidelines
+- Commit conventions
+- Pull request process
 
 ## Documentation
 
-- ?? [Building from Source](BUILDING.md)
-- ?? [Contributing Guidelines](CONTRIBUTING.md)
-- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues)
-- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions)
+- ?? [Contributing Guide](CONTRIBUTING.md) - Build, develop, and contribute
+- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues) - Report bugs or request features
+- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions) - Ask questions and share ideas
 
 ## License
 
