@@ -1,117 +1,95 @@
 # Contributing to Qwiq
 
-Thank you for your interest in contributing to Qwiq! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to Qwiq!
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Workflow](#development-workflow)
 - [Coding Standards](#coding-standards)
-- [Testing Guidelines](#testing-guidelines)
-- [Commit Message Conventions](#commit-message-conventions)
-- [Pull Request Process](#pull-request-process)
-- [Release Process](#release-process)
-
-## Code of Conduct
-
-This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/). By participating, you are expected to uphold this code.
+- [Testing](#testing)
+- [Commit Guidelines](#commit-guidelines)
+- [Pull Requests](#pull-requests)
 
 ## Getting Started
 
 ### Prerequisites
 
-1. **Install .NET 8 SDK**
-   - Download from: https://dotnet.microsoft.com/download/dotnet/8.0
-   - Verify: `dotnet --version`
+1. **.NET 8 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/8.0)
+2. **Git** - [Download](https://git-scm.com/downloads)
+3. **IDE** (optional)
+   - Visual Studio 2022 (17.8+)
+   - Visual Studio Code with C# Dev Kit
+   - JetBrains Rider
 
-2. **Install Git**
-   - Download from: https://git-scm.com/downloads
-
-3. **Fork the Repository**
-   - Visit: https://github.com/rjmurillo/Qwiq
-   - Click "Fork" button
-
-4. **Clone Your Fork**
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/Qwiq.git
-   cd Qwiq
-   ```
-
-5. **Add Upstream Remote**
-   ```bash
-   git remote add upstream https://github.com/rjmurillo/Qwiq.git
-   ```
-
-### Build the Project
+### Setup
 
 ```bash
-# Restore tools (including NBGV)
-dotnet tool restore
+# Fork and clone
+git clone https://github.com/YOUR-USERNAME/Qwiq.git
+cd Qwiq
 
-# Restore packages
-dotnet restore
+# Add upstream remote
+git remote add upstream https://github.com/rjmurillo/Qwiq.git
 
 # Build
+dotnet tool restore
+dotnet restore
 dotnet build
-
-# Run tests
 dotnet test
 ```
 
-See [BUILDING.md](BUILDING.md) for detailed build instructions.
+See [BUILDING.md](BUILDING.md) for detailed instructions.
 
 ## Development Workflow
 
-### 1. Create a Feature Branch
+### 1. Create a Branch
 
 ```bash
-# Update your local develop branch
+# Update develop
 git checkout develop
 git pull upstream develop
 
-# Create a feature branch
+# Create feature branch
 git checkout -b feature/your-feature-name
 ```
 
-Branch naming conventions:
+**Branch naming:**
 - `feature/` - New features
 - `fix/` - Bug fixes
-- `docs/` - Documentation changes
+- `docs/` - Documentation
 - `refactor/` - Code refactoring
-- `test/` - Test additions or modifications
-- `chore/` - Build/tooling changes
+- `test/` - Test changes
+- `chore/` - Build/tooling
 
-### 2. Make Your Changes
+### 2. Make Changes
 
 - Write clean, readable code
-- Follow existing code style
-- Add/update tests as needed
-- Update documentation if required
+- Follow existing style
+- Add/update tests
+- Update docs if needed
 
-### 3. Test Your Changes
+### 3. Test
 
 ```bash
 # Run all tests
 dotnet test
 
-# Run specific test project
-dotnet test test/Qwiq.Core.Tests/
-
-# Run with filter
-dotnet test --filter "TestCategory!=localOnly"
+# Run with filter (excludes integration tests)
+dotnet test --filter "TestCategory!=localOnly&TestCategory!=Benchmark"
 ```
 
-### 4. Commit Your Changes
+### 4. Commit
 
-Follow [conventional commit](#commit-message-conventions) format:
+Use [conventional commits](https://www.conventionalcommits.org/):
 
 ```bash
-git add .
-git commit -m "feat: add new feature description"
+git commit -m "feat: add support for Azure DevOps OAuth"
+git commit -m "fix: resolve null reference in WorkItemStore"
+git commit -m "docs: update API documentation"
 ```
 
-### 5. Push and Create Pull Request
+### 5. Push and Create PR
 
 ```bash
 git push origin feature/your-feature-name
@@ -121,21 +99,17 @@ Then create a pull request on GitHub.
 
 ## Coding Standards
 
-### General Guidelines
+### General
 
-- **C# Version:** Use latest language features (C# 12+)
-- **Target Frameworks:** 
-  - .NET Standard 2.0 (for compatibility)
-  - .NET 8 (for modern features)
-- **Nullable Reference Types:** Enabled project-wide
-- **Warning Level:** 5 (maximum)
+- **C# Version:** Latest features (C# 12+)
+- **Targets:** .NET Standard 2.0 and .NET 8
+- **Nullable:** Enabled (all reference types)
+- **Warnings:** Level 5 (treat as guidance)
 
-### Code Style
-
-This project follows standard C# coding conventions:
+### Style
 
 ```csharp
-// ? Good: Clear, descriptive names
+// ? Good
 public class WorkItemStore : IWorkItemStore
 {
     private readonly IWorkItemStoreProxy _proxy;
@@ -147,42 +121,28 @@ public class WorkItemStore : IWorkItemStore
     
     public IWorkItem GetWorkItem(int id)
     {
-        // Implementation
-    }
-}
-
-// ? Bad: Unclear names, missing null checks
-public class WIS
-{
-    private IWorkItemStoreProxy p;
-    
-    public WIS(IWorkItemStoreProxy proxy)
-    {
-        p = proxy;
-    }
-    
-    public IWorkItem Get(int i)
-    {
-        // Implementation
+        if (id <= 0)
+            throw new ArgumentException("ID must be positive.", nameof(id));
+        
+        return _proxy.GetWorkItem(id);
     }
 }
 ```
 
-### Naming Conventions
+### Naming
 
-- **Classes/Interfaces:** PascalCase (`WorkItemStore`, `IWorkItem`)
-- **Methods:** PascalCase (`GetWorkItem`, `QueryByWiql`)
-- **Properties:** PascalCase (`WorkItemType`, `AssignedTo`)
-- **Fields (private):** _camelCase with underscore (`_workItemStore`)
-- **Parameters:** camelCase (`workItemId`, `queryText`)
-- **Local variables:** camelCase (`workItem`, `result`)
+- **Classes/Interfaces:** `PascalCase` (`WorkItemStore`, `IWorkItem`)
+- **Methods:** `PascalCase` (`GetWorkItem`, `QueryByWiql`)
+- **Properties:** `PascalCase` (`WorkItemType`, `AssignedTo`)
+- **Private fields:** `_camelCase` (`_workItemStore`, `_proxy`)
+- **Parameters/locals:** `camelCase` (`workItemId`, `result`)
 
 ### Null Safety
 
-Always use nullable reference types annotations:
+Always be explicit about nullability:
 
 ```csharp
-// ? Good: Explicit nullability
+// ? Good: Clear intent
 public string? GetOptionalValue(int id)
 {
     return _cache.TryGetValue(id, out var value) ? value : null;
@@ -190,75 +150,65 @@ public string? GetOptionalValue(int id)
 
 public string GetRequiredValue(int id)
 {
-    return _cache[id] ?? throw new KeyNotFoundException($"Value not found for id: {id}");
+    return _cache[id] ?? throw new KeyNotFoundException($"Not found: {id}");
 }
 
-// ? Bad: Unclear nullability
+// ? Bad: Unclear
 public string GetValue(int id)
 {
-    return _cache[id]; // Can this return null?
+    return _cache[id]; // Can this be null?
 }
 ```
 
-### Comments
+### Documentation
 
-- Use XML documentation comments for public APIs
-- Add inline comments only when code is not self-explanatory
-- Prefer self-documenting code over comments
+Use XML comments for public APIs:
 
 ```csharp
 /// <summary>
-/// Retrieves a work item by its unique identifier.
+/// Retrieves a work item by ID.
 /// </summary>
-/// <param name="id">The work item ID.</param>
+/// <param name="id">The work item ID (must be positive).</param>
 /// <returns>The work item, or null if not found.</returns>
-/// <exception cref="ArgumentException">Thrown when id is less than or equal to zero.</exception>
+/// <exception cref="ArgumentException">Thrown when id is zero or negative.</exception>
 public IWorkItem? GetWorkItem(int id)
-{
-    if (id <= 0)
-        throw new ArgumentException("Work item ID must be positive.", nameof(id));
-    
-    return _store.Query(id);
-}
 ```
 
-## Testing Guidelines
+## Testing
 
-### Test Structure
+### Structure
 
-Follow the **Arrange-Act-Assert** pattern:
+Use **Arrange-Act-Assert**:
 
 ```csharp
-[TestClass]
-public class WorkItemStoreTests
+[TestMethod]
+public void GetWorkItem_ValidId_ReturnsWorkItem()
 {
-    [TestMethod]
-    public void GetWorkItem_ValidId_ReturnsWorkItem()
-    {
-        // Arrange
-        var mockProxy = new MockWorkItemStoreProxy();
-        var store = new WorkItemStore(mockProxy);
-        var expectedId = 123;
-        
-        // Act
-        var result = store.GetWorkItem(expectedId);
-        
-        // Assert
-        result.Should().NotBeNull();
-        result.Id.Should().Be(expectedId);
-    }
+    // Arrange
+    var store = new MockWorkItemStore();
+    var expectedId = 123;
+    
+    // Act
+    var result = store.GetWorkItem(expectedId);
+    
+    // Assert
+    result.Should().NotBeNull();
+    result!.Id.Should().Be(expectedId);
 }
 ```
 
-### Test Naming
+### Naming
 
-Use descriptive test names:
-- Pattern: `MethodName_Scenario_ExpectedBehavior`
-- Example: `Query_EmptyWiql_ThrowsArgumentException`
+Pattern: `MethodName_Scenario_ExpectedBehavior`
 
-### Test Categories
+Examples:
+- `Query_EmptyWiql_ThrowsArgumentException`
+- `GetWorkItem_NonExistentId_ReturnsNull`
+- `Save_ValidWorkItem_UpdatesStore`
 
-Apply test categories for filtering:
+### Categories
+
+Apply categories for filtering:
 
 ```csharp
 [TestMethod]
@@ -269,37 +219,32 @@ public void UnitTest() { }
 [TestCategory("Integration")]
 [TestCategory("localOnly")]
 public void IntegrationTest() { }
-
-[TestMethod]
-[TestCategory("Benchmark")]
-public void BenchmarkTest() { }
 ```
 
 ### Assertions
 
-Use **FluentAssertions** for readable assertions:
+Use **FluentAssertions**:
 
 ```csharp
-// ? Good: Fluent and readable
+// ? Good
 result.Should().NotBeNull();
 result.Items.Should().HaveCount(5);
 result.Items.Should().Contain(x => x.Id == 123);
 
-// ? Avoid: Old-style assertions
+// ? Avoid
 Assert.IsNotNull(result);
 Assert.AreEqual(5, result.Items.Count);
 ```
 
-### Test Coverage
+### Coverage
 
-- Aim for >80% code coverage for new code
+- Aim for >80% code coverage
 - All public APIs should have tests
-- Critical paths require comprehensive tests
-- Edge cases and error conditions must be tested
+- Test both success and failure paths
 
-## Commit Message Conventions
+## Commit Guidelines
 
-This project follows [Conventional Commits](https://www.conventionalcommits.org/).
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Format
 
@@ -308,185 +253,120 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 
 [optional body]
 
-[optional footer(s)]
+[optional footer]
 ```
 
 ### Types
 
 - **feat:** New feature
 - **fix:** Bug fix
-- **docs:** Documentation changes
-- **style:** Code style changes (formatting, semicolons, etc.)
-- **refactor:** Code refactoring
-- **perf:** Performance improvements
-- **test:** Adding or updating tests
-- **build:** Build system or dependency changes
-- **ci:** CI/CD configuration changes
-- **chore:** Other changes (tooling, etc.)
-- **revert:** Revert a previous commit
+- **docs:** Documentation
+- **style:** Formatting
+- **refactor:** Code restructuring
+- **perf:** Performance improvement
+- **test:** Test changes
+- **build:** Build system changes
+- **ci:** CI/CD changes
+- **chore:** Other changes
 
 ### Examples
 
 ```bash
-# Feature
-git commit -m "feat: add support for Azure DevOps OAuth"
+# Simple feature
+git commit -m "feat: add OAuth support"
 
-# Fix
-git commit -m "fix: correct null reference in WorkItemStore.Query"
+# Bug fix with details
+git commit -m "fix: resolve memory leak in connection pool
 
-# Breaking change
-git commit -m "feat!: remove deprecated WorkItemStore.GetAll method
-
-BREAKING CHANGE: GetAll() has been removed. Use Query() instead."
-
-# With scope
-git commit -m "feat(linq): add support for WIQL projections"
-
-# Multiple paragraphs
-git commit -m "fix: resolve memory leak in connection pooling
-
-The connection pool was not properly disposing connections when
-exceptions occurred during query execution.
+The pool was not disposing connections on exceptions.
+Added proper using blocks and exception handling.
 
 Closes #123"
+
+# Breaking change
+git commit -m "feat!: remove deprecated GetAll method
+
+BREAKING CHANGE: GetAll() removed. Use Query() instead."
+
+# With scope
+git commit -m "feat(linq): add projection support"
 ```
 
 ### Best Practices
 
-- Use imperative mood ("add" not "added" or "adds")
+- Use imperative mood ("add" not "added")
 - Keep first line under 72 characters
-- Reference issue numbers when applicable
-- Provide context in the body for complex changes
+- Reference issues when applicable
+- Explain *why* in the body, not *what*
 
-## Pull Request Process
+## Pull Requests
 
 ### Before Submitting
 
-1. ? **Code compiles without errors**
-   ```bash
-   dotnet build
-   ```
+- [ ] Code compiles: `dotnet build`
+- [ ] Tests pass: `dotnet test`
+- [ ] No warnings introduced
+- [ ] Nullable annotations correct
+- [ ] XML docs for public APIs
+- [ ] Conventional commit messages
+- [ ] Branch up to date with `upstream/develop`
 
-2. ? **All tests pass**
-   ```bash
-   dotnet test
-   ```
-
-3. ? **Code follows style guidelines**
-   - No unnecessary warnings
-   - Nullable reference types properly annotated
-   - XML documentation for public APIs
-
-4. ? **Changes are committed with conventional commit messages**
-
-5. ? **Branch is up to date with upstream/develop**
-   ```bash
-   git fetch upstream
-   git rebase upstream/develop
-   ```
-
-### Pull Request Template
-
-When creating a PR, include:
+### PR Template
 
 ```markdown
 ## Description
 Brief description of changes
 
 ## Type of Change
-- [ ] Bug fix (non-breaking change fixing an issue)
-- [ ] New feature (non-breaking change adding functionality)
-- [ ] Breaking change (fix or feature causing existing functionality to break)
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
 - [ ] Documentation update
 
-## How Has This Been Tested?
-Describe the tests you ran and their results
+## Testing
+Describe how you tested the changes
 
 ## Checklist
-- [ ] My code follows the project's style guidelines
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code where necessary
-- [ ] I have updated the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix/feature works
-- [ ] New and existing unit tests pass locally
-- [ ] Any dependent changes have been merged
-
-## Related Issues
-Closes #issue_number
+- [ ] Code follows style guidelines
+- [ ] Self-reviewed my code
+- [ ] Commented complex code
+- [ ] Updated documentation
+- [ ] No new warnings
+- [ ] Added tests
+- [ ] All tests pass
 ```
 
 ### Review Process
 
-1. **Automated Checks:** CI pipeline must pass
-2. **Code Review:** At least one maintainer approval required
-3. **Testing:** Verify tests cover the changes
-4. **Documentation:** Ensure docs are updated if needed
-
-### After Approval
-
-Maintainers will:
-1. Merge your PR to `develop` branch
-2. Include it in the next release
-3. Update changelog
+1. **Automated checks** - CI must pass
+2. **Code review** - Maintainer approval required
+3. **Testing** - Verify test coverage
+4. **Merge** - Squash and merge to `develop`
 
 ## Release Process
 
-This project uses **Nerdbank.GitVersioning (NBGV)** for automatic versioning.
+We use **Nerdbank.GitVersioning (NBGV)** for versioning.
 
-### Version Scheme
+### Version Format
 
-```
-{major}.{minor}.{patch}[-{prerelease}]+{git-commit-id}
-```
+`{major}.{minor}.{height}[-{prerelease}]+{commit-id}`
 
 Example: `10.0.42-alpha+g1234567`
 
-### Creating a Release
+### Releases
 
-1. **Update version.json** (if needed)
-   ```json
-   {
-     "version": "10.0-alpha",
-     "versionIncrement": "minor"
-   }
-   ```
-
-2. **Merge to master/main**
-   - PRs to `master` create public releases
-   - PRs to `develop` create pre-release versions
-
-3. **Tag the release** (optional)
-   ```bash
-   git tag v10.0.42
-   git push origin v10.0.42
-   ```
-
-4. **GitHub Actions** automatically:
-   - Builds the release
-   - Runs all tests
-   - Creates release artifacts
-   - Publishes to NuGet (when configured)
-
-### Pre-release Versions
-
-Development builds from `develop` branch:
-- Version: `10.0.{height}-alpha`
-- Published to MyGet feed
-- Not production-ready
+- **Development:** PRs to `develop` create pre-releases
+- **Production:** Merges to `master`/`main` create public releases
+- **Versioning:** Automatic via Git history
 
 ## Getting Help
 
-- ?? **Documentation:** [README.md](README.md), [BUILDING.md](BUILDING.md)
-- ?? **Issues:** https://github.com/rjmurillo/Qwiq/issues
-- ?? **Discussions:** https://github.com/rjmurillo/Qwiq/discussions
-- ?? **Maintainers:** See [CODEOWNERS](.github/CODEOWNERS) file
+- ?? [Build Documentation](BUILDING.md)
+- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues)
+- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions)
 
 ## Recognition
 
-Contributors are recognized in:
-- Release notes
-- Repository contributors page
-- Special thanks in documentation
+Contributors are recognized in release notes and the repository contributors page.
 
-Thank you for contributing to Qwiq! ??
+Thank you for contributing! ??

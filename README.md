@@ -1,169 +1,157 @@
  QWIQ
 =======
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/LeCantaloop/Qwiq/blob/master/LICENSE) [![Build status: DEVELOP](https://ci.appveyor.com/api/projects/status/jfi0nejktfny3dkf/branch/develop?svg=true)](https://ci.appveyor.com/project/LeCantaloop/microsoft-qwiq/branch/develop)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/LeCantaloop/Qwiq/blob/master/LICENSE) [![Build status](https://github.com/rjmurillo/Qwiq/actions/workflows/main.yml/badge.svg)](https://github.com/rjmurillo/Qwiq/actions/workflows/main.yml)
 
 [![MyGet](https://img.shields.io/myget/qwiq/v/Qwiq.Core.svg)](https://myget.org/feed/qwiq/package/nuget/Qwiq.Core) [![MyGet](https://img.shields.io/myget/qwiq/vpre/Qwiq.Core.svg)](https://myget.org/feed/qwiq/package/nuget/Qwiq.Core)
 
-QWIQ is a **Q**uick **W**ork **I**tem **Q**uery library for Team Foundation Server / Visual Studio Online. If you do a lot of reading or writing of work items, this package is for you! 
+QWIQ is a **Q**uick **W**ork **I**tem **Q**uery library for Team Foundation Server and Azure DevOps. If you do a lot of reading or writing of work items, this package is for you!
 
-## What can it be used for?
-Querying Team Foundation Server, of course! Instead of directly using the TFS Client OM, you could use QWIQ! It it made of packages designed to make working with Tfs/Vso a pleasure. Qwiq.Core is the no-frills base package, exposinng the raw types needed to read and write work items. Qwiq.Identity adds methods to simplify converting between your preferred method of identity (display names, user names) and TFS's identity classes. Qwiq.Linq provides a Linq query provider to be able to write Linq to query tfs. Qwiq.Mapper enables converting from IWorkItem, the raw Qwiq.Core type, to your own classes to enable strongly typed access to your WorkItems. Qwiq.Relatives extends Qwiq.Linq to enable slightly more complicated queries allowing for basic queries of related workitems. Qwiq.Mocks provides default implementations for commonly mocked classes within Qwiq, and should allow for getting up and unit testing quickly. Why use this over the Client OM? Glad you asked!
+## Features
 
-### 1. Easier to consume
-Let's be honest, the TFS libraries are a pain to use. There are a lot of them, several are dynamically loaded, and a few are native. While we can't avoid it, you can! Just install the [`Qwiq.Core`](https://www.nuget.org/packages/Qwiq.Core/) package and everything will be in your \bin folder when you need it.
-
-### 2. Easier to test
-Qwiq makes testing your apps a breeze. Everything has an interface. Everything uses factories (or factory methods) instead of constructors. Install our [`Qwiq.Mocks`](https://www.nuget.org/packages/Qwiq.Mocks/) package for easy to use mocks, or mock what you need from out interfaces for your tests and go. No more messy, temperamental fakes, or adapters cluttering your code.
-
-### 3. Easier to understand
-How often do you update a work item? How often do you create a new security group? We stripped out the rarely used stuff to make interfaces cleaner and the relationships between types simpler. Missing something you can't live without? Send us a pull request!
+- **Easy to consume** - No complex setup, just install the NuGet package
+- **Easy to test** - Everything has an interface, easy to mock
+- **Easy to understand** - Clean, focused APIs
+- **Multi-client** - Supports both SOAP (legacy TFS) and REST (Azure DevOps)
+- **LINQ support** - Write queries using LINQ syntax
+- **Strong typing** - Map work items to your own classes
+- **Identity helpers** - Simplify identity operations
 
 ## Requirements
 
 ### For Using Qwiq
-- **.NET Standard 2.0** compatible runtime or higher
-- **.NET Framework 4.6.1** or higher (for .NET Framework applications)
-- **.NET 6, 7, or 8** (for modern .NET applications)
+- **.NET Standard 2.0** or higher
+- **.NET Framework 4.6.1** or higher (for .NET Framework apps)
+- **.NET 6, 7, or 8** (for modern .NET apps)
 
 ### For Building from Source
-- **.NET 8 SDK** or later (required)
-- **Git** (for version control and NBGV)
+- **.NET 8 SDK**
+- **Git**
 
 ?? See [BUILDING.md](BUILDING.md) for detailed build instructions.
 
-## How to install it
-We have two ways you can install our packages: through NuGet.org which contains our stable packages only, and MyGet.org, which contains vNext and stable packages.
+## Installation
 
+### Stable Releases (NuGet.org)
 
-If you want our vNext packages, [add our MyGet feed to your NuGet clients](https://docs.nuget.org/ndocs/tools/package-manager-ui#package-sources):
-
- - v3 (VS 2015+ / NuGet 3.x): `https://www.myget.org/F/qwiq/api/v3/index.json`
- - v2 (VS 2013 / NuGet 2.x): `https://www.myget.org/F/qwiq/api/v2`
-
-Once the feed is configured, install via the nuget UI or via the nuget package manager console
-
-### Install Core
-From the NuGet package manager console
-NuGet
 ```
 PM> Install-Package Qwiq.Core
+PM> Install-Package Qwiq.Client.Soap
 ```
-Or via the UI [Qwiq.Core](https://www.nuget.org/packages/Qwiq.Core/)
 
-MyGet
+Or via the UI: [Qwiq.Core](https://www.nuget.org/packages/Qwiq.Core/), [Qwiq.Client.Soap](https://www.nuget.org/packages/Qwiq.Client.Soap/)
+
+### Preview Releases (MyGet)
+
+Add MyGet feed: `https://www.myget.org/F/qwiq/api/v3/index.json`
+
 ```
 PM> Install-Package Qwiq.Core -Source https://www.myget.org/F/qwiq/api/v3/index.json
 ```
-Or via the UI [Qwiq.Core](https://www.myget.org/feed/qwiq/package/nuget/Qwiq.Core),
 
+## Quick Start
 
-### Install Client
-We now have two clients: one for SOAP, and one for REST
-NuGet
-```
-PM> Install-Package Qwiq.Client.Soap
-```
-Or via the UI [Qwiq.Client.Soap](https://www.nuget.org/packages/Qwiq.Client.Soap/),
-
-
-From the NuGet package manager console
-MyGet
-```
-PM> Install-Package Qwiq.Client.Soap -Source https://www.myget.org/F/qwiq/api/v3/index.json
-```
-Or via the UI [Qwiq.Client.Soap](https://www.myget.org/feed/qwiq/package/nuget/Qwiq.Client.Soap),
-
-### Basic Usage
-For .NET
+### C# Example
 
 ```csharp
 using Qwiq;
 using Qwiq.Credentials;
-
 using Microsoft.VisualStudio.Services.Client;
-...
 
-// We support
-//  - OAuth2
-//  - Personal Access Token (PAT)
-//  - Username and password (BASIC)
-//  - Windows credentials (NTLM or Federated with Azure Active Directory)
-//  - Anonymous
-
-// Use the full URI, including the collection. Example: https://QWIQ.VisualStudio.com/DefaultCollection
-var uri = new Uri("[Tfs Tenant Uri]");
+// Configure authentication
+var uri = new Uri("https://dev.azure.com/yourorg/DefaultCollection");
 var options = new AuthenticationOptions(uri, AuthenticationTypes.Windows);
-var store = WorkItemStoreFactory
-                .Default
-                .Create(options);
 
-// Execute WIQL
+// Create work item store
+var store = WorkItemStoreFactory.Default.Create(options);
+
+// Execute WIQL query
 var items = store.Query(@"
     SELECT [System.Id] 
     FROM WorkItems 
-    WHERE [System.WorkItemType] = 'Bug' AND State = 'Active'");
+    WHERE [System.WorkItemType] = 'Bug' 
+      AND [System.State] = 'Active'");
+
+foreach (var item in items)
+{
+    Console.WriteLine($"Bug {item.Id}: {item.Title}");
+}
 ```
 
-For PowerShell
+### PowerShell Example
 
 ```powershell
-[Reflection.Assembly]::LoadFrom("E:\Path\To\Qwiq.Core.dll")
-# Can use SOAP or REST clients here
-[Reflection.Assembly]::LoadFrom("E:\Path\To\Qwiq.Client.Soap.dll")
+[Reflection.Assembly]::LoadFrom(".\Qwiq.Core.dll")
+[Reflection.Assembly]::LoadFrom(".\Qwiq.Client.Soap.dll")
 
-$uri = [Uri]"[Tfs Tenant Uri]"
+$uri = [Uri]"https://dev.azure.com/yourorg/DefaultCollection"
 $options = New-Object Qwiq.Credentials.AuthenticationOptions $uri,Windows
 $store = [Qwiq.Client.Soap.WorkItemStoreFactory]::Default.Create($options)
 
-$items = $store.Query(@"
-    SELECT [System.Id] 
-    FROM WorkItems 
-    WHERE [System.WorkItemType] = 'Bug' AND State = 'Active'", $false)
+$items = $store.Query("SELECT [System.Id] FROM WorkItems WHERE [System.State] = 'Active'")
 ```
+
+### Authentication Options
+
+Qwiq supports multiple authentication methods:
+- **OAuth2**
+- **Personal Access Token (PAT)**
+- **Username and password (BASIC)**
+- **Windows credentials (NTLM or Federated)**
+- **Anonymous**
+
+## Available Packages
+
+- **Qwiq.Core** - Core abstractions and interfaces
+- **Qwiq.Client.Soap** - SOAP client for legacy TFS
+- **Qwiq.Client.Rest** - REST client for Azure DevOps
+- **Qwiq.Identity** - Identity conversion helpers
+- **Qwiq.Linq** - LINQ query provider
+- **Qwiq.Mapper** - Work item to POCO mapping
+- **Qwiq.Mocks** - Test mocks and helpers
 
 ## Building from Source
 
-Quick start:
-
 ```bash
-# Clone and navigate to repository
+# Clone and build
 git clone https://github.com/rjmurillo/Qwiq.git
 cd Qwiq
-
-# Restore tools and build
 dotnet tool restore
-dotnet restore
 dotnet build
 
 # Run tests
 dotnet test
 ```
 
-For detailed build instructions, troubleshooting, and CI/CD information, see [BUILDING.md](BUILDING.md).
+For detailed build instructions, see [BUILDING.md](BUILDING.md).
 
 ## Contributing
 
-**Getting started with Git and GitHub**
+We welcome contributions! To get started:
 
- * [Setting up Git for Windows and connecting to GitHub](http://help.github.com/win-set-up-git/)
- * [Forking a GitHub repository](http://help.github.com/fork-a-repo/)
- * [The simple guide to GIT guide](http://rogerdudler.github.com/git-guide/)
- * [Open an issue](https://github.com/MicrosoftEdge/Microsoft.Qwiq/issues) if you encounter a bug or have a suggestion for improvements/features
+1. **Read the guides**
+   - [BUILDING.md](BUILDING.md) - Build setup
+   - [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
 
-**Build Requirements**
- * .NET 8 SDK or later
- * Git (for Nerdbank.GitVersioning)
- * See [BUILDING.md](BUILDING.md) for complete details
+2. **Fork and clone** the repository
 
-Once you're familiar with Git and GitHub, clone the repository and start contributing!
+3. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+4. **Make your changes** following the [coding standards](CONTRIBUTING.md#coding-standards)
+
+5. **Submit a pull request**
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for complete details.
 
 ## Documentation
 
-- ?? [Building from Source](BUILDING.md) - Detailed build instructions
-- ?? [Migration Summary](MIGRATION_SUMMARY.md) - .NET 8 migration details
-- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues) - Report bugs or request features
-- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions) - Ask questions and share ideas
+- ?? [Building from Source](BUILDING.md)
+- ?? [Contributing Guidelines](CONTRIBUTING.md)
+- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues)
+- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions)
 
 ## License
 
