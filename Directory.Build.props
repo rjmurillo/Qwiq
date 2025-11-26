@@ -4,6 +4,11 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     
+    <!-- Nullable reference types warnings -->
+    <WarningLevel>5</WarningLevel>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    
     <!-- Shared assembly information -->
     <Company>Microsoft Corporation</Company>
     <Product>Microsoft® Quick Work Item Queries</Product>
