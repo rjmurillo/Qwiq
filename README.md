@@ -19,6 +19,19 @@ Qwiq makes testing your apps a breeze. Everything has an interface. Everything u
 ### 3. Easier to understand
 How often do you update a work item? How often do you create a new security group? We stripped out the rarely used stuff to make interfaces cleaner and the relationships between types simpler. Missing something you can't live without? Send us a pull request!
 
+## Requirements
+
+### For Using Qwiq
+- **.NET Standard 2.0** compatible runtime or higher
+- **.NET Framework 4.6.1** or higher (for .NET Framework applications)
+- **.NET 6, 7, or 8** (for modern .NET applications)
+
+### For Building from Source
+- **.NET 8 SDK** or later (required)
+- **Git** (for version control and NBGV)
+
+?? See [BUILDING.md](BUILDING.md) for detailed build instructions.
+
 ## How to install it
 We have two ways you can install our packages: through NuGet.org which contains our stable packages only, and MyGet.org, which contains vNext and stable packages.
 
@@ -109,7 +122,28 @@ $items = $store.Query(@"
     WHERE [System.WorkItemType] = 'Bug' AND State = 'Active'", $false)
 ```
 
+## Building from Source
+
+Quick start:
+
+```bash
+# Clone and navigate to repository
+git clone https://github.com/rjmurillo/Qwiq.git
+cd Qwiq
+
+# Restore tools and build
+dotnet tool restore
+dotnet restore
+dotnet build
+
+# Run tests
+dotnet test
+```
+
+For detailed build instructions, troubleshooting, and CI/CD information, see [BUILDING.md](BUILDING.md).
+
 ## Contributing
+
 **Getting started with Git and GitHub**
 
  * [Setting up Git for Windows and connecting to GitHub](http://help.github.com/win-set-up-git/)
@@ -117,6 +151,21 @@ $items = $store.Query(@"
  * [The simple guide to GIT guide](http://rogerdudler.github.com/git-guide/)
  * [Open an issue](https://github.com/MicrosoftEdge/Microsoft.Qwiq/issues) if you encounter a bug or have a suggestion for improvements/features
 
+**Build Requirements**
+ * .NET 8 SDK or later
+ * Git (for Nerdbank.GitVersioning)
+ * See [BUILDING.md](BUILDING.md) for complete details
 
 Once you're familiar with Git and GitHub, clone the repository and start contributing!
+
+## Documentation
+
+- ?? [Building from Source](BUILDING.md) - Detailed build instructions
+- ?? [Migration Summary](MIGRATION_SUMMARY.md) - .NET 8 migration details
+- ?? [Issue Tracker](https://github.com/rjmurillo/Qwiq/issues) - Report bugs or request features
+- ?? [Discussions](https://github.com/rjmurillo/Qwiq/discussions) - Ask questions and share ideas
+
+## License
+
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 
