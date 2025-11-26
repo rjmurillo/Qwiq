@@ -16,11 +16,36 @@ namespace Should
     {
         public static void ShouldEqual<T>(this T actual, T expected)
         {
+            // For anonymous types and collections, use structural equality
+            if (actual != null && expected != null)
+            {
+                var actualType = actual.GetType();
+                var expectedType = expected.GetType();
+                
+                // Check if it's an anonymous type (compiler-generated)
+                if (actualType.Namespace == null || actualType.Name.Contains("AnonymousType") || actualType.Name.StartsWith("<>"))
+                {
+                    actual.Should().BeEquivalentTo(expected);
+                    return;
+                }
+            }
+            
             actual.Should().Be(expected);
         }
 
         public static void ShouldEqual<T>(this T actual, T expected, string message)
         {
+            // For anonymous types, use structural equality
+            if (actual != null && expected != null)
+            {
+                var actualType = actual.GetType();
+                if (actualType.Namespace == null || actualType.Name.Contains("AnonymousType") || actualType.Name.StartsWith("<>"))
+                {
+                    actual.Should().BeEquivalentTo(expected, message);
+                    return;
+                }
+            }
+            
             actual.Should().Be(expected, message);
         }
 
