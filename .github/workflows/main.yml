@@ -40,6 +40,11 @@ jobs:
     - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.3
 
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
     - name: Restore NuGet packages
       run: |
         # First restore using nuget.exe which handles packages.config correctly
@@ -55,6 +60,17 @@ jobs:
 
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
+
+    - name: Pack NuGet packages
+      shell: pwsh
+      run: |
+        # Pack each project that has a nuspec file
+        Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
+          $projectDir = $_.DirectoryName
+          $projectName = (Get-ChildItem -Path $projectDir -Filter "*.csproj" | Select-Object -First 1).BaseName
+          Write-Host "Packing: $projectName"
+          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release" -IncludeReferencedProjects
+        }
 
     - name: Run tests
       shell: pwsh
@@ -83,6 +99,21 @@ jobs:
             Write-Warning "Tests failed in $($assembly.Name) with exit code $LASTEXITCODE"
           }
         }
+
+    - name: Copy NuGet packages for package tests
+      shell: pwsh
+      run: |
+        $packageTestDir = "test/Qwiq.Package.Tests/bin/Release/net8.0"
+        New-Item -ItemType Directory -Force -Path $packageTestDir | Out-Null
+        Get-ChildItem -Path "src" -Recurse -Filter "*.nupkg" | ForEach-Object {
+          Write-Host "Copying: $($_.FullName) to $packageTestDir"
+          Copy-Item $_.FullName -Destination $packageTestDir
+        }
+
+    - name: Run package tests
+      shell: pwsh
+      run: |
+        dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Release --logger trx --results-directory TestResults
 
     - name: Upload test results
       if: success() || failure()
