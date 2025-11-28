@@ -8,17 +8,13 @@ namespace Qwiq
 
     {
 
-        private IWorkItemLinkTypeEnd? _oppositeEnd;
-        private readonly Lazy<IWorkItemLinkTypeEnd>? _lazyOpposite;
+        private IWorkItemLinkTypeEnd _oppositeEnd;
+        private readonly Lazy<IWorkItemLinkTypeEnd> _lazyOpposite;
 
         internal WorkItemLinkTypeEnd(string immutableName, IWorkItemLinkTypeEnd oppositeEnd)
         {
             Contract.Requires(!string.IsNullOrEmpty(immutableName));
             Contract.Requires(oppositeEnd != null);
-            if (string.IsNullOrWhiteSpace(immutableName))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(immutableName));
-
-            ImmutableName = string.Intern(immutableName);
             _oppositeEnd = oppositeEnd ?? throw new ArgumentNullException(nameof(oppositeEnd));
         }
 
@@ -39,7 +35,7 @@ namespace Qwiq
 
             ImmutableName = string.Intern(immutableName);
 
-            _lazyOpposite = new Lazy<IWorkItemLinkTypeEnd>(() => !IsForwardLink ? LinkType!.ForwardEnd : LinkType!.ReverseEnd);
+            _lazyOpposite = new Lazy<IWorkItemLinkTypeEnd>(() => !IsForwardLink ? LinkType.ForwardEnd : LinkType.ReverseEnd);
         }
 
 
@@ -48,18 +44,18 @@ namespace Qwiq
 
         public bool IsForwardLink { get; internal set; }
 
-        public IWorkItemLinkType? LinkType { get; internal set; }
+        public IWorkItemLinkType LinkType { get; internal set; }
 
-        public string? Name { get; internal set; }
+        public string Name { get; internal set; }
 
-        public IWorkItemLinkTypeEnd OppositeEnd => _oppositeEnd ??= _lazyOpposite!.Value;
+        public IWorkItemLinkTypeEnd OppositeEnd => _oppositeEnd ?? (_oppositeEnd = _lazyOpposite.Value);
 
-        public bool Equals(IWorkItemLinkTypeEnd? other)
+        public bool Equals(IWorkItemLinkTypeEnd other)
         {
             return WorkItemLinkTypeEndComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return WorkItemLinkTypeEndComparer.Default.Equals(this, obj as IWorkItemLinkTypeEnd);
         }

@@ -6,7 +6,7 @@ namespace Qwiq
 {
     public class IdentityDescriptor : IIdentityDescriptor, IComparable<IdentityDescriptor>, IEquatable<IdentityDescriptor>
     {
-        private string _identifier = string.Empty;
+        private string _identifier;
 
         /// <summary>
         /// </summary>
@@ -52,10 +52,11 @@ namespace Qwiq
 
         protected internal byte IdentityTypeId { get; private set; }
 
-        public int CompareTo(IdentityDescriptor? other)
+        public int CompareTo(IdentityDescriptor other)
         {
-            if (ReferenceEquals(this, other)) return 0;
-            if (other is null) return 1;
+            if (this == other) return 0;
+            if (this == null && other != null) return -1;
+            if (this != null && other == null) return 1;
 
             var num = 0;
             if (IdentityTypeId > other.IdentityTypeId) num = 1;
@@ -71,13 +72,13 @@ namespace Qwiq
         }
 
         /// <inheritdoc />
-        public bool Equals(IdentityDescriptor? other)
+        public bool Equals(IdentityDescriptor other)
         {
             return CompareTo(other) == 0;
         }
 
         /// <inheritdoc />
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             return Equals(obj as IdentityDescriptor);
         }
