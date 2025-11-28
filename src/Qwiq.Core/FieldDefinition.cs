@@ -57,12 +57,12 @@ namespace Qwiq
 
         public string ReferenceName { get; }
 
-        public bool Equals(IFieldDefinition other)
+        public bool Equals(IFieldDefinition? other)
         {
             return FieldDefinitionComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return FieldDefinitionComparer.Default.Equals(this, obj as IFieldDefinition);
         }
