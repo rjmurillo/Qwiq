@@ -15,5 +15,6 @@
 
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
+    <Compile Include="..\ReSharper.Annotations.cs" Link="Properties\ReSharper.Annotations.cs" />
   </ItemGroup>
 </Project>
