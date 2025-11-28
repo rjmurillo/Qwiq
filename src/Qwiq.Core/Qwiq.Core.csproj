@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <!-- Multi-target: net472 for SOAP, netstandard2.0 for REST SDK compat, net8.0 for modern apps -->
+    <TargetFrameworks>net472;netstandard2.0;net8.0</TargetFrameworks>
     <RootNamespace>Qwiq</RootNamespace>
     <AssemblyName>Qwiq.Core</AssemblyName>
     <Description>QWIQ Core - Quick Work Item Query library for Azure DevOps / TFS</Description>
