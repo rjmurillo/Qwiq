@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguage("en-US")]
 
 #if DEBUG
-[assembly:AssemblyConfiguration("Debug")]
+[assembly: AssemblyConfiguration("Debug")]
 #else
 [assembly:AssemblyConfiguration("Release")]
 #endif
