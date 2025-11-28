@@ -12,10 +12,10 @@ namespace Qwiq.Linq.WiqlExpressions
             Target = target as ConstantExpression;
         }
 
-        public override ExpressionType NodeType => (ExpressionType) WiqlExpressionType.Indexer;
+        public override ExpressionType NodeType => (ExpressionType)WiqlExpressionType.Indexer;
         public override Type Type { get; }
 
-        internal Expression Subject { get; private set;}
+        internal Expression Subject { get; private set; }
         internal ConstantExpression Target { get; private set; }
     }
 }

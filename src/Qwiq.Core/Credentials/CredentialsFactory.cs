@@ -32,11 +32,17 @@ namespace Qwiq.Credentials
         {
             if (string.IsNullOrEmpty(accessToken)) yield break;
 
-            yield return new VssCredentials(new VssOAuthAccessTokenCredential(accessToken))
+            var credentials = new VssCredentials(new VssOAuthAccessTokenCredential(accessToken))
             {
-                PromptType = CredentialPromptType.DoNotPrompt,
-                Storage = new VssClientCredentialStorage()
+                PromptType = CredentialPromptType.DoNotPrompt
             };
+
+#if !NET
+            // VssClientCredentialStorage has a different constructor signature in .NET 8+
+            credentials.Storage = new VssClientCredentialStorage();
+#endif
+
+            yield return credentials;
         }
 
         internal static IEnumerable<VssCredentials> GetServiceIdentityCredentials(

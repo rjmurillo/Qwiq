@@ -18,7 +18,7 @@ namespace Qwiq.Credentials
         }
 
         public AuthenticationFailedNotification(Exception exception)
-            :base(null)
+            : base(null)
         {
             Exception = exception;
         }
