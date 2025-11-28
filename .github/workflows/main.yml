@@ -29,6 +29,14 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: ./global.json
+
+    - name: Restore .NET tools
+      run: dotnet tool restore
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
@@ -54,7 +62,7 @@ jobs:
       continue-on-error: false
 
     - name: Build solution
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m:1
+      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /p:ContinuousIntegrationBuild=true /v:minimal /m:1
 
     - name: Run tests
       shell: pwsh
