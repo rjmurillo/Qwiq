@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace Qwiq.Mocks
 {
@@ -9,14 +10,14 @@ namespace Qwiq.Mocks
     /// </summary>
     public class MockQuery : IQuery
     {
-        private readonly string _wiql;
-        private readonly IEnumerable<int> _ids;
-        private readonly MockWorkItemStore _store;
+        [CanBeNull] private readonly string _wiql;
+        [CanBeNull] private readonly IEnumerable<int> _ids;
+        [NotNull] private readonly MockWorkItemStore _store;
 
         public MockQuery(
-            MockWorkItemStore store,
-            string wiql = null,
-            IEnumerable<int> ids = null)
+            [NotNull] MockWorkItemStore store,
+            [CanBeNull] string wiql = null,
+            [CanBeNull] IEnumerable<int> ids = null)
         {
             _wiql = wiql;
             _ids = ids;

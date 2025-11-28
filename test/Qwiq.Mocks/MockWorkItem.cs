@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 
+using JetBrains.Annotations;
 
 namespace Qwiq.Mocks
 {
@@ -21,7 +22,7 @@ namespace Qwiq.Mocks
 
         private int _tempId;
 
-        public MockWorkItem(string workItemType, params IField[] fields)
+        public MockWorkItem([CanBeNull] string workItemType, [CanBeNull] params IField[] fields)
             : this(new MockWorkItemType(workItemType ?? "Mock", CoreFieldDefinitions.All.Union(fields.Select(f => f.FieldDefinition))))
         {
             if (fields == null) return;
@@ -41,13 +42,13 @@ namespace Qwiq.Mocks
             }
         }
 
-        public MockWorkItem(IWorkItemType workItemType, int id)
+        public MockWorkItem([NotNull] IWorkItemType workItemType, int id)
             : this(workItemType, new KeyValuePair<string, object>(CoreFieldRefNames.Id, id))
         {
             Contract.Requires(id > 0);
         }
 
-        public MockWorkItem(IWorkItemType workItemType, int id, params KeyValuePair<string, object>[] fieldValues)
+        public MockWorkItem([NotNull] IWorkItemType workItemType, int id, [CanBeNull] params KeyValuePair<string, object>[] fieldValues)
             : this(
                    workItemType,
                    fieldValues?.Union(new[] { new KeyValuePair<string, object>(CoreFieldRefNames.Id, id) })
@@ -56,12 +57,12 @@ namespace Qwiq.Mocks
             Contract.Requires(id > 0);
         }
 
-        public MockWorkItem(IWorkItemType workItemType, params KeyValuePair<string, object>[] fieldValues)
+        public MockWorkItem([NotNull] IWorkItemType workItemType, [CanBeNull] params KeyValuePair<string, object>[] fieldValues)
             : this(workItemType, fieldValues?.ToDictionary(k => k.Key, e => e.Value, StringComparer.OrdinalIgnoreCase))
         {
         }
 
-        public MockWorkItem(IWorkItemType workItemType, Dictionary<string, object> fields = null)
+        public MockWorkItem([NotNull] IWorkItemType workItemType, [CanBeNull] Dictionary<string, object> fields = null)
             : base(workItemType, NormalizeFields(workItemType, fields))
         {
             SetFieldValue(workItemType.FieldDefinitions[CoreFieldRefNames.WorkItemType], workItemType.Name);

@@ -1,13 +1,15 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JetBrains.Annotations;
 
 namespace Qwiq.Mocks
 {
-        public class MockRevision : Revision
+    [PublicAPI]
+    public class MockRevision : Revision
     {
-        public MockRevision(Dictionary<string, object> dictionary, int index)
+        public MockRevision([NotNull] Dictionary<string, object> dictionary, int index)
             : base(new MockFieldDefinitionCollection(dictionary.Keys.Select(MockFieldDefinition.Create)), index)
         {
             Contract.Requires(dictionary != null);
@@ -20,7 +22,7 @@ namespace Qwiq.Mocks
             }
         }
 
-        public MockRevision(Dictionary<string, object> dictionary)
+        public MockRevision([NotNull] Dictionary<string, object> dictionary)
             : this(dictionary, (int)dictionary["Index"])
         {
 
