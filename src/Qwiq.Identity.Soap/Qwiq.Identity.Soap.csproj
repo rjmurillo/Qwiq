@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=net472" />
     <ProjectReference Include="..\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
-  </ItemGroup>
 </Project>

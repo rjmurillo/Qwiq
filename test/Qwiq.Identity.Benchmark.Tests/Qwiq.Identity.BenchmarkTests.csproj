@@ -26,8 +26,4 @@
     <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
     <ProjectReference Include="..\Qwiq.Identity.Tests\Qwiq.Identity.UnitTests.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
-  </ItemGroup>
 </Project>

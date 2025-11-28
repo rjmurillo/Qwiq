@@ -10,16 +10,25 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <!-- InternalsVisibleTo for tests, mocks, and client implementations -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Qwiq.Core.UnitTests" />
+    <InternalsVisibleTo Include="Qwiq.Mocks" />
+    <InternalsVisibleTo Include="Qwiq.Client.Soap" />
+    <InternalsVisibleTo Include="Qwiq.Client.Rest" />
+    <InternalsVisibleTo Include="Qwiq.IntegrationTests" />
+    <InternalsVisibleTo Include="Qwiq.Identity.Soap" />
+    <InternalsVisibleTo Include="Qwiq.Mapper" />
+    <InternalsVisibleTo Include="Qwiq.Mapper.Identity" />
+    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Castle.Core" />
     <PackageReference Include="Microsoft.Identity.Client" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />
     <PackageReference Include="Newtonsoft.Json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
 
   <ItemGroup>

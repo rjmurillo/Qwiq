@@ -34,8 +34,4 @@
     <Compile Remove="Mocks\MockIdentityManagementService2.cs" />
     <Compile Remove="Soap\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
-  </ItemGroup>
 </Project>

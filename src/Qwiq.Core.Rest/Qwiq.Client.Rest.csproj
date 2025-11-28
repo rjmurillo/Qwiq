@@ -10,6 +10,13 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <!-- InternalsVisibleTo for tests and mocks -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Qwiq.Core.Tests" />
+    <InternalsVisibleTo Include="Qwiq.Mocks" />
+    <InternalsVisibleTo Include="Qwiq.IntegrationTests" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
@@ -19,9 +26,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
 </Project>

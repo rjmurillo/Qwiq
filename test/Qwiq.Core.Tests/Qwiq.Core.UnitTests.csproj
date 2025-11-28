@@ -28,8 +28,4 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <ProjectReference Include="..\..\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
-  </ItemGroup>
 </Project>
