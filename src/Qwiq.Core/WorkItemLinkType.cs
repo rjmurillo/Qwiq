@@ -7,13 +7,13 @@ namespace Qwiq
 {
     public class WorkItemLinkType : IWorkItemLinkType, IEquatable<IWorkItemLinkType>
     {
-        private readonly Lazy<IWorkItemLinkTypeEnd> _forwardFac;
+        private readonly Lazy<IWorkItemLinkTypeEnd>? _forwardFac;
 
-        private readonly Lazy<IWorkItemLinkTypeEnd> _reverseFac;
+        private readonly Lazy<IWorkItemLinkTypeEnd>? _reverseFac;
 
-        private IWorkItemLinkTypeEnd _forward;
+        private IWorkItemLinkTypeEnd? _forward;
 
-        private IWorkItemLinkTypeEnd _reverse;
+        private IWorkItemLinkTypeEnd? _reverse;
 
         internal WorkItemLinkType(string referenceName, IWorkItemLinkTypeEnd forward, IWorkItemLinkTypeEnd reverse)
             : this(referenceName)
@@ -93,14 +93,14 @@ namespace Qwiq
 
         private IWorkItemLinkTypeEnd CoerceForwardValue()
         {
-            return _forward ?? (_forward = _forwardFac.Value);
+            return _forward ??= _forwardFac!.Value;
         }
 
         private IWorkItemLinkTypeEnd CoerceReverseValue()
         {
-            return _reverse ?? (_reverse = _reverseFac.Value);
+            return _reverse ??= _reverseFac!.Value;
         }
 
-        public string Name => ReferenceName;
+        public string? Name => ReferenceName;
     }
 }
