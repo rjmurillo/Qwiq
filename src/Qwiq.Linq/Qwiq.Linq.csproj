@@ -1,1 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TargetFrameworks>net472;net8.0</TargetFrameworks>    <RootNamespace>Qwiq.Linq</RootNamespace>    <AssemblyName>Qwiq.Linq</AssemblyName>    <Description>QWIQ Linq - LINQ query provider for Azure DevOps / TFS</Description>    <PackageId>Qwiq.Linq</PackageId>    <IsPackable>true</IsPackable>    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>  <ItemGroup>    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />  </ItemGroup>  </Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <RootNamespace>Qwiq.Linq</RootNamespace>
+    <AssemblyName>Qwiq.Linq</AssemblyName>
+    <Description>QWIQ Linq - LINQ query provider for Azure DevOps / TFS</Description>
+    <PackageId>Qwiq.Linq</PackageId>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
+    <Compile Include="..\ReSharper.Annotations.cs" Link="Properties\ReSharper.Annotations.cs" />
+  </ItemGroup>
+</Project>

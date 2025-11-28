@@ -1,1 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <!-- Multi-target: net472 for SOAP, netstandard2.0 for REST SDK compat, net8.0 for modern apps -->    <TargetFrameworks>net472;netstandard2.0;net8.0</TargetFrameworks>    <RootNamespace>Qwiq</RootNamespace>    <AssemblyName>Qwiq.Core</AssemblyName>    <Description>QWIQ Core - Quick Work Item Query library for Azure DevOps / TFS</Description>    <PackageId>Qwiq.Core</PackageId>    <IsPackable>true</IsPackable>    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>  <ItemGroup>    <PackageReference Include="Castle.Core" />    <PackageReference Include="Microsoft.Identity.Client" />    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />    <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />    <PackageReference Include="Newtonsoft.Json" />  </ItemGroup>  <ItemGroup>    <None Include="readme.txt" Pack="true" PackagePath="" />  </ItemGroup>  <!-- InternalsVisibleTo for testing and dependent assemblies -->  <ItemGroup>    <InternalsVisibleTo Include="Qwiq.Core.UnitTests" />    <InternalsVisibleTo Include="Qwiq.Mocks" />    <InternalsVisibleTo Include="Qwiq.Client.Soap" />    <InternalsVisibleTo Include="Qwiq.Client.Rest" />    <InternalsVisibleTo Include="Qwiq.Integration.Tests" />    <InternalsVisibleTo Include="Qwiq.Relatives.Tests" />    <InternalsVisibleTo Include="Qwiq.IntegrationTests" />    <InternalsVisibleTo Include="Qwiq.Identity.Soap" />    <InternalsVisibleTo Include="Qwiq.Mapper" />    <InternalsVisibleTo Include="Qwiq.Mapper.Identity" />    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />  </ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <RootNamespace>Qwiq</RootNamespace>
+    <AssemblyName>Qwiq.Core</AssemblyName>
+    <Description>QWIQ Core - Quick Work Item Query library for Azure DevOps / TFS</Description>
+    <PackageId>Qwiq.Core</PackageId>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" />
+    <PackageReference Include="Microsoft.Identity.Client" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
+    <Compile Include="..\ReSharper.Annotations.cs" Link="Properties\ReSharper.Annotations.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="readme.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+</Project>
