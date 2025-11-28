@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
     <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+
+  
+>>>>>>> 20e62a69 (feat: modernize SDK-style projects with nullable, implicit usings, and InternalsVisibleTo in csproj)
 </Project>

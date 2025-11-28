@@ -2,21 +2,7 @@
   <!--
     This file provides build configuration overrides for all projects.
 
-    1. Ensures consistent output paths
-    2. Handles conditional compilation for multi-targeting
+    Note: The modern .NET SDK automatically defines NETFRAMEWORK, NET8_0_OR_GREATER, etc.
+    based on the target framework. See: https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#preprocessor-symbols
   -->
-
-  <!-- Conditional compilation constants for target framework detection -->
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8')) OR $(TargetFramework.StartsWith('net9'))">
-    <DefineConstants>$(DefineConstants);NET8_0_OR_GREATER</DefineConstants>
-  </PropertyGroup>
-
-  <!-- Disable implicit global usings for cleaner migration -->
-  <PropertyGroup>
-    <ImplicitUsings>disable</ImplicitUsings>
-  </PropertyGroup>
 </Project>
