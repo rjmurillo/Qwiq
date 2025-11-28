@@ -18,7 +18,7 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    
+
     env:
       # Test filter matching AppVeyor configuration
       TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST"
@@ -52,7 +52,7 @@ jobs:
       run: |
         # First restore using nuget.exe which handles packages.config correctly
         nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
-        
+
         # Also restore each packages.config individually to ensure all dependencies are resolved
         Get-ChildItem -Path . -Recurse -Filter packages.config | ForEach-Object {
           Write-Host "Restoring packages from: $($_.FullName)"
@@ -69,21 +69,21 @@ jobs:
       run: |
         # Find all test assemblies (excluding IntegrationTests)
         $testAssemblies = @(
-          Get-ChildItem -Path "test" -Recurse -Filter "*Tests.dll" | 
-          Where-Object { 
-            $_.FullName -match "bin\\Release" -and 
+          Get-ChildItem -Path "test" -Recurse -Filter "*Tests.dll" |
+          Where-Object {
+            $_.FullName -match "bin\\Release" -and
             $_.FullName -notmatch "IntegrationTests" -and
-            $_.FullName -notmatch "\\ref\\" 
+            $_.FullName -notmatch "\\ref\\"
           }
         )
-        
+
         if ($testAssemblies.Count -eq 0) {
           Write-Warning "No test assemblies found!"
           exit 1
         }
-        
+
         Write-Host "Found $($testAssemblies.Count) test assemblies"
-        
+
         foreach ($assembly in $testAssemblies) {
           Write-Host "Testing: $($assembly.FullName)"
           vstest.console.exe $assembly.FullName /Logger:trx /TestCaseFilter:"$env:TEST_FILTER"
