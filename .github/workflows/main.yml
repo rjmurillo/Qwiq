@@ -59,7 +59,7 @@ jobs:
         }
 
     - name: Build solution
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
+      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m:1
 
     - name: Prepare NuGet dependency .nupkg files for packing
       shell: pwsh
