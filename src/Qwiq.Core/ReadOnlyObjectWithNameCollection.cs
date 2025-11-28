@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -14,14 +13,12 @@ namespace Qwiq
     {
 
         private readonly object _lockObj = new object();
-
-        [CanBeNull]
         private readonly Func<T, string> _nameFunc;
         private IDictionary<string, int> _mapByName;
 
         protected ReadOnlyObjectWithNameCollection(
-            [NotNull] Func<IEnumerable<T>> itemFactory,
-            [CanBeNull] Func<T, string> nameFunc)
+            Func<IEnumerable<T>> itemFactory,
+            Func<T, string> nameFunc)
         : this()
         {
             Contract.Requires(itemFactory != null);
@@ -31,19 +28,19 @@ namespace Qwiq
             _nameFunc = nameFunc;
         }
 
-        protected ReadOnlyObjectWithNameCollection([CanBeNull] List<T> items, [CanBeNull] Func<T, string> nameFunc)
+        protected ReadOnlyObjectWithNameCollection(List<T> items, Func<T, string> nameFunc)
             : base(items)
         {
             _nameFunc = nameFunc;
             Initialize();
         }
 
-        protected ReadOnlyObjectWithNameCollection([CanBeNull] IEnumerable<T> items)
+        protected ReadOnlyObjectWithNameCollection(IEnumerable<T> items)
             : this(() => items, null)
         {
         }
 
-        protected ReadOnlyObjectWithNameCollection([CanBeNull] List<T> items)
+        protected ReadOnlyObjectWithNameCollection(List<T> items)
             : this(items, null)
         {
         }

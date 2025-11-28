@@ -4,9 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-// Resolve ambiguity between JetBrains.Annotations.NotNullAttribute and System.Diagnostics.CodeAnalysis.NotNullAttribute
-using NotNullAttribute = JetBrains.Annotations.NotNullAttribute;
-
 namespace Qwiq
 {
     /// <summary>

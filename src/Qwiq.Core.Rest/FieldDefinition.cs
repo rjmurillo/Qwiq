@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics.Contracts;
 
-using JetBrains.Annotations;
 
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 
@@ -9,7 +8,7 @@ namespace Qwiq.Client.Rest
 {
     internal class FieldDefinition : Qwiq.FieldDefinition
     {
-        internal FieldDefinition([NotNull] WorkItemFieldReference field)
+        internal FieldDefinition(WorkItemFieldReference field)
             : base(field.ReferenceName, field.Name)
         {
             Contract.Requires(field != null);
