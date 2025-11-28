@@ -7,7 +7,7 @@ namespace Qwiq
     {
         public new static readonly ReadOnlyCollectionWithIdComparer<T, TId> Default = new ReadOnlyCollectionWithIdComparer<T, TId>();
 
-        public override bool Equals(IReadOnlyObjectWithIdCollection<T, TId> x, IReadOnlyObjectWithIdCollection<T, TId> y)
+        public override bool Equals(IReadOnlyObjectWithIdCollection<T, TId>? x, IReadOnlyObjectWithIdCollection<T, TId>? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

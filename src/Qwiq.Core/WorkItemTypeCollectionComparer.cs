@@ -6,7 +6,7 @@ namespace Qwiq
     {
         internal new static WorkItemTypeCollectionComparer Default => Nested.Instance;
 
-        public override bool Equals(IWorkItemTypeCollection x, IWorkItemTypeCollection y)
+        public override bool Equals(IWorkItemTypeCollection? x, IWorkItemTypeCollection? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

@@ -10,7 +10,7 @@ namespace Qwiq
         {
         }
 
-        public override bool Equals(IWorkItemClassificationNode<TId> x, IWorkItemClassificationNode<TId> y)
+        public override bool Equals(IWorkItemClassificationNode<TId>? x, IWorkItemClassificationNode<TId>? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
