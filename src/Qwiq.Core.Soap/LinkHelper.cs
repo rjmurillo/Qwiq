@@ -11,7 +11,7 @@ namespace Qwiq.Client.Soap
         {
             if (link.BaseType == BaseLinkType.RelatedLink)
             {
-                var relatedLink = (IRelatedLink) link;
+                var relatedLink = (IRelatedLink)link;
                 return
                     item.Links.Cast<Tfs.Link>()
                         .OfType<Tfs.RelatedLink>()
@@ -22,7 +22,7 @@ namespace Qwiq.Client.Soap
             }
             if (link.BaseType == BaseLinkType.Hyperlink)
             {
-                var hyperlink = (IHyperlink) link;
+                var hyperlink = (IHyperlink)link;
                 return
                     item.Links.Cast<Tfs.Link>()
                         .OfType<Tfs.Hyperlink>()

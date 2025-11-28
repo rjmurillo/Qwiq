@@ -54,9 +54,9 @@ namespace Qwiq.Linq
             if (isCollection)
             {
                 var itemType = isCollection
-                    // TResult is an IEnumerable`1 collection.
+                               // TResult is an IEnumerable`1 collection.
                                ? typeof(TResult).GetGenericArguments().Single()
-                    // TResult is not an IEnumerable`1 collection, but a single item.
+                               // TResult is not an IEnumerable`1 collection, but a single item.
                                : typeof(TResult);
                 var result = ExecuteImpl(expression, itemType);
                 var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType)) as IList;

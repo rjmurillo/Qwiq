@@ -29,7 +29,7 @@ namespace Qwiq
         [ContractAnnotation("wit:null => halt")]
         public static IEnumerable<IWorkItem> NewWorkItems(
             [NotNull] this IWorkItemType wit,
-            [InstantHandle] [NotNull] IEnumerable<IEnumerable<KeyValuePair<string, object>>> values)
+            [InstantHandle][NotNull] IEnumerable<IEnumerable<KeyValuePair<string, object>>> values)
         {
             Contract.Requires(values != null);
             Contract.Requires(wit != null);

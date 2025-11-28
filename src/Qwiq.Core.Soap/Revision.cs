@@ -71,7 +71,7 @@ namespace Qwiq.Client.Soap
         /// <inheritdoc />
         object IWorkItemCore.this[string name]
         {
-            get =>_rev[name];
+            get => _rev[name];
             set => throw new NotSupportedException();
         }
 

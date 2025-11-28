@@ -68,7 +68,7 @@ namespace Qwiq
             if (childrenIds.Length == 0) throw new ArgumentNullException(nameof(childrenIds));
 
             var end = store.GetChildLinkTypeEnd();
-            foreach(var id in childrenIds) workItem.Links.Add(workItem.CreateRelatedLink(id, end));
+            foreach (var id in childrenIds) workItem.Links.Add(workItem.CreateRelatedLink(id, end));
         }
 
         [PublicAPI]
@@ -84,7 +84,7 @@ namespace Qwiq
         }
 
         [PublicAPI]
-        public static IWorkItemCollection ToWorkItemCollection([NotNull] [ItemNotNull] [InstantHandle] this IEnumerable<IWorkItem> items)
+        public static IWorkItemCollection ToWorkItemCollection([NotNull][ItemNotNull][InstantHandle] this IEnumerable<IWorkItem> items)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
             if (items is IWorkItemCollection items2) return items2;

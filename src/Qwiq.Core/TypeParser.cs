@@ -5,6 +5,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+// Resolve ambiguity between JetBrains.Annotations.NotNullAttribute and System.Diagnostics.CodeAnalysis.NotNullAttribute
+using NotNullAttribute = JetBrains.Annotations.NotNullAttribute;
+
 namespace Qwiq
 {
     /// <summary>
@@ -275,7 +278,7 @@ namespace Qwiq
         {
             var hashtable = TypeConverters;
 
-            var typeConverter = (TypeConverter) hashtable[valueType];
+            var typeConverter = (TypeConverter)hashtable[valueType];
             if (typeConverter != null) return typeConverter;
 
             lock (hashtable)

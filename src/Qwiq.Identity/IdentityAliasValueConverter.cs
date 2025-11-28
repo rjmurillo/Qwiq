@@ -37,7 +37,7 @@ namespace Qwiq.Identity
         public IdentityAliasValueConverter(
             [NotNull] IIdentityManagementService identityManagementService,
             [NotNull] string tenantId,
-            [NotNull] [ItemNotNull] params string[] domains)
+            [NotNull][ItemNotNull] params string[] domains)
         {
             Contract.Requires(!string.IsNullOrEmpty(tenantId));
             Contract.Requires(identityManagementService != null);

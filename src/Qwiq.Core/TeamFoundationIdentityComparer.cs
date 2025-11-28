@@ -25,7 +25,7 @@ namespace Qwiq
 
         // ReSharper disable ClassNeverInstantiated.Local
         private class Nested
-            // ReSharper restore ClassNeverInstantiated.Local
+        // ReSharper restore ClassNeverInstantiated.Local
         {
             // ReSharper disable MemberHidesStaticFromOuterClass
             internal static readonly TeamFoundationIdentityComparer Instance = new TeamFoundationIdentityComparer();
