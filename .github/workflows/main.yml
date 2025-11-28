@@ -35,7 +35,9 @@ jobs:
     - name: Setup NuGet
       uses: nuget/setup-nuget@v2
       with:
-        nuget-version: 'latest'
+        # Use NuGet 5.x for compatibility with packages.config-based projects
+        # NuGet 7.x has stricter NU5012 errors when packing with packages.config
+        nuget-version: '5.11.0'
 
     - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.3
@@ -66,13 +68,12 @@ jobs:
       run: |
         # Pack each project that has a nuspec file
         # Note: We pack from the csproj which uses the nuspec for metadata
-        # The -PackagesDirectory flag tells nuget where to find dependency nupkg files
-        # (must match the -PackagesDirectory used during restore)
+        # Using NuGet 5.x which handles packages.config dependencies correctly
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
           $projectName = (Get-ChildItem -Path $projectDir -Filter "*.csproj" | Select-Object -First 1).BaseName
           Write-Host "Packing: $projectName"
-          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release" -PackagesDirectory packages
+          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release" -IncludeReferencedProjects
         }
 
     - name: Run tests
