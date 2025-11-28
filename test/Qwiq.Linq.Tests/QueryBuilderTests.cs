@@ -6,7 +6,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Should;
-using Should.Core.Exceptions;
+using Shouldly;
+using Qwiq.Tests.Common;
 
 namespace Qwiq.Linq
 {
@@ -175,7 +176,7 @@ namespace Qwiq.Linq
 
         public override void Given()
         {
-            _values = new[] {"person1", "person2"};
+            _values = new[] { "person1", "person2" };
             base.Given();
         }
 
@@ -322,7 +323,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_where_clause_has_a_lazy_ienumerable_in_the_expression : WiqlQueryBuilderContextSpecification
     {
-        private readonly string[] _aliases = {"person1", "person2"};
+        private readonly string[] _aliases = { "person1", "person2" };
         private IEnumerable<string> _filteredAliases;
 
         public override void Given()
@@ -369,7 +370,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_an_ienumerable_contains_constants_with_special_wiql_characters : WiqlQueryBuilderContextSpecification
     {
-        private readonly string[] _values = {"Robert O'Sullivan", "Robert O'Laney"};
+        private readonly string[] _values = { "Robert O'Sullivan", "Robert O'Laney" };
 
         public override void When()
         {
@@ -410,11 +411,13 @@ namespace Qwiq.Linq
     {
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
+#pragma warning disable CA1862 // Use string.Equals instead of comparing ToUpperInvariant() - intentionally testing unsupported pattern
         public void a_NotSupportedException_is_thrown_to_notify_the_developer_that_text_matches_are_case_insensitive()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Actual = Query.Where(item => item.Title.ToUpper() == "TEST").ToString();
+            Actual = Query.Where(item => item.Title.ToUpperInvariant() == "TEST").ToString();
         }
+#pragma warning restore CA1862
     }
 
     [TestClass]
@@ -516,7 +519,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] > 1))";
-            Actual = Query.Where(item => item.Id > 1).Select(item => new {One = item.Id, Two = item.Title}).ToString();
+            Actual = Query.Where(item => item.Id > 1).Select(item => new { One = item.Id, Two = item.Title }).ToString();
         }
 
         [TestMethod]
@@ -691,7 +694,7 @@ namespace Qwiq.Linq
         }
 
         [TestMethod]
-        [ExpectedException(typeof(EqualException))]
+        [ExpectedException(typeof(ShouldAssertException))]
         public void the_column_written_to_WIQL_in_SELECT_is_the_projected_property()
         {
             Actual.ShouldEqual(Expected);
