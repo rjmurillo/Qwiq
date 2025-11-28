@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Client;
 using Microsoft.VisualStudio.Services.Common;
 using System;
@@ -16,6 +17,7 @@ namespace Qwiq.Credentials
         ///     Initializes a new instance of the <see cref="AuthenticationOptions" /> class.
         /// </summary>
         /// <param name="uri">The URI of the Team Foundation Server, including the project collection.</param>
+        [PublicAPI]
         public AuthenticationOptions(string uri)
             : this(uri, AuthenticationTypes.All)
         {
@@ -26,6 +28,7 @@ namespace Qwiq.Credentials
         /// </summary>
         /// <param name="uri">The URI of the Team Foundation Server, including the project collection.</param>
         /// <param name="authenticationTypes">The authentication types to use against the server.</param>
+        [PublicAPI]
         public AuthenticationOptions(string uri, AuthenticationTypes authenticationTypes)
             : this(new Uri(uri, UriKind.Absolute), authenticationTypes)
         {
@@ -35,6 +38,7 @@ namespace Qwiq.Credentials
         ///     Initializes a new instance of the <see cref="AuthenticationOptions" /> class.
         /// </summary>
         /// <param name="uri">The URI of the Team Foundation Server, including the project collection.</param>
+        [PublicAPI]
         public AuthenticationOptions(Uri uri)
             : this(uri, AuthenticationTypes.All)
         {
@@ -45,6 +49,7 @@ namespace Qwiq.Credentials
         /// </summary>
         /// <param name="uri">The URI of the Team Foundation Server, including the project collection.</param>
         /// <param name="authenticationTypes">The authentication types.</param>
+        [PublicAPI]
         public AuthenticationOptions(Uri uri, AuthenticationTypes authenticationTypes)
             : this(uri, authenticationTypes, null)
         {
@@ -57,6 +62,7 @@ namespace Qwiq.Credentials
         /// <param name="authenticationTypes">The authentication types.</param>
         /// <param name="credentialsFactory">The credentials factory.</param>
         /// <exception cref="ArgumentNullException">uri</exception>
+        [PublicAPI]
         public AuthenticationOptions(
             Uri uri,
             AuthenticationTypes authenticationTypes,
@@ -67,7 +73,11 @@ namespace Qwiq.Credentials
             Uri = uri ?? throw new ArgumentNullException(nameof(uri));
             _createCredentials = credentialsFactory ?? CredentialsFactory;
         }
+
+        [PublicAPI]
         public AuthenticationTypes AuthenticationTypes { get; }
+
+        [CanBeNull]
         public IEnumerable<VssCredentials> Credentials
         {
             get
@@ -79,7 +89,11 @@ namespace Qwiq.Credentials
                 foreach (var credential in EnumerateCredentials(this, AuthenticationTypes.None)) yield return credential;
             }
         }
+
+        [CanBeNull]
         public CredentialsNotifications Notifications { get; set; }
+
+        [NotNull]
         public Uri Uri { get; }
 
         private static IEnumerable<VssCredentials> CredentialsFactory(AuthenticationTypes t)
@@ -98,8 +112,8 @@ namespace Qwiq.Credentials
 
             if (t.HasFlag(AuthenticationTypes.Windows))
             {
-#if NETFRAMEWORK
-                // VssClientCredentialStorage is only available on .NET Framework
+#if !NET
+                // VssClientCredentialStorage has a different constructor signature in .NET 8+
                 var storage = new VssClientCredentialStorage();
 
                 // User did not specify a username or a password, so use the process identity
