@@ -26,13 +26,13 @@ namespace Qwiq
         public string Name { get; }
 
         [DebuggerStepThrough]
-        public bool Equals(IWorkItemClassificationNode<TId> other)
+        public bool Equals(IWorkItemClassificationNode<TId>? other)
         {
             return WorkItemClassificationNodeComparer<TId>.Default.Equals(this, other);
         }
 
         [DebuggerStepThrough]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemClassificationNodeComparer<TId>.Default.Equals(this, obj as IWorkItemClassificationNode<TId>);
         }

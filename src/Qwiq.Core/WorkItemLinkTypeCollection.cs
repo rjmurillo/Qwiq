@@ -22,12 +22,12 @@ namespace Qwiq
         /// </summary>
         public IWorkItemLinkTypeEndCollection LinkTypeEnds => _ltCol.Value;
         [DebuggerStepThrough]
-        public bool Equals(IWorkItemLinkTypeCollection other)
+        public bool Equals(IWorkItemLinkTypeCollection? other)
         {
-            return Equals((object)other);
+            return Equals((object?)other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(this, obj)) return true;
             if (ReferenceEquals(obj, null)) return false;

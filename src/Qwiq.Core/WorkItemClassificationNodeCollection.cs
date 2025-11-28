@@ -9,12 +9,12 @@ namespace Qwiq
         {
         }
 
-        public bool Equals(IWorkItemClassificationNodeCollection<TId> other)
+        public bool Equals(IWorkItemClassificationNodeCollection<TId>? other)
         {
             return ReadOnlyCollectionWithIdComparer<IWorkItemClassificationNode<TId>, TId>.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ReadOnlyCollectionWithIdComparer<IWorkItemClassificationNode<TId>, TId>.Default.Equals(this, obj as IWorkItemClassificationNodeCollection<TId>);
         }

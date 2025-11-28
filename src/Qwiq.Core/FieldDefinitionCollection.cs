@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Qwiq
@@ -10,12 +10,12 @@ namespace Qwiq
         {
         }
 
-        public bool Equals(IFieldDefinitionCollection other)
+        public bool Equals(IFieldDefinitionCollection? other)
         {
             return Comparer.FieldDefinitionCollection.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Comparer.FieldDefinitionCollection.Equals(this, obj as IFieldDefinitionCollection);
         }

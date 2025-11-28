@@ -73,7 +73,7 @@ namespace Qwiq
         }
 
         [DebuggerStepThrough]
-        public bool Equals(IReadOnlyObjectWithIdCollection<IField, int> other)
+        public bool Equals(IReadOnlyObjectWithIdCollection<IField, int>? other)
         {
             return Comparer.FieldCollection.Equals(this, other);
         }

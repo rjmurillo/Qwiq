@@ -68,12 +68,12 @@ namespace Qwiq
             return _mapById.ContainsKey(id);
         }
 
-        public virtual bool Equals(IReadOnlyObjectWithIdCollection<T, TId> other)
+        public virtual bool Equals(IReadOnlyObjectWithIdCollection<T, TId>? other)
         {
             return ReadOnlyCollectionWithIdComparer<T, TId>.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ReadOnlyCollectionWithIdComparer<T, TId>.Default.Equals(this, obj as IReadOnlyObjectWithIdCollection<T, TId>);
         }

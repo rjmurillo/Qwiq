@@ -59,12 +59,12 @@ namespace Qwiq
 
         public IWorkItemLinkTypeEnd ReverseEnd => CoerceReverseValue();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemLinkTypeComparer.Default.Equals(this, obj as IWorkItemLinkType);
         }
 
-        public bool Equals(IWorkItemLinkType other)
+        public bool Equals(IWorkItemLinkType? other)
         {
             return WorkItemLinkTypeComparer.Default.Equals(this, other);
         }

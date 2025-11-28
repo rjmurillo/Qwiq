@@ -99,7 +99,7 @@ namespace Qwiq
 
         public virtual string WorkItemType => GetValue<string>(CoreFieldRefNames.WorkItemType);
 
-        public bool Equals(IWorkItemCommon other)
+        public bool Equals(IWorkItemCommon? other)
         {
             return NullableIdentifiableComparer.Default.Equals(this, other);
         }
