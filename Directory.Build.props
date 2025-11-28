@@ -54,6 +54,8 @@
     <PackageProjectUrl>https://github.com/rjmurillo/Qwiq</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rjmurillo/Qwiq.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageTags>Microsoft;Team Foundation Server;TFS;Azure DevOps;VSO;Visual Studio Online;Agile;WIT;Work Item Tracking;VSTS;TeamFoundation</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

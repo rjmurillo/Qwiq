@@ -21,8 +21,4 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Qwiq.Mapper.nuspec" />
-  </ItemGroup>
 </Project>
