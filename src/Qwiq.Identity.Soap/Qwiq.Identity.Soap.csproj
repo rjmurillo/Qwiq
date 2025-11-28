@@ -1,1 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <!-- SOAP-based Identity Service requires .NET Framework -->    <TargetFramework>net472</TargetFramework>    <RootNamespace>Qwiq.Identity.Soap</RootNamespace>    <AssemblyName>Qwiq.Identity.Soap</AssemblyName>    <Description>QWIQ Identity SOAP - SOAP-based Identity management for TFS</Description>    <PackageId>Qwiq.Identity.Soap</PackageId>    <IsPackable>true</IsPackable>    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>  <ItemGroup>    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" />    <PackageReference Include="Newtonsoft.Json" />  </ItemGroup>  <ItemGroup>    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=net472" />    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=net472" />    <ProjectReference Include="..\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />  </ItemGroup>  <!-- InternalsVisibleTo for testing -->  <ItemGroup>    <InternalsVisibleTo Include="Qwiq.IntegrationTests" />    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />    <InternalsVisibleTo Include="Qwiq.Integration.Tests" />  </ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- SOAP-based Identity Service requires .NET Framework -->
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>Qwiq.Identity.Soap</RootNamespace>
+    <AssemblyName>Qwiq.Identity.Soap</AssemblyName>
+    <Description>QWIQ Identity SOAP - SOAP-based Identity management for TFS</Description>
+    <PackageId>Qwiq.Identity.Soap</PackageId>
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=net472" />
+    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=net472" />
+    <ProjectReference Include="..\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
+  </ItemGroup>
+</Project>
