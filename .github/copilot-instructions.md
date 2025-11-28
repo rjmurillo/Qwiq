@@ -2,104 +2,100 @@
 
 ## Repository Overview
 
-QWIQ (**Q**uick **W**ork **I**tem **Q**uery) is a .NET library providing a simplified API for querying Azure DevOps / Team Foundation Server work items. It wraps the TFS Client OM with cleaner interfaces, factory patterns, and mock support.
+QWIQ (**Q**uick **W**ork **I**tem **Q**uery) is a .NET Framework library providing a simplified API for querying Azure DevOps / Team Foundation Server work items. It wraps the TFS Client OM with cleaner interfaces, factory patterns, and mock support.
 
 **Key Characteristics:**
-- Multi-target .NET Framework (net472) and .NET 8.0 (net8.0) library
-- **Windows-only build requirement** for full solution (.NET Framework targets)
-- SDK-style projects with centralized configuration
+- .NET Framework 4.6 library (legacy project format)
+- **Windows-only build requirement** (requires Visual Studio / MSBuild)
+- Uses packages.config for NuGet dependencies
 - Uses Nerdbank.GitVersioning for version management
 
 ## Build & Test Commands
 
 ### Prerequisites
-- **Windows machine required** for full build (net472 projects need .NET Framework SDK)
-- .NET SDK 8.0+ (for net8.0 targets)
-- MSBuild and NuGet for legacy project support
+- **Windows machine with Visual Studio 2017+** required
+- .NET Framework 4.6 SDK/targeting pack
+- MSBuild and NuGet CLI
 
-### Build Commands
-```bash
-# Full solution restore and build (Windows only)
-dotnet restore Qwiq.sln
-dotnet build Qwiq.sln --configuration Release
+### Build Commands (Windows only)
+```powershell
+# Restore NuGet packages
+nuget restore Qwiq.sln
 
-# net8.0 only build (cross-platform)
-dotnet build Qwiq.sln --configuration Release --framework net8.0
+# Build solution with MSBuild
+msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
 ```
 
 ### Test Commands
-```bash
+The workflow uses VSTest to run tests:
+```powershell
 # Run tests (exclude integration/local-only tests)
-dotnet test Qwiq.sln --configuration Release --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+vstest.console.exe <TestAssembly.dll> /TestCaseFilter:"TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST"
 ```
 
 **Test Categories to Exclude:**
 - `localOnly` - Requires local TFS instance
 - `Benchmark` - Performance tests
 - `SOAP` / `REST` - Integration tests requiring server
-- `IntegrationTests` - Full integration tests
+- `IntegrationTests` - Full integration tests (excluded by assembly name pattern)
 
 ## Project Layout
 
 ### Source Projects (`src/`)
-| Project | Description | Target |
-|---------|-------------|--------|
-| `Qwiq.Core` | Core interfaces and abstractions | net472;net8.0 |
-| `Qwiq.Core.Rest` | REST API client implementation | net472;net8.0 |
-| `Qwiq.Core.Soap` | SOAP client implementation | net472 (Windows) |
-| `Qwiq.Linq` | LINQ query provider | net472;net8.0 |
-| `Qwiq.Mapper` | Object mapping layer | net472;net8.0 |
-| `Qwiq.Identity` / `.Soap` | Identity management | net472 |
+| Project | Description |
+|---------|-------------|
+| `Qwiq.Core` | Core interfaces and abstractions |
+| `Qwiq.Core.Rest` | REST API client implementation |
+| `Qwiq.Core.Soap` | SOAP client implementation |
+| `Qwiq.Linq` | LINQ query provider |
+| `Qwiq.Mapper` | Object mapping layer |
+| `Qwiq.Identity` / `.Soap` | Identity management |
 
 ### Test Projects (`test/`)
-- Unit tests: `*.Tests` projects
+- Unit tests: `Qwiq.Core.Tests`, `Qwiq.Linq.Tests`, `Qwiq.Mapper.Tests`, `Qwiq.Identity.Tests`
 - Integration tests: `Qwiq.IntegrationTests`
 - Mocks: `Qwiq.Mocks`
-- Benchmarks: `*.Benchmark*` projects
+- Benchmarks: `Qwiq.Benchmark`, `*.Benchmark.Tests`
 
 ### Key Configuration Files
-- `Directory.Build.props` - Central project properties (warnings, analyzers)
-- `Directory.Build.targets` - Build overrides (disables legacy FxCop, GitVersionTask)
+- `build/targets/common.props` - Shared MSBuild properties
 - `nuget.config` - NuGet package sources
 - `version.json` - Nerdbank.GitVersioning configuration
 - `.editorconfig` - Code style (4-space indent, CRLF line endings)
+- `appveyor.yml` - Legacy CI configuration (AppVeyor)
 
 ## Critical Build Notes
 
-### 1. Target Framework Requirements
-- **net472 projects require Windows + .NET Framework SDK**
-- On Linux/macOS, only net8.0 targets will build successfully
-- Use `--framework net8.0` flag when building on non-Windows
+### 1. Windows-Only Build
+- This project uses legacy .csproj format and targets .NET Framework 4.6
+- Cannot build on Linux/macOS - requires Windows with .NET Framework SDK
+- GitHub Actions workflow uses `windows-latest` runner
 
-### 2. Warning Suppressions
-The repo suppresses many warnings in `Directory.Build.targets`:
-- All CA* (Code Analysis) warnings are suppressed as technical debt
-- CS1591 (missing XML docs) is suppressed
-- SYSLIB* warnings for obsolete APIs are suppressed
+### 2. NuGet Restore
+- Uses packages.config (not PackageReference)
+- Always run `nuget restore` before building
+- Packages are restored to solution-level `packages/` directory
 
-### 3. Analyzer Configuration
-- `EnableNETAnalyzers` is enabled but `AnalysisMode` is set to `None`
-- Microsoft.CodeAnalysis.NetAnalyzers is included for future enablement
+### 3. Warning Configuration
+Common warnings suppressed in `build/targets/common.props`:
+- CS1591 (missing XML docs)
+- TreatWarningsAsErrors is enabled
 
 ## Common Issues & Workarounds
 
-### GitHub Workflow Preferences (from PR #30 feedback)
-1. Use `global-json-file: ./global.json` instead of `dotnet-version` if global.json exists
-2. Always run `dotnet tool restore` before build steps
-3. Use environment variables for test filters (reuse across jobs)
-4. Use deterministic build flags: `/p:Deterministic=true /p:UseSharedCompilation=false`
-5. Upload binlogs as artifacts for debugging
-
-### Security Considerations (from PR feedback)
-1. Do NOT target .NET Framework < 4.7.2 (security vulnerability)
-2. Avoid suppressing NU1701/NU1702 warnings - indicates potential compatibility issues
-3. Replace JetBrains.Annotations with built-in nullable annotations
+### Security Considerations
+1. Do NOT target .NET Framework < 4.7.2 when upgrading (security vulnerability)
+2. Be cautious when updating packages - check for breaking API changes
 
 ### Code Style
-1. Remove JetBrains.Annotations attributes - use C# nullable annotations instead
-2. Don't use nuspec files - use SDK-style `<Package*>` properties in csproj
-3. Remove `AssemblyInfo.Common.cs` linked files - use SDK auto-generation
-4. Follow existing patterns for exception handling and null checks
+1. Uses JetBrains.Annotations for null annotations (existing pattern)
+2. Follow existing patterns for exception handling and null checks
+3. Use `Contract.Requires` for parameter validation
+
+### Known Patterns
+1. Factory pattern used extensively (e.g., `WorkItemStoreFactory`)
+2. Interfaces for all public types to support mocking
+3. Linked `AssemblyInfo.Common.cs` for shared assembly attributes
 
 ## CI/CD Pipeline
 
@@ -109,20 +105,20 @@ The main workflow (`.github/workflows/main.yml`) runs on:
 
 **Expected Workflow Steps:**
 1. Checkout with `fetch-depth: 0` (for versioning)
-2. Setup .NET SDK
+2. Setup MSBuild, NuGet, VSTest
 3. Restore NuGet packages
-4. Build solution
-5. Run tests with category filters
+4. Build solution with MSBuild
+5. Run tests with VSTest and category filters
 6. Upload test results and binaries
 
 ## When Making Changes
 
-1. **Always restore before building:** `dotnet restore Qwiq.sln`
-2. **Test on Windows for full coverage** - net472 tests won't run elsewhere
-3. **Run linting implicitly** - analyzers run during build
-4. **Check both TFMs** - changes may behave differently on net472 vs net8.0
-5. **Update Directory.Build.props** for solution-wide package/property changes
-6. **Reference existing patterns** in similar files when adding new code
+1. **Always restore before building:** `nuget restore Qwiq.sln`
+2. **Build with MSBuild:** `msbuild Qwiq.sln /p:Configuration=Release`
+3. **Test on Windows only** - this is a .NET Framework project
+4. **Follow existing code patterns** - check similar files for conventions
+5. **Update packages.config** when adding new NuGet packages
+6. **Run tests with appropriate filters** to exclude integration tests
 
 ## Trust These Instructions
 
