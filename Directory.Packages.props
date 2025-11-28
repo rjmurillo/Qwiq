@@ -36,7 +36,7 @@
     <PackageVersion Include="Shouldly" Version="4.2.1" />
     <PackageVersion Include="Humanizer.Core" Version="2.14.1" />
     <PackageVersion Include="JetBrains.DotMemoryUnit" Version="3.2.20220510.0" />
-
+    
     <!-- Benchmarking -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
   </ItemGroup>
