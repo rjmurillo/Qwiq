@@ -10,7 +10,7 @@ namespace Qwiq
         {
         }
 
-        public override bool Equals(IQueryDefinition x, IQueryDefinition y)
+        public override bool Equals(IQueryDefinition? x, IQueryDefinition? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
