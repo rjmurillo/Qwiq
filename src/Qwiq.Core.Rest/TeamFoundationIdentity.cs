@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using Microsoft.VisualStudio.Services.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace Qwiq.Client.Rest
 
         private readonly Identity _identity;
 
-        internal TeamFoundationIdentity([NotNull] Identity identity)
+        internal TeamFoundationIdentity(Identity identity)
             : base(
                   identity.IsActive,
                   identity.Id,

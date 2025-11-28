@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Qwiq
 {
@@ -22,7 +21,7 @@ namespace Qwiq
                    && string.Equals(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
         }
 
-        public override int GetHashCode([CanBeNull] IWorkItemClassificationNode<TId> obj)
+        public override int GetHashCode(IWorkItemClassificationNode<TId> obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 

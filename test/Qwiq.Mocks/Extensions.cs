@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 namespace Qwiq.Mocks
 {
@@ -122,9 +121,7 @@ namespace Qwiq.Mocks
             var g = new WorkItemGenerator<MockWorkItem>(store.Create, new[] { "Revisions", "Item" });
             return g.Generate(1).Single();
         }
-
-        [CanBeNull]
-        public static IWorkItemStore Store([CanBeNull] this IWorkItemType type)
+        public static IWorkItemStore Store(this IWorkItemType type)
         {
             var t = type as MockWorkItemType;
             return t?.Store;

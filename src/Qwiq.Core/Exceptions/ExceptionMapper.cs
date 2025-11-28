@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -11,8 +10,8 @@ namespace Qwiq.Exceptions
         private readonly IExceptionMapper[] _mappers;
 
         public ExceptionMapper(
-            [NotNull] IExceptionExploder[] exploders,
-            [NotNull] IExceptionMapper[] mappers)
+            IExceptionExploder[] exploders,
+            IExceptionMapper[] mappers)
         {
             Contract.Requires(exploders != null);
             Contract.Requires(mappers != null);
@@ -25,8 +24,6 @@ namespace Qwiq.Exceptions
         {
             return MapImpl(ex) ?? ex;
         }
-
-        [CanBeNull]
         private Exception MapImpl(Exception ex)
         {
             var q = new Queue<Exception>();

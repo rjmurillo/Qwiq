@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -87,7 +86,7 @@ namespace Qwiq
             return object.Equals(x, y) ? 0 : -1;
         }
 
-        public virtual bool Equals([CanBeNull] T x, [CanBeNull] T y)
+        public virtual bool Equals(T x, T y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
@@ -96,7 +95,7 @@ namespace Qwiq
             return Compare(x, y) == 0;
         }
 
-        public virtual int GetHashCode([CanBeNull] T obj)
+        public virtual int GetHashCode(T obj)
         {
             return obj?.GetHashCode() ?? 0;
         }

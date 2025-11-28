@@ -1,24 +1,21 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public class WorkItemType : IWorkItemType, IEquatable<IWorkItemType>
     {
         private IFieldDefinitionCollection _fdc;
-
-        [CanBeNull]
         private readonly Lazy<IFieldDefinitionCollection> _lazyFieldDefinitions;
 
         private Func<IFieldDefinitionCollection> _fieldDefinitionFactory;
 
         internal WorkItemType(
-            [NotNull] string name,
-            [CanBeNull] string description,
-            [CanBeNull] Lazy<IFieldDefinitionCollection> fieldDefinitions,
+            string name,
+            string description,
+            Lazy<IFieldDefinitionCollection> fieldDefinitions,
             Func<IWorkItem> workItemFactory = null)
         {
             Contract.Requires(name != null);
@@ -46,7 +43,7 @@ namespace Qwiq
 
         protected internal Func<IWorkItem> WorkItemFactory { get; internal set; }
 
-        public bool Equals([CanBeNull] IWorkItemType other)
+        public bool Equals(IWorkItemType other)
         {
             return WorkItemTypeComparer.Default.Equals(this, other);
         }
@@ -71,8 +68,6 @@ namespace Qwiq
         {
             return WorkItemTypeComparer.Default.GetHashCode(this);
         }
-
-        [NotNull]
         public override string ToString()
         {
             return Name;

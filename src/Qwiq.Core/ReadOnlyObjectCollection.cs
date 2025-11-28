@@ -1,4 +1,3 @@
-﻿using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,19 +12,19 @@ namespace Qwiq
         private Func<IEnumerable<T>> _itemFactory;
         private Lazy<IEnumerable<T>> _lazyItems;
 
-        protected ReadOnlyObjectCollection([NotNull] Func<IEnumerable<T>> itemFactory)
+        protected ReadOnlyObjectCollection(Func<IEnumerable<T>> itemFactory)
         {
             ItemFactory = itemFactory ?? throw new ArgumentNullException(nameof(itemFactory));
         }
 
-        protected ReadOnlyObjectCollection([CanBeNull] List<T> items)
+        protected ReadOnlyObjectCollection(List<T> items)
             : this()
         {
             List = items ?? new List<T>(0);
             _alreadyInit = false;
         }
 
-        protected ReadOnlyObjectCollection([CanBeNull] IEnumerable<T> items)
+        protected ReadOnlyObjectCollection(IEnumerable<T> items)
             : this(() => items)
         {
         }

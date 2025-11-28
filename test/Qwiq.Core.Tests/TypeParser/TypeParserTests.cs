@@ -1,6 +1,5 @@
 using System;
 using System.Xml;
-using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Should;

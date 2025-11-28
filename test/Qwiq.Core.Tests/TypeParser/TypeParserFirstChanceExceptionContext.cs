@@ -1,11 +1,9 @@
 using System;
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public abstract class TypeParserFirstChanceExceptionContext : TypeParserTestsContext
     {
-        [CanBeNull]
         public Exception FirstChanceException { get; set; }
 
         public override void Given()

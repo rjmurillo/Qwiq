@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Qwiq.Exceptions;
 
@@ -12,19 +11,15 @@ namespace Qwiq.Client.Soap
     internal class Query : IQuery
     {
         private readonly int _pageSize;
-
-        [NotNull]
         private readonly Microsoft.TeamFoundation.WorkItemTracking.Client.Query _query;
 
-        internal Query([NotNull] Microsoft.TeamFoundation.WorkItemTracking.Client.Query query, int pageSize)
+        internal Query(Microsoft.TeamFoundation.WorkItemTracking.Client.Query query, int pageSize)
         {
             Contract.Requires(query != null);
 
             _query = query ?? throw new ArgumentNullException(nameof(query));
             _pageSize = pageSize;
         }
-
-        [CanBeNull]
         private IWorkItemLinkTypeEndCollection _linkTypes;
 
         public IWorkItemLinkTypeEndCollection GetLinkTypes()

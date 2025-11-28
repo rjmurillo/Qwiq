@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 
 namespace Qwiq
@@ -8,8 +7,6 @@ namespace Qwiq
         private FieldDefinitionComparer()
         {
         }
-
-        [NotNull]
         internal new static FieldDefinitionComparer Default => Nested.Instance;
 
         public override bool Equals(IFieldDefinition x, IFieldDefinition y)
@@ -24,7 +21,7 @@ namespace Qwiq
                 && StringComparer.OrdinalIgnoreCase.Equals(x.ReferenceName, y.ReferenceName);
         }
 
-        public override int GetHashCode([CanBeNull] IFieldDefinition obj)
+        public override int GetHashCode(IFieldDefinition obj)
         {
             if (ReferenceEquals(obj, null)) return 0;
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Qwiq.Exceptions;
 
@@ -16,10 +15,9 @@ namespace Qwiq.Client.Soap
     /// </summary>
     internal class Revision : IRevision
     {
-        [NotNull]
         private readonly Tfs.Revision _rev;
 
-        internal Revision([NotNull] Tfs.Revision revision)
+        internal Revision(Tfs.Revision revision)
         {
             _rev = revision ?? throw new ArgumentNullException(nameof(revision));
         }

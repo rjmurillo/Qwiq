@@ -1,12 +1,8 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-// Resolve ambiguity between JetBrains.Annotations.NotNullAttribute and System.Diagnostics.CodeAnalysis.NotNullAttribute
-using NotNullAttribute = JetBrains.Annotations.NotNullAttribute;
 
 namespace Qwiq
 {
@@ -50,9 +46,7 @@ namespace Qwiq
         {
             return (T)Parse(typeof(T), value, defaultValue);
         }
-
-        [CanBeNull]
-        private static object ParseImpl([NotNull] Type destinationType, [CanBeNull] object value)
+        private static object ParseImpl(Type destinationType, object value)
         {
             var valueIsNull = ValueRepresentsNull(value);
             var canAcceptNull = destinationType.CanAcceptNull();
@@ -117,12 +111,10 @@ namespace Qwiq
 
             return null;
         }
-
-        [CanBeNull]
         private static object ParseImpl(
-            [NotNull] Type destinationType,
-            [CanBeNull] object value,
-            [CanBeNull] object defaultValue)
+            Type destinationType,
+            object value,
+            object defaultValue)
         {
             var valueIsNull = ValueRepresentsNull(value);
             var defaultValueIsNull = ValueRepresentsNull(defaultValue);
@@ -273,8 +265,7 @@ namespace Qwiq
             return false;
         }
 
-        [MustUseReturnValue]
-        private static TypeConverter GetTypeConverter([NotNull] Type valueType)
+        private static TypeConverter GetTypeConverter(Type valueType)
         {
             var hashtable = TypeConverters;
 
@@ -289,8 +280,7 @@ namespace Qwiq
             return typeConverter;
         }
 
-        [ContractAnnotation("value:null => true")]
-        private static bool ValueRepresentsNull([CanBeNull] object value)
+        private static bool ValueRepresentsNull(object value)
         {
             return value == null || value == DBNull.Value;
         }

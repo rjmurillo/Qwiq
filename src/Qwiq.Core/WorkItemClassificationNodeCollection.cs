@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public class WorkItemClassificationNodeCollection<TId> : ReadOnlyObjectWithIdCollection<IWorkItemClassificationNode<TId>, TId>, IEquatable<IWorkItemClassificationNodeCollection<TId>>, IWorkItemClassificationNodeCollection<TId>
     {
-        public WorkItemClassificationNodeCollection([CanBeNull] IEnumerable<IWorkItemClassificationNode<TId>> items) : base(items)
+        public WorkItemClassificationNodeCollection(IEnumerable<IWorkItemClassificationNode<TId>> items) : base(items)
         {
         }
 

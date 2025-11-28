@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +7,10 @@ namespace Qwiq.Identity
     public class IdentityFieldValueConverter : IdentityValueConverterBase
     {
         private static readonly IReadOnlyDictionary<string, object> Empty = new Dictionary<string, object>();
-        [NotNull] private readonly IIdentityManagementService _identityManagementService;
+        private readonly IIdentityManagementService _identityManagementService;
 
         public IdentityFieldValueConverter(
-            [NotNull] IIdentityManagementService identityManagementService)
+            IIdentityManagementService identityManagementService)
         {
             _identityManagementService = identityManagementService ?? throw new ArgumentNullException(nameof(identityManagementService));
         }

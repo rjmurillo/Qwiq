@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -11,7 +10,7 @@ namespace Qwiq
         {
         }
 
-        protected internal WorkItemCommon([CanBeNull] Dictionary<string, object> fields)
+        protected internal WorkItemCommon(Dictionary<string, object> fields)
             : base(fields)
         {
         }

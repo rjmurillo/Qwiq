@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -9,7 +8,7 @@ namespace Qwiq
     {
 
 
-        public WorkItemClassificationNode(TId id, NodeType nodeType, [NotNull] string name, Uri uri)
+        public WorkItemClassificationNode(TId id, NodeType nodeType, string name, Uri uri)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));

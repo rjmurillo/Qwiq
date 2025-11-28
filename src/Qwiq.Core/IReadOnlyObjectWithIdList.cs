@@ -1,6 +1,5 @@
 using System;
 
-using JetBrains.Annotations;
 
 namespace Qwiq
 {
@@ -17,15 +16,14 @@ namespace Qwiq
         /// </summary>
         /// <param name="id">The identity of an element.</param>
         /// <returns><c>true</c> if the item is found; otherwise, <c>false</c>.</returns>
-        bool Contains([NotNull] TId id);
+        bool Contains(TId id);
 
         /// <summary>
         ///     Gets the element with the specified id from the read-only collection.
         /// </summary>
         /// <param name="id">The identity of an element.</param>
         /// <returns>The element with the specified <paramref name="id" /> in the read-only list.</returns>
-        [CanBeNull]
-        T GetById([NotNull] TId id);
+        T GetById(TId id);
 
         /// <summary>
         ///     Attempts to get the value associated with the specified name from the read-only list.
@@ -36,6 +34,6 @@ namespace Qwiq
         ///     or the default value of the type if the operation failed.
         /// </param>
         /// <returns><c>true</c> if the name was found in the read-only list; otherwise, <c>false</c>.</returns>
-        bool TryGetById([NotNull] TId id, [CanBeNull] out T value);
+        bool TryGetById(TId id, out T value);
     }
 }
