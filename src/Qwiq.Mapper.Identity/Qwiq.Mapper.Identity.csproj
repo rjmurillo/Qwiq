@@ -1,18 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks>
-    <RootNamespace>Qwiq.Mapper.Identity</RootNamespace>
-    <AssemblyName>Qwiq.Mapper.Identity</AssemblyName>
-    <Description>QWIQ Mapper Identity - Identity-aware mapping for QWIQ</Description>
-    <PackageId>Qwiq.Mapper.Identity</PackageId>
-    <IsPackable>true</IsPackable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Mapper\Qwiq.Mapper.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-  </ItemGroup>
-</Project>
+<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TargetFrameworks>net472;net8.0</TargetFrameworks>    <RootNamespace>Qwiq.Mapper.Identity</RootNamespace>    <AssemblyName>Qwiq.Mapper.Identity</AssemblyName>    <Description>QWIQ Mapper Identity - Identity-aware mapping for QWIQ</Description>    <PackageId>Qwiq.Mapper.Identity</PackageId>    <IsPackable>true</IsPackable>    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>  <ItemGroup>    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Mapper\Qwiq.Mapper.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />  </ItemGroup>  <!-- InternalsVisibleTo for testing -->  <ItemGroup>    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />  </ItemGroup></Project>

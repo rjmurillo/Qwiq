@@ -11,7 +11,7 @@ namespace Qwiq
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
         internal static readonly GenericComparer<T> Default = new GenericComparer<T>();
 
-        public virtual int Compare(T x, T y)
+        public virtual int Compare(T? x, T? y)
         {
             // Enumerable?
             var enumerableX = x as IEnumerable;
@@ -86,7 +86,7 @@ namespace Qwiq
             return object.Equals(x, y) ? 0 : -1;
         }
 
-        public virtual bool Equals(T x, T y)
+        public virtual bool Equals(T? x, T? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;

@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+
+  
+>>>>>>> 20e62a69 (feat: modernize SDK-style projects with nullable, implicit usings, and InternalsVisibleTo in csproj)
 </Project>
