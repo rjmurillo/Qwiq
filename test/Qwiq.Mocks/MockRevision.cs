@@ -10,7 +10,7 @@ namespace Qwiq.Mocks
     public class MockRevision : Revision
     {
         public MockRevision([NotNull] Dictionary<string, object> dictionary, int index)
-            :base(new MockFieldDefinitionCollection(dictionary.Keys.Select(MockFieldDefinition.Create)), index)
+            : base(new MockFieldDefinitionCollection(dictionary.Keys.Select(MockFieldDefinition.Create)), index)
         {
             Contract.Requires(dictionary != null);
             Contract.Requires(index > 0);
@@ -25,7 +25,7 @@ namespace Qwiq.Mocks
         public MockRevision([NotNull] Dictionary<string, object> dictionary)
             : this(dictionary, (int)dictionary["Index"])
         {
-           
+
         }
     }
 }

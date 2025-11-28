@@ -30,7 +30,7 @@ namespace Qwiq.Identity.Mocks
 
         [FieldDefinition(BackingField)]
         [IdentityField]
-        public IdentityFieldValue AnIdentityValue { get;set;}
+        public IdentityFieldValue AnIdentityValue { get; set; }
 
         [IdentityField]
         public string NoBacking { get; set; }

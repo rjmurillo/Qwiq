@@ -120,10 +120,10 @@ namespace Qwiq.Mapper
         public class EmptyStringModel : IIdentifiable<int?>
         {
             [FieldDefinition("Id")]
-            public int? Id { get;set;}
+            public int? Id { get; set; }
 
             [FieldDefinition("EmptyStringField", true)]
-            public double DoubleField { get;set;}
+            public double DoubleField { get; set; }
         }
     }
 

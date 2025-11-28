@@ -15,7 +15,7 @@ namespace Qwiq.Mocks
         [NotNull] private readonly MockWorkItemStore _store;
 
         public MockQuery(
-            [NotNull] MockWorkItemStore store,  
+            [NotNull] MockWorkItemStore store,
             [CanBeNull] string wiql = null,
             [CanBeNull] IEnumerable<int> ids = null)
         {
@@ -51,7 +51,7 @@ namespace Qwiq.Mocks
             var h = new HashSet<int>(_ids);
             h.Remove(0);
             var retval = new List<IWorkItem>(h.Count);
-            
+
             Trace.TraceInformation("Querying for IDs " + string.Join(", ", h));
             foreach (var id in h)
             {

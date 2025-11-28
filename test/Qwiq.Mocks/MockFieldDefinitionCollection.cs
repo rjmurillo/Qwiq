@@ -21,7 +21,7 @@ namespace Qwiq.Mocks
         {
         }
 
-        public MockFieldDefinitionCollection([InstantHandle] [NotNull] IEnumerable<IFieldDefinition> fieldDefinitions)
+        public MockFieldDefinitionCollection([InstantHandle][NotNull] IEnumerable<IFieldDefinition> fieldDefinitions)
             : this(fieldDefinitions.ToList())
         {
             Contract.Requires(fieldDefinitions != null);

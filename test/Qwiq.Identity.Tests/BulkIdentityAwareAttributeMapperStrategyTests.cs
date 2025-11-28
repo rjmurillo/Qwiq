@@ -8,9 +8,9 @@ using Qwiq.Mapper;
 using Qwiq.Mapper.Attributes;
 using Qwiq.Mocks;
 using Qwiq.Tests.Common;
+using Should;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Should;
 using MockIdentityDescriptor = Qwiq.Mocks.MockIdentityDescriptor;
 
 namespace Qwiq.Identity
