@@ -1,17 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks>
-    <RootNamespace>Qwiq.Linq.Identity</RootNamespace>
-    <AssemblyName>Qwiq.Linq.Identity</AssemblyName>
-    <Description>QWIQ Linq Identity - Identity-aware LINQ extensions for QWIQ</Description>
-    <PackageId>Qwiq.Linq.Identity</PackageId>
-    <IsPackable>true</IsPackable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-  </ItemGroup>
-</Project>
+<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TargetFrameworks>net472;net8.0</TargetFrameworks>    <RootNamespace>Qwiq.Linq.Identity</RootNamespace>    <AssemblyName>Qwiq.Linq.Identity</AssemblyName>    <Description>QWIQ Linq Identity - Identity-aware LINQ extensions for QWIQ</Description>    <PackageId>Qwiq.Linq.Identity</PackageId>    <IsPackable>true</IsPackable>    <GenerateDocumentationFile>true</GenerateDocumentationFile>  </PropertyGroup>  <ItemGroup>    <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />  </ItemGroup></Project>
