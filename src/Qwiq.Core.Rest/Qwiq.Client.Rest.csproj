@@ -23,8 +23,4 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Qwiq.Client.Rest.nuspec" />
-  </ItemGroup>
 </Project>

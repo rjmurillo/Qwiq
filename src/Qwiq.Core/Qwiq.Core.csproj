@@ -24,6 +24,5 @@
 
   <ItemGroup>
     <None Include="readme.txt" Pack="true" PackagePath="" />
-    <None Include="Qwiq.Core.nuspec" />
   </ItemGroup>
 </Project>
