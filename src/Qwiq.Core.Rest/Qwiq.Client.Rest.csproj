@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <!-- Multi-target: net472 for legacy, netstandard2.0 for TFS SDK compat, net8.0 for modern apps -->
+    <TargetFrameworks>net472;netstandard2.0;net8.0</TargetFrameworks>
     <RootNamespace>Qwiq.Client.Rest</RootNamespace>
     <AssemblyName>Qwiq.Client.Rest</AssemblyName>
     <Description>QWIQ REST Client - Azure DevOps REST-based Work Item client</Description>

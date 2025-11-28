@@ -37,8 +37,8 @@ namespace Qwiq.Credentials
                 PromptType = CredentialPromptType.DoNotPrompt
             };
 
-#if !NET
-            // VssClientCredentialStorage has a different constructor signature in .NET 8+
+#if NETFRAMEWORK
+            // VssClientCredentialStorage is only available on .NET Framework
             credentials.Storage = new VssClientCredentialStorage();
 #endif
 

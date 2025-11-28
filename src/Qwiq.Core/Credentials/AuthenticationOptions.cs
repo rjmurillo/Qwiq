@@ -98,8 +98,8 @@ namespace Qwiq.Credentials
 
             if (t.HasFlag(AuthenticationTypes.Windows))
             {
-#if !NET
-                // VssClientCredentialStorage has a different constructor signature in .NET 8+
+#if NETFRAMEWORK
+                // VssClientCredentialStorage is only available on .NET Framework
                 var storage = new VssClientCredentialStorage();
 
                 // User did not specify a username or a password, so use the process identity
