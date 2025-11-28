@@ -17,5 +17,6 @@
     <Compile Include="..\..\src\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
     <Compile Include="..\..\src\Qwiq.Core\Extensions.cs" Link="Extensions.cs" />
     <Compile Include="..\..\src\Qwiq.Core\GenericComparer.cs" Link="GenericComparer.cs" />
+    <Compile Include="..\..\src\ReSharper.Annotations.cs" Link="Properties\ReSharper.Annotations.cs" />
   </ItemGroup>
 </Project>

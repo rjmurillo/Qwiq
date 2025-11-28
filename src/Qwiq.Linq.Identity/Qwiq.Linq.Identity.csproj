@@ -17,5 +17,10 @@
 
   <ItemGroup>
     <Compile Include="..\AssemblyInfo.Common.cs" Link="Properties\AssemblyInfo.Common.cs" />
+    <Compile Include="..\ReSharper.Annotations.cs" Link="Properties\ReSharper.Annotations.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Qwiq.Linq.Identity.nuspec" />
   </ItemGroup>
 </Project>
