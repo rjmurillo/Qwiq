@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Qwiq
 {
@@ -13,7 +13,7 @@ namespace Qwiq
             return IdentityDescriptorComparer.Default.GetHashCode(obj.Descriptor);
         }
 
-        public override bool Equals(ITeamFoundationIdentity x, ITeamFoundationIdentity y)
+        public override bool Equals(ITeamFoundationIdentity? x, ITeamFoundationIdentity? y)
         {
             if (ReferenceEquals(x, y)) return true;
             if (ReferenceEquals(x, null)) return false;
