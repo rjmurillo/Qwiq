@@ -97,7 +97,23 @@ namespace Qwiq
 
         public virtual int GetHashCode(T obj)
         {
-            return obj?.GetHashCode() ?? 0;
+            if (ReferenceEquals(obj, null) || object.Equals(obj, default(T))) return 0;
+
+            // For IEnumerable types, compute a content-based hash to match Equals behavior
+            if (obj is IEnumerable enumerable)
+            {
+                unchecked
+                {
+                    var hash = 17;
+                    foreach (var item in enumerable)
+                    {
+                        hash = hash * 31 + (item?.GetHashCode() ?? 0);
+                    }
+                    return hash;
+                }
+            }
+
+            return obj.GetHashCode();
         }
     }
 }

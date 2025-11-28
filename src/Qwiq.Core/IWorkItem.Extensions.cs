@@ -57,7 +57,7 @@ namespace Qwiq
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
             if (childrenIds == null) throw new ArgumentNullException(nameof(childrenIds));
-            if (childrenIds.Length == 0) throw new ArgumentNullException(nameof(childrenIds));
+            if (childrenIds.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(childrenIds));
 
             var end = store.GetChildLinkTypeEnd();
             foreach (var id in childrenIds) workItem.Links.Add(workItem.CreateRelatedLink(id, end));
