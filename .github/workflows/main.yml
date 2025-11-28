@@ -65,11 +65,14 @@ jobs:
       shell: pwsh
       run: |
         # Pack each project that has a nuspec file
+        # Note: We pack from the csproj which uses the nuspec for metadata
+        # The -IncludeReferencedProjects flag is not used as it causes NU5012 errors
+        # with packages.config-based projects when NuGet can't find dependency nupkg files
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
           $projectName = (Get-ChildItem -Path $projectDir -Filter "*.csproj" | Select-Object -First 1).BaseName
           Write-Host "Packing: $projectName"
-          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release" -IncludeReferencedProjects
+          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release"
         }
 
     - name: Run tests
