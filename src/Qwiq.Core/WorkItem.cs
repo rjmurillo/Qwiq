@@ -13,11 +13,11 @@ namespace Qwiq
     /// <seealso cref="IWorkItem" />
     public abstract class WorkItem : WorkItemCommon, IWorkItem, IRevisionInternal, IEquatable<IWorkItem>
     {
-        private readonly Lazy<IWorkItemType> _lazyType;
-        private readonly IWorkItemType _type;
-        private Func<IFieldCollection> _fieldFactory;
+        private readonly Lazy<IWorkItemType>? _lazyType;
+        private readonly IWorkItemType? _type;
+        private Func<IFieldCollection>? _fieldFactory;
 
-        private IFieldCollection _fields;
+        private IFieldCollection? _fields;
 
         private bool _useFields = true;
 
@@ -100,7 +100,7 @@ namespace Qwiq
 
         public virtual IWorkItemType Type => _type ?? _lazyType?.Value ?? throw new InvalidOperationException($"No value specified for {nameof(Type)}.");
 
-        public override object this[string name]
+        public override object? this[string name]
         {
             get
             {

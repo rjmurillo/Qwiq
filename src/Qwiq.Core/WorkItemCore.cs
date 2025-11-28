@@ -7,15 +7,15 @@ namespace Qwiq
 {
     public abstract class WorkItemCore : IWorkItemCore, IEquatable<IWorkItemCore>, IRevisionInternal
     {
-        private readonly Dictionary<string, object> _fields;
+        private readonly Dictionary<string, object?>? _fields;
 
         protected internal WorkItemCore()
         {
         }
 
-        protected internal WorkItemCore(Dictionary<string, object> fields)
+        protected internal WorkItemCore(Dictionary<string, object?> fields)
         {
-            _fields = fields ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            _fields = fields ?? new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
         }
 
         public virtual int? Id => GetValue<int?>(CoreFieldRefNames.Id);
@@ -35,7 +35,7 @@ namespace Qwiq
         /// <exception cref="ArgumentNullException">
         /// name is null
         /// </exception>
-        public virtual object this[string name]
+        public virtual object? this[string name]
         {
             get
             {
@@ -59,7 +59,7 @@ namespace Qwiq
             return NullableIdentifiableComparer.Default.Equals(this, obj as IWorkItemCore);
         }
 
-        public object GetCurrentFieldValue(IFieldDefinition fieldDefinition)
+        public object? GetCurrentFieldValue(IFieldDefinition fieldDefinition)
         {
             if (fieldDefinition == null) throw new ArgumentNullException(nameof(fieldDefinition));
             return GetValue(fieldDefinition.ReferenceName);
@@ -70,13 +70,13 @@ namespace Qwiq
             return NullableIdentifiableComparer.Default.GetHashCode(this);
         }
 
-        public void SetFieldValue(IFieldDefinition fieldDefinition, object value)
+        public void SetFieldValue(IFieldDefinition fieldDefinition, object? value)
         {
             if (fieldDefinition == null) throw new ArgumentNullException(nameof(fieldDefinition));
             SetValue(fieldDefinition.ReferenceName, value);
         }
 
-        protected virtual T GetValue<T>(string name)
+        protected virtual T? GetValue<T>(string name)
         {
             var value = GetValue(name);
 
@@ -84,11 +84,11 @@ namespace Qwiq
 
             return TypeParser.Default.Parse(value, default(T));
         }
-        protected virtual object GetValue(string name)
+        protected virtual object? GetValue(string name)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");
-            _fields.TryGetValue(name, out object val);
+            _fields.TryGetValue(name, out object? val);
 
 #if DEBUG
             Trace.WriteLine($"Get \'{name}\': {val.ToUsefulString()}");
@@ -97,7 +97,7 @@ namespace Qwiq
             return val;
         }
 
-        protected virtual void SetValue(string name, object value)
+        protected virtual void SetValue(string name, object? value)
         {
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");
             _fields[name] = value;
