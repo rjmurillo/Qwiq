@@ -78,13 +78,13 @@ vstest.console.exe <TestAssembly.dll> /TestCaseFilter:"TestCategory!=localOnly&T
 
 ### 3. Warning Configuration
 Common warnings suppressed in `build/targets/common.props`:
-- CS1591 (missing XML docs)
+- NoWarn 1591 (missing XML docs)
 - TreatWarningsAsErrors is enabled
 
 ## Common Issues & Workarounds
 
 ### Security Considerations
-1. Do NOT target .NET Framework < 4.7.2 when upgrading (security vulnerability)
+1. **Current state:** Project targets .NET Framework 4.6. When upgrading, target 4.7.2+ (known security issues in older versions)
 2. Be cautious when updating packages - check for breaking API changes
 
 ### Code Style
