@@ -45,6 +45,13 @@ namespace Qwiq
 
         public string? Url => WorkItem?.Url;
 
+        /// <summary>
+        /// Gets the work item that is stored in this revision.
+        /// </summary>
+        /// <remarks>
+        /// Note: The implementation may return null when constructed with field definitions only,
+        /// but consumers should expect this to be non-null for normal use cases.
+        /// </remarks>
         public IWorkItem? WorkItem { get; }
 
         public virtual object? this[string name]

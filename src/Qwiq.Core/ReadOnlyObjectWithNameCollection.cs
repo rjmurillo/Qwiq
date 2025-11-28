@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
 namespace Qwiq
@@ -13,22 +14,22 @@ namespace Qwiq
     {
 
         private readonly object _lockObj = new object();
-        private readonly Func<T, string> _nameFunc;
-        private IDictionary<string, int> _mapByName;
+        private readonly Func<T, string>? _nameFunc;
+        // Dictionary is lazily initialized in Initialize() to avoid allocations during construction
+        private IDictionary<string, int> _mapByName = null!;
 
         protected ReadOnlyObjectWithNameCollection(
             Func<IEnumerable<T>> itemFactory,
-            Func<T, string> nameFunc)
+            Func<T, string>? nameFunc)
         : this()
         {
             Contract.Requires(itemFactory != null);
-            Contract.Requires(nameFunc != null);
 
             ItemFactory = itemFactory ?? throw new ArgumentNullException(nameof(itemFactory));
             _nameFunc = nameFunc;
         }
 
-        protected ReadOnlyObjectWithNameCollection(List<T> items, Func<T, string> nameFunc)
+        protected ReadOnlyObjectWithNameCollection(List<T>? items, Func<T, string>? nameFunc)
             : base(items)
         {
             _nameFunc = nameFunc;
@@ -40,7 +41,7 @@ namespace Qwiq
         {
         }
 
-        protected ReadOnlyObjectWithNameCollection(List<T> items)
+        protected ReadOnlyObjectWithNameCollection(List<T>? items)
             : this(items, null)
         {
         }
@@ -78,11 +79,11 @@ namespace Qwiq
             return _mapByName.ContainsKey(name);
         }
 
-        public virtual bool TryGetByName(string name, out T value)
+        public virtual bool TryGetByName(string name, [MaybeNullWhen(false)] out T value)
         {
             if (string.IsNullOrEmpty(name))
             {
-                value = default(T);
+                value = default;
                 return false;
             }
 
@@ -92,7 +93,7 @@ namespace Qwiq
                 value = List[num];
                 return true;
             }
-            value = default(T);
+            value = default;
             return false;
         }
 
