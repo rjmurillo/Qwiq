@@ -31,12 +31,6 @@ dotnet build Qwiq.sln --configuration Release
 dotnet build Qwiq.sln -c Release
 ```
 
-**CI-aligned restore command:** If you encounter restore issues, use the exact CI command:
-```powershell
-nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
-```
-This ensures packages go into the local `packages/` directory and uses the repo's NuGet configuration.
-
 ### Test Commands
 ```powershell
 # Run tests with category exclusions
@@ -63,7 +57,6 @@ dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=
 | `Qwiq.Identity.Soap` | net472 | Identity SOAP client (Windows only) |
 
 ### Test Projects (`test/`)
-
 | Project | Target Frameworks | Description |
 |---------|-------------------|-------------|
 | `Qwiq.Core.Tests` | net472;net8.0 | Core unit tests |
@@ -72,12 +65,6 @@ dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=
 | `Qwiq.Identity.Tests` | net472;net8.0 | Identity tests |
 | `Qwiq.IntegrationTests` | net472 | Full integration tests |
 | `Qwiq.Mocks` | net472;net8.0 | Mock implementations |
-
-### Key Entry Points
-For most feature work, start with these locations before searching broadly:
-- `WorkItemStoreFactory` in `Qwiq.Core` - Store creation and connection
-- `WiqlTranslator` in `Qwiq.Linq` - LINQ-to-WIQL query translation
-- `Qwiq.Mocks` and `ContextSpecification` in `Qwiq.Tests.Common` - Testing patterns
 
 ### Key Configuration Files
 | File | Purpose |
@@ -162,88 +149,6 @@ The main workflow (`.github/workflows/main.yml`) runs on:
 6. Run tests with category filters
 7. Upload test results and binaries
 
-### When Editing GitHub Actions Workflows
-When adding or updating .NET workflows in this repo, follow these guidelines:
-- Use `windows-latest` runner (not `windows-2019` which is retired)
-- If using `actions/setup-dotnet`, prefer `global-json-file: ./global.json` over `dotnet-version`
-- Add `dotnet tool restore` after setting up .NET when relying on tools like Nerdbank.GitVersioning
-- Include deterministic build flags: `/p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false`
-- Upload binlogs as artifacts for debugging: `/bl:./artifacts/logs/build.binlog`
-- Prefer `.runsettings` files or environment variables for complex test filters instead of long inline strings
-
-## ⚠️ CRITICAL: Commit Practices
-
-**This is very important.** All changes must be committed incrementally, with small, atomic commits.
-
-### Conventional Commits Required
-
-Use the [Conventional Commits](https://www.conventionalcommits.org/) format:
-
-```
-<type>(<scope>): <short description>
-
-<optional body with more details>
-```
-
-**Types:**
-- `fix` - Bug fixes (e.g., `fix(core): add null guard to QueryDefinition constructor`)
-- `feat` - New features (e.g., `feat(linq): add support for Contains operator`)
-- `refactor` - Code restructuring without behavior change
-- `docs` - Documentation only
-- `test` - Adding or fixing tests
-- `chore` - Maintenance tasks (dependencies, CI, tooling)
-- `style` - Code formatting (no logic changes)
-- `build` - Build system changes
-- `ci` - CI/CD configuration changes
-
-**Scopes** (optional but encouraged):
-- `core` - Qwiq.Core changes
-- `rest` - REST client changes
-- `soap` - SOAP client changes
-- `linq` - LINQ provider changes
-- `mapper` - Mapper changes
-- `identity` - Identity management changes
-- `ci` - CI/CD pipeline
-
-### Work Incrementally
-
-1. **Small commits** - Each commit should represent ONE logical change
-2. **Atomic commits** - Each commit must build successfully on its own
-3. **Verify before committing** - Build the affected project(s) before each commit
-4. **Don't batch unrelated changes** - Separate bug fixes from refactoring from features
-
-### Commit Workflow
-
-```powershell
-# 1. Make a focused change
-# 2. Build to verify it works
-dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Debug
-
-# 3. Stage only related files
-git add src/Qwiq.Core/SomeFile.cs
-
-# 4. Commit with conventional message
-git commit -m "fix(core): add null guard to prevent NullReferenceException"
-
-# 5. Repeat for next logical change
-```
-
-### Bad vs Good Examples
-
-❌ **Bad:** One giant commit with 40 files mixing bug fixes, refactoring, and new features
-
-✅ **Good:** Three separate commits:
-1. `fix(core): add null guards to constructor parameters`
-2. `refactor: migrate AssemblyInfo to SDK-generated attributes`
-3. `docs: update copilot-instructions with commit guidelines`
-
-### Why This Matters
-
-- **Code review** - Smaller commits are easier to review
-- **Git bisect** - Atomic commits help find when bugs were introduced
-- **Reverts** - Can revert a specific change without losing unrelated work
-- **History** - Clean history tells the story of the codebase
-
 ## When Making Changes
 
 1. **Build with dotnet CLI:** `dotnet build Qwiq.sln -c Release`
@@ -252,7 +157,6 @@ git commit -m "fix(core): add null guard to prevent NullReferenceException"
 4. **Use Central Package Management** - add versions to `Directory.Packages.props`
 5. **No JetBrains annotations** - use runtime null checks instead
 6. **Update task list** - if working from `.agents/PR31-TASK-LIST.md`
-7. **Commit incrementally** - small, atomic commits with conventional messages
 
 ## Compatibility Shims
 
@@ -260,19 +164,6 @@ git commit -m "fix(core): add null guard to prevent NullReferenceException"
 - Location: `src/Qwiq.Core/Compatibility/IdentityTypeMapper.cs`
 - Purpose: Compatibility shim for class removed in Microsoft.VisualStudio.Services.Client v19+
 - Can be removed when: Qwiq drops support for identity type mapping OR Microsoft restores this class
-
-**Do:**
-1. **Always restore before building:** `nuget restore Qwiq.sln`
-2. **Build with MSBuild:** `msbuild Qwiq.sln /p:Configuration=Release`
-3. **Test on Windows only** - this is a .NET Framework project
-4. **Follow existing code patterns** - check similar files for conventions
-5. **Update packages.config** when adding new NuGet packages
-6. **Run tests with appropriate filters** to exclude integration tests
-
-**Do not:**
-- Modify `Directory.Build.props`, `Directory.Build.targets`, or `nuget.config` as part of feature/bugfix PRs - these centralize repo-wide behavior
-- Upgrade critical NuGet dependencies (`Microsoft.TeamFoundationServer.*`, `Microsoft.VisualStudio.Services.*`, `Newtonsoft.Json`) unless explicitly tasked with dependency updates
-- Attempt large-scale migrations (SDK-style conversion, target framework changes, removing SOAP support) as incidental changes - these require dedicated PRs
 
 ## Trust These Instructions
 
