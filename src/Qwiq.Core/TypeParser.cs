@@ -105,9 +105,9 @@ namespace Qwiq
                     // No conversion required
                     return defaultValue;
                 }
-            }
 
-            if (defaultValue != null && TryConvert(destinationType, defaultValue, out result)) return result;
+                if (TryConvert(destinationType, defaultValue, out result)) return result;
+            }
 
             return null;
         }
@@ -186,14 +186,14 @@ namespace Qwiq
                     // No conversion required
                     return defaultValue;
                 }
-            }
 
-            if (defaultValue != null && TryConvert(destinationType, defaultValue, out result)) return result;
+                if (TryConvert(destinationType, defaultValue, out result)) return result;
+            }
 
             return null;
         }
 
-        private static bool TryConvert(Type destinationType, object value, [NotNullWhen(true)] out object? result)
+        private static bool TryConvert(Type destinationType, object value, out object? result)
         {
             if (destinationType.IsGenericNullable())
                 try
@@ -217,7 +217,7 @@ namespace Qwiq
                 try
                 {
                     result = typeConverter.ConvertTo(value, destinationType);
-                    return result != null;
+                    return true;
                 }
                 // ReSharper disable CatchAllClause
 #pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
@@ -232,7 +232,7 @@ namespace Qwiq
                 try
                 {
                     result = typeConverter.ConvertFrom(value);
-                    return result != null;
+                    return true;
                 }
                 // ReSharper disable CatchAllClause
 #pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
@@ -248,7 +248,7 @@ namespace Qwiq
                     try
                     {
                         result = typeConverter.ConvertFromString(val);
-                        return result != null;
+                        return true;
                     }
                     // ReSharper disable EmptyGeneralCatchClause
 #pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
