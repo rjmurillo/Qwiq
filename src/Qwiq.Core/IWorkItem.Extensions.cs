@@ -1,14 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using JetBrains.Annotations;
 
 namespace Qwiq
 {
     public static partial class Extensions
     {
-        public static void AddRelatedLink(this IWorkItem workItem, IWorkItemStore store, int targetId)
+        [PublicAPI]
+        public static void AddRelatedLink([NotNull] this IWorkItem workItem, [NotNull] IWorkItemStore store, int targetId)
         {
             Contract.Requires(workItem != null);
             Contract.Requires(store != null);
@@ -21,7 +23,9 @@ namespace Qwiq
             var end = store.WorkItemLinkTypes[CoreLinkTypeReferenceNames.Related].ForwardEnd;
             workItem.Links.Add(workItem.CreateRelatedLink(targetId, end));
         }
-        public static void AddParentLink(this IWorkItem workItem, IWorkItemStore store, int parentId)
+
+        [PublicAPI]
+        public static void AddParentLink([NotNull] this IWorkItem workItem, [NotNull] IWorkItemStore store, int parentId)
         {
             Contract.Requires(workItem != null);
             Contract.Requires(store != null);
@@ -34,7 +38,9 @@ namespace Qwiq
             var end = store.GetParentLinkTypeEnd();
             workItem.Links.Add(workItem.CreateRelatedLink(parentId, end));
         }
-        public static void AddChildLink(this IWorkItem workItem, IWorkItemStore store, int childId)
+
+        [PublicAPI]
+        public static void AddChildLink([NotNull] this IWorkItem workItem, [NotNull] IWorkItemStore store, int childId)
         {
             Contract.Requires(workItem != null);
             Contract.Requires(store != null);
@@ -47,7 +53,9 @@ namespace Qwiq
             var end = store.GetChildLinkTypeEnd();
             workItem.Links.Add(workItem.CreateRelatedLink(childId, end));
         }
-        public static void AddChildrenLink(this IWorkItem workItem, IWorkItemStore store, params int[] childrenIds)
+
+        [PublicAPI]
+        public static void AddChildrenLink([NotNull] this IWorkItem workItem, [NotNull] IWorkItemStore store, [NotNull] params int[] childrenIds)
         {
             Contract.Requires(workItem != null);
             Contract.Requires(store != null);
@@ -62,6 +70,8 @@ namespace Qwiq
             var end = store.GetChildLinkTypeEnd();
             foreach (var id in childrenIds) workItem.Links.Add(workItem.CreateRelatedLink(id, end));
         }
+
+        [PublicAPI]
         public static void AddRelatedLink(this IWorkItem workItem, IWorkItemStore store, int[] targets)
         {
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
@@ -72,7 +82,9 @@ namespace Qwiq
 
             foreach (var id in targets) workItem.Links.Add(workItem.CreateRelatedLink(id, end));
         }
-        public static IWorkItemCollection ToWorkItemCollection(this IEnumerable<IWorkItem> items)
+
+        [PublicAPI]
+        public static IWorkItemCollection ToWorkItemCollection([NotNull][ItemNotNull][InstantHandle] this IEnumerable<IWorkItem> items)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
             if (items is IWorkItemCollection items2) return items2;
