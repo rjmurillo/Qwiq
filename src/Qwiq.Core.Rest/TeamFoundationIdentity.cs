@@ -17,15 +17,15 @@ namespace Qwiq.Client.Rest
                   identity.IsActive,
                   identity.Id,
                   identity.UniqueUserId,
-                  identity.MemberOf?.Select(item => item.AsProxy()).ToArray() ?? Enumerable.Empty<IIdentityDescriptor>(),
-                  identity.Members?.Select(item => item.AsProxy()).ToArray() ?? Enumerable.Empty<IIdentityDescriptor>())
+                  identity.MemberOf?.Select(item => item.AsProxy()).OfType<IIdentityDescriptor>().ToArray() ?? Enumerable.Empty<IIdentityDescriptor>(),
+                  identity.Members?.Select(item => item.AsProxy()).OfType<IIdentityDescriptor>().ToArray() ?? Enumerable.Empty<IIdentityDescriptor>())
         {
             Contract.Requires(identity != null);
 
             _identity = identity ?? throw new ArgumentNullException(nameof(identity));
             DisplayName = identity.DisplayName;
             IsContainer = identity.IsContainer;
-            _descriptor = new Lazy<IIdentityDescriptor>(() => identity.Descriptor.AsProxy());
+            _descriptor = new Lazy<IIdentityDescriptor>(() => identity.Descriptor.AsProxy()!);
         }
 
         public override IIdentityDescriptor Descriptor => _descriptor.Value;

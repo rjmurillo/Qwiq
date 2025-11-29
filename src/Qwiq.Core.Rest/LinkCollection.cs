@@ -40,7 +40,7 @@ namespace Qwiq.Client.Rest
                     const string Name = "name";
                     var l = new ExternalLink(
                                              relation.Url,
-                                             ExtractProperty(relation.Attributes, Name),
+                                             ExtractProperty(relation.Attributes, Name) ?? string.Empty,
                                              ExtractComment(relation.Attributes));
                     Add(l);
                 }
@@ -98,7 +98,7 @@ namespace Qwiq.Client.Rest
             throw new NotSupportedException();
         }
 
-        private static string ExtractComment(IDictionary<string, object> relationAttributes)
+        private static string? ExtractComment(IDictionary<string, object> relationAttributes)
         {
             const string Comment = "comment";
             return ExtractProperty(relationAttributes, Comment);
@@ -110,9 +110,9 @@ namespace Qwiq.Client.Rest
             return Convert.ToInt32(arr.Last());
         }
 
-        private static string ExtractProperty(IDictionary<string, object> relationAttributes, string property)
+        private static string? ExtractProperty(IDictionary<string, object> relationAttributes, string property)
         {
-            relationAttributes.TryGetValue(property, out object val);
+            relationAttributes.TryGetValue(property, out object? val);
             return val?.ToString();
         }
     }

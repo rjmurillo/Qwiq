@@ -65,7 +65,7 @@ namespace Qwiq.Client.Rest
 
         public IWorkItemLinkTypeCollection WorkItemLinkTypes => _linkTypes ?? (_linkTypes = WorkItemLinkTypeCollectionFactory());
 
-        internal Lazy<WorkItemTrackingHttpClient> NativeWorkItemStore { get; private set; }
+        internal Lazy<WorkItemTrackingHttpClient>? NativeWorkItemStore { get; private set; }
 
         public void Dispose()
         {
@@ -134,13 +134,18 @@ namespace Qwiq.Client.Rest
                                      ? ends[0]
                                      : ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Forward"));
 
+                if (forwardEnd == null)
+                {
+                    throw new InvalidOperationException($"Could not find forward link type end for '{kvp.Key}'.");
+                }
                 if (!forwardEnd.ReferenceName.EndsWith("Forward")) forwardEnd.ReferenceName += "-Forward";
 
                 type.SetForwardEnd(new WorkItemLinkTypeEnd(forwardEnd) { IsForwardLink = true, LinkType = type });
                 type.SetReverseEnd(
                                    type.IsDirectional
                                        ? new WorkItemLinkTypeEnd(
-                                                                 ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Reverse")))
+                                                                 ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Reverse"))
+                                                                 ?? throw new InvalidOperationException($"Could not find reverse link type end for '{kvp.Key}'."))
                                        {
                                            LinkType
                                                          = type
@@ -228,7 +233,7 @@ namespace Qwiq.Client.Rest
 
         private WorkItemLinkTypeCollection WorkItemLinkTypeCollectionFactory()
         {
-            return GetLinks(NativeWorkItemStore.Value);
+            return GetLinks(NativeWorkItemStore!.Value);
         }
     }
 }

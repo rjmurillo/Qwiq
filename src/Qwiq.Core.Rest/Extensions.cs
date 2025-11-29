@@ -8,14 +8,14 @@ namespace Qwiq.Client.Rest
     internal static class Extensions
     {
         
-        internal static IWorkItem? AsProxy(this WorkItem? item)
+        internal static IWorkItem AsProxy(this WorkItem item)
         {
-            return item == null ? null : ExceptionHandlingDynamicProxyFactory.Create<IWorkItem>(item);
+            return ExceptionHandlingDynamicProxyFactory.Create<IWorkItem>(item);
         }
         
-        internal static IQuery? AsProxy(this Query? query)
+        internal static IQuery AsProxy(this Query query)
         {
-            return query == null ? null : ExceptionHandlingDynamicProxyFactory.Create<IQuery>(query);
+            return ExceptionHandlingDynamicProxyFactory.Create<IQuery>(query);
         }
         
         internal static IIdentityDescriptor? AsProxy(this Microsoft.VisualStudio.Services.Identity.IdentityDescriptor? value)

@@ -60,7 +60,7 @@ namespace Qwiq.Client.Rest
         {
             Contract.Requires(store != null);
 
-            return new QueryFactory(store);
+            return new QueryFactory(store ?? throw new ArgumentNullException(nameof(store)));
         }
     }
 }
