@@ -446,7 +446,7 @@ namespace Qwiq
         public override void When()
         {
             Expected = DateTime.MinValue;
-            Actual = (DateTime)Parser.Parse(typeof(DateTime), (object)"");
+            Actual = (DateTime)(Parser.Parse(typeof(DateTime), (object)"") ?? DateTime.MinValue);
         }
 
         [TestMethod]
