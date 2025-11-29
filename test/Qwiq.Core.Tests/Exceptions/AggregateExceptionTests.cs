@@ -27,7 +27,7 @@ namespace Qwiq.Exceptions
     [TestClass]
     public class given_an_AggregateException_containing_AggregateExceptions_when_exploded : AggregateExceptionContextSpecification
     {
-        private IEnumerable<Exception> ExpectedExceptions { get; set; }
+        private IEnumerable<Exception> ExpectedExceptions { get; set; } = null!;
 
         public override void Given()
         {

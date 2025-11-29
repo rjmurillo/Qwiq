@@ -8,7 +8,7 @@ namespace Qwiq
 
         protected object? Expected { get; set; }
 
-        protected ITypeParser Parser { get; set; } = null!
+        protected ITypeParser Parser { get; set; } = null!;
 
         public override void Given()
         {

@@ -80,7 +80,7 @@ namespace Should
         /// <summary>
         /// Asserts that the value is null.
         /// </summary>
-        public static void ShouldBeNull<T>(this T actual) where T : class
+        public static void ShouldBeNull<T>(this T? actual) where T : class
         {
             Shouldly.ShouldBeNullExtensions.ShouldBeNull(actual);
         }
@@ -88,7 +88,7 @@ namespace Should
         /// <summary>
         /// Asserts that the value is not null.
         /// </summary>
-        public static void ShouldNotBeNull<T>(this T actual) where T : class
+        public static void ShouldNotBeNull<T>(this T? actual) where T : class
         {
             Shouldly.ShouldBeNullExtensions.ShouldNotBeNull(actual);
         }
@@ -96,7 +96,7 @@ namespace Should
         /// <summary>
         /// Asserts that the value is not null with a custom message.
         /// </summary>
-        public static void ShouldNotBeNull<T>(this T actual, string customMessage) where T : class
+        public static void ShouldNotBeNull<T>(this T? actual, string customMessage) where T : class
         {
             Shouldly.ShouldBeNullExtensions.ShouldNotBeNull(actual, customMessage);
         }
@@ -128,16 +128,18 @@ namespace Should
         /// <summary>
         /// Asserts that the value is of the specified type.
         /// </summary>
-        public static void ShouldBeType<T>(this object actual)
+        public static void ShouldBeType<T>(this object? actual)
         {
+            Shouldly.ShouldBeNullExtensions.ShouldNotBeNull(actual);
             Shouldly.ShouldBeTestExtensions.ShouldBeOfType<T>(actual);
         }
 
         /// <summary>
         /// Asserts that the value is of the specified type (non-generic overload).
         /// </summary>
-        public static void ShouldBeType(this object actual, Type expectedType)
+        public static void ShouldBeType(this object? actual, Type expectedType)
         {
+            Shouldly.ShouldBeNullExtensions.ShouldNotBeNull(actual);
             Shouldly.ShouldBeTestExtensions.ShouldBeOfType(actual, expectedType);
         }
 

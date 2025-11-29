@@ -18,7 +18,7 @@ namespace Qwiq.Exceptions
         protected IExceptionExploder[] ExceptionExploders { get; set; } = null!;
         protected IExceptionMapper[] ExceptionMappers { get; set; } = null!;
         protected Exception Input { get; set; } = null!;
-        protected Exception ActualResult { get; set; } = null!
+        protected Exception? ActualResult { get; set; }
 
         public override void Given()
         {
@@ -70,7 +70,7 @@ namespace Qwiq.Exceptions
     [TestClass]
     public class given_a_InnerExceptionExploder_and_an_exception_with_multiple_levels_of_inner_exceptions_when_exploded : ExceptionMapperTests
     {
-        private MockArgumentExceptionMapper CountingMapper { get; set; }
+        private MockArgumentExceptionMapper CountingMapper { get; set; } = null!;
 
         public override void Given()
         {
