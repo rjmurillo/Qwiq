@@ -60,7 +60,7 @@ namespace Qwiq.Mapper.Benchmark.Tests
                 _mapper = new WorkItemMapper(mappingStrategies);
 
                 // Try to map 10% of what came back
-                var mapCount = (int)(generator.Items.Count * 0.1);
+                var mapCount = (int)(generator.Items!.Count * 0.1);
                 _items = generator.Items.Take(mapCount).ToList();
             }
 
