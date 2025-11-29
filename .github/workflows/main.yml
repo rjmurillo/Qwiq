@@ -48,69 +48,47 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore NuGet packages
-      run: |
-        # First restore using nuget.exe which handles packages.config correctly
-        nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
-        
-        # Also restore each packages.config individually to ensure all dependencies are resolved
-        Get-ChildItem -Path . -Recurse -Filter packages.config | ForEach-Object {
-          Write-Host "Restoring packages from: $($_.FullName)"
-          nuget restore $_.FullName -PackagesDirectory packages -ConfigFile nuget.config
-        }
       shell: pwsh
-      continue-on-error: false
+      run: |
+        # Restore with -PackageSaveMode nupkg to keep .nupkg files like AppVeyor did.
+        # This is required for nuget pack to find dependency packages when processing packages.config.
+        $root = $PWD
+        $packagesDir = Join-Path $root 'packages'
+
+        nuget restore Qwiq.sln `
+          -NonInteractive `
+          -DisableParallelProcessing `
+          -PackagesDirectory $packagesDir `
+          -PackageSaveMode nupkg `
+          -ConfigFile nuget.config
 
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
 
-    - name: Prepare NuGet dependency .nupkg files for packing
-      shell: pwsh
-      run: |
-        # nuget pack requires .nupkg files for dependencies when processing packages.config
-        # nuget restore populates 'packages' with extracted folders, so nuget install would
-        # say "All packages are already installed" if we used the same directory.
-        # We use a separate 'packages-nupkg' directory with -PackageSaveMode nupkg to ensure
-        # the .nupkg files are actually created for nuget pack to find.
-        $root = $PWD
-        $nupkgDir = Join-Path $root 'packages-nupkg'
-
-        Write-Host "Creating nupkg directory at $nupkgDir"
-        New-Item -ItemType Directory -Force -Path $nupkgDir | Out-Null
-
-        # For every packages.config, install its packages into our dedicated nupkg folder
-        Get-ChildItem -Recurse -Filter 'packages.config' | ForEach-Object {
-          $configPath = $_.FullName
-          Write-Host "Installing packages from $configPath into $nupkgDir"
-
-          nuget install $configPath `
-            -OutputDirectory $nupkgDir `
-            -PackageSaveMode nupkg `
-            -NonInteractive
-        }
-
-        # Verify that .nupkg files were created
-        $nupkgFiles = Get-ChildItem -Path $nupkgDir -Recurse -Filter '*.nupkg' | Select-Object -First 10
-        Write-Host "Sample .nupkg files created:"
-        $nupkgFiles | ForEach-Object { Write-Host "  $($_.FullName)" }
-
+    # NOTE:
+    # - We pack from the .csproj with an external .nuspec for metadata.
+    # - Because these projects use packages.config, NuGet always generates <dependencies>
+    #   from packages.config and ignores <dependencies> in the .nuspec.
+    # - This triggers NU5128 in older-style packages.config scenarios, even though the
+    #   historical Qwiq packages have worked fine.
+    # - We suppress NU5128 (and NU5125) via NoWarn to keep the legacy dependency semantics
+    #   without rewriting the packaging model in this PR.
     - name: Pack NuGet packages
       shell: pwsh
       run: |
-        # Pack each project that has a nuspec file
-        # -PackagesDirectory points to the folder with .nupkg files created by nuget install
-        # -IncludeReferencedProjects includes referenced project outputs in the package
         $root = $PWD
-        $nupkgDir = Join-Path $root 'packages-nupkg'
+        $packagesDir = Join-Path $root 'packages'
 
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
           $projectName = (Get-ChildItem -Path $projectDir -Filter "*.csproj" | Select-Object -First 1).BaseName
           Write-Host "Packing: $projectName"
+
           nuget pack "$projectDir\$projectName.csproj" `
-            -Properties Configuration=Release `
+            -Properties "Configuration=Release;NoWarn=NU5125;NU5128" `
             -OutputDirectory "$projectDir\bin\Release" `
             -IncludeReferencedProjects `
-            -PackagesDirectory $nupkgDir `
+            -PackagesDirectory $packagesDir `
             -NonInteractive
         }
 
