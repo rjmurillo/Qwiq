@@ -16,7 +16,7 @@ namespace Qwiq.Identity
         protected IdentityAliasValueConverter Instance { get; set; } = null!;
         protected T Input { get; set; } = default!;
         protected T ActualOutput { get; set; } = default!;
-        protected T ExpectedOutput { get; set; } = default!
+        protected T ExpectedOutput { get; set; } = default!;
         public override void Given()
         {
             Instance =
@@ -94,7 +94,7 @@ namespace Qwiq.Identity
 
         public override void When()
         {
-            ActualOutput = Instance.Map(Input).Values.Select(s => s.ToString());
+            ActualOutput = Instance.Map(Input).Values.Select(s => s.ToString()!);
             Debug.Print("Result: " + ActualOutput.ToUsefulString());
         }
     }
@@ -111,7 +111,7 @@ namespace Qwiq.Identity
 
         public override void When()
         {
-            ActualOutput = Instance.Map(Input).Values.Select(s => s.ToString());
+            ActualOutput = Instance.Map(Input).Values.Select(s => s.ToString()!);
             Debug.Print("Result: " + ActualOutput.ToUsefulString());
         }
     }

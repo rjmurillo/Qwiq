@@ -42,26 +42,26 @@ namespace Qwiq.Mocks
         }
 
         public MockWorkItem(IWorkItemType workItemType, int id)
-            : this(workItemType, new KeyValuePair<string, object>(CoreFieldRefNames.Id, id))
+            : this(workItemType, new KeyValuePair<string, object?>(CoreFieldRefNames.Id, id))
         {
             Contract.Requires(id > 0);
         }
 
-        public MockWorkItem(IWorkItemType workItemType, int id, params KeyValuePair<string, object>[] fieldValues)
+        public MockWorkItem(IWorkItemType workItemType, int id, params KeyValuePair<string, object?>[] fieldValues)
             : this(
                    workItemType,
-                   fieldValues?.Union(new[] { new KeyValuePair<string, object>(CoreFieldRefNames.Id, id) })
-                              .ToDictionary(k => k.Key, e => e.Value, StringComparer.OrdinalIgnoreCase) ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase) { { CoreFieldRefNames.Id, id } })
+                   fieldValues?.Union(new[] { new KeyValuePair<string, object?>(CoreFieldRefNames.Id, id) })
+                              .ToDictionary(k => k.Key, e => e.Value, StringComparer.OrdinalIgnoreCase) ?? new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase) { { CoreFieldRefNames.Id, id } })
         {
             Contract.Requires(id > 0);
         }
 
-        public MockWorkItem(IWorkItemType workItemType, params KeyValuePair<string, object>[] fieldValues)
+        public MockWorkItem(IWorkItemType workItemType, params KeyValuePair<string, object?>[] fieldValues)
             : this(workItemType, fieldValues?.ToDictionary(k => k.Key, e => e.Value, StringComparer.OrdinalIgnoreCase))
         {
         }
 
-        public MockWorkItem(IWorkItemType workItemType, Dictionary<string, object>? fields = null)
+        public MockWorkItem(IWorkItemType workItemType, Dictionary<string, object?>? fields = null)
             : base(workItemType, NormalizeFields(workItemType, fields)!)
         {
             SetFieldValue(workItemType.FieldDefinitions[CoreFieldRefNames.WorkItemType], workItemType.Name);
@@ -77,7 +77,7 @@ namespace Qwiq.Mocks
             ApplyRules();
         }
 
-        private static Dictionary<string, object?>? NormalizeFields(IWorkItemType type, Dictionary<string, object>? fields)
+        private static Dictionary<string, object?>? NormalizeFields(IWorkItemType type, Dictionary<string, object?>? fields)
         {
             if (fields == null) return null;
             var retval = new Dictionary<string, object?>(fields.Comparer);
