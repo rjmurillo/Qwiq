@@ -9,11 +9,10 @@
     <license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/LeCantaloop/Qwiq</projectUrl>
-    <description>Provides identity extension methods on top of Qwiq.Linq</description>
+    <description>Extensions of Qwiq.Linq providing identity assistance in LINQ.</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>Microsoft Team Foundation Server TFS VSO Visual Studio Online VisualStudio Agile WIT Work Item Tracking Object Model VSTS TeamFoundation TFSOM</tags>
     <dependencies>
-      <dependency id="Qwiq.Core" version="*" />
       <dependency id="Qwiq.Identity" version="*" />
       <dependency id="Qwiq.Linq" version="*" />
     </dependencies>
