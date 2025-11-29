@@ -96,7 +96,7 @@ namespace Qwiq
                                       : $"{string.Format(IdentityConstants.DomainQualifiedAccountNameFormat, domain, account)}:{UniqueUserId.ToString(CultureInfo.InvariantCulture)}";
                 }
 
-                return _uniqueName;
+                return _uniqueName!;
             }
         }
 
@@ -112,7 +112,7 @@ namespace Qwiq
             return Equals(obj as ITeamFoundationIdentity);
         }
 
-        public abstract string GetAttribute(string name, string defaultValue);
+        public abstract string? GetAttribute(string name, string? defaultValue);
 
         public override int GetHashCode()
         {

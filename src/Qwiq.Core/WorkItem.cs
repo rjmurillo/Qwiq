@@ -21,7 +21,7 @@ namespace Qwiq
 
         private bool _useFields = true;
 
-        protected internal WorkItem(IWorkItemType workItemType, Dictionary<string, object> fields)
+        protected internal WorkItem(IWorkItemType workItemType, Dictionary<string, object?> fields)
             : base(fields)
         {
             Contract.Requires(workItemType != null);

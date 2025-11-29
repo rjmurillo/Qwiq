@@ -121,19 +121,25 @@ namespace Qwiq
             return false;
         }
 
-        public bool TryGetByName(string name, out IField? value)
+        public bool TryGetByName(string name, [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out IField value)
         {
             if (name == null)
             {
-                value = null;
+                value = null!;
                 return false;
             }
             if (!_definitions.TryGetByName(name, out IFieldDefinition? def) || def == null)
             {
-                value = null;
+                value = null!;
                 return false;
             }
-            return TryGetById(def.Id, out value);
+            if (!TryGetById(def.Id, out IField? result) || result == null)
+            {
+                value = null!;
+                return false;
+            }
+            value = result;
+            return true;
         }
 
         [DebuggerStepThrough]
