@@ -9,13 +9,13 @@ namespace Qwiq
     {
         [DebuggerStepThrough]
         internal WorkItemTypeCollection(Func<IEnumerable<IWorkItemType>> workItemTypesFactory)
-            : base(workItemTypesFactory, type => type.Name)
+            : base(workItemTypesFactory, type => type.Name!)
         {
         }
 
         [DebuggerStepThrough]
         internal WorkItemTypeCollection(List<IWorkItemType> workItemTypes)
-            : base(workItemTypes, type => type.Name)
+            : base(workItemTypes, type => type.Name!)
         {
         }
 
