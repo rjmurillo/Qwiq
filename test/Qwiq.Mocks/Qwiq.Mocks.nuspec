@@ -14,7 +14,7 @@
     <tags>Microsoft Team Foundation Server TFS VSO Visual Studio Online VisualStudio Agile WIT Work Item Tracking Object Model VSTS TeamFoundation TFSOM</tags>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <group targetFramework=".NETFramework4.6" />
+      <group targetFramework="net46" />
     </dependencies>
   </metadata>
 </package>
