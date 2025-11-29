@@ -22,7 +22,7 @@ namespace Qwiq.Client.Rest
             _queue = new Queue<WorkItemClassificationNode>();
             _currentGenerationCount = 1;
             _nextGenerationCount = 0;
-            Current = null;
+            Current = null!;
         }
 
         public void Dispose()
@@ -75,7 +75,7 @@ namespace Qwiq.Client.Rest
 
         public void Reset()
         {
-            Current = null;
+            Current = null!;
         }
 
         public WorkItemClassificationNode Current { get; private set; }
