@@ -67,24 +67,31 @@ jobs:
       shell: pwsh
       run: |
         # nuget pack requires .nupkg files for dependencies when processing packages.config
-        # nuget restore only extracts packages to folders, so we use nuget install with
-        # -PackageSaveMode nupkg to preserve the .nupkg files that nuget pack needs
+        # nuget restore populates 'packages' with extracted folders, so nuget install would
+        # say "All packages are already installed" if we used the same directory.
+        # We use a separate 'packages-nupkg' directory with -PackageSaveMode nupkg to ensure
+        # the .nupkg files are actually created for nuget pack to find.
         $root = $PWD
-        $packagesDir = Join-Path $root 'packages'
+        $nupkgDir = Join-Path $root 'packages-nupkg'
 
-        Write-Host "Creating packages directory at $packagesDir"
-        New-Item -ItemType Directory -Force -Path $packagesDir | Out-Null
+        Write-Host "Creating nupkg directory at $nupkgDir"
+        New-Item -ItemType Directory -Force -Path $nupkgDir | Out-Null
 
-        # For every packages.config, install its packages into our local packages folder
+        # For every packages.config, install its packages into our dedicated nupkg folder
         Get-ChildItem -Recurse -Filter 'packages.config' | ForEach-Object {
           $configPath = $_.FullName
-          Write-Host "Installing packages from $configPath"
+          Write-Host "Installing packages from $configPath into $nupkgDir"
 
           nuget install $configPath `
-            -OutputDirectory $packagesDir `
+            -OutputDirectory $nupkgDir `
             -PackageSaveMode nupkg `
             -NonInteractive
         }
+
+        # Verify that .nupkg files were created
+        $nupkgFiles = Get-ChildItem -Path $nupkgDir -Recurse -Filter '*.nupkg' | Select-Object -First 10
+        Write-Host "Sample .nupkg files created:"
+        $nupkgFiles | ForEach-Object { Write-Host "  $($_.FullName)" }
 
     - name: Pack NuGet packages
       shell: pwsh
@@ -93,7 +100,7 @@ jobs:
         # -PackagesDirectory points to the folder with .nupkg files created by nuget install
         # -IncludeReferencedProjects includes referenced project outputs in the package
         $root = $PWD
-        $packagesDir = Join-Path $root 'packages'
+        $nupkgDir = Join-Path $root 'packages-nupkg'
 
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
@@ -103,7 +110,7 @@ jobs:
             -Properties Configuration=Release `
             -OutputDirectory "$projectDir\bin\Release" `
             -IncludeReferencedProjects `
-            -PackagesDirectory $packagesDir `
+            -PackagesDirectory $nupkgDir `
             -NonInteractive
         }
 
