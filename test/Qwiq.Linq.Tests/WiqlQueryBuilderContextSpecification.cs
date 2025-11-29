@@ -16,7 +16,7 @@ namespace Qwiq.Linq
 
         protected TeamFoundationServerWorkItemQueryProvider QueryProvider { get; set; } = null!;
 
-        protected WiqlQueryBuilder WiqlQueryBuilder { get; set; } = null!
+        protected WiqlQueryBuilder WiqlQueryBuilder { get; set; } = null!;
 
         public override void Given()
         {
