@@ -118,12 +118,13 @@ jobs:
     - name: Run tests
       shell: pwsh
       run: |
-        # Find all test assemblies (excluding IntegrationTests)
+        # Find all test assemblies (excluding IntegrationTests and Package.Tests which runs separately)
         $testAssemblies = @(
           Get-ChildItem -Path "test" -Recurse -Filter "*Tests.dll" | 
           Where-Object { 
             $_.FullName -match "bin\\Release" -and 
             $_.FullName -notmatch "IntegrationTests" -and
+            $_.FullName -notmatch "Package\.Tests" -and
             $_.FullName -notmatch "\\ref\\" 
           }
         )
@@ -148,15 +149,26 @@ jobs:
       run: |
         $packageTestDir = "test/Qwiq.Package.Tests/bin/Release/net8.0"
         New-Item -ItemType Directory -Force -Path $packageTestDir | Out-Null
-        Get-ChildItem -Path "src" -Recurse -Filter "*.nupkg" | ForEach-Object {
+        $packages = Get-ChildItem -Path "src" -Recurse -Filter "*.nupkg"
+        if ($packages.Count -eq 0) {
+          Write-Error "No .nupkg files found in src directory!"
+          exit 1
+        }
+        Write-Host "Found $($packages.Count) packages to copy"
+        $packages | ForEach-Object {
           Write-Host "Copying: $($_.FullName) to $packageTestDir"
           Copy-Item $_.FullName -Destination $packageTestDir
         }
+        # Verify packages were copied
+        $copiedPackages = Get-ChildItem -Path $packageTestDir -Filter "*.nupkg"
+        Write-Host "Verified $($copiedPackages.Count) packages in $packageTestDir"
 
     - name: Run package tests
       shell: pwsh
       run: |
-        dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Release --logger trx --results-directory TestResults
+        # Use --no-build to prevent dotnet test from rebuilding and clearing the output directory
+        # where we just copied the .nupkg files
+        dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Release --no-build --logger trx --results-directory TestResults
 
     - name: Upload test results
       if: success() || failure()
