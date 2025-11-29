@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Qwiq
 {
     public class WorkItemClassificationNodeCollection<TId> : ReadOnlyObjectWithIdCollection<IWorkItemClassificationNode<TId>, TId>, IEquatable<IWorkItemClassificationNodeCollection<TId>>, IWorkItemClassificationNodeCollection<TId>
+        where TId : notnull
     {
         public WorkItemClassificationNodeCollection(IEnumerable<IWorkItemClassificationNode<TId>> items) : base(items)
         {

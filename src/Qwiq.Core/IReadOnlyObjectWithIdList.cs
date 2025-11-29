@@ -10,6 +10,7 @@ namespace Qwiq
     /// <typeparam name="TId">The type of the identifier of elements in the read-only list.</typeparam>
     public interface IReadOnlyObjectWithIdCollection<T, TId> : IReadOnlyObjectWithNameCollection<T>, IEquatable<IReadOnlyObjectWithIdCollection<T, TId>>
         where T : IIdentifiable<TId>
+        where TId : notnull
     {
         /// <summary>
         ///     Determins whether the read-only collection contains a specific value.
@@ -34,6 +35,6 @@ namespace Qwiq
         ///     or the default value of the type if the operation failed.
         /// </param>
         /// <returns><c>true</c> if the name was found in the read-only list; otherwise, <c>false</c>.</returns>
-        bool TryGetById(TId id, out T value);
+        bool TryGetById(TId id, out T? value);
     }
 }
