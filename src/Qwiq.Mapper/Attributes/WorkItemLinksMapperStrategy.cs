@@ -11,12 +11,12 @@ namespace Qwiq.Mapper.Attributes
 {
     public class WorkItemLinksMapperStrategy : WorkItemMapperStrategyBase
     {
-        private static readonly ConcurrentDictionary<Tuple<string, RuntimeTypeHandle>, List<PropertyInfo>>
+        private static readonly ConcurrentDictionary<Tuple<string?, RuntimeTypeHandle>, List<PropertyInfo>>
             PropertiesThatExistOnWorkItem =
-                new ConcurrentDictionary<Tuple<string, RuntimeTypeHandle>, List<PropertyInfo>>();
+                new ConcurrentDictionary<Tuple<string?, RuntimeTypeHandle>, List<PropertyInfo>>();
 
-        private static readonly ConcurrentDictionary<PropertyInfo, WorkItemLinkAttribute> PropertyInfoFields =
-            new ConcurrentDictionary<PropertyInfo, WorkItemLinkAttribute>();
+        private static readonly ConcurrentDictionary<PropertyInfo, WorkItemLinkAttribute?> PropertyInfoFields =
+            new ConcurrentDictionary<PropertyInfo, WorkItemLinkAttribute?>();
 
         private readonly IPropertyInspector _inspector;
 
@@ -74,7 +74,7 @@ namespace Qwiq.Mapper.Attributes
                         var linkType = def.LinkName;
                         var key = new Tuple<int, string>(sourceWorkItem.Id, linkType);
 
-                        if (!linksLookup.TryGetValue(key, out List<int> linkIds))
+                        if (!linksLookup.TryGetValue(key, out List<int>? linkIds))
                         {
                             // Could not find any IDs for the given ID/LinkType
                             continue;
@@ -86,9 +86,10 @@ namespace Qwiq.Mapper.Attributes
                             .Select(
                             s =>
                                 {
-                                    workItems.TryGetValue(s, out IWorkItem val);
+                                    workItems.TryGetValue(s, out IWorkItem? val);
                                     return val;
                                 }).Where(p => p != null)
+                                .Cast<IWorkItem>()
                                 .ToList();
 
                         var createdItems = workItemMapper.Create(propertyType, wi).ToList();
@@ -117,7 +118,7 @@ namespace Qwiq.Mapper.Attributes
                         IList results = (IList)typeof(List<>)
                                                    // ReSharper restore SuggestVarOrType_SimpleTypes
                                                    .MakeGenericType(propertyType)
-                                                   .GetConstructor(new[] { typeof(int) })
+                                                   .GetConstructor(new[] { typeof(int) })!
                                                    .Invoke(new object[] { allItems.Count });
                         foreach (var link in allItems)
                         {
@@ -144,14 +145,14 @@ namespace Qwiq.Mapper.Attributes
             // Composite key: work item type and target type
 
             var workItemType = workItem.WorkItemType;
-            var key = new Tuple<string, RuntimeTypeHandle>(workItemType, targetType.TypeHandle);
+            var key = new Tuple<string?, RuntimeTypeHandle>(workItemType, targetType.TypeHandle);
 
             return PropertiesThatExistOnWorkItem.GetOrAdd(
                 key,
                 tuple => inspector.GetAnnotatedProperties(targetType, attributeType).ToList());
         }
 
-        private static WorkItemLinkAttribute PropertyInfoLinkTypeCache(
+        private static WorkItemLinkAttribute? PropertyInfoLinkTypeCache(
                                     IPropertyInspector inspector,
             PropertyInfo property)
         {
@@ -183,7 +184,7 @@ namespace Qwiq.Mapper.Attributes
 
                         var ids =
                             sourceWorkItem.Links.OfType<IRelatedLink>()
-                                          .Where(wil => wil.LinkTypeEnd.ImmutableName == linkType)
+                                          .Where(wil => wil.LinkTypeEnd?.ImmutableName == linkType)
                                           .Select(wil => wil.RelatedWorkItemId)
                                           .ToList();
 

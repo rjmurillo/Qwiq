@@ -43,9 +43,9 @@ namespace Qwiq.Mapper
             return customAttributes.Select(ca => ca.GetTypeName()).OrderBy(name => name);
             // Order alphabetically so string comparisons work and we don't needlessly permute our queries
         }
-        private static T GetFieldAttribute<T>(Type type, string propertyName)
+        private static T? GetFieldAttribute<T>(Type type, string propertyName) where T : class
         {
-            Contract.Requires(type != null);
+            if (type == null) throw new ArgumentNullException(nameof(type));
             Contract.Requires(!string.IsNullOrEmpty(propertyName));
 
             var property = type.GetProperty(propertyName);

@@ -20,7 +20,7 @@ namespace Qwiq.Mapper
         /// </summary>
         /// <param name="property">An instance of <see cref="PropertyInfo"/> decorated with <see cref="FieldDefinitionAttribute"/>.</param>
         /// <returns>If the <paramref name="property"/> is decorated with <see cref="FieldDefinitionAttribute"/> then the attribute; otherwise, null.</returns>
-        FieldDefinitionAttribute GetFieldDefinition(PropertyInfo property);
+        FieldDefinitionAttribute? GetFieldDefinition(PropertyInfo property);
 
         /// <summary>
         /// Gets and validates annotated properties of <paramref name="targetType"/> against <paramref name="workItem"/>.

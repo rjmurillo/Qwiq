@@ -9,10 +9,10 @@ namespace Qwiq.Mapper
     public class AnnotatedPropertyValidator : IAnnotatedPropertyValidator
     {
         private static readonly Type AttributeType = typeof(FieldDefinitionAttribute);
-        private static readonly ConcurrentDictionary<Tuple<string, RuntimeTypeHandle>, Dictionary<PropertyInfo, FieldDefinitionAttribute>> PropertiesThatExistOnWorkItem = new ConcurrentDictionary<Tuple<string, RuntimeTypeHandle>, Dictionary<PropertyInfo, FieldDefinitionAttribute>>();
-        private static readonly ConcurrentDictionary<PropertyInfo, FieldDefinitionAttribute> PropertyInfoFields = new ConcurrentDictionary<PropertyInfo, FieldDefinitionAttribute>();
+        private static readonly ConcurrentDictionary<Tuple<string?, RuntimeTypeHandle>, Dictionary<PropertyInfo, FieldDefinitionAttribute>> PropertiesThatExistOnWorkItem = new ConcurrentDictionary<Tuple<string?, RuntimeTypeHandle>, Dictionary<PropertyInfo, FieldDefinitionAttribute>>();
+        private static readonly ConcurrentDictionary<PropertyInfo, FieldDefinitionAttribute?> PropertyInfoFields = new ConcurrentDictionary<PropertyInfo, FieldDefinitionAttribute?>();
         private readonly IPropertyInspector _inspector;
-        private Func<IWorkItem, PropertyInfo, bool> _propertyInfoValidator;
+        private Func<IWorkItem, PropertyInfo, bool> _propertyInfoValidator = null!;
 
         public AnnotatedPropertyValidator(IPropertyInspector inspector)
         {
@@ -21,7 +21,7 @@ namespace Qwiq.Mapper
             {
                 var name = GetFieldDefinition(info)?.FieldName;
                 var validName = !string.IsNullOrWhiteSpace(name);
-                return validName && item.Fields.Contains(name);
+                return validName && item.Fields.Contains(name!);
             };
         }
 
@@ -35,7 +35,7 @@ namespace Qwiq.Mapper
             }
         }
 
-        public FieldDefinitionAttribute GetFieldDefinition(PropertyInfo property)
+        public FieldDefinitionAttribute? GetFieldDefinition(PropertyInfo property)
         {
             if (property == null) throw new ArgumentNullException(nameof(property));
             return PropertyInfoFields.GetOrAdd(
@@ -50,9 +50,9 @@ namespace Qwiq.Mapper
                 throw new InvalidOperationException($"{nameof(PropertyInfoValidator)} cannot be null.");
 
             var workItemTypeName = workItem.WorkItemType;
-            var key = new Tuple<string, RuntimeTypeHandle>(workItemTypeName, targetType.TypeHandle);
+            var key = new Tuple<string?, RuntimeTypeHandle>(workItemTypeName, targetType.TypeHandle);
 
-            Dictionary<PropertyInfo, FieldDefinitionAttribute> ValueFactory(Tuple<string, RuntimeTypeHandle> tuple)
+            Dictionary<PropertyInfo, FieldDefinitionAttribute> ValueFactory(Tuple<string?, RuntimeTypeHandle> tuple)
             {
                 var props = _inspector.GetAnnotatedProperties(targetType, AttributeType);
                 var retval = new Dictionary<PropertyInfo, FieldDefinitionAttribute>();

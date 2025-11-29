@@ -53,7 +53,7 @@ namespace Qwiq.Mapper.Attributes
 
         }
 
-        protected internal override void AssignFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, object targetWorkItem, PropertyInfo property, string fieldName, bool convert, object nullSub, object fieldValue)
+        protected internal override void AssignFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, object targetWorkItem, PropertyInfo property, string fieldName, bool convert, object? nullSub, object? fieldValue)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Qwiq.Mapper.Attributes
             }
         }
 
-        protected internal override object GetFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, string fieldName, PropertyInfo property)
+        protected internal override object? GetFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, string fieldName, PropertyInfo property)
         {
             try
             {

@@ -32,7 +32,7 @@ namespace Qwiq.Mapper
 
     public class AttributeMapException : ApplicationException
     {
-        private readonly string _message;
+        private readonly string? _message;
 
         public AttributeMapException()
         {
