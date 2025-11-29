@@ -7,6 +7,7 @@ namespace Qwiq
     public abstract class ReadOnlyObjectWithIdCollection<T, TId> : ReadOnlyObjectWithNameCollection<T>,
                                                                    IReadOnlyObjectWithIdCollection<T, TId>
         where T : IIdentifiable<TId>
+        where TId : notnull
     {
         private readonly Func<T, TId> _idFunc;
 
@@ -80,7 +81,7 @@ namespace Qwiq
 
         public virtual T GetById(TId id)
         {
-            if (!TryGetById(id, out T byId)) throw new DeniedOrNotExistException();
+            if (!TryGetById(id, out T? byId) || byId == null) throw new DeniedOrNotExistException();
             return byId;
         }
 
@@ -89,7 +90,7 @@ namespace Qwiq
             return ReadOnlyCollectionWithIdComparer<T, TId>.Default.GetHashCode(this);
         }
 
-        public virtual bool TryGetById(TId id, out T value)
+        public virtual bool TryGetById(TId id, out T? value)
         {
             Ensure();
             if (_mapById.TryGetValue(id, out int index))
@@ -97,7 +98,7 @@ namespace Qwiq
                 value = this[index];
                 return true;
             }
-            value = default(T);
+            value = default;
             return false;
         }
 
