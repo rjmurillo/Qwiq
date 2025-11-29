@@ -200,7 +200,8 @@ namespace Qwiq.Client.Rest
             for (var index = 0; index < result2.Count; index++)
             {
                 ends.TryGetByName(result2[index].Rel, out IWorkItemLinkTypeEnd? end);
-                retval.Add(new WorkItemLinkInfo(result2[index].Source?.Id ?? 0, result2[index].Target?.Id ?? 0, end!));
+                // end can be null if the link type is not found - WorkItemLinkInfo constructor accepts nullable
+                retval.Add(new WorkItemLinkInfo(result2[index].Source?.Id ?? 0, result2[index].Target?.Id ?? 0, end));
             }
 
             return retval.AsReadOnly();
