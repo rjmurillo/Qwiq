@@ -17,16 +17,16 @@ namespace Qwiq.Identity
 {
     public abstract class BulkIdentityAwareAttributeMapperStrategyTests : ContextSpecification
     {
-        private IWorkItemMapperStrategy _strategy;
-        private Dictionary<IWorkItem, IIdentifiable<int?>> _workItemMappings;
-        protected IDictionary<string, IEnumerable<ITeamFoundationIdentity>> Identities { get; set; }
+        private IWorkItemMapperStrategy _strategy = null!;
+        private Dictionary<IWorkItem, IIdentifiable<int?>> _workItemMappings = null!;
+        protected IDictionary<string, IEnumerable<ITeamFoundationIdentity>>? Identities { get; set; }
 
         protected MockIdentityType Actual
         {
             get { return _workItemMappings.Select(kvp => kvp.Value).Cast<MockIdentityType>().Single(); }
         }
 
-        protected string IdentityFieldBackingValue { get; set; }
+        protected string? IdentityFieldBackingValue { get; set; }
 
         public override void Given()
         {
@@ -111,8 +111,8 @@ namespace Qwiq.Identity
     public class given_a_work_item_with_defined_fields_when_the_field_names_to_properties_are_retrieved : ContextSpecification
     {
         private readonly Type _identityType = typeof(MockIdentityType);
-        private Dictionary<string, List<PropertyInfo>> Expected { get; set; }
-        private Dictionary<string, List<PropertyInfo>> Actual { get; set; }
+        private Dictionary<string, List<PropertyInfo>> Expected { get; set; } = null!;
+        private Dictionary<string, List<PropertyInfo>> Actual { get; set; } = null!
 
         public override void Given()
         {
