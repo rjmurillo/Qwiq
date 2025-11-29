@@ -16,7 +16,7 @@ namespace Qwiq.Mapper.Mocks
 
         public VssCredentials AuthorizedCredentials => _innerWorkItemStore.AuthorizedCredentials;
 
-        public ITeamFoundationIdentity AuthorizedIdentity => _innerWorkItemStore?.AuthorizedIdentity;
+        public ITeamFoundationIdentity? AuthorizedIdentity => _innerWorkItemStore?.AuthorizedIdentity;
 
         /// <inheritdoc />
         public WorkItemStoreConfiguration Configuration => _innerWorkItemStore.Configuration;

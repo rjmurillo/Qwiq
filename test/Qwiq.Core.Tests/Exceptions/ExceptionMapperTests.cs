@@ -14,11 +14,11 @@ namespace Qwiq.Exceptions
 {
     public class ExceptionMapperTests : ContextSpecification
     {
-        protected IExceptionMapper ExceptionMapper { get; set; }
-        protected IExceptionExploder[] ExceptionExploders { get; set; }
-        protected IExceptionMapper[] ExceptionMappers { get; set; }
-        protected Exception Input { get; set; }
-        protected Exception ActualResult { get; set; }
+        protected IExceptionMapper ExceptionMapper { get; set; } = null!;
+        protected IExceptionExploder[] ExceptionExploders { get; set; } = null!;
+        protected IExceptionMapper[] ExceptionMappers { get; set; } = null!;
+        protected Exception Input { get; set; } = null!;
+        protected Exception ActualResult { get; set; } = null!
 
         public override void Given()
         {
@@ -90,7 +90,7 @@ namespace Qwiq.Exceptions
 
     public abstract class VssExceptionMapperTests<T> : ExceptionMapperTests where T : Exception, new()
     {
-        protected IEnumerable<int> HandledErrorCodes = Enumerable.Empty<int>();
+        protected IEnumerable<int> HandledErrorCodes { get; set; } = Enumerable.Empty<int>();
 
         public override void Given()
         {
