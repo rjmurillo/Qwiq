@@ -116,11 +116,11 @@ For most feature work, start with these locations before searching broadly:
 
 ## Code Style & Patterns
 
-### ⚠️ IMPORTANT: JetBrains.Annotations REMOVED
-- **DO NOT USE** `[NotNull]`, `[CanBeNull]`, `[Pure]`, `[ItemNotNull]`, or any JetBrains annotations
-- These were removed during the .NET 8 modernization
-- Use runtime null checks with `ArgumentNullException` instead
-- Future: Enable `<Nullable>enable</Nullable>` for compile-time null safety
+### ⚠️ IMPORTANT: Nullable Reference Types Enabled
+- C# nullable reference types are enabled (`<Nullable>enable</Nullable>`)
+- Use `?` suffix for nullable reference types (e.g., `string?`, `IWorkItem?`)
+- JetBrains.Annotations (`[NotNull]`, `[CanBeNull]`, etc.) have been removed
+- Use runtime null checks with `ArgumentNullException` for parameter validation
 
 ### Null Validation Pattern
 ```csharp
@@ -132,8 +132,9 @@ public void Method(SomeType parameter)
     // : base(parameter?.Property ?? throw new ArgumentNullException(nameof(parameter)))
 }
 
-// WRONG: JetBrains annotation (removed from codebase)
-public void Method([NotNull] SomeType parameter) // DO NOT USE
+// CORRECT: Nullable annotations
+public string? GetValue() => _value; // Can return null
+public void SetValue(string value) { } // Cannot be null
 ```
 
 ### Exception Handling
