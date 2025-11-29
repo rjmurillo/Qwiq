@@ -80,7 +80,7 @@ namespace Qwiq
 
         public virtual IField GetById(int id)
         {
-            if (!TryGetById(id, out IField byId)) throw new DeniedOrNotExistException();
+            if (!TryGetById(id, out IField? byId) || byId == null) throw new DeniedOrNotExistException();
             return byId;
         }
 
@@ -145,7 +145,7 @@ namespace Qwiq
         protected internal void SetField(IField field)
         {
             if (field == null) throw new ArgumentNullException(nameof(field));
-            if (!_definitions.Contains(field.ReferenceName)) throw new InvalidOperationException();
+            if (field.ReferenceName == null || !_definitions.Contains(field.ReferenceName)) throw new InvalidOperationException();
 
             _cache[field.FieldDefinition.Id] = field;
         }
