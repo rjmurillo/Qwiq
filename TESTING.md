@@ -16,11 +16,22 @@ Nullable reference types (`<Nullable>enable</Nullable>`) are enabled repository-
 | Project | Status | Notes |
 |---------|--------|-------|
 | Qwiq.Core | ✅ Complete | 0 nullable warnings |
-| Qwiq.Core.Rest | ⚠️ Partial | ~42 warnings remaining |
+| Qwiq.Core.Rest | ✅ Complete | 0 nullable warnings |
 | Qwiq.Core.Soap | ⚠️ Pending | Not yet annotated |
-| Qwiq.Linq | ⚠️ Pending | ~128 warnings |
-| Qwiq.Identity | ⚠️ Pending | ~28 warnings |
+| Qwiq.Linq | ⚠️ Partial | ~94 warnings - TranslatedQuery annotated |
+| Qwiq.Identity | ✅ Complete | 0 nullable warnings |
 | Qwiq.Mapper | ⚠️ Pending | Not yet annotated |
+| Test Projects | ⚠️ Pending | Mocks and tests need annotation |
+
+### Common Nullable Patterns
+
+When annotating code:
+1. **Nullable value can be null**: Use `T?` suffix (e.g., `string?`, `IWorkItem?`)
+2. **Lazy initialized fields**: Use `null!` for fields set later (e.g., `private string _field = null!;`)
+3. **Method returns nullable**: Change return type to `T?`
+4. **Parameter validation**: Add `if (param == null) throw new ArgumentNullException(nameof(param));`
+5. **Null-forgiving operator**: Use `!` when you know value is non-null but compiler doesn't (e.g., `collection!.Count`)
+6. **OfType filter**: Use `.OfType<T>()` to filter out nulls from collections
 
 To check nullable warnings in a project:
 ```powershell
