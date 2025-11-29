@@ -114,12 +114,10 @@ namespace Qwiq.Mapper.Attributes
                         var allItems = createdItems.Union(existing).ToList();
 
                         // REVIEW: These steps are required as the type defined for the link may be different than targetWorkItemType
-                        // ReSharper disable SuggestVarOrType_SimpleTypes
-                        IList results = (IList)typeof(List<>)
-                                                   // ReSharper restore SuggestVarOrType_SimpleTypes
-                                                   .MakeGenericType(propertyType)
-                                                   .GetConstructor(new[] { typeof(int) })!
-                                                   .Invoke(new object[] { allItems.Count });
+                        var listType = typeof(List<>).MakeGenericType(propertyType);
+                        var constructor = listType.GetConstructor(new[] { typeof(int) })
+                            ?? throw new InvalidOperationException($"Constructor with int capacity not found for {listType.FullName}");
+                        IList results = (IList)constructor.Invoke(new object[] { allItems.Count });
                         foreach (var link in allItems)
                         {
                             results.Add(link);
