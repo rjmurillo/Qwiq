@@ -55,7 +55,10 @@ namespace Qwiq.Linq.Visitors
         {
             if (!NeedsIdentityMapping) return base.VisitConstant(node);
 
-            var newNode = _valueConverter.Map(node.Value as string);
+            var value = node.Value as string;
+            if (value == null) return base.VisitConstant(node);
+
+            var newNode = _valueConverter.Map(value);
             return Expression.Constant(newNode);
         }
 
@@ -76,7 +79,7 @@ namespace Qwiq.Linq.Visitors
 
         private static bool ExpressionsNeedIdentityMapping(IEnumerable<Expression> expressions)
         {
-            return expressions.OfType<MemberExpression>().Any(arg => IsIdentityField(arg.Expression.Type, arg.Member.Name));
+            return expressions.OfType<MemberExpression>().Any(arg => arg.Expression != null && IsIdentityField(arg.Expression.Type, arg.Member.Name));
         }
 
         private static bool IsIdentityField(Type type, string propertyName)
