@@ -9,14 +9,14 @@ namespace Qwiq.Mocks
     /// </summary>
     public class MockQuery : IQuery
     {
-        private readonly string _wiql;
-        private readonly IEnumerable<int> _ids;
+        private readonly string? _wiql;
+        private readonly IEnumerable<int>? _ids;
         private readonly MockWorkItemStore _store;
 
         public MockQuery(
             MockWorkItemStore store,
-            string wiql = null,
-            IEnumerable<int> ids = null)
+            string? wiql = null,
+            IEnumerable<int>? ids = null)
         {
             _wiql = wiql;
             _ids = ids;
@@ -54,7 +54,7 @@ namespace Qwiq.Mocks
             Trace.TraceInformation("Querying for IDs " + string.Join(", ", h));
             foreach (var id in h)
             {
-                if (_store._lookup.TryGetValue(id, out IWorkItem val))
+                if (_store._lookup.TryGetValue(id, out IWorkItem? val) && val != null)
                 {
                     retval.Add(val);
                 }

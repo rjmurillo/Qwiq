@@ -6,7 +6,7 @@ namespace Qwiq.Mocks
     internal class MockWorkItemTypeCollection : WorkItemTypeCollection
     {
         public MockWorkItemTypeCollection(IWorkItemStore store)
-            : base((List<IWorkItemType>)null)
+            : base((List<IWorkItemType>)null!)
         {
             ItemFactory = () => new[]
                                     {
