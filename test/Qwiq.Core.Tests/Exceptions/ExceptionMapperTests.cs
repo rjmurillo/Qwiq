@@ -90,7 +90,7 @@ namespace Qwiq.Exceptions
 
     public abstract class VssExceptionMapperTests<T> : ExceptionMapperTests where T : Exception, new()
     {
-        protected IEnumerable<int> HandledErrorCodes;
+        protected IEnumerable<int> HandledErrorCodes = Enumerable.Empty<int>();
 
         public override void Given()
         {
