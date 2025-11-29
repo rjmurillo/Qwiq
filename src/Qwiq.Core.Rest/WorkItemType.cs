@@ -7,13 +7,13 @@ namespace Qwiq.Client.Rest
     internal class WorkItemType : Qwiq.WorkItemType
     {
         private readonly Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItemType _type;
-        private IFieldDefinitionCollection _fdc;
+        private IFieldDefinitionCollection? _fdc;
 
         internal WorkItemType(Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models.WorkItemType type)
             : base(
                 type.Name,
                 type.Description,
-                null,
+                null!,
                 NewWorkItemImpl)
         {
             Contract.Requires(type != null);

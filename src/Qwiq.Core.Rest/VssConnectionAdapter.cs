@@ -23,7 +23,7 @@ namespace Qwiq.Client.Rest
 
         public ITeamFoundationIdentity AuthorizedIdentity { get; }
 
-        public ICommonStructureService CommonStructureService { get; }
+        public ICommonStructureService? CommonStructureService { get; }
 
         public bool HasAuthenticated { get; }
 
