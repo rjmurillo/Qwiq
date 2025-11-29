@@ -50,20 +50,35 @@ jobs:
     - name: Restore NuGet packages
       shell: pwsh
       run: |
-        # Restore with -PackageSaveMode nupkg to keep .nupkg files like AppVeyor did.
-        # This is required for nuget pack to find dependency packages when processing packages.config.
-        $root = $PWD
-        $packagesDir = Join-Path $root 'packages'
-
-        nuget restore Qwiq.sln `
-          -NonInteractive `
-          -DisableParallelProcessing `
-          -PackagesDirectory $packagesDir `
-          -PackageSaveMode nupkg `
-          -ConfigFile nuget.config
+        # Standard restore for building - extracts packages to folders
+        nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
 
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
+
+    - name: Prepare NuGet dependency .nupkg files for packing
+      shell: pwsh
+      run: |
+        # nuget pack requires .nupkg files for dependencies when processing packages.config.
+        # nuget restore only extracts packages to folders, so we use nuget install with
+        # -PackageSaveMode nupkg to create the .nupkg files that nuget pack needs.
+        # We use a separate 'packages-nupkg' directory because nuget install would skip
+        # packages already present in the 'packages' folder from restore.
+        $root = $PWD
+        $nupkgDir = Join-Path $root 'packages-nupkg'
+
+        Write-Host "Creating nupkg directory at $nupkgDir"
+        New-Item -ItemType Directory -Force -Path $nupkgDir | Out-Null
+
+        Get-ChildItem -Recurse -Filter 'packages.config' | ForEach-Object {
+          $configPath = $_.FullName
+          Write-Host "Installing packages from $configPath into $nupkgDir"
+
+          nuget install $configPath `
+            -OutputDirectory $nupkgDir `
+            -PackageSaveMode nupkg `
+            -NonInteractive
+        }
 
     # NOTE:
     # - We pack from the .csproj with an external .nuspec for metadata.
@@ -77,7 +92,7 @@ jobs:
       shell: pwsh
       run: |
         $root = $PWD
-        $packagesDir = Join-Path $root 'packages'
+        $nupkgDir = Join-Path $root 'packages-nupkg'
 
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
@@ -88,7 +103,7 @@ jobs:
             -Properties "Configuration=Release;NoWarn=NU5125;NU5128" `
             -OutputDirectory "$projectDir\bin\Release" `
             -IncludeReferencedProjects `
-            -PackagesDirectory $packagesDir `
+            -PackagesDirectory $nupkgDir `
             -NonInteractive
         }
 
