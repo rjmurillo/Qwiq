@@ -6,9 +6,7 @@ on:
       - develop
       - master
   pull_request:
-    branches:
-      - develop
-      - master
+    # Run for ALL pull requests regardless of target branch
   workflow_dispatch:
 
 permissions:
