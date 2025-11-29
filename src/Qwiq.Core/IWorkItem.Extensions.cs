@@ -49,11 +49,6 @@ namespace Qwiq
         }
         public static void AddChildrenLink(this IWorkItem workItem, IWorkItemStore store, params int[] childrenIds)
         {
-            Contract.Requires(workItem != null);
-            Contract.Requires(store != null);
-            Contract.Requires(childrenIds != null);
-            Contract.Requires(childrenIds.Length > 0);
-
             if (workItem == null) throw new ArgumentNullException(nameof(workItem));
             if (store == null) throw new ArgumentNullException(nameof(store));
             if (childrenIds == null) throw new ArgumentNullException(nameof(childrenIds));

@@ -35,7 +35,7 @@ namespace Qwiq
         /// <param name="identity">The identity.</param>
         /// <exception cref="ArgumentNullException">identity</exception>
         public IdentityFieldValue(ITeamFoundationIdentity identity)
-            : this(identity.DisplayName, identity.Descriptor?.Identifier, identity.TeamFoundationId.ToString())
+            : this(identity.DisplayName ?? string.Empty, identity.Descriptor?.Identifier ?? string.Empty, identity.TeamFoundationId.ToString())
         {
             Contract.Requires(identity != null);
 
@@ -51,7 +51,7 @@ namespace Qwiq
         ///     CD4C5751-F4E6-41D5-A4C9-EFFD66BC8E9C\chrisjohns@contoso.com).
         /// </param>
         /// <param name="teamFoundationId">The security identifier (SID) for the identity.</param>
-        public IdentityFieldValue(string displayName, string identifier, string teamFoundationId)
+        public IdentityFieldValue(string? displayName, string? identifier, string? teamFoundationId)
             : this(displayName)
         {
             Identifier = identifier;
@@ -59,7 +59,9 @@ namespace Qwiq
             if (!string.IsNullOrEmpty(teamFoundationId) && Guid.TryParse(teamFoundationId, out Guid tfsid))
                 TeamFoundationId = teamFoundationId;
 
-            var arr = Identifier.Split(IdentityConstants.DomainAccountNameSeparator);
+            if (string.IsNullOrEmpty(Identifier)) return;
+
+            var arr = Identifier!.Split(IdentityConstants.DomainAccountNameSeparator);
             if (arr.Length != 2 || arr[1] == TeamFoundationId) return;
 
             if (arr[1].Contains("@"))
@@ -83,22 +85,22 @@ namespace Qwiq
             }
         }
 
-        public IdentityFieldValue(string displayName)
+        public IdentityFieldValue(string? displayName)
         {
             DisplayPart = displayName;
 
             if (string.IsNullOrEmpty(displayName)) return;
 
-            if (TryGetVsid(displayName, out Guid guid2, out string str))
+            if (TryGetVsid(displayName!, out Guid guid2, out string? str))
             {
                 DisplayPart = str;
                 return;
             }
-            if (TryGetDomainAndAccountName(displayName, out string str2))
+            if (TryGetDomainAndAccountName(displayName!, out string? str2))
             {
                 AccountName = str2;
 
-                var strArray = str2.Split(IdentityConstants.DomainAccountNameSeparator);
+                var strArray = str2!.Split(IdentityConstants.DomainAccountNameSeparator);
                 if (strArray.Length != 2) return;
 
                 Domain = strArray[0];
@@ -106,10 +108,10 @@ namespace Qwiq
 
                 return;
             }
-            if (TryGetAccountName(displayName, out str2))
+            if (TryGetAccountName(displayName!, out str2))
             {
                 AccountName = str2;
-                if (str2.Contains("@"))
+                if (str2 != null && str2.Contains("@"))
                 {
                     Email = str2;
                     LogonName = str2.Split('@')[0];
@@ -117,7 +119,7 @@ namespace Qwiq
                 DisplayPart = displayName;
                 return;
             }
-            if (TryGetDisplayName(displayName, out str2)) DisplayPart = str2;
+            if (TryGetDisplayName(displayName!, out str2)) DisplayPart = str2;
         }
 
         /// <summary>

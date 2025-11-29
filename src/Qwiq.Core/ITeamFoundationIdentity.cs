@@ -86,7 +86,7 @@ namespace Qwiq
         /// Attribute accessor. Will return the caller supplied default value if attribute
         /// is not present (will not throw).
         /// </summary>
-        string GetAttribute(string name, string defaultValue);
+        string? GetAttribute(string name, string? defaultValue);
 
         /// <summary>Property accessor. Will throw if not found.</summary>
         object GetProperty(string name);
@@ -165,7 +165,7 @@ namespace Qwiq
         public abstract int UniqueUserId { get; }
 
         /// <inheritdoc />
-        public abstract string GetAttribute(string name, string defaultValue);
+        public abstract string? GetAttribute(string name, string? defaultValue);
 
         /// <inheritdoc />
         public abstract object GetProperty(string name);
