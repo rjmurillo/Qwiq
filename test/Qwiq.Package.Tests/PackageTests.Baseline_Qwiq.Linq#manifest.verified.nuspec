@@ -13,7 +13,7 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>Microsoft Team Foundation Server TFS VSO Visual Studio Online VisualStudio Agile WIT Work Item Tracking Object Model VSTS TeamFoundation TFSOM</tags>
     <dependencies>
-      <dependency id="Qwiq.Core" version="10.0.30" />
+      <dependency id="Qwiq.Core" version="*" />
     </dependencies>
   </metadata>
 </package>

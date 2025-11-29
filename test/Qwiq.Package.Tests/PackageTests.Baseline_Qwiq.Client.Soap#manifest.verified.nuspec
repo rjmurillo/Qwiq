@@ -19,7 +19,7 @@
       <dependency id="Microsoft.TeamFoundationServer.ExtendedClient" version="15.112.1" />
       <dependency id="Newtonsoft.Json" version="10.0.2" />
       <dependency id="System.IdentityModel.Tokens.Jwt" version="4.0.4.403061554" />
-      <dependency id="Qwiq.Core" version="10.0.30" />
+      <dependency id="Qwiq.Core" version="*" />
     </dependencies>
   </metadata>
 </package>
