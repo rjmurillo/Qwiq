@@ -108,7 +108,7 @@ jobs:
           Write-Host "Packing: $projectName"
 
           nuget pack "$projectDir\$projectName.csproj" `
-            -Properties "Configuration=Release;NoWarn=NU5125;NU5128" `
+            -Properties "Configuration=Release;NoWarn=NU5125,NU5128" `
             -OutputDirectory "$projectDir\bin\Release" `
             -IncludeReferencedProjects `
             -PackagesDirectory $nupkgDir `
