@@ -29,10 +29,12 @@ namespace Qwiq.Identity
         public override IReadOnlyDictionary<string, object> Map(IEnumerable<string> values)
         {
             if (values == null) return Empty;
-            return GetIdentityNames(values.ToArray());
+            var result = GetIdentityNames(values.ToArray());
+            // Filter out null values to satisfy the non-nullable contract
+            return result.Where(kvp => kvp.Value != null).ToDictionary(kvp => kvp.Key, kvp => kvp.Value!, Comparer.OrdinalIgnoreCase);
         }
 
-        private IDictionary<string, string[]> GetAliasesForDisplayNames(string[] displayNames)
+        private IDictionary<string, string?[]> GetAliasesForDisplayNames(string[] displayNames)
         {
             if (displayNames == null) throw new ArgumentNullException(nameof(displayNames));
 
@@ -40,16 +42,16 @@ namespace Qwiq.Identity
                       .ToDictionary(
                                     kvp => kvp.Key,
                                     kvp => kvp
-                                            .Value.Where(
+                                            .Value?.Where(
                                                          identity => identity != null
                                                                      && !identity.IsContainer
                                                                      && identity.UniqueUserId == IdentityConstants.ActiveUniqueId)
                                             .Select(i => i.GetUserAlias())
                                             .Distinct(StringComparer.OrdinalIgnoreCase)
-                                            .ToArray());
+                                            .ToArray() ?? Array.Empty<string?>());
         }
 
-        private Dictionary<string, object> GetIdentityNames(params string[] displayNames)
+        private Dictionary<string, object?> GetIdentityNames(params string[] displayNames)
         {
             return
                         GetAliasesForDisplayNames(displayNames)
@@ -60,9 +62,9 @@ namespace Qwiq.Identity
                                     if (kvp.Value == null || kvp.Value.Length == 0) return null;
                                     if (kvp.Value.Length > 1)
                                     {
-                                        throw new MultipleIdentitiesFoundException(kvp.Key, kvp.Value);
+                                        throw new MultipleIdentitiesFoundException(kvp.Key, kvp.Value!);
                                     }
-                                    return (object)kvp.Value[0];
+                                    return (object?)kvp.Value[0];
                                 },
                             Comparer.OrdinalIgnoreCase);
         }

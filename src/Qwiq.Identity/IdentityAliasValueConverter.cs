@@ -38,15 +38,15 @@ namespace Qwiq.Identity
             string tenantId,
             params string[] domains)
         {
-            Contract.Requires(!string.IsNullOrEmpty(tenantId));
-            Contract.Requires(identityManagementService != null);
-            Contract.Requires(domains != null);
-            Contract.Requires(domains.Length > 0);
-            Contract.Requires(domains.All(item => item != null));
-
             if (domains == null) throw new ArgumentNullException(nameof(domains));
             if (string.IsNullOrEmpty(tenantId)) throw new ArgumentException("Value cannot be null or empty.", nameof(tenantId));
             if (domains.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(domains));
+            if (domains.Any(d => d == null)) throw new ArgumentException("Domains cannot contain null values.", nameof(domains));
+
+            Contract.Requires(!string.IsNullOrEmpty(tenantId));
+            Contract.Requires(identityManagementService != null);
+            Contract.Requires(domains.Length > 0);
+            Contract.Requires(domains.All(item => item != null));
             _identityManagementService = identityManagementService ?? throw new ArgumentNullException(nameof(identityManagementService));
             _tenantId = tenantId;
             _domains = domains;
@@ -66,7 +66,7 @@ namespace Qwiq.Identity
             return retval;
         }
 
-        private Dictionary<string, object> GetIdentityForAliases(
+        private Dictionary<string, object?> GetIdentityForAliases(
             ICollection<string> logonNames,
             string tenantId,
             params string[] domains)
@@ -110,18 +110,18 @@ namespace Qwiq.Identity
             return descriptors;
         }
 
-        private Dictionary<string, object> GetIdentitiesForAliases(
+        private Dictionary<string, object?> GetIdentitiesForAliases(
             IDictionary<string, ICollection<IIdentityDescriptor>> aliasDescriptors)
         {
             var descriptors = aliasDescriptors.SelectMany(ad => ad.Value).ToList();
             var descriptorToAliasLookup = aliasDescriptors
-                    .SelectMany(ad => ad.Value.Select(d => new KeyValuePair<string, string>(d.ToString(), ad.Key)))
+                    .SelectMany(ad => ad.Value.Select(d => new KeyValuePair<string, string>(d.ToString() ?? string.Empty, ad.Key)))
                     .ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.OrdinalIgnoreCase);
-            var validIdentities = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            var validIdentities = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
             var lookupResults = _identityManagementService.ReadIdentities(descriptors);
             foreach (var identity in lookupResults.Where(id => id != null))
             {
-                var lookupKey = identity.Descriptor.ToString();
+                var lookupKey = identity.Descriptor.ToString() ?? string.Empty;
                 var alias = descriptorToAliasLookup[lookupKey];
                 if (!validIdentities.ContainsKey(alias)) validIdentities.Add(alias, identity);
             }
