@@ -63,8 +63,8 @@ namespace Qwiq.Linq
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            var enumerable = (IEnumerable)_provider.Execute(_expression);
-            return enumerable.GetEnumerator();
+            var enumerable = (IEnumerable?)_provider.Execute(_expression);
+            return enumerable?.GetEnumerator() ?? throw new InvalidOperationException("Query execution returned null");
         }
     }
 }

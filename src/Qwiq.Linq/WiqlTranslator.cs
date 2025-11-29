@@ -78,7 +78,7 @@ namespace Qwiq.Linq
                 _expressionInProgress = new Queue<IFragment>();
             }
 
-            public override Expression Visit(Expression node)
+        public override Expression? Visit(Expression? node)
             {
                 if (node == null)
                 {
@@ -332,7 +332,7 @@ namespace Qwiq.Linq
                     // Check for string first
                     if (valueType == typeof(string))
                     {
-                        _expressionInProgress.Enqueue(new ConstantFragment(node.Value.ToString()));
+                        _expressionInProgress.Enqueue(new ConstantFragment(node.Value.ToString() ?? string.Empty));
                     }
                     // Check for DateTime
                     else if (valueType == typeof(DateTime))
@@ -354,7 +354,7 @@ namespace Qwiq.Linq
                     else if (valueType == typeof(short) || valueType == typeof(int) ||
                              valueType == typeof(long) || valueType == typeof(double))
                     {
-                        _expressionInProgress.Enqueue(new StringFragment(node.Value.ToString()));
+                        _expressionInProgress.Enqueue(new StringFragment(node.Value.ToString() ?? string.Empty));
                     }
                     else
                     {
@@ -377,7 +377,7 @@ namespace Qwiq.Linq
                 if (node.Expression != null && node.NodeType == ExpressionType.MemberAccess && node.Member.Name == "Value")
                 {
                     // Node is a obj.Property.Value call. The 'Value' can be ignored. Trim it off and continue.
-                    return Visit(node.Expression);
+                    return Visit(node.Expression)!;
                 }
 
                 throw new NotSupportedException($"The member '{node.Member.Name}' is not supported");
@@ -385,7 +385,8 @@ namespace Qwiq.Linq
 
             protected Expression VisitIndexer(IndexerExpression node)
             {
-                _expressionInProgress.Enqueue(new MemberFragment(_fieldMapper, node.Target.Value.ToString()));
+                var targetValue = node.Target.Value?.ToString() ?? throw new InvalidOperationException("Indexer target value cannot be null");
+                _expressionInProgress.Enqueue(new MemberFragment(_fieldMapper, targetValue));
 
                 return node;
             }
