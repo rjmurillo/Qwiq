@@ -35,16 +35,15 @@ namespace Qwiq.Linq
                 () => _innerMapper.GetFieldName(type, propertyName));
         }
 
-        private T GetOrAdd<T>(string key, Func<T> func)
+        private T GetOrAdd<T>(string key, Func<T> func) where T : notnull
         {
-            return (T)_cache.GetOrAdd(key, val => func());
+            return (T)_cache.GetOrAdd(key, _ => func()!);
         }
 
         private string GenerateCacheKey(Type type, string method, string propertyName = "")
         {
-            Contract.Requires(type != null);
-            Contract.Requires(method != null);
-            Contract.Requires(propertyName != null);
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (method == null) throw new ArgumentNullException(nameof(method));
 
             return type.AssemblyQualifiedName + method + propertyName;
         }
