@@ -96,8 +96,8 @@ namespace Qwiq.Mapper
             PropertyInfo property,
             string fieldName,
             bool convert,
-            object nullSub,
-            object fieldValue)
+            object? nullSub,
+            object? fieldValue)
         {
             // Coalesce fieldValue and nullSub
 
@@ -211,7 +211,7 @@ namespace Qwiq.Mapper
         internal static Dictionary<string, List<PropertyInfo>> GetWorkItemIdentityFieldNameToIdentityPropertyMap(Type targetWorkItemType, IPropertyInspector propertyInspector)
         {
             var hashtable = IdentityPropertyTypeMap;
-            var props = (Dictionary<string, List<PropertyInfo>>)hashtable[targetWorkItemType];
+            var props = (Dictionary<string, List<PropertyInfo>>?)hashtable[targetWorkItemType];
 
             if (props != null) return props;
 
