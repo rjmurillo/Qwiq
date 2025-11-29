@@ -28,7 +28,7 @@ namespace Qwiq.Linq
             base.When();
             Expected =
                 "SELECT * FROM WorkItems WHERE (([Changed Date] > '2012-11-29 17:00:00Z'))";
-            Actual = Query.Where(item => (DateTime)item["Changed Date"] > _date).ToString();
+            Actual = Query.Where(item => (DateTime)item["Changed Date"]! > _date).ToString()!;
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Qwiq.Linq
             base.When();
             Expected =
                 "SELECT * FROM WorkItems WHERE (([Changed Date] > '2012-11-29 17:00:00Z'))";
-            Actual = Query.Where(item => (item["Changed Date"] as DateTime?) > _date).ToString();
+            Actual = Query.Where(item => (item["Changed Date"] as DateTime?) > _date).ToString()!;
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Qwiq.Linq
             base.When();
             Expected =
                 "SELECT * FROM WorkItems WHERE ((([Title] = 'asdf') AND ([Changed Date] > '2012-11-29 17:00:00Z')))";
-            Actual = Query.Where(item => item.Title == "asdf" && item.ChangedDate > _date).ToString();
+            Actual = Query.Where(item => item.Title == "asdf" && item.ChangedDate > _date).ToString()!;
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems ASOF '2014-06-01 07:00:00Z'";
-            Actual = Query.AsOf(_date).ToString();
+            Actual = Query.AsOf(_date).ToString()!;
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace Qwiq.Linq
                 Query.Where(item => item.Title == "asdf")
                     .Where(item => item.Tags == "String Value")
                     .Where(item => item.CreatedDate > _date)
-                    .ToString();
+                    .ToString()!;
         }
 
         [TestMethod]
@@ -158,7 +158,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE ((([Tags] = 'person1') OR ([Tags] = 'person2')))";
-            Actual = Query.Where(item => item.Tags == "person1" || item.Tags == "person2").ToString();
+            Actual = Query.Where(item => item.Tags == "person1" || item.Tags == "person2").ToString()!;
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_query_has_a_field_that_should_be_in_a_list_of_string_array_values : WiqlQueryBuilderContextSpecification
     {
-        private string[] _values;
+        private string[] _values = null!;
 
         public override void Given()
         {
@@ -184,7 +184,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Tags] IN ('person1', 'person2')))";
-            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString();
+            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString()!;
         }
 
         [TestMethod]
@@ -198,7 +198,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_query_has_a_field_that_should_be_in_a_list_of_IEnumerable_string_values : WiqlQueryBuilderContextSpecification
     {
-        private IEnumerable<string> _values;
+        private IEnumerable<string> _values = null!;
 
         public override void Given()
         {
@@ -210,7 +210,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Tags] IN ('person1', 'person2')))";
-            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString();
+            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString()!;
         }
 
         [TestMethod]
@@ -224,7 +224,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_query_has_a_field_that_should_be_in_a_list_of_Collection_string_values : WiqlQueryBuilderContextSpecification
     {
-        private Collection<string> _values;
+        private Collection<string> _values = null!;
 
         public override void Given()
         {
@@ -236,7 +236,7 @@ namespace Qwiq.Linq
         [ExpectedException(typeof(NotSupportedException))]
         public void it_is_not_supported()
         {
-            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString();
+            Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!;
         }
     }
 
@@ -244,7 +244,7 @@ namespace Qwiq.Linq
     // ReSharper disable once InconsistentNaming
     public class when_a_query_has_a_field_that_should_be_in_a_list_of_HashSet_string_values : WiqlQueryBuilderContextSpecification
     {
-        private HashSet<string> _values;
+        private HashSet<string> _values = null!;
 
         public override void Given()
         {
@@ -260,7 +260,7 @@ namespace Qwiq.Linq
         [ExpectedException(typeof(NotSupportedException))]
         public void it_is_not_supported()
         {
-            Actual = Query.Where(item => _values.Contains(item.Tags)).ToString();
+            Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!;
         }
     }
 
@@ -273,7 +273,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Title] <> ''))";
-            Actual = Query.Where(item => item.Title != null).ToString();
+            Actual = Query.Where(item => item.Title != null).ToString()!;
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] > 1))";
-            Actual = Query.Where(item => item.Id > 1).ToString();
+            Actual = Query.Where(item => item.Id > 1).ToString()!;
         }
 
         [TestMethod]
@@ -309,7 +309,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] <> 1234))";
-            Actual = Query.Where(item => item.Id != 1234).ToString();
+            Actual = Query.Where(item => item.Id != 1234).ToString()!;
         }
 
         [TestMethod]
@@ -324,7 +324,7 @@ namespace Qwiq.Linq
     public class when_a_where_clause_has_a_lazy_ienumerable_in_the_expression : WiqlQueryBuilderContextSpecification
     {
         private readonly string[] _aliases = { "person1", "person2" };
-        private IEnumerable<string> _filteredAliases;
+        private IEnumerable<string> _filteredAliases = null!;
 
         public override void Given()
         {
@@ -336,7 +336,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] IN ('person1')))";
-            Actual = Query.Where(item => _filteredAliases.Contains(item.AssignedTo)).ToString();
+            Actual = Query.Where(item => _filteredAliases.Contains(item.AssignedTo)).ToString()!;
             base.When();
         }
 
@@ -355,7 +355,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] = 'Robert O''Sullivan'))";
-            Actual = Query.Where(item => item.AssignedTo == "Robert O'Sullivan").ToString();
+            Actual = Query.Where(item => item.AssignedTo == "Robert O'Sullivan").ToString()!;
 
         }
 
@@ -376,7 +376,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] IN ('Robert O''Sullivan', 'Robert O''Laney')))";
-            Actual = Query.Where(item => _values.Contains(item.AssignedTo)).ToString();
+            Actual = Query.Where(item => _values.Contains(item.AssignedTo)).ToString()!;
         }
 
         [TestMethod]
@@ -395,7 +395,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems ORDER BY [Title] desc, [Revised Date] asc";
-            Actual = Query.OrderByDescending(item => item.Title).ThenBy(bug => bug.RevisedDate).ToString();
+            Actual = Query.OrderByDescending(item => item.Title).ThenBy(bug => bug.RevisedDate).ToString()!;
         }
 
         [TestMethod]
@@ -415,7 +415,7 @@ namespace Qwiq.Linq
         public void a_NotSupportedException_is_thrown_to_notify_the_developer_that_text_matches_are_case_insensitive()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Actual = Query.Where(item => item.Title.ToUpperInvariant() == "TEST").ToString();
+            Actual = Query.Where(item => item.Title!.ToUpperInvariant() == "TEST").ToString()!;
         }
 #pragma warning restore CA1862
     }
@@ -428,7 +428,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Area Path] UNDER 'path1\\path2\\path3'))";
-            Actual = Query.Where(item => item.AreaPath.StartsWith(@"path1\path2\path3")).ToString();
+            Actual = Query.Where(item => item.AreaPath!.StartsWith(@"path1\path2\path3")).ToString()!;
         }
 
         [TestMethod]
@@ -446,7 +446,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] EVER 'alias'))";
-            Actual = Query.Where(item => item.AssignedTo.WasEver("alias")).ToString();
+            Actual = Query.Where(item => item.AssignedTo!.WasEver("alias")).ToString()!;
         }
 
         [TestMethod]
@@ -464,7 +464,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] IN GROUP 'o_alias'))";
-            Actual = Query.Where(item => item.AssignedTo.InGroup("o_alias")).ToString();
+            Actual = Query.Where(item => item.AssignedTo!.InGroup("o_alias")).ToString()!;
         }
 
         [TestMethod]
@@ -482,7 +482,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] NOT IN GROUP 'o_alias'))";
-            Actual = Query.Where(item => item.AssignedTo.NotInGroup("o_alias")).ToString();
+            Actual = Query.Where(item => item.AssignedTo!.NotInGroup("o_alias")).ToString()!;
         }
 
         [TestMethod]
@@ -500,7 +500,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Tags] CONTAINS 'Obsolete'))";
-            Actual = Query.Where(item => item.Tags.Contains("Obsolete")).ToString();
+            Actual = Query.Where(item => item.Tags!.Contains("Obsolete")).ToString()!;
         }
 
         [TestMethod]
@@ -519,7 +519,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] > 1))";
-            Actual = Query.Where(item => item.Id > 1).Select(item => new { One = item.Id, Two = item.Title }).ToString();
+            Actual = Query.Where(item => item.Id > 1).Select(item => new { One = item.Id, Two = item.Title }).ToString()!;
         }
 
         [TestMethod]
@@ -537,7 +537,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] = '42'))";
-            Actual = Query.Where(item => item.Id.ToString() == "42").ToString();
+            Actual = Query.Where(item => item.Id.ToString() == "42").ToString()!;
         }
 
         [TestMethod]
@@ -555,7 +555,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Some Property] = 'Some Value'))";
-            Actual = Query.Where(item => item["Some Property"].ToString() == "Some Value").ToString();
+            Actual = Query.Where(item => item["Some Property"]!.ToString() == "Some Value").ToString()!;
         }
 
         [TestMethod]
@@ -575,7 +575,7 @@ namespace Qwiq.Linq
             Sample EnumProperty { get; }
         }
 
-        private new IOrderedQueryable<IWorkItem2> Query;
+        private new IOrderedQueryable<IWorkItem2> Query = null!;
 
         /// <inheritdoc />
         public override void Given()
@@ -583,7 +583,7 @@ namespace Qwiq.Linq
             base.Given();
             Query = new Query<IWorkItem2>(QueryProvider, WiqlQueryBuilder);
             Expected = "SELECT * FROM WorkItems WHERE (([EnumProperty] = 3))";
-            Actual = Query.Where(item => item.EnumProperty == Sample.Three).ToString();
+            Actual = Query.Where(item => item.EnumProperty == Sample.Three).ToString()!;
         }
 
         [TestMethod]
@@ -601,7 +601,7 @@ namespace Qwiq.Linq
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] = 1))";
             int id = 1;
-            Actual = Query.Where(item => item.Id == id).ToString();
+            Actual = Query.Where(item => item.Id == id).ToString()!;
         }
 
         [TestMethod]
@@ -619,7 +619,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] = 'Dan Jump <danj@contoso.com>'))";
-            Actual = Query.Where(item => item.AssignedTo == "Dan Jump <danj@contoso.com>").ToString();
+            Actual = Query.Where(item => item.AssignedTo == "Dan Jump <danj@contoso.com>").ToString()!;
         }
 
         [TestMethod]
@@ -637,7 +637,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] = 'danj'))";
-            Actual = Query.Where(item => item.AssignedTo == "danj").ToString();
+            Actual = Query.Where(item => item.AssignedTo == "danj").ToString()!;
         }
 
         [TestMethod]
@@ -655,7 +655,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] = 'danj'))";
-            Actual = Query.Where(item => item["Assigned To"].ToString() == "danj").ToString();
+            Actual = Query.Where(item => item["Assigned To"]!.ToString() == "danj").ToString()!;
         }
 
         [TestMethod]
@@ -673,7 +673,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Assigned To] = 'danj'))";
-            Actual = Query.Where(item => item.Fields["Assigned To"].ToString() == "danj").ToString();
+            Actual = Query.Where(item => item.Fields["Assigned To"]!.ToString() == "danj").ToString()!;
         }
 
         [TestMethod]
@@ -690,7 +690,7 @@ namespace Qwiq.Linq
         public override void When()
         {
             Expected = "SELECT Id FROM WorkItems WHERE (([Id] = 1))";
-            Actual = Query.Where(item => item.Id == 1).Select(s => s.Id).ToString();
+            Actual = Query.Where(item => item.Id == 1).Select(s => s.Id).ToString()!;
         }
 
         [TestMethod]
@@ -708,7 +708,7 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Work Item Type] = 'Bug'))";
-            Actual = Query.Where(item => item.WorkItemType == "Bug").ToString();
+            Actual = Query.Where(item => item.WorkItemType == "Bug").ToString()!;
         }
 
         [TestMethod]
