@@ -103,12 +103,12 @@ namespace Qwiq
             return -1;
         }
 
-        public bool TryGetById(int id, out IField value)
+        public bool TryGetById(int id, out IField? value)
         {
             if (_cache.TryGetValue(id, out value)) return true;
             try
             {
-                if (_definitions.TryGetById(id, out IFieldDefinition def))
+                if (_definitions.TryGetById(id, out IFieldDefinition? def) && def != null)
                 {
                     value = _fieldFactory(_revision, def);
                     _cache[id] = value;
@@ -121,14 +121,14 @@ namespace Qwiq
             return false;
         }
 
-        public bool TryGetByName(string name, out IField value)
+        public bool TryGetByName(string name, out IField? value)
         {
             if (name == null)
             {
                 value = null;
                 return false;
             }
-            if (!_definitions.TryGetByName(name, out IFieldDefinition def))
+            if (!_definitions.TryGetByName(name, out IFieldDefinition? def) || def == null)
             {
                 value = null;
                 return false;

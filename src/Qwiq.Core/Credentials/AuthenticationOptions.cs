@@ -46,7 +46,7 @@ namespace Qwiq.Credentials
         /// <param name="uri">The URI of the Team Foundation Server, including the project collection.</param>
         /// <param name="authenticationTypes">The authentication types.</param>
         public AuthenticationOptions(Uri uri, AuthenticationTypes authenticationTypes)
-            : this(uri, authenticationTypes, null)
+            : this(uri, authenticationTypes, null!)
         {
         }
 
@@ -60,7 +60,7 @@ namespace Qwiq.Credentials
         public AuthenticationOptions(
             Uri uri,
             AuthenticationTypes authenticationTypes,
-            Func<AuthenticationTypes, IEnumerable<VssCredentials>> credentialsFactory)
+            Func<AuthenticationTypes, IEnumerable<VssCredentials>>? credentialsFactory)
         {
             AuthenticationTypes = authenticationTypes;
             Notifications = new CredentialsNotifications();

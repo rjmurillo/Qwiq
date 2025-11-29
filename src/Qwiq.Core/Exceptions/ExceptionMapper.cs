@@ -24,7 +24,7 @@ namespace Qwiq.Exceptions
         {
             return MapImpl(ex) ?? ex;
         }
-        private Exception MapImpl(Exception ex)
+        private Exception? MapImpl(Exception ex)
         {
             var q = new Queue<Exception>();
             q.Enqueue(ex);
@@ -32,7 +32,7 @@ namespace Qwiq.Exceptions
             while (q.Count > 0)
             {
                 var item = q.Dequeue();
-                Exception mappedException = null;
+                Exception? mappedException = null;
                 for (var i = 0; i < _mappers.Length; i++)
                 {
                     var mapper = _mappers[i];

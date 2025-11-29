@@ -23,15 +23,13 @@ namespace Qwiq.Exceptions
         }
         internal static T Create<T>(
             T instance,
-            IExceptionExploder[] exploders,
-            IExceptionMapper[] mappers)
+            IExceptionExploder[]? exploders,
+            IExceptionMapper[]? mappers)
             where T : class
         {
             Contract.Requires(instance != null);
-            Contract.Requires(exploders != null);
-            Contract.Requires(mappers != null);
 
-            var proxy = new ExceptionHandlingDynamicProxy(new ExceptionMapper(exploders, mappers));
+            var proxy = new ExceptionHandlingDynamicProxy(new ExceptionMapper(exploders ?? ExceptionExploders, mappers ?? ExceptionMappers));
 
             return (T)Generator.CreateInterfaceProxyWithTarget(typeof(T), instance, Options, proxy);
         }

@@ -108,7 +108,7 @@ namespace Qwiq
             {
                 Contract.Ensures(Contract.Result<IIdentityDescriptor>() != null);
 
-                return default(IIdentityDescriptor);
+                return default(IIdentityDescriptor)!;
             }
         }
 
@@ -121,7 +121,7 @@ namespace Qwiq
             {
                 Contract.Ensures(Contract.Result<IEnumerable<IIdentityDescriptor>>() != null);
 
-                return default(IEnumerable<IIdentityDescriptor>);
+                return default(IEnumerable<IIdentityDescriptor>)!;
             }
         }
 
@@ -131,7 +131,7 @@ namespace Qwiq
             {
                 Contract.Ensures(Contract.Result<IEnumerable<IIdentityDescriptor>>() != null);
 
-                return default(IEnumerable<IIdentityDescriptor>);
+                return default(IEnumerable<IIdentityDescriptor>)!;
             }
         }
 
@@ -144,7 +144,7 @@ namespace Qwiq
             {
                 Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
-                return default(string);
+                return default(string)!;
             }
         }
 
@@ -157,7 +157,7 @@ namespace Qwiq
             {
                 Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
-                return default(string);
+                return default(string)!;
             }
         }
 

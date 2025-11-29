@@ -18,7 +18,7 @@ namespace Qwiq
             var source = y.ToList();
             foreach (var wit in expected)
             {
-                if (!y.Contains(wit.Name)) return false;
+                if (wit.Name == null || !y.Contains(wit.Name)) return false;
                 var tw = y[wit.Name];
                 if (!WorkItemTypeComparer.Default.Equals(wit, tw)) return false;
 

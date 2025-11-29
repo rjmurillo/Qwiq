@@ -38,12 +38,12 @@ namespace Qwiq
 
         public IQueryDefinitionCollection SavedQueries { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return QueryFolderComparer.Default.Equals(this, obj as IQueryFolder);
         }
 
-        public bool Equals(IQueryFolder other)
+        public bool Equals(IQueryFolder? other)
         {
             return QueryFolderComparer.Default.Equals(this, other);
         }
