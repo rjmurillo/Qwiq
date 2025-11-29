@@ -18,14 +18,14 @@ namespace Qwiq.Client.Rest
 
         private readonly Lazy<IInternalTeamProjectCollection> _tfs;
 
-        private IFieldDefinitionCollection _fieldDefinitions;
+        private IFieldDefinitionCollection? _fieldDefinitions;
 
-        private IWorkItemLinkTypeCollection _linkTypes;
+        private IWorkItemLinkTypeCollection? _linkTypes;
 
-        private IProjectCollection _projects;
+        private IProjectCollection? _projects;
 
         internal WorkItemStore(Func<IInternalTeamProjectCollection> tpcFactory, Func<WorkItemStore, IQueryFactory> queryFactory)
-            : this(tpcFactory, () => tpcFactory()?.GetClient<WorkItemTrackingHttpClient>(), queryFactory)
+            : this(tpcFactory, () => tpcFactory()?.GetClient<WorkItemTrackingHttpClient>()!, queryFactory)
         {
         }
 
@@ -57,7 +57,7 @@ namespace Qwiq.Client.Rest
 
         public IProjectCollection Projects => _projects ?? (_projects = ProjectCollectionFactory());
 
-        public IRegisteredLinkTypeCollection RegisteredLinkTypes { get; }
+        public IRegisteredLinkTypeCollection? RegisteredLinkTypes { get; }
 
         public ITeamProjectCollection TeamProjectCollection => _tfs.Value;
 
@@ -91,7 +91,7 @@ namespace Qwiq.Client.Rest
             return query.RunQuery();
         }
 
-        public IWorkItem Query(int id, DateTime? asOf = null)
+        public IWorkItem? Query(int id, DateTime? asOf = null)
         {
             return Query(new[] { id }, asOf).SingleOrDefault();
         }
