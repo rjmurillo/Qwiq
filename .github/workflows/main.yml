@@ -63,17 +63,48 @@ jobs:
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /v:minimal /m
 
+    - name: Prepare NuGet dependency .nupkg files for packing
+      shell: pwsh
+      run: |
+        # nuget pack requires .nupkg files for dependencies when processing packages.config
+        # nuget restore only extracts packages to folders, so we use nuget install with
+        # -PackageSaveMode nupkg to preserve the .nupkg files that nuget pack needs
+        $root = $PWD
+        $packagesDir = Join-Path $root 'packages'
+
+        Write-Host "Creating packages directory at $packagesDir"
+        New-Item -ItemType Directory -Force -Path $packagesDir | Out-Null
+
+        # For every packages.config, install its packages into our local packages folder
+        Get-ChildItem -Recurse -Filter 'packages.config' | ForEach-Object {
+          $configPath = $_.FullName
+          Write-Host "Installing packages from $configPath"
+
+          nuget install $configPath `
+            -OutputDirectory $packagesDir `
+            -PackageSaveMode nupkg `
+            -NonInteractive
+        }
+
     - name: Pack NuGet packages
       shell: pwsh
       run: |
         # Pack each project that has a nuspec file
-        # Note: We pack from the csproj which uses the nuspec for metadata
-        # Using NuGet 5.x which handles packages.config dependencies correctly
+        # -PackagesDirectory points to the folder with .nupkg files created by nuget install
+        # -IncludeReferencedProjects includes referenced project outputs in the package
+        $root = $PWD
+        $packagesDir = Join-Path $root 'packages'
+
         Get-ChildItem -Path "src" -Recurse -Filter "*.nuspec" | ForEach-Object {
           $projectDir = $_.DirectoryName
           $projectName = (Get-ChildItem -Path $projectDir -Filter "*.csproj" | Select-Object -First 1).BaseName
           Write-Host "Packing: $projectName"
-          nuget pack "$projectDir\$projectName.csproj" -Properties Configuration=Release -OutputDirectory "$projectDir\bin\Release" -IncludeReferencedProjects
+          nuget pack "$projectDir\$projectName.csproj" `
+            -Properties Configuration=Release `
+            -OutputDirectory "$projectDir\bin\Release" `
+            -IncludeReferencedProjects `
+            -PackagesDirectory $packagesDir `
+            -NonInteractive
         }
 
     - name: Run tests
