@@ -40,7 +40,7 @@ namespace Qwiq.Identity
             {
                 new MockWorkItem(
                     new MockWorkItemType("Baz", MockIdentityType.BackingField),
-                    new Dictionary<string, object>
+                    new Dictionary<string, object?>
                     {
                         { MockIdentityType.BackingField, IdentityFieldBackingValue }
                     })
@@ -51,7 +51,7 @@ namespace Qwiq.Identity
 
         public override void When()
         {
-            _strategy.Map(typeof(MockIdentityType), _workItemMappings, null);
+            _strategy.Map(typeof(MockIdentityType), _workItemMappings, null!);
         }
     }
 
@@ -102,7 +102,7 @@ namespace Qwiq.Identity
         public void the_IdentityFieldValue_contains_expected_value()
         {
             Actual.AnIdentityValue.ShouldNotBeNull();
-            Actual.AnIdentityValue.DisplayName.ShouldEqual(IdentityDisplay);
+            Actual.AnIdentityValue!.DisplayName.ShouldEqual(IdentityDisplay);
             Actual.AnIdentityValue.IdentityName.ShouldEqual(IdentityAlias);
         }
     }
@@ -112,15 +112,15 @@ namespace Qwiq.Identity
     {
         private readonly Type _identityType = typeof(MockIdentityType);
         private Dictionary<string, List<PropertyInfo>> Expected { get; set; } = null!;
-        private Dictionary<string, List<PropertyInfo>> Actual { get; set; } = null!
+        private Dictionary<string, List<PropertyInfo>> Actual { get; set; } = null!;
 
         public override void Given()
         {
             Expected = new Dictionary<string, List<PropertyInfo>>
             {
-                [MockIdentityType.BackingField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.AnIdentity)), _identityType.GetProperty(nameof(MockIdentityType.AnIdentityValue)) },
-                [MockIdentityType.NonExistantField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.NonExistant)) },
-                [MockIdentityType.UriIdentityField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.UriIdentity)) }
+                [MockIdentityType.BackingField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.AnIdentity))!, _identityType.GetProperty(nameof(MockIdentityType.AnIdentityValue))! },
+                [MockIdentityType.NonExistantField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.NonExistant))! },
+                [MockIdentityType.UriIdentityField] = new List<PropertyInfo> { _identityType.GetProperty(nameof(MockIdentityType.UriIdentity))! }
             };
         }
 
