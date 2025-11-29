@@ -34,12 +34,18 @@ namespace Qwiq.Identity
                 if (c > 1)
                 {
                     var m =
-                        $"Multiple identities found matching '{identity.Key}'. Please specify one of the following identities:{string.Join("\r\n- ", identity.Value)}";
+                        $"Multiple identities found matching '{identity.Key}'. Please specify one of the following identities:{string.Join("\r\n- ", identity.Value!)}";
 
                     throw new MultipleIdentitiesFoundException(m);
                 }
 
-                var v = new IdentityFieldValue(identity.Value.FirstOrDefault());
+                var firstIdentity = identity.Value!.FirstOrDefault();
+                if (firstIdentity == null)
+                {
+                    retval.Add(identity.Key, new IdentityFieldValue(identity.Key));
+                    continue;
+                }
+                var v = new IdentityFieldValue(firstIdentity);
                 retval.Add(identity.Key, v);
             }
 
