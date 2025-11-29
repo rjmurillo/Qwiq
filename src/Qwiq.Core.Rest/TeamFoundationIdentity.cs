@@ -34,7 +34,7 @@ namespace Qwiq.Client.Rest
 
         public override bool IsContainer { get; }
 
-        public override string GetAttribute(string name, string defaultValue)
+        public override string? GetAttribute(string name, string? defaultValue)
         {
             if (_identity.Properties.TryGetValue(name, out object obj)) return obj?.ToString() ?? defaultValue;
             return defaultValue;
