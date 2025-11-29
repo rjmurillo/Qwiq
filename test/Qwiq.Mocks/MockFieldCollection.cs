@@ -13,11 +13,14 @@ namespace Qwiq.Mocks
             base.SetField(field);
         }
 
-        public void SetFieldValue(string name, object value)
+        public void SetFieldValue(string name, object? value)
         {
-            TryGetByName(name, out IField f);
-            f.Value = value;
-            SetField(f);
+            TryGetByName(name, out IField? f);
+            if (f != null)
+            {
+                f.Value = value;
+                SetField(f);
+            }
         }
     }
 }

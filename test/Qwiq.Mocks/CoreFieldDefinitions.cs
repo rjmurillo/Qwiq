@@ -20,7 +20,7 @@ namespace Qwiq.Mocks
                 .ReferenceNameLookup.Select(s => new MockFieldDefinition(CoreFieldRefNames.CoreFieldIdLookup[s.Value], s.Key, s.Value))
                 .ToList();
         public static IDictionary<string, IFieldDefinition> NameLookup { get; } =
-            All.ToDictionary(k => k.Name, e => e, StringComparer.OrdinalIgnoreCase);
+            All.Where(k => k.Name != null).ToDictionary(k => k.Name!, e => e, StringComparer.OrdinalIgnoreCase);
         public static IDictionary<string, IFieldDefinition> ReferenceNameLookup { get; } =
             All.ToDictionary(k => k.ReferenceName, e => e, StringComparer.OrdinalIgnoreCase);
     }

@@ -18,7 +18,7 @@ namespace Qwiq.Mocks
         {
         }
 
-        public PropertyValueGenerator(IEnumerable<string> propertiesToSkip)
+        public PropertyValueGenerator(IEnumerable<string>? propertiesToSkip)
         {
             _assignees = new[]
                              {
@@ -89,11 +89,11 @@ namespace Qwiq.Mocks
             return instance;
         }
 
-        public virtual object GetRandomValue(T instance, string propertyName, Type propertyType)
+        public virtual object? GetRandomValue(T instance, string propertyName, Type propertyType)
         {
             var randomizer = Randomizer.Instance;
 
-            object value;
+            object? value;
             switch (propertyType.ToString())
             {
                 case "System.Int32":

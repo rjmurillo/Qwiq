@@ -9,9 +9,8 @@ namespace Qwiq.Mocks
     public class MockFieldDefinitionCollection : FieldDefinitionCollection
     {
         public MockFieldDefinitionCollection(IWorkItemStore store)
-            : base(store?.Projects.SelectMany(s => s.WorkItemTypes).SelectMany(s => s.FieldDefinitions).Select(s => s).ToList())
+            : base(store?.Projects.SelectMany(s => s.WorkItemTypes).SelectMany(s => s.FieldDefinitions).Select(s => s).ToList() ?? throw new ArgumentNullException(nameof(store)))
         {
-            if (store == null) throw new ArgumentNullException(nameof(store));
         }
 
         [DebuggerStepThrough]

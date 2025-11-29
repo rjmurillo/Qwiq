@@ -13,11 +13,11 @@ namespace Qwiq.Mocks
     {
         private static int tempId = 0;
 
-        private IFieldCollection _fields;
+        private IFieldCollection? _fields;
 
         internal bool PartialOpenWasCalled;
 
-        private IEnumerable<IRevision> _revisions;
+        private IEnumerable<IRevision>? _revisions;
 
         private int _tempId;
 
@@ -61,8 +61,8 @@ namespace Qwiq.Mocks
         {
         }
 
-        public MockWorkItem(IWorkItemType workItemType, Dictionary<string, object> fields = null)
-            : base(workItemType, NormalizeFields(workItemType, fields))
+        public MockWorkItem(IWorkItemType workItemType, Dictionary<string, object>? fields = null)
+            : base(workItemType, NormalizeFields(workItemType, fields)!)
         {
             SetFieldValue(workItemType.FieldDefinitions[CoreFieldRefNames.WorkItemType], workItemType.Name);
             SetFieldValue(workItemType.FieldDefinitions[CoreFieldRefNames.RevisedDate], new DateTime(9999, 1, 1, 0, 0, 0));
@@ -77,10 +77,10 @@ namespace Qwiq.Mocks
             ApplyRules();
         }
 
-        private static Dictionary<string, object> NormalizeFields(IWorkItemType type, Dictionary<string, object> fields)
+        private static Dictionary<string, object?>? NormalizeFields(IWorkItemType type, Dictionary<string, object>? fields)
         {
             if (fields == null) return null;
-            var retval = new Dictionary<string, object>(fields.Comparer);
+            var retval = new Dictionary<string, object?>(fields.Comparer);
 
             foreach (var field in fields)
             {
@@ -92,7 +92,7 @@ namespace Qwiq.Mocks
             return retval;
         }
 
-        public override IRelatedLink CreateRelatedLink(int id, IWorkItemLinkTypeEnd linkTypeEnd = null)
+        public override IRelatedLink CreateRelatedLink(int id, IWorkItemLinkTypeEnd? linkTypeEnd = null)
         {
             if (IsNew) throw new InvalidOperationException("Save first");
             if (id != 0
@@ -106,7 +106,7 @@ namespace Qwiq.Mocks
             return new MockRelatedLink(linkTypeEnd, Id, id);
         }
 
-        public string ReproSteps
+        public string? ReproSteps
         {
             get => GetValue<string>("Repro Steps");
             set
@@ -143,9 +143,9 @@ namespace Qwiq.Mocks
 
         public new int RelatedLinkCount => Links.OfType<IRelatedLink>().Count();
 
-        IEnumerable<IRevision> IWorkItem.Revisions => Revisions;
+        IEnumerable<IRevision> IWorkItem.Revisions => Revisions ?? Enumerable.Empty<IRevision>();
 
-        public new IEnumerable<IRevision> Revisions
+        public new IEnumerable<IRevision>? Revisions
         {
             get => _revisions;
             set
@@ -177,7 +177,7 @@ namespace Qwiq.Mocks
                 // Verify field is clonable
                 if (definition.IsCloneable())
                 {
-                    Fields.TryGetById(definition.Id, out IField field);
+                    Fields.TryGetById(definition.Id, out IField? field);
                     if (field != null && field.Value != null && !Equals(field.Value, string.Empty))
                     {
                         var obj2 = field.Value;
@@ -281,7 +281,7 @@ namespace Qwiq.Mocks
         public override IEnumerable<IField> Validate()
         {
             var invalidFields = Fields.Where(p => !p.IsValid).Select(p => p).ToArray();
-            return invalidFields.Any() ? invalidFields : null;
+            return invalidFields.Any() ? invalidFields : Array.Empty<IField>();
         }
     }
 
