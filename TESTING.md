@@ -1,12 +1,31 @@
 # GitHub Actions Workflow Testing Guide
 
-This document provides information about the new GitHub Actions workflow that replaces AppVeyor CI.
+This document provides information about the GitHub Actions workflow and local testing.
 
 ## Current Status
 
 ✅ **Workflow Created**: `.github/workflows/main.yml` has been created and pushed
 ✅ **Code Review**: Completed - all feedback addressed
 ✅ **Security Scan**: Passed CodeQL analysis with 0 alerts
+⚠️ **Nullable Annotations**: Partially complete - see Nullable Status below
+
+## Nullable Reference Types Status
+
+Nullable reference types (`<Nullable>enable</Nullable>`) are enabled repository-wide. Current annotation status:
+
+| Project | Status | Notes |
+|---------|--------|-------|
+| Qwiq.Core | ✅ Complete | 0 nullable warnings |
+| Qwiq.Core.Rest | ⚠️ Partial | ~42 warnings remaining |
+| Qwiq.Core.Soap | ⚠️ Pending | Not yet annotated |
+| Qwiq.Linq | ⚠️ Pending | ~128 warnings |
+| Qwiq.Identity | ⚠️ Pending | ~28 warnings |
+| Qwiq.Mapper | ⚠️ Pending | Not yet annotated |
+
+To check nullable warnings in a project:
+```powershell
+dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Release 2>&1 | Select-String "error CS8"
+```
 
 ## Build & Test Commands (SDK-Style Projects)
 
