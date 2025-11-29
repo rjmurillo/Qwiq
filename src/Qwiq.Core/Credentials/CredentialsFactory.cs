@@ -18,21 +18,21 @@ namespace Qwiq.Credentials
     /// </summary>
     public static class CredentialsFactory
     {
-        internal static IEnumerable<VssCredentials> GetBasicCredentials(string username = null, string password = null)
+        internal static IEnumerable<VssCredentials> GetBasicCredentials(string? username = null, string? password = null)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) yield break;
 
-            yield return new VssCredentials(new VssBasicCredential(username, password))
+            yield return new VssCredentials(new VssBasicCredential(username!, password!))
             {
                 PromptType = CredentialPromptType.DoNotPrompt
             };
         }
 
-        internal static IEnumerable<VssCredentials> GetOAuthCredentials(string accessToken = null)
+        internal static IEnumerable<VssCredentials> GetOAuthCredentials(string? accessToken = null)
         {
             if (string.IsNullOrEmpty(accessToken)) yield break;
 
-            var credentials = new VssCredentials(new VssOAuthAccessTokenCredential(accessToken))
+            var credentials = new VssCredentials(new VssOAuthAccessTokenCredential(accessToken!))
             {
                 PromptType = CredentialPromptType.DoNotPrompt
             };
@@ -46,12 +46,12 @@ namespace Qwiq.Credentials
         }
 
         internal static IEnumerable<VssCredentials> GetServiceIdentityCredentials(
-            string username = null,
-            string password = null)
+            string? username = null,
+            string? password = null)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) yield break;
 
-            yield return new VssCredentials(new VssAadCredential(username, password))
+            yield return new VssCredentials(new VssAadCredential(username!, password!))
             {
                 PromptType = CredentialPromptType.DoNotPrompt
             };
@@ -60,7 +60,7 @@ namespace Qwiq.Credentials
                 CredentialPromptType.DoNotPrompt);
         }
 
-        internal static IEnumerable<VssCredentials> GetServiceIdentityPatCredentials(string password = null)
+        internal static IEnumerable<VssCredentials> GetServiceIdentityPatCredentials(string? password = null)
         {
             if (string.IsNullOrEmpty(password)) yield break;
 

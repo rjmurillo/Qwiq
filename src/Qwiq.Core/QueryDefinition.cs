@@ -38,12 +38,12 @@ namespace Qwiq
         public string Wiql { get; }
         public string Path { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return QueryDefinitionComparer.Default.Equals(this, obj as IQueryDefinition);
         }
 
-        public bool Equals(IQueryDefinition other)
+        public bool Equals(IQueryDefinition? other)
         {
             return QueryDefinitionComparer.Default.Equals(this, other);
         }

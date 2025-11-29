@@ -15,7 +15,7 @@ namespace Qwiq.Exceptions
         {
             Contract.Requires(exceptionMapper != null);
 
-            _exceptionMapper = exceptionMapper;
+            _exceptionMapper = exceptionMapper ?? throw new ArgumentNullException(nameof(exceptionMapper));
         }
 
         public void Intercept(IInvocation invocation)
@@ -27,7 +27,7 @@ namespace Qwiq.Exceptions
             catch (Exception e)
             {
                 // .NET 4.5 feature: Capture an exception and re-throw it without changing the stack trace
-                ExceptionDispatchInfo.Capture(_exceptionMapper.Map(e)).Throw();
+                ExceptionDispatchInfo.Capture(_exceptionMapper.Map(e) ?? e).Throw();
             }
         }
 
