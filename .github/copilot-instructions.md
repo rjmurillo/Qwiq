@@ -148,6 +148,21 @@ public void SetValue(string value) { } // Cannot be null
 3. Internal types marked with `internal` visibility
 4. Lazy initialization for expensive operations
 
+### Nullable Reference Types Status
+Nullable reference types are enabled repository-wide. Status by project:
+- **Qwiq.Core**: ✅ Fully annotated (0 nullable warnings)
+- **Qwiq.Core.Rest**: ⚠️ Partially annotated (~42 warnings remaining)
+- **Qwiq.Core.Soap**: ⚠️ Needs annotation
+- **Qwiq.Linq**: ⚠️ Needs annotation (~128 warnings)
+- **Qwiq.Identity**: ⚠️ Needs annotation (~28 warnings)
+- **Qwiq.Mapper**: ⚠️ Needs annotation
+
+Common nullable patterns in this codebase:
+- Use `T?` for properties that can legitimately return null
+- Use `null!` for lazy-initialized fields that are guaranteed to be set before use
+- Update both interfaces AND implementations when changing nullability
+- Use `[MaybeNullWhen(false)]` attribute for Try* out parameters
+
 ## CI/CD Pipeline
 
 The main workflow (`.github/workflows/main.yml`) runs on:

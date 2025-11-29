@@ -18,8 +18,9 @@ namespace Qwiq
             var source = y.ToList();
             foreach (var wit in expected)
             {
-                if (wit.Name == null || !y.Contains(wit.Name)) return false;
-                var tw = y[wit.Name];
+                var witName = wit.Name;
+                if (witName == null || !y.Contains(witName)) return false;
+                var tw = y[witName];
                 if (!WorkItemTypeComparer.Default.Equals(wit, tw)) return false;
 
                 // Removes the first occurrence, so if there are duplicates we'll still get a valid mismatch

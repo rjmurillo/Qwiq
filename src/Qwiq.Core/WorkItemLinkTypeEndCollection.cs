@@ -9,7 +9,7 @@ namespace Qwiq
         internal WorkItemLinkTypeEndCollection(IEnumerable<IWorkItemLinkType> linkTypes)
             : this(
                 linkTypes.SelectMany(s => new[] { s.ForwardEnd, s.IsDirectional ? s.ReverseEnd : null })
-                         .Where(p => p != null).Cast<IWorkItemLinkTypeEnd>().ToList())
+                         .OfType<IWorkItemLinkTypeEnd>().ToList())
         {
         }
 
