@@ -21,16 +21,16 @@ namespace Qwiq.Mapper.Attributes
             return AnnotatedPropertiesCache(_reflector, workItemType, attributeType);
         }
 
-        public T GetAttribute<T>(PropertyInfo property) where T : Attribute
+        public T? GetAttribute<T>(PropertyInfo property) where T : Attribute
         {
-            return (T)_reflector.GetAttribute(typeof(T), property);
+            return (T?)_reflector.GetAttribute(typeof(T), property);
         }
 
         private static IEnumerable<PropertyInfo> AnnotatedPropertiesCache(IPropertyReflector reflector, Type workItemType, Type attributeType)
         {
-            if (AnnotatedProperties.TryGetValue(workItemType.TypeHandle, out ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>> f))
+            if (AnnotatedProperties.TryGetValue(workItemType.TypeHandle, out ConcurrentDictionary<RuntimeTypeHandle, IEnumerable<PropertyInfo>>? f))
             {
-                if (f.TryGetValue(attributeType.TypeHandle, out IEnumerable<PropertyInfo> pis))
+                if (f.TryGetValue(attributeType.TypeHandle, out IEnumerable<PropertyInfo>? pis))
                 {
                     return pis;
                 }

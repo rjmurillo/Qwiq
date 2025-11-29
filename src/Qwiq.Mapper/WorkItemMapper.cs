@@ -77,7 +77,7 @@ namespace Qwiq.Mapper
         }
         private static ObjectActivator OptimizedCtorExpressionCache(Type type)
         {
-            Contract.Requires(type != null);
+            if (type == null) throw new ArgumentNullException(nameof(type));
             Contract.Ensures(Contract.Result<ObjectActivator>() != null);
 
             return OptimizedCtorExpression.GetOrAdd(

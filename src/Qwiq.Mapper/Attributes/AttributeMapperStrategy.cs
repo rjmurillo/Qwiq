@@ -88,8 +88,8 @@ namespace Qwiq.Mapper.Attributes
             PropertyInfo property,
             string fieldName,
             bool convert,
-            object nullSub,
-            object fieldValue)
+            object? nullSub,
+            object? fieldValue)
         {
             // Coalesce fieldValue and nullSub
 
@@ -146,9 +146,9 @@ namespace Qwiq.Mapper.Attributes
             }
         }
 
-        protected internal virtual object GetFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, string fieldName, PropertyInfo property)
+        protected internal virtual object? GetFieldValue(Type targetWorkItemType, IWorkItem sourceWorkItem, string fieldName, PropertyInfo property)
         {
-            object fieldValue;
+            object? fieldValue;
             try
             {
                 fieldValue = sourceWorkItem[fieldName];
