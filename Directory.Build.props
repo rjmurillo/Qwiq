@@ -35,7 +35,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
 
-<<<<<<< HEAD
     <!-- Assembly Info - SDK-generated attributes -->
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateAssemblyCompanyAttribute>true</GenerateAssemblyCompanyAttribute>
@@ -46,10 +45,6 @@
     <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
     <GenerateTargetFrameworkAttribute>true</GenerateTargetFrameworkAttribute>
-=======
-    <!-- Assembly Info - SDK generates these from package metadata below -->
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
->>>>>>> 20e62a69 (feat: modernize SDK-style projects with nullable, implicit usings, and InternalsVisibleTo in csproj)
 
     <!-- Assembly attributes (replacing AssemblyInfo.Common.cs) -->
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -59,14 +54,8 @@
     <!-- Package Metadata (for NuGet packages) -->
     <Authors>Richard Murillo</Authors>
     <Company>Qwiq Contributors</Company>
-<<<<<<< HEAD
     <Product>Qwiq - Quick Work Item Queries</Product>
-    <Copyright>Copyright © 2025 Qwiq Contributors</Copyright>
-=======
-    <Product>Quick Work Item Queries</Product>
-    <Copyright>Copyright © 2024 Qwiq Contributors</Copyright>
-    <NeutralLanguage>en-US</NeutralLanguage>
->>>>>>> 20e62a69 (feat: modernize SDK-style projects with nullable, implicit usings, and InternalsVisibleTo in csproj)
+    <Copyright>Copyright (c) 2025 Qwiq Contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/rjmurillo/Qwiq</PackageProjectUrl>
     <RepositoryUrl>https://github.com/rjmurillo/Qwiq.git</RepositoryUrl>
