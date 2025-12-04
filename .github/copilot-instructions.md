@@ -272,23 +272,105 @@ git commit -m "fix(core): add null guard to prevent NullReferenceException"
 
 ## Compatibility Shims
 
+The `src/Qwiq.Core/Compatibility/` directory contains shims for API compatibility across different .NET versions and package versions.
+
 ### IdentityTypeMapper
 - Location: `src/Qwiq.Core/Compatibility/IdentityTypeMapper.cs`
 - Purpose: Compatibility shim for class removed in Microsoft.VisualStudio.Services.Client v19+
 - Can be removed when: Qwiq drops support for identity type mapping OR Microsoft restores this class
 
+### NullableAttributes
+- Location: `src/Qwiq.Core/Compatibility/NullableAttributes.cs`
+- Purpose: Provides nullable attribute definitions (`MaybeNullWhenAttribute`, `AllowNullAttribute`, `NotNullAttribute`, etc.) for `net472` and `netstandard2.0` targets
+- Conditionally compiled: `#if NETFRAMEWORK || NETSTANDARD2_0`
+- **Important:** Do NOT use the `Polyfill` NuGet package - it conflicts with polyfills in Microsoft.VisualStudio.Services.Client, causing 300+ ambiguous method errors
+- Can be removed when: The project drops support for net472/netstandard2.0
+
+## InternalsVisibleTo Configuration
+
+After migration to SDK-style projects, `InternalsVisibleTo` attributes are defined in individual `.csproj` files (not in AssemblyInfo.cs which was removed).
+
+**Pattern:**
+```xml
+<ItemGroup>
+  <InternalsVisibleTo Include="TestProjectAssemblyName" />
+</ItemGroup>
+```
+
+**Current configuration:**
+- `Qwiq.Core.csproj` → `Qwiq.Core.UnitTests`, `Qwiq.Mocks`
+- `Qwiq.Client.Rest.csproj` → `Qwiq.IntegrationTests`
+- `Qwiq.Client.Soap.csproj` → `Qwiq.Identity.Soap`, `Qwiq.IntegrationTests`
+- `Qwiq.Identity.Soap.csproj` → `Qwiq.IntegrationTests`
+- `Qwiq.Mapper.Identity.csproj` → `Qwiq.Identity.UnitTests`
+
+If you encounter `'Type' is inaccessible due to its protection level` errors in tests, add an `InternalsVisibleTo` entry to the source project.
+
+## ⚠️ Build Troubleshooting
+
+### Windows File Locking Issues
+Parallel builds on Windows can fail with file access errors. Use single-threaded build:
+```powershell
+dotnet build /m:1 /nodeReuse:false -v:minimal
+```
+
+### Nullable Warning Suppressions
+The following nullable warnings are suppressed repository-wide in `Directory.Build.props` to allow gradual migration:
+- `CS8600-CS8604` - Null assignment/conversion warnings
+- `CS8605` - Unboxing possibly null value
+- `CS8618-CS8620` - Non-nullable field/property initialization
+- `CS8625` - Cannot convert null literal
+- `CS8629` - Nullable value type may be null
+- `CS8764-CS8769` - Nullability of reference type
+
+### Package Conflicts to Avoid
+| Package | Problem | Solution |
+|---------|---------|----------|
+| `Polyfill` | Conflicts with VSS Client polyfills (317 ambiguous errors) | Use custom `NullableAttributes.cs` |
+| `Should` | Legacy assertion library, conflicts with modern test frameworks | Use `Shouldly` with `ShouldExtensions.cs` shim |
+
+## Do's and Don'ts
+
 **Do:**
-1. **Always restore before building:** `nuget restore Qwiq.sln`
-2. **Build with MSBuild:** `msbuild Qwiq.sln /p:Configuration=Release`
+1. **Always restore before building:** `dotnet restore Qwiq.sln`
+2. **Build with dotnet CLI:** `dotnet build Qwiq.sln -c Release`
 3. **Test on Windows only** - this is a .NET Framework project
 4. **Follow existing code patterns** - check similar files for conventions
-5. **Update packages.config** when adding new NuGet packages
+5. **Use Central Package Management** - add versions to `Directory.Packages.props`, not individual csproj files
 6. **Run tests with appropriate filters** to exclude integration tests
 
 **Do not:**
 - Modify `Directory.Build.props`, `Directory.Build.targets`, or `nuget.config` as part of feature/bugfix PRs - these centralize repo-wide behavior
 - Upgrade critical NuGet dependencies (`Microsoft.TeamFoundationServer.*`, `Microsoft.VisualStudio.Services.*`, `Newtonsoft.Json`) unless explicitly tasked with dependency updates
 - Attempt large-scale migrations (SDK-style conversion, target framework changes, removing SOAP support) as incidental changes - these require dedicated PRs
+- Use the `Polyfill` NuGet package - it conflicts with VSS Client polyfills
+- Add `Version` attributes to PackageReference when using Central Package Management (add version to `Directory.Packages.props` instead)
+
+## Test Configuration
+
+### Test Categories
+Tests are categorized to allow selective execution:
+
+| Category | Description | When to Run |
+|----------|-------------|-------------|
+| (default) | Unit tests | Always (CI) |
+| `localOnly` | Requires local TFS instance | Manual, local dev |
+| `Benchmark` | Performance benchmarks | Manual |
+| `SOAP` | SOAP integration tests | Manual, with TFS credentials |
+| `REST` | REST integration tests | Manual, with Azure DevOps access |
+| `IntegrationTests` | Full integration suite | Manual, with server access |
+
+### Package Tests
+The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. These tests:
+- Require `dotnet pack` to run first (packages must exist)
+- Compare package manifests and contents against verified baselines
+- Will fail if run without first creating packages
+
+### Integration Tests
+Integration tests in `Qwiq.IntegrationTests` require:
+- TFS/Azure DevOps server credentials
+- Access to `https://microsoft.visualstudio.com/defaultcollection` (or configure `IntegrationSettings.cs`)
+- Windows environment (SOAP tests use net472)
 
 ## Trust These Instructions
 
