@@ -81,6 +81,144 @@ For most feature work, start with these locations before searching broadly:
 - `WiqlTranslator` in `Qwiq.Linq` - LINQ-to-WIQL query translation
 - `Qwiq.Mocks` and `ContextSpecification` in `Qwiq.Tests.Common` - Testing patterns
 
+## Architecture Overview
+
+### Client Implementations
+
+Qwiq provides two client implementations that implement the core `IWorkItemStore` interface:
+
+| Client   | Project            | Use Case                            | API Type  |
+| -------- | ------------------ | ----------------------------------- | --------- |
+| **REST** | `Qwiq.Client.Rest` | Modern Azure DevOps Services/Server | HTTP/JSON |
+| **SOAP** | `Qwiq.Client.Soap` | Legacy TFS on-premises              | SOAP/XML  |
+
+Both clients use a factory pattern (`WorkItemStoreFactory.Default.Create(options)`) to create `IWorkItemStore` instances.
+
+### Connection & Authentication
+
+```csharp
+// Create authentication options
+var options = new AuthenticationOptions(
+    new Uri("https://dev.azure.com/myorg"),
+    AuthenticationTypes.Windows,  // or PersonalAccessToken, OAuth, Basic
+    credentialsFactory
+);
+
+// Create work item store (REST client)
+IWorkItemStore store = Qwiq.Client.Rest.WorkItemStoreFactory.Default.Create(options);
+
+// Or SOAP client for legacy TFS
+IWorkItemStore store = Qwiq.Client.Soap.WorkItemStoreFactory.Default.Create(options);
+```
+
+**Authentication Types:**
+
+- `Windows` - Windows/Azure AD authentication
+- `PersonalAccessToken` - PAT-based authentication
+- `OAuth` - OAuth access token
+- `Basic` - Username/password (not recommended)
+
+### LINQ Provider Architecture
+
+The LINQ provider translates C# LINQ expressions to WIQL queries:
+
+| Class               | Purpose                                                           |
+| ------------------- | ----------------------------------------------------------------- |
+| `Query<T>`          | Entry point implementing `IOrderedQueryable<T>`                   |
+| `WiqlQueryProvider` | Orchestrates expression tree translation                          |
+| `QueryRewriter`     | `ExpressionVisitor` that transforms LINQ to WIQL-compatible nodes |
+| `WiqlTranslator`    | Generates WIQL string from expression tree                        |
+| `IFieldMapper`      | Maps .NET property names to TFS field names                       |
+
+**WIQL-Specific Extension Methods** (in `QueryExtensions`):
+
+```csharp
+// Query work items as they existed at a specific time
+query.AsOf(DateTime.UtcNow.AddDays(-7))
+
+// Find work items that historically had a value
+query.Where(wi => wi.State.WasEver("Active"))
+
+// Check group membership
+query.Where(wi => wi.AssignedTo.InGroup("[Project]\\Contributors"))
+query.Where(wi => wi.AssignedTo.NotInGroup("[Project]\\Readers"))
+```
+
+**Unsupported LINQ Operations** (will throw `NotSupportedException`):
+
+- String case methods: `ToUpper()`, `ToLower()`, `ToUpperInvariant()`
+- Certain collections in `Contains()`: `Collection<T>`, `HashSet<T>` (use arrays or `IEnumerable<T>`)
+- Specific field projections in `Select()` (always generates `SELECT *`)
+- Aggregations: `Count()`, `Sum()`, `Max()`
+- Joins and `GroupBy()`
+
+### Mapper System
+
+The Mapper converts `IWorkItem` instances to strongly-typed POCOs using attribute-based mapping:
+
+```csharp
+[WorkItemType("Bug")]
+public class Bug : IIdentifiable<int?>
+{
+    [FieldDefinition("System.Id")]
+    public int? Id { get; set; }
+
+    [FieldDefinition("System.Title")]
+    public string Title { get; set; }
+
+    [FieldDefinition("System.AssignedTo")]
+    [IdentityField]  // Enables bulk identity resolution
+    public string AssignedTo { get; set; }
+}
+```
+
+**Key Mapper Classes:**
+
+| Class                                      | Purpose                                         |
+| ------------------------------------------ | ----------------------------------------------- |
+| `WorkItemMapper`                           | Orchestrates mapping using strategies           |
+| `AttributeMapperStrategy`                  | Maps fields based on `FieldDefinitionAttribute` |
+| `BulkIdentityAwareAttributeMapperStrategy` | Resolves identity fields in bulk                |
+| `WorkItemLinksMapperStrategy`              | Maps work item links to collections             |
+
+### Mock System
+
+`Qwiq.Mocks` provides in-memory implementations for unit testing:
+
+| Mock Class                      | Implements                   | Purpose                          |
+| ------------------------------- | ---------------------------- | -------------------------------- |
+| `MockWorkItemStore`             | `IWorkItemStore`             | In-memory work item storage      |
+| `MockWorkItem`                  | `IWorkItem`                  | Work item with field storage     |
+| `MockIdentityManagementService` | `IIdentityManagementService` | Identity resolution              |
+| `MockFieldDefinitionCollection` | `IFieldDefinitionCollection` | Lazy field definition management |
+
+**Mock Usage Pattern:**
+
+```csharp
+// Create isolated mock store per test
+using var store = new MockWorkItemStore();
+
+// Add test data
+store.Add(new MockWorkItem("Bug") { Title = "Test Bug" });
+
+// Execute code under test
+var results = myService.QueryBugs(store);
+
+// Assert results
+results.ShouldHaveSingleItem();
+```
+
+## Common Exception Scenarios
+
+| Exception                   | Cause                                                        | Resolution                           |
+| --------------------------- | ------------------------------------------------------------ | ------------------------------------ |
+| `ArgumentException`         | Invalid/empty WIQL query                                     | Validate WIQL syntax                 |
+| `InvalidOperationException` | Missing `System.TeamProject` or `System.WorkItemType` fields | Ensure query returns required fields |
+| `InvalidOperationException` | Non-existent project or work item type                       | Verify project/type exists           |
+| `PageSizeRangeException`    | `PageSize` outside 50-200 range                              | Use valid page size                  |
+| `NotSupportedException`     | Unsupported LINQ operation                                   | Use supported operations (see above) |
+| `AttributeMapException`     | Mapper field/type conversion failure                         | Check field names and types          |
+
 ### Key Configuration Files
 
 | File                        | Purpose                                        |
