@@ -83,7 +83,7 @@ namespace Qwiq
 
             return TypeParser.Default.Parse(value, default(T));
         }
-        protected virtual object GetValue(string name)
+        protected virtual object? GetValue(string name)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");

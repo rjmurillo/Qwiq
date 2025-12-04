@@ -38,7 +38,7 @@ namespace Qwiq.Client.Soap
 
         public override ValidationState ValidationState => (ValidationState)(int)NativeField.Status;
 
-        public override object Value
+        public override object? Value
         {
             get => NativeField.Value;
             set => NativeField.Value = value;
