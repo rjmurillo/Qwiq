@@ -62,6 +62,9 @@ jobs:
     - name: Build solution
       run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /p:ContinuousIntegrationBuild=true /v:minimal /m:1
 
+    - name: Pack NuGet packages
+      run: msbuild Qwiq.sln /t:pack /p:Configuration=Release /p:ContinuousIntegrationBuild=true /p:NoWarn=NU5104 /v:minimal
+
     - name: Run tests
       shell: pwsh
       run: |
@@ -107,4 +110,14 @@ jobs:
           src/**/bin/Release/**/*.dll
           src/**/bin/Release/**/*.exe
           !src/**/bin/Release/**/*.pdb
+        if-no-files-found: warn
+
+    - name: Upload packages
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: packages
+        path: |
+          src/**/bin/Release/**/*.nupkg
+          src/**/bin/Release/**/*.snupkg
         if-no-files-found: warn
