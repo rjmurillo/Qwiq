@@ -23,7 +23,7 @@ This TODO list tracks the systematic elimination of all suppressed CS8xxx nullab
 
 ### Baseline Measurement
 
-- [ ] **Count actual CS8xxx warnings per project** (Medium)
+- [x] **Count actual CS8xxx warnings per project** (Medium) ✅ COMPLETE - December 4, 2025
   - Dependencies: None
   - Verification: Build each project with warnings temporarily enabled
   - Command: 
@@ -32,19 +32,20 @@ This TODO list tracks the systematic elimination of all suppressed CS8xxx nullab
     dotnet build src/[Project]/[Project].csproj -c Debug /p:TreatWarningsAsErrors=false /p:EnforceCodeStyleInBuild=false 2>&1 | Select-String "warning CS8" | Group-Object | Format-Table -AutoSize
     ```
   - Create baseline report in `.agents/CS8xxx-baseline.md`
-  - [ ] Qwiq.Core (Expected: 0 warnings)
-  - [ ] Qwiq.Core.Rest (Expected: ~42 warnings, verify actual count)
-  - [ ] Qwiq.Core.Soap (Expected: Unknown, measure)
-  - [ ] Qwiq.Identity (Expected: ~28 warnings, verify actual count)
-  - [ ] Qwiq.Identity.Soap (Expected: Unknown, measure)
-  - [ ] Qwiq.Linq (Expected: ~128 warnings, verify actual count)
-  - [ ] Qwiq.Mapper (Expected: Unknown, measure)
-  - [ ] Qwiq.Mapper.Identity (Expected: Unknown, measure)
-  - [ ] Qwiq.Linq.Identity (Expected: Unknown, measure)
+  - [x] Qwiq.Core (Expected: 0 warnings, Actual: **0** ✅)
+  - [x] Qwiq.Core.Rest (Expected: ~42 warnings, Actual: **0** ✅)
+  - [x] Qwiq.Core.Soap (Expected: Unknown, Actual: **0** ✅)
+  - [x] Qwiq.Identity (Expected: ~28 warnings, Actual: **0** ✅)
+  - [x] Qwiq.Identity.Soap (Expected: Unknown, Actual: **0** ✅)
+  - [x] Qwiq.Linq (Expected: ~128 warnings, Actual: **0** ✅)
+  - [x] Qwiq.Mapper (Expected: Unknown, Actual: **0** ✅)
+  - [x] Qwiq.Mapper.Identity (Expected: Unknown, Actual: **0** ✅)
+  - [x] Qwiq.Linq.Identity (Expected: Unknown, Actual: **0** ✅)
+  - **Result**: ALL projects have 0 warnings! Work already complete from prior PRs.
 
 ### Tooling Setup
 
-- [ ] **Create warning count script** (Small)
+- [x] **Create warning count script** (Small) ✅ COMPLETE - December 4, 2025
   - Dependencies: None
   - Verification: Script outputs CSV/table of warnings by project
   - Location: `scripts/Count-NullableWarnings.ps1`
@@ -53,6 +54,7 @@ This TODO list tracks the systematic elimination of all suppressed CS8xxx nullab
     - Count warnings by CS8xxx code
     - Output summary table
     - Compare against baseline
+  - **Result**: Script created and successfully executed. All projects show 0 warnings.
 
 - [ ] **Create GitHub issue for tracking** (Small)
   - Dependencies: Baseline measurement complete
