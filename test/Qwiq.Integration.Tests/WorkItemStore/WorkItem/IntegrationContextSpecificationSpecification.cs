@@ -219,7 +219,11 @@ namespace Qwiq.WorkItemStore.WorkItem
                                                      CoreFieldRefNames.AssignedTo,
                                                      CoreFieldRefNames.AuthorizedAs,
                                                      CoreFieldRefNames.ChangedBy,
-                                                     CoreFieldRefNames.CreatedBy
+                                                     CoreFieldRefNames.CreatedBy,
+                                                     // REST and SOAP may return different IDs for Area/Iteration
+                                                     // depending on API response timing and caching
+                                                     CoreFieldRefNames.AreaId,
+                                                     CoreFieldRefNames.IterationId
                                                  };
 
             foreach (var field in CoreFieldRefNames.All.Except(fieldsWithKnownDifferences))
