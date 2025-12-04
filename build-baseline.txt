@@ -1,0 +1,49 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Qwiq.Core -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core/bin/Debug/net8.0/Qwiq.Core.dll
+  Qwiq.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Identity/bin/Debug/net8.0/Qwiq.Identity.dll
+  Qwiq.Mocks -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Mocks/bin/Debug/net8.0/Qwiq.Mocks.dll
+  Qwiq.Tests.Common -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Tests.Common/bin/Debug/net8.0/Microsoft.Qwiq.Tests.Common.dll
+  Qwiq.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Identity/bin/Debug/net8.0/Qwiq.Identity.dll
+  Qwiq.Core.UnitTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Core.Tests/bin/Debug/net8.0/Qwiq.Core.UnitTests.dll
+  Qwiq.Linq -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Linq/bin/Debug/net8.0/Qwiq.Linq.dll
+  Qwiq.Mapper -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper/bin/Debug/net8.0/Qwiq.Mapper.dll
+  Qwiq.Mapper.UnitTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Mapper.Tests/bin/Debug/net8.0/Qwiq.Mapper.UnitTests.dll
+  Qwiq.Linq.UnitTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Linq.Tests/bin/Debug/net8.0/Qwiq.Linq.UnitTests.dll
+  Qwiq.Mapper.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper.Identity/bin/Debug/net8.0/Qwiq.Mapper.Identity.dll
+  Qwiq.Linq -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Linq/bin/Debug/net8.0/Qwiq.Linq.dll
+  Qwiq.Identity.UnitTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Identity.Tests/bin/Debug/net8.0/Qwiq.Identity.UnitTests.dll
+  Qwiq.Core -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core/bin/Debug/net8.0/Qwiq.Core.dll
+  Qwiq.Mapper -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper/bin/Debug/net8.0/Qwiq.Mapper.dll
+  Qwiq.Mocks -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Mocks/bin/Debug/net8.0/Qwiq.Mocks.dll
+  Qwiq.Benchmark -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Benchmark/bin/Debug/net8.0/Qwiq.Benchmark.dll
+  Qwiq.Tests.Common -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Tests.Common/bin/Debug/net8.0/Microsoft.Qwiq.Tests.Common.dll
+  Qwiq.Benchmark -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Benchmark/bin/Debug/net8.0/Qwiq.Benchmark.dll
+  Qwiq.Identity.UnitTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Identity.Tests/bin/Debug/net8.0/Qwiq.Identity.UnitTests.dll
+  Qwiq.Identity.BenchmarkTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Identity.Benchmark.Tests/bin/Debug/net8.0/Qwiq.Identity.BenchmarkTests.dll
+  Qwiq.Mapper.BenchmarkTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Mapper.Benchmark.Tests/bin/Debug/net8.0/Qwiq.Mapper.BenchmarkTests.dll
+  Qwiq.Core -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core/bin/Debug/net472/Qwiq.Core.dll
+  Consider app.config remapping of assembly "Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" from Version "10.0.0.0" [] to Version "13.0.0.0" [/home/runner/.nuget/packages/newtonsoft.json/13.0.3/lib/net45/Newtonsoft.Json.dll] to solve conflict and get rid of warning.
+  Qwiq.Client.Soap -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core.Soap/bin/Debug/net472/Qwiq.Client.Soap.dll
+  Qwiq.Client.Rest -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core.Rest/bin/Debug/net8.0/Qwiq.Client.Rest.dll
+  Qwiq.Client.Rest -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Core.Rest/bin/Debug/net472/Qwiq.Client.Rest.dll
+  Qwiq.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Identity/bin/Debug/net472/Qwiq.Identity.dll
+  Qwiq.Linq -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Linq/bin/Debug/net472/Qwiq.Linq.dll
+  Qwiq.Linq.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Linq.Identity/bin/Debug/net472/Qwiq.Linq.Identity.dll
+  Qwiq.Mapper -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper/bin/Debug/net472/Qwiq.Mapper.dll
+  Qwiq.Mapper.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper.Identity/bin/Debug/net472/Qwiq.Mapper.Identity.dll
+  Qwiq.Mocks -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Mocks/bin/Debug/net472/Qwiq.Mocks.dll
+  Qwiq.Tests.Common -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Tests.Common/bin/Debug/net472/Microsoft.Qwiq.Tests.Common.dll
+  Consider app.config remapping of assembly "Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" from Version "10.0.0.0" [] to Version "13.0.0.0" [/home/runner/.nuget/packages/newtonsoft.json/13.0.3/lib/net45/Newtonsoft.Json.dll] to solve conflict and get rid of warning.
+  Qwiq.Identity.Soap -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Identity.Soap/bin/Debug/net472/Qwiq.Identity.Soap.dll
+  Consider app.config remapping of assembly "Newtonsoft.Json, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" from Version "10.0.0.0" [] to Version "13.0.0.0" [/home/runner/.nuget/packages/newtonsoft.json/13.0.3/lib/net45/Newtonsoft.Json.dll] to solve conflict and get rid of warning.
+  Qwiq.IntegrationTests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Integration.Tests/bin/Debug/net472/Qwiq.IntegrationTests.dll
+  Qwiq.Mapper.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Mapper.Identity/bin/Debug/net8.0/Qwiq.Mapper.Identity.dll
+  Qwiq.Linq.Identity -> /home/runner/work/Qwiq/Qwiq/src/Qwiq.Linq.Identity/bin/Debug/net8.0/Qwiq.Linq.Identity.dll
+  Qwiq.Package.Tests -> /home/runner/work/Qwiq/Qwiq/test/Qwiq.Package.Tests/bin/Debug/net8.0/Qwiq.Package.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:13.46
