@@ -93,12 +93,16 @@ namespace Qwiq
 
         private IWorkItemLinkTypeEnd CoerceForwardValue()
         {
-            return _forward ??= _forwardFac!.Value;
+            if (_forward != null) return _forward;
+            if (_forwardFac == null) throw new InvalidOperationException($"{nameof(ForwardEnd)} has not been initialized.");
+            return _forward = _forwardFac.Value;
         }
 
         private IWorkItemLinkTypeEnd CoerceReverseValue()
         {
-            return _reverse ??= _reverseFac!.Value;
+            if (_reverse != null) return _reverse;
+            if (_reverseFac == null) throw new InvalidOperationException($"{nameof(ReverseEnd)} has not been initialized.");
+            return _reverse = _reverseFac.Value;
         }
 
         public string? Name => ReferenceName;
