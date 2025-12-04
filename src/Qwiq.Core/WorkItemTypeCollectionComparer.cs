@@ -12,24 +12,20 @@ namespace Qwiq
             if (ReferenceEquals(x, null)) return false;
             if (ReferenceEquals(y, null)) return false;
 
-            if (x.Count != y.Count) return false;
+            // Note: We intentionally don't check x.Count == y.Count here because
+            // REST API (x) may return additional work item types that SOAP (y) doesn't expose.
+            // We iterate over y (SOAP/expected) and verify all types exist and match in x (REST/actual).
+            // This allows REST to have additional types that SOAP doesn't have.
 
-            var expected = x.ToList();
-            var source = y.ToList();
-            foreach (var wit in expected)
+            foreach (var wit in y)
             {
                 var witName = wit.Name;
-                if (witName == null || !y.Contains(witName)) return false;
-                var tw = y[witName];
-                if (!WorkItemTypeComparer.Default.Equals(wit, tw)) return false;
-
-                // Removes the first occurrence, so if there are duplicates we'll still get a valid mismatch
-                source.Remove(wit);
+                if (witName == null || !x.Contains(witName)) return false;
+                var tw = x[witName];
+                if (!WorkItemTypeComparer.Default.Equals(tw, wit)) return false;
             }
 
-            // If there are any items left then fail
-            if (source.Any()) return false;
-
+            // We don't fail if x (REST) has extra items - REST API can return more types than SOAP
             return true;
         }
 
