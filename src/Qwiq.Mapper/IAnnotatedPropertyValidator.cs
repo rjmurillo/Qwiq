@@ -27,7 +27,7 @@ namespace Qwiq.Mapper
         /// </summary>
         /// <param name="workItem">An instance of <see cref="IWorkItem"/>.</param>
         /// <param name="targetType">The type being mapped.</param>
-        /// <returns>A collection of <see cref="PropertyInfo"/> dedocated with <see cref="FieldDefinitionAttribute"/> that are valid.</returns>
+        /// <returns>A collection of <see cref="PropertyInfo"/> decorated with <see cref="FieldDefinitionAttribute"/> that are valid.</returns>
         IEnumerable<KeyValuePair<PropertyInfo, FieldDefinitionAttribute>> GetValidAnnotatedProperties(IWorkItem workItem, Type targetType);
     }
 }

@@ -19,6 +19,6 @@ namespace Qwiq
         public BaseLinkType BaseType { get; }
 
         /// <inheritdoc />
-        public string Comment { get; }
+        public string? Comment { get; }
     }
 }
