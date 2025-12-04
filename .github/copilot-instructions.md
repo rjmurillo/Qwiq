@@ -31,12 +31,6 @@ dotnet build Qwiq.sln --configuration Release
 dotnet build Qwiq.sln -c Release
 ```
 
-**CI-aligned restore command:** If you encounter restore issues, use the exact CI command:
-```powershell
-nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
-```
-This ensures packages go into the local `packages/` directory and uses the repo's NuGet configuration.
-
 ### Test Commands
 ```powershell
 # Run tests with category exclusions

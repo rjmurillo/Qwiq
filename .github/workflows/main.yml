@@ -19,7 +19,7 @@ jobs:
 
     env:
       # Test filter matching AppVeyor configuration
-      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST"
+      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 
     steps:
     - name: Checkout
@@ -35,63 +35,25 @@ jobs:
     - name: Restore .NET tools
       run: dotnet tool restore
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
-
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v2
-      with:
-        nuget-version: 'latest'
-
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1.3
-
     - name: Restore NuGet packages
-      run: |
-        # First restore using nuget.exe which handles packages.config correctly
-        nuget restore Qwiq.sln -NonInteractive -PackagesDirectory packages -ConfigFile nuget.config
-
-        # Also restore each packages.config individually to ensure all dependencies are resolved
-        Get-ChildItem -Path . -Recurse -Filter packages.config | ForEach-Object {
-          Write-Host "Restoring packages from: $($_.FullName)"
-          nuget restore $_.FullName -PackagesDirectory packages -ConfigFile nuget.config
-        }
-      shell: pwsh
-      continue-on-error: false
+      run: dotnet restore Qwiq.sln
 
     - name: Build solution
-      run: msbuild Qwiq.sln /p:Configuration=Release /p:Platform="Any CPU" /p:ContinuousIntegrationBuild=true /v:minimal /m:1
+      run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
     - name: Pack NuGet packages
-      run: msbuild Qwiq.sln /t:pack /p:Configuration=Release /p:ContinuousIntegrationBuild=true /p:NoWarn=NU5104 /v:minimal
+      run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
 
     - name: Run tests
-      shell: pwsh
-      run: |
-        # Find all test assemblies (excluding IntegrationTests)
-        $testAssemblies = @(
-          Get-ChildItem -Path "test" -Recurse -Filter "*Tests.dll" |
-          Where-Object {
-            $_.FullName -match "bin\\Release" -and
-            $_.FullName -notmatch "IntegrationTests" -and
-            $_.FullName -notmatch "\\ref\\"
-          }
-        )
+      run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory TestResults
 
-        if ($testAssemblies.Count -eq 0) {
-          Write-Warning "No test assemblies found!"
-          exit 1
-        }
-
-        Write-Host "Found $($testAssemblies.Count) test assemblies"
-
-        foreach ($assembly in $testAssemblies) {
-          Write-Host "Testing: $($assembly.FullName)"
-          vstest.console.exe $assembly.FullName /Logger:trx /TestCaseFilter:"$env:TEST_FILTER"
-          if ($LASTEXITCODE -ne 0) {
-            Write-Warning "Tests failed in $($assembly.Name) with exit code $LASTEXITCODE"
-          }
-        }
+    - name: Upload build logs
+      if: success() || failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs
+        path: ./artifacts/logs/
+        if-no-files-found: ignore
 
     - name: Upload test results
       if: success() || failure()
