@@ -540,14 +540,16 @@ To enable a specific rule, change its severity from `none` to `warning` or `erro
 
 Tests are categorized to allow selective execution:
 
-| Category           | Description                 | When to Run                      |
-| ------------------ | --------------------------- | -------------------------------- |
-| (default)          | Unit tests                  | Always (CI)                      |
-| `localOnly`        | Requires local TFS instance | Manual, local dev                |
-| `Benchmark`        | Performance benchmarks      | Manual                           |
-| `SOAP`             | SOAP integration tests      | Manual, with TFS credentials     |
-| `REST`             | REST integration tests      | Manual, with Azure DevOps access |
-| `IntegrationTests` | Full integration suite      | Manual, with server access       |
+| Category           | Description                 | When to Run                                  |
+| ------------------ | --------------------------- | -------------------------------------------- |
+| (default)          | Unit tests                  | Always (CI)                                  |
+| `localOnly`        | Requires local TFS instance | Manual, local dev                            |
+| `Benchmark`        | Performance benchmarks      | Manual                                       |
+| `SOAP`             | SOAP integration tests      | Manual, interactive login prompt             |
+| `REST`             | REST integration tests      | Manual, interactive login prompt             |
+| `IntegrationTests` | Full integration suite      | Manual, interactive login prompt             |
+
+**Note:** SOAP, REST, and IntegrationTests categories all prompt for credentials via an interactive dialog. This works fine locally but makes them unsuitable for headless CI/CD environments.
 
 ### Package Tests
 
@@ -621,7 +623,7 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 
 #### Known Limitations
 
-1. **SOAP Authentication**: SOAP tests present an interactive login dialog for MSA accounts (including MFA if configured). This works fine locally but requires user interaction, making it unsuitable for headless CI/CD environments. Use `--filter "TestCategory!=SOAP"` to skip in CI.
+1. **Interactive Authentication**: All integration tests (SOAP, REST, IntegrationTests categories) present an interactive login dialog. This works fine locally but requires user interaction, making them unsuitable for headless CI/CD environments.
 
 2. **Single Test User**: The sandbox has only one user (Richard Murillo). Identity tests expecting multiple users with the same display name will fail.
 
