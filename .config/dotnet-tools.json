@@ -4,16 +4,12 @@
   "tools": {
     "nbgv": {
       "version": "3.7.115",
-      "commands": [
-        "nbgv"
-      ],
+      "commands": ["nbgv"],
       "rollForward": false
     },
     "packedprettier": {
       "version": "3.2.5.13",
-      "commands": [
-        "pprettier"
-      ],
+      "commands": ["pprettier"],
       "rollForward": false
     }
   }

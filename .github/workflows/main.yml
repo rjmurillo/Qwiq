@@ -22,64 +22,64 @@ jobs:
       TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: ./global.json
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: ./global.json
 
-    - name: Restore .NET tools
-      run: dotnet tool restore
+      - name: Restore .NET tools
+        run: dotnet tool restore
 
-    - name: Restore NuGet packages
-      run: dotnet restore Qwiq.sln
+      - name: Restore NuGet packages
+        run: dotnet restore Qwiq.sln
 
-    - name: Build solution
-      run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
+      - name: Build solution
+        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
-    - name: Pack NuGet packages
-      run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
+      - name: Pack NuGet packages
+        run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
 
-    - name: Run tests
-      run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults
+      - name: Run tests
+        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults
 
-    - name: Upload build logs
-      if: success() || failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-logs
-        path: ./artifacts/logs/
-        if-no-files-found: ignore
+      - name: Upload build logs
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: ./artifacts/logs/
+          if-no-files-found: ignore
 
-    - name: Upload test results
-      if: success() || failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: ./artifacts/TestResults/**/*.trx
-        if-no-files-found: ignore
+      - name: Upload test results
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ./artifacts/TestResults/**/*.trx
+          if-no-files-found: ignore
 
-    - name: Upload binaries
-      uses: actions/upload-artifact@v4
-      if: success()
-      with:
-        name: binaries
-        path: |
-          src/**/bin/Release/**/*.dll
-          src/**/bin/Release/**/*.exe
-          !src/**/bin/Release/**/*.pdb
-        if-no-files-found: warn
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: binaries
+          path: |
+            src/**/bin/Release/**/*.dll
+            src/**/bin/Release/**/*.exe
+            !src/**/bin/Release/**/*.pdb
+          if-no-files-found: warn
 
-    - name: Upload packages
-      uses: actions/upload-artifact@v4
-      if: success()
-      with:
-        name: packages
-        path: |
-          src/**/bin/Release/**/*.nupkg
-          src/**/bin/Release/**/*.snupkg
-        if-no-files-found: warn
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: packages
+          path: |
+            src/**/bin/Release/**/*.nupkg
+            src/**/bin/Release/**/*.snupkg
+          if-no-files-found: warn
