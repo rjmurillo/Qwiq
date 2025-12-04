@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
     <ProjectReference Include="..\Qwiq.Linq\Qwiq.Linq.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
