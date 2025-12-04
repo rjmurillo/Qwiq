@@ -9,7 +9,7 @@ namespace Qwiq
     {
         private readonly Lazy<IWorkItemLinkTypeEndCollection> _ltCol;
 
-        internal WorkItemLinkTypeCollection(List<IWorkItemLinkType> linkTypes)
+        internal WorkItemLinkTypeCollection(IList<IWorkItemLinkType> linkTypes)
             : base(linkTypes, type => type.ReferenceName)
         {
             _ltCol = new Lazy<IWorkItemLinkTypeEndCollection>(() => new WorkItemLinkTypeEndCollection(this));
@@ -30,9 +30,7 @@ namespace Qwiq
         public override bool Equals(object? obj)
         {
             if (ReferenceEquals(this, obj)) return true;
-            if (ReferenceEquals(obj, null)) return false;
-            var ltc = obj as IEnumerable<IWorkItemLinkType>;
-            if (ltc == null) return false;
+            if (obj is not IEnumerable<IWorkItemLinkType> ltc) return false;
 
             return this.All(p => ltc.Contains(p, WorkItemLinkTypeComparer.Default));
         }
