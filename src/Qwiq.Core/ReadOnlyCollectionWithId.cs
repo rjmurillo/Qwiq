@@ -15,13 +15,13 @@ namespace Qwiq
 
 
 
-        protected ReadOnlyObjectWithIdCollection(List<T> items, Func<T, string> nameFunc)
+        protected ReadOnlyObjectWithIdCollection(IList<T> items, Func<T, string> nameFunc)
             : this(items, nameFunc, arg => arg.Id)
         {
         }
 
         protected ReadOnlyObjectWithIdCollection(
-            List<T> items,
+            IList<T> items,
             Func<T, string> nameFunc,
             Func<T, TId> idFunc)
             : base(items, nameFunc)
@@ -32,7 +32,7 @@ namespace Qwiq
             _mapById = new Dictionary<TId, int>(items?.Count ?? 0);
         }
 
-        protected ReadOnlyObjectWithIdCollection(List<T> items)
+        protected ReadOnlyObjectWithIdCollection(IList<T> items)
             : base(items)
         {
             _idFunc = a => a.Id;

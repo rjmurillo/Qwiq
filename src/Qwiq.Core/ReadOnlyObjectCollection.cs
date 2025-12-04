@@ -17,10 +17,10 @@ namespace Qwiq
             ItemFactory = itemFactory ?? throw new ArgumentNullException(nameof(itemFactory));
         }
 
-        protected ReadOnlyObjectCollection(List<T>? items)
+        protected ReadOnlyObjectCollection(IList<T>? items)
             : this()
         {
-            List = items ?? new List<T>(0);
+            List = items != null ? new List<T>(items) : new List<T>(0);
             _alreadyInit = false;
         }
 

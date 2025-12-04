@@ -29,7 +29,7 @@ namespace Qwiq
             _nameFunc = nameFunc;
         }
 
-        protected ReadOnlyObjectWithNameCollection(List<T>? items, Func<T, string>? nameFunc)
+        protected ReadOnlyObjectWithNameCollection(IList<T>? items, Func<T, string>? nameFunc)
             : base(items)
         {
             _nameFunc = nameFunc;
@@ -41,7 +41,7 @@ namespace Qwiq
         {
         }
 
-        protected ReadOnlyObjectWithNameCollection(List<T>? items)
+        protected ReadOnlyObjectWithNameCollection(IList<T>? items)
             : this(items, null)
         {
         }
