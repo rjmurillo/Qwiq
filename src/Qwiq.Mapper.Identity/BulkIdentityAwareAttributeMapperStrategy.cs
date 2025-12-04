@@ -61,7 +61,7 @@ namespace Qwiq.Mapper
         /// <param name="targetWorkItemType">Type of the targe work item.</param>
         /// <param name="workItemMappings">The work item mappings.</param>
         /// <param name="workItemMapper">The work item mapper.</param>
-        public override void Map(Type targetWorkItemType, IDictionary<IWorkItem, IIdentifiable<int?>> workItemMappings, IWorkItemMapper workItemMapper)
+        public override void Map(Type targetWorkItemType, IDictionary<IWorkItem, IIdentifiable<int?>> workItemMappings, IWorkItemMapper? workItemMapper)
         {
             if (!workItemMappings.Any()) return;
 

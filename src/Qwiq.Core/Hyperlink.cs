@@ -7,7 +7,7 @@ namespace Qwiq
 {
     public class Hyperlink : Link, IHyperlink
     {
-        internal Hyperlink(string location, string comment = null)
+        internal Hyperlink(string location, string? comment = null)
             : base(comment, BaseLinkType.Hyperlink)
         {
             Contract.Requires(!string.IsNullOrEmpty(location));

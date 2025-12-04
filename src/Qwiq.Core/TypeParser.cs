@@ -19,7 +19,7 @@ namespace Qwiq
 
         public static ITypeParser Default => Nested.Instance;
 
-        public object Parse(Type destinationType, object value, object defaultValue)
+        public object? Parse(Type destinationType, object? value, object? defaultValue)
         {
             if (destinationType == null) throw new ArgumentNullException(nameof(destinationType));
             var defaultValueType = defaultValue?.GetType();
@@ -31,22 +31,22 @@ namespace Qwiq
             return ParseImpl(destinationType, value, defaultValue);
         }
 
-        public object Parse(Type destinationType, object input)
+        public object? Parse(Type destinationType, object? input)
         {
             if (destinationType == null) throw new ArgumentNullException(nameof(destinationType));
             return ParseImpl(destinationType, input);
         }
 
-        public T Parse<T>(object value)
+        public T Parse<T>(object? value)
         {
             return Parse(value, default(T));
         }
 
-        public T Parse<T>(object value, T defaultValue)
+        public T Parse<T>(object? value, T defaultValue)
         {
             return (T)Parse(typeof(T), value, defaultValue);
         }
-        private static object ParseImpl(Type destinationType, object value)
+        private static object? ParseImpl(Type destinationType, object? value)
         {
             var valueIsNull = ValueRepresentsNull(value);
             var canAcceptNull = destinationType.CanAcceptNull();
@@ -92,7 +92,7 @@ namespace Qwiq
                     break;
             }
 
-            if (TryConvert(destinationType, value, out object result)) return result;
+            if (TryConvert(destinationType, value, out object? result)) return result;
 
             var defaultValue = destinationType.GetDefaultValueOfType();
             if (destinationType.IsGenericNullable() && defaultValue == null) return null;
@@ -111,10 +111,10 @@ namespace Qwiq
 
             return null;
         }
-        private static object ParseImpl(
+        private static object? ParseImpl(
             Type destinationType,
-            object value,
-            object defaultValue)
+            object? value,
+            object? defaultValue)
         {
             var valueIsNull = ValueRepresentsNull(value);
             var defaultValueIsNull = ValueRepresentsNull(defaultValue);
@@ -175,7 +175,7 @@ namespace Qwiq
                     break;
             }
 
-            if (TryConvert(destinationType, value, out object result)) return result;
+            if (TryConvert(destinationType, value, out object? result)) return result;
             if (destinationType.IsGenericNullable() && defaultValue == null) return null;
 
             if (defaultValue != null)
@@ -193,7 +193,7 @@ namespace Qwiq
             return null;
         }
 
-        private static bool TryConvert(Type destinationType, object value, out object result)
+        private static bool TryConvert(Type destinationType, object value, out object? result)
         {
             if (destinationType.IsGenericNullable())
                 try

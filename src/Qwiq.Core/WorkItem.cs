@@ -15,7 +15,7 @@ namespace Qwiq
     {
         private readonly Lazy<IWorkItemType> _lazyType = null!;
         private readonly IWorkItemType _type = null!;
-        private Func<IFieldCollection> _fieldFactory = null!;
+        private Func<IFieldCollection>? _fieldFactory = null!;
 
         private IFieldCollection _fields = null!;
 

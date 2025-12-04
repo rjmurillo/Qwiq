@@ -80,7 +80,7 @@ namespace Qwiq.Client.Soap
             _currentDepth = 0;
         }
 
-        public Node Current { get; private set; }
+        public Node? Current { get; private set; }
 
         object IEnumerator.Current => Current;
     }
