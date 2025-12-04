@@ -76,6 +76,10 @@ namespace Qwiq.Client.Rest
         public void Reset()
         {
             Current = null!;
+            _queue.Clear();
+            _currentGenerationCount = 1;
+            _nextGenerationCount = 0;
+            _currentDepth = 0;
         }
 
         public WorkItemClassificationNode Current { get; private set; }
