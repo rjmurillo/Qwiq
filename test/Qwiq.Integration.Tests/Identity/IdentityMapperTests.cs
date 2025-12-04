@@ -17,8 +17,8 @@ namespace Qwiq.Identity
         public override void Given()
         {
             base.Given();
-            Input = "rimuri";
-            ExpectedOutput = "rimuri@microsoft.com";
+            Input = TestData.TestUserAlias;
+            ExpectedOutput = TestData.TestUserUpn;
         }
     }
 

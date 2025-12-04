@@ -11,7 +11,7 @@ namespace Qwiq.WorkItemStore.WorkItem
     [TestClass]
     public class Given_a_WorkItem_from_each_WorkItemStore_implementation : IntegrationContextSpecificationSpecification
     {
-        private const int Id = 10726528;
+        private const int Id = TestData.BasicWorkItemId;
 
         /// <inheritdoc />
         public override void Given()

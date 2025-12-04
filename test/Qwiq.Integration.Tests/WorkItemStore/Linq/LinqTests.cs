@@ -14,8 +14,8 @@ namespace Qwiq.WorkItemStore.Linq
         /// <inheritdoc />
         public override void When()
         {
-            RestResult.WorkItems = RestQueryable.Where(i => i.AssignedTo == "rimuri@microsoft.com").ToArray().ToWorkItemCollection();
-            SoapResult.WorkItems = SoapQueryable.Where(i => i.AssignedTo == "rimuri@microsoft.com").ToArray().ToWorkItemCollection();
+            RestResult.WorkItems = RestQueryable.Where(i => i.AssignedTo == TestData.TestUserUpn).ToArray().ToWorkItemCollection();
+            SoapResult.WorkItems = SoapQueryable.Where(i => i.AssignedTo == TestData.TestUserUpn).ToArray().ToWorkItemCollection();
         }
 
         [TestMethod]
@@ -34,8 +34,8 @@ namespace Qwiq.WorkItemStore.Linq
         /// <inheritdoc />
         public override void When()
         {
-            RestResult.WorkItems = RestQueryable.Where(i => i.AssignedTo == "rimuri").ToArray().ToWorkItemCollection();
-            SoapResult.WorkItems = SoapQueryable.Where(i => i.AssignedTo == "rimuri").ToArray().ToWorkItemCollection();
+            RestResult.WorkItems = RestQueryable.Where(i => i.AssignedTo == TestData.TestUserAlias).ToArray().ToWorkItemCollection();
+            SoapResult.WorkItems = SoapQueryable.Where(i => i.AssignedTo == TestData.TestUserAlias).ToArray().ToWorkItemCollection();
         }
 
         [TestMethod]
