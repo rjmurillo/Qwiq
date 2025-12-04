@@ -563,26 +563,26 @@ Integration tests in `Qwiq.IntegrationTests` connect to the `qwiq-sandbox` Azure
 
 #### Sandbox Environment Details
 
-| Setting          | Value                                      |
-| ---------------- | ------------------------------------------ |
-| Organization URL | `https://qwiq-sandbox.visualstudio.com/`   |
-| Project Name     | `WIT`                                      |
-| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`     |
-| Process Template | `WIT_TEST`                                 |
-| Test User        | Richard Murillo (`rjmurillo@msn.com`)      |
+| Setting          | Value                                    |
+| ---------------- | ---------------------------------------- |
+| Organization URL | `https://qwiq-sandbox.visualstudio.com/` |
+| Project Name     | `WIT`                                    |
+| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| Process Template | `WIT_TEST`                               |
+| Test User        | Richard Murillo (`rjmurillo@msn.com`)    |
 
 #### Test Work Items
 
 The sandbox contains pre-configured work items for integration testing:
 
-| ID | Type       | Title                                      | Purpose                    |
-|----|------------|--------------------------------------------|----------------------------|
-| 1  | Bug        | Integration Test                           | Basic work item tests      |
-| 2  | Task       | Child Task for Integration Tests           | Child of ID 3 (hierarchy)  |
-| 3  | User Story | Parent Story for Integration Tests         | Parent for hierarchy tests |
-| 4  | Bug        | Bug for Mapper Integration Tests           | Mapper tests               |
-| 5  | Bug        | Work Item with Links for Integration Tests | Work item with links       |
-| 6  | Task       | Child Task 2 for Hierarchy                 | Second child of ID 3       |
+| ID  | Type       | Title                                      | Purpose                    |
+| --- | ---------- | ------------------------------------------ | -------------------------- |
+| 1   | Bug        | Integration Test                           | Basic work item tests      |
+| 2   | Task       | Child Task for Integration Tests           | Child of ID 3 (hierarchy)  |
+| 3   | User Story | Parent Story for Integration Tests         | Parent for hierarchy tests |
+| 4   | Bug        | Bug for Mapper Integration Tests           | Mapper tests               |
+| 5   | Bug        | Work Item with Links for Integration Tests | Work item with links       |
+| 6   | Task       | Child Task 2 for Hierarchy                 | Second child of ID 3       |
 
 **Hierarchy Structure:**
 
@@ -607,11 +607,11 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 
 #### Environment Variables for CI/CD
 
-| Variable               | Purpose                           | Default Value                              |
-| ---------------------- | --------------------------------- | ------------------------------------------ |
-| `QWIQ_TEST_URL`        | Override sandbox organization URL | `https://qwiq-sandbox.visualstudio.com/`   |
-| `QWIQ_PROJECT_GUID`    | Override project GUID             | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`     |
-| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication            | (none - uses Windows auth by default)     |
+| Variable               | Purpose                           | Default Value                            |
+| ---------------------- | --------------------------------- | ---------------------------------------- |
+| `QWIQ_TEST_URL`        | Override sandbox organization URL | `https://qwiq-sandbox.visualstudio.com/` |
+| `QWIQ_PROJECT_GUID`    | Override project GUID             | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication            | (none - uses Windows auth by default)    |
 
 **PAT Scopes Required:**
 
@@ -626,10 +626,13 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 2. **Single Test User**: The sandbox has only one user (Richard Murillo). Identity tests expecting multiple users with the same display name will fail.
 
 3. **REST/SOAP API Differences**: Comparison tests reveal actual API differences:
+
    - REST returns `System.AreaLevel1-7` and `System.IterationLevel1-7` fields
    - SOAP does not return these fields
 
 4. **Windows Required**: Full test suite requires Windows for `net472` SOAP tests.
+
+5. **URL Configuration**: The connection URL must be the **organization-level** URL (`https://qwiq-sandbox.visualstudio.com/`), NOT the project URL (`https://qwiq-sandbox.visualstudio.com/WIT`). The project is specified separately in queries via `TestData.ProjectName`.
 
 #### Test Data Constants
 

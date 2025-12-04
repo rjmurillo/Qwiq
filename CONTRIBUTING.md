@@ -1,6 +1,5 @@
 # Contributing to QWIQ
 
-
 Thank you for your interest in contributing to QWIQ! This guide will help you get started with development, testing, and submitting changes.
 
 ## Table of Contents
@@ -64,29 +63,29 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 
 **Types:**
 
-| Type       | Description                                  |
-| ---------- | -------------------------------------------- |
-| `fix`      | Bug fixes                                    |
-| `feat`     | New features                                 |
-| `refactor` | Code restructuring without behavior change   |
-| `docs`     | Documentation only                           |
-| `test`     | Adding or fixing tests                       |
-| `chore`    | Maintenance tasks (dependencies, CI, tools)  |
-| `style`    | Code formatting (no logic changes)           |
-| `build`    | Build system changes                         |
-| `ci`       | CI/CD configuration changes                  |
+| Type       | Description                                 |
+| ---------- | ------------------------------------------- |
+| `fix`      | Bug fixes                                   |
+| `feat`     | New features                                |
+| `refactor` | Code restructuring without behavior change  |
+| `docs`     | Documentation only                          |
+| `test`     | Adding or fixing tests                      |
+| `chore`    | Maintenance tasks (dependencies, CI, tools) |
+| `style`    | Code formatting (no logic changes)          |
+| `build`    | Build system changes                        |
+| `ci`       | CI/CD configuration changes                 |
 
 **Scopes** (optional but encouraged):
 
-| Scope      | Description                |
-| ---------- | -------------------------- |
-| `core`     | Qwiq.Core changes          |
-| `rest`     | REST client changes        |
-| `soap`     | SOAP client changes        |
-| `linq`     | LINQ provider changes      |
-| `mapper`   | Mapper changes             |
-| `identity` | Identity management        |
-| `ci`       | CI/CD pipeline             |
+| Scope      | Description           |
+| ---------- | --------------------- |
+| `core`     | Qwiq.Core changes     |
+| `rest`     | REST client changes   |
+| `soap`     | SOAP client changes   |
+| `linq`     | LINQ provider changes |
+| `mapper`   | Mapper changes        |
+| `identity` | Identity management   |
+| `ci`       | CI/CD pipeline        |
 
 **Examples:**
 
@@ -186,12 +185,12 @@ Integration tests require access to the Azure DevOps sandbox environment.
 
 #### Sandbox Environment
 
-| Setting          | Value                                      |
-| ---------------- | ------------------------------------------ |
-| Organization URL | `https://qwiq-sandbox.visualstudio.com/`   |
-| Project Name     | `WIT`                                      |
-| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`     |
-| Test User        | Richard Murillo (`rjmurillo@msn.com`)      |
+| Setting          | Value                                    |
+| ---------------- | ---------------------------------------- |
+| Organization URL | `https://qwiq-sandbox.visualstudio.com/` |
+| Project Name     | `WIT`                                    |
+| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| Test User        | Richard Murillo (`rjmurillo@msn.com`)    |
 
 #### Running Integration Tests
 
@@ -219,14 +218,14 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 
 #### Test Work Items in Sandbox
 
-| ID | Type       | Purpose                    |
-|----|------------|----------------------------|
-| 1  | Bug        | Basic work item tests      |
-| 2  | Task       | Child task (hierarchy)     |
-| 3  | User Story | Parent for hierarchy tests |
-| 4  | Bug        | Mapper tests               |
-| 5  | Bug        | Work item with links       |
-| 6  | Task       | Second child task          |
+| ID  | Type       | Purpose                    |
+| --- | ---------- | -------------------------- |
+| 1   | Bug        | Basic work item tests      |
+| 2   | Task       | Child task (hierarchy)     |
+| 3   | User Story | Parent for hierarchy tests |
+| 4   | Bug        | Mapper tests               |
+| 5   | Bug        | Work item with links       |
+| 6   | Task       | Second child task          |
 
 #### Environment Variables
 
@@ -361,11 +360,11 @@ public class Bug : IIdentifiable<int?>
 
 `Qwiq.Mocks` provides in-memory implementations for unit testing:
 
-| Mock Class                      | Implements                   | Purpose                     |
-| ------------------------------- | ---------------------------- | --------------------------- |
-| `MockWorkItemStore`             | `IWorkItemStore`             | In-memory work item storage |
-| `MockWorkItem`                  | `IWorkItem`                  | Work item with field storage|
-| `MockIdentityManagementService` | `IIdentityManagementService` | Identity resolution         |
+| Mock Class                      | Implements                   | Purpose                      |
+| ------------------------------- | ---------------------------- | ---------------------------- |
+| `MockWorkItemStore`             | `IWorkItemStore`             | In-memory work item storage  |
+| `MockWorkItem`                  | `IWorkItem`                  | Work item with field storage |
+| `MockIdentityManagementService` | `IIdentityManagementService` | Identity resolution          |
 
 ## Key Files Reference
 
@@ -385,6 +384,7 @@ public class Bug : IIdentifiable<int?>
 ### Adding New Packages
 
 1. Add the version to `Directory.Packages.props`:
+
    ```xml
    <PackageVersion Include="NewPackage" Version="1.0.0" />
    ```
@@ -406,12 +406,12 @@ If tests need access to internal types, add to the source project's `.csproj`:
 
 ### Project Entry Points
 
-| Area                 | Start Here                                    |
-| -------------------- | --------------------------------------------- |
-| Store creation       | `WorkItemStoreFactory` in `Qwiq.Core`         |
-| LINQ query           | `WiqlTranslator` in `Qwiq.Linq`               |
-| Testing patterns     | `ContextSpecification` in `Qwiq.Tests.Common` |
-| Mocks                | `MockWorkItemStore` in `Qwiq.Mocks`           |
+| Area             | Start Here                                    |
+| ---------------- | --------------------------------------------- |
+| Store creation   | `WorkItemStoreFactory` in `Qwiq.Core`         |
+| LINQ query       | `WiqlTranslator` in `Qwiq.Linq`               |
+| Testing patterns | `ContextSpecification` in `Qwiq.Tests.Common` |
+| Mocks            | `MockWorkItemStore` in `Qwiq.Mocks`           |
 
 ## Troubleshooting
 
@@ -424,6 +424,7 @@ Add `InternalsVisibleTo` to the source project (see [InternalsVisibleTo Setup](#
 **Build fails with file locking errors**
 
 Use single-threaded build:
+
 ```powershell
 dotnet build /m:1 /nodeReuse:false -v:minimal
 ```
@@ -431,6 +432,7 @@ dotnet build /m:1 /nodeReuse:false -v:minimal
 **SOAP tests fail with TF30063 authorization error**
 
 SOAP tests require Windows integrated authentication. MSA accounts with MFA are not supported. Use:
+
 ```powershell
 dotnet test --filter "TestCategory!=SOAP"
 ```
@@ -438,6 +440,7 @@ dotnet test --filter "TestCategory!=SOAP"
 **Package restore fails**
 
 Clear NuGet cache:
+
 ```powershell
 dotnet nuget locals all --clear
 dotnet restore Qwiq.sln
@@ -445,10 +448,10 @@ dotnet restore Qwiq.sln
 
 ### Packages to Avoid
 
-| Package    | Problem                                            | Alternative                        |
-| ---------- | -------------------------------------------------- | ---------------------------------- |
-| `Polyfill` | Conflicts with VSS Client polyfills (317 errors)   | Use custom `NullableAttributes.cs` |
-| `Should`   | Conflicts with modern test frameworks              | Use `Shouldly`                     |
+| Package    | Problem                                          | Alternative                        |
+| ---------- | ------------------------------------------------ | ---------------------------------- |
+| `Polyfill` | Conflicts with VSS Client polyfills (317 errors) | Use custom `NullableAttributes.cs` |
+| `Should`   | Conflicts with modern test frameworks            | Use `Shouldly`                     |
 
 ### Getting Help
 
