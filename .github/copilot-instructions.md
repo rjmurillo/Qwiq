@@ -621,7 +621,7 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 
 #### Known Limitations
 
-1. **SOAP Authentication**: SOAP tests require Windows integrated authentication. They fail with MSA accounts that require MFA. Use `--filter "TestCategory!=SOAP"` to skip.
+1. **SOAP Authentication**: SOAP tests present an interactive login dialog for MSA accounts (including MFA if configured). This works fine locally but requires user interaction, making it unsuitable for headless CI/CD environments. Use `--filter "TestCategory!=SOAP"` to skip in CI.
 
 2. **Single Test User**: The sandbox has only one user (Richard Murillo). Identity tests expecting multiple users with the same display name will fail.
 
