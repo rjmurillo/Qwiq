@@ -91,7 +91,7 @@ For most feature work, start with these locations before searching broadly:
 | `Directory.Packages.props`  | Central Package Management                     |
 | `.config/dotnet-tools.json` | Dotnet tool manifest (nbgv)                    |
 | `version.json`              | Nerdbank.GitVersioning configuration           |
-| `.editorconfig`             | Code style (4-space indent, CRLF line endings) |
+| `.editorconfig`             | Code style AND analyzer severity configuration |
 | `nuget.config`              | NuGet package sources                          |
 
 ## Critical Build Notes
@@ -151,6 +151,16 @@ public void SetValue(string value) { } // Cannot be null
 - Use `ArgumentNullException` for null parameters
 - Use `ArgumentException` for invalid (but non-null) parameters
 - Use `Contract.Requires` for design-by-contract assertions (optional)
+- **Avoid duplicate validation**: Don't use both `Contract.Requires` AND runtime `ArgumentNullException` for the same parameter
+- **Logging exceptions**: When catching exceptions that will be rethrown or handled, log them:
+  ```csharp
+  catch (Exception ex)
+  {
+      System.Diagnostics.Trace.TraceError($"Operation failed: {ex.Message}");
+      throw; // or return appropriate value
+  }
+  ```
+- **Never swallow exceptions silently**: Empty `catch { }` blocks hide bugs; at minimum log the error
 
 ### Known Patterns
 
@@ -158,6 +168,11 @@ public void SetValue(string value) { } // Cannot be null
 2. Interfaces for all public types to support mocking
 3. Internal types marked with `internal` visibility
 4. Lazy initialization for expensive operations
+5. **Revision dual-constructor pattern**: `Revision` class has two constructors:
+   - With `IWorkItem` - revision is accessed via `workItem.Revisions` collection
+   - With `IFieldDefinitionCollection` only - revision exists without WorkItem reference (e.g., for field snapshots)
+   - When `WorkItem` is null, `Revision.Id` returns `null`
+6. **Null-conditional access for link types**: Use `?.` when accessing `LinkTypeEnd.ImmutableName` as it may be null
 
 ### Nullable Reference Types Status
 
@@ -341,16 +356,17 @@ Parallel builds on Windows can fail with file access errors. Use single-threaded
 dotnet build /m:1 /nodeReuse:false -v:minimal
 ```
 
-### Nullable Warning Suppressions
+### Analyzer Configuration
 
-The following nullable warnings are suppressed repository-wide in `Directory.Build.props` to allow gradual migration:
+All analyzer diagnostics (CA, IDE, CS warnings) are configured in `.editorconfig` using `dotnet_diagnostic.<rule>.severity = none` syntax. This includes:
 
-- `CS8600-CS8604` - Null assignment/conversion warnings
-- `CS8605` - Unboxing possibly null value
-- `CS8618-CS8620` - Non-nullable field/property initialization
-- `CS8625` - Cannot convert null literal
-- `CS8629` - Nullable value type may be null
-- `CS8764-CS8769` - Nullability of reference type
+- **CS86xx** - Nullable reference type warnings (suppressed for gradual migration)
+- **CA1xxx-CA5xxx** - Code analysis rules (existing technical debt)
+- **IDE0xxx** - Code style/simplification rules
+- **CS3xxx** - CLS compliance warnings
+- **SYSLIB** - Obsolete API warnings
+
+To enable a specific rule, change its severity from `none` to `warning` or `error` in `.editorconfig`.
 
 ### Package Conflicts to Avoid
 
@@ -377,6 +393,8 @@ The following nullable warnings are suppressed repository-wide in `Directory.Bui
 - Attempt large-scale migrations (SDK-style conversion, target framework changes, removing SOAP support) as incidental changes - these require dedicated PRs
 - Use the `Polyfill` NuGet package - it conflicts with VSS Client polyfills
 - Add `Version` attributes to PackageReference when using Central Package Management (add version to `Directory.Packages.props` instead)
+- Use both `Contract.Requires` AND runtime null checks for the same parameter (pick one)
+- Swallow exceptions silently with empty catch blocks - log errors or let them propagate
 
 ## Test Configuration
 
@@ -409,12 +427,51 @@ Integration tests in `Qwiq.IntegrationTests` require:
 - Access to `https://microsoft.visualstudio.com/defaultcollection` (or configure `IntegrationSettings.cs`)
 - Windows environment (SOAP tests use net472)
 
+### Test Patterns
+
+Unit tests follow the `ContextSpecification` pattern from `Qwiq.Tests.Common`:
+
+```csharp
+[TestClass]
+public class Given_some_context : ContextSpecification
+{
+    private MyClass _sut; // System Under Test
+
+    public override void Given()
+    {
+        // Arrange - setup mocks and dependencies
+        _sut = new MyClass();
+    }
+
+    public override void When()
+    {
+        // Act - perform the action being tested
+        _sut.DoSomething();
+    }
+
+    [TestMethod]
+    public void Then_expected_behavior()
+    {
+        // Assert using Shouldly
+        _sut.Result.ShouldBe(expected);
+    }
+}
+```
+
+**Key testing notes:**
+
+- Use `MockWorkItem`, `MockRevision`, etc. from `Qwiq.Mocks` for work item testing
+- `IEnumerable` collections (like `IWorkItem.Revisions`) need `.First()` or `.ToList()` for indexing
+- For nullable assertions: use `value.HasValue.ShouldBeFalse()` instead of `ShouldBeNull<T>()` for `int?`
+- SOAP-specific classes are `internal` and require TFS infrastructure for integration testing
+
 ## Trust These Instructions
 
-These instructions reflect the modernized state of the repository (PR #31). The repository has been migrated from:
+These instructions reflect the modernized state of the repository (PRs #31, #32, #43-#47). The repository has been migrated from:
 
 - ❌ Legacy .csproj format → ✅ SDK-style projects
 - ❌ packages.config → ✅ Central Package Management
 - ❌ .nuspec files → ✅ SDK-style packaging
 - ❌ JetBrains.Annotations → ✅ Runtime null checks
 - ❌ .NET Framework 4.6 → ✅ Multi-targeting (net472/netstandard2.0/net8.0)
+- ❌ NoWarn in Directory.Build.props → ✅ Analyzer severity in .editorconfig
