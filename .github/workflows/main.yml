@@ -18,12 +18,33 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 jobs:
-  # Ubuntu job: Cross-platform validation for net8.0
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            name: ubuntu
+            test_filter: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+            test_framework_arg: "--framework net8.0"
+            binaries_name: binaries-net8
+            binaries_path: |
+              src/**/bin/Release/net8.0/**/*.dll
+              !src/**/bin/Release/net8.0/**/*.pdb
+            pack_packages: false
+          - os: windows-latest
+            name: windows
+            test_filter: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"
+            test_framework_arg: ""
+            binaries_name: binaries-net472
+            binaries_path: |
+              src/**/bin/Release/net472/**/*.dll
+              !src/**/bin/Release/net472/**/*.pdb
+            pack_packages: true
+
+    runs-on: ${{ matrix.os }}
 
     env:
-      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+      TEST_FILTER: ${{ matrix.test_filter }}
 
     steps:
       - name: Checkout
@@ -43,83 +64,24 @@ jobs:
         run: dotnet restore Qwiq.sln
 
       - name: Build solution
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /nodeReuse:false /bl:./artifacts/logs/build.ubuntu.binlog
-
-      - name: Run tests (net8.0)
-        run: |
-          dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --no-build --framework net8.0 --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj -c Release --no-build --framework net8.0 --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj -c Release --no-build --framework net8.0 --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj -c Release --no-build --framework net8.0 --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-
-      - name: Upload build logs
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-logs-ubuntu
-          path: ./artifacts/logs/
-          if-no-files-found: ignore
-
-      - name: Upload test results
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-ubuntu
-          path: ./artifacts/TestResults/**/*.trx
-          if-no-files-found: ignore
-
-      - name: Upload binaries (net8.0)
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: binaries-net8
-          path: |
-            src/**/bin/Release/net8.0/**/*.dll
-            !src/**/bin/Release/net8.0/**/*.pdb
-          if-no-files-found: warn
-
-  # Windows job: Full coverage including net472/SOAP
-  build-windows:
-    runs-on: windows-latest
-
-    env:
-      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: ./global.json
-
-      - name: Restore .NET tools
-        run: dotnet tool restore
-
-      - name: Restore NuGet packages
-        run: dotnet restore Qwiq.sln
-
-      - name: Build solution (all frameworks)
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /nodeReuse:false /bl:./artifacts/logs/build.windows.binlog
+        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /nodeReuse:false /bl:./artifacts/logs/build.${{ matrix.name }}.binlog
 
       - name: Pack NuGet packages
+        if: matrix.pack_packages
         run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
 
-      - name: Run tests (all frameworks)
+      - name: Run tests
         run: |
-          dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --no-build --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj -c Release --no-build --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj -c Release --no-build --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
-          dotnet test test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj -c Release --no-build --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
+          dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --no-build ${{ matrix.test_framework_arg }} --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
+          dotnet test test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj -c Release --no-build ${{ matrix.test_framework_arg }} --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
+          dotnet test test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj -c Release --no-build ${{ matrix.test_framework_arg }} --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
+          dotnet test test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj -c Release --no-build ${{ matrix.test_framework_arg }} --logger trx --results-directory ./artifacts/TestResults --filter "${{ env.TEST_FILTER }}"
 
       - name: Upload build logs
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs-windows
+          name: build-logs-${{ matrix.name }}
           path: ./artifacts/logs/
           if-no-files-found: ignore
 
@@ -127,23 +89,21 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-windows
+          name: test-results-${{ matrix.name }}
           path: ./artifacts/TestResults/**/*.trx
           if-no-files-found: ignore
 
-      - name: Upload binaries (net472)
+      - name: Upload binaries
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: binaries-net472
-          path: |
-            src/**/bin/Release/net472/**/*.dll
-            !src/**/bin/Release/net472/**/*.pdb
+          name: ${{ matrix.binaries_name }}
+          path: ${{ matrix.binaries_path }}
           if-no-files-found: warn
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
-        if: success()
+        if: matrix.pack_packages && success()
         with:
           name: packages
           path: |
