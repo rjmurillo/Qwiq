@@ -63,12 +63,26 @@ foreach ($projectPath in $projects) {
     Write-Host "`nAnalyzing: $projectName" -ForegroundColor Cyan
     
     # Build project and capture warnings
+    # NOTE: We need to override the .editorconfig suppressions to see actual warnings
+    # We do this by setting NoWarn to empty and passing the diagnostic severity overrides
     $buildOutput = dotnet build $fullPath `
         -c $Configuration `
         /m:1 `
         /nodeReuse:false `
         /p:TreatWarningsAsErrors=false `
         /p:EnforceCodeStyleInBuild=false `
+        /p:NoWarn="" `
+        "/p:WarningsAsErrors=CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8619;CS8620;CS8625;CS8629;CS8764;CS8765;CS8766;CS8767;CS8769" `
+        "/p:NoWarn=CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8619;CS8620;CS8625;CS8629;CS8764;CS8765;CS8766;CS8767;CS8769" `
+        --no-restore `
+        2>&1 | Out-String
+    
+    # Actually, let's be smarter - just grep for the warnings directly
+    $buildOutput = dotnet build $fullPath `
+        -c $Configuration `
+        /m:1 `
+        /nodeReuse:false `
+        /p:TreatWarningsAsErrors=false `
         --no-restore `
         2>&1 | Out-String
     

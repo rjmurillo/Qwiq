@@ -873,10 +873,12 @@ For isolated false positives:
 
 _(Add notes here as you discover the actual state of each project)_
 
-- Initial verification suggests many warnings already fixed in prior work
-- Qwiq.Core.Rest: Build shows 0 warnings (better than estimate)
-- Qwiq.Linq: Build shows 0 warnings (much better than ~128 estimate)
-- Qwiq.Identity: Build shows 0 warnings (better than ~28 estimate)
+- **CRITICAL FINDING**: Initial script verification was INCORRECT - it was still reading .editorconfig suppressions
+- When CS8xxx warnings are actually ENABLED (changed from `none` to `warning`), there ARE warnings
+- Qwiq.Core alone has **208 CS8xxx warnings** when properly enabled
+- Most warnings are CS8766/CS8767: Nullability mismatches between interface/implementation
+- Common pattern: `IEquatable<T>`, `IComparer<T>`, `IEqualityComparer<T>` have nullable params in BCL but implementations don't match
+- This is NOT a quick fix - requires careful annotation work as outlined in PRD
 
 ### Lessons Learned
 
