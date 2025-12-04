@@ -20,8 +20,11 @@ namespace Qwiq.Client.Rest
             return new WorkItemClassificationNodeCollection<int>(NewMethod(n.Children, n.Name));
         }
 
-        private static IEnumerable<IWorkItemClassificationNode<int>> NewMethod(IEnumerable<WorkItemClassificationNode> collection, string rootPath)
+        private static IEnumerable<IWorkItemClassificationNode<int>> NewMethod(IEnumerable<WorkItemClassificationNode>? collection, string rootPath)
         {
+            if (collection == null)
+                yield break;
+
             foreach (var n in collection)
             {
                 var e = new LevelOrderEnumerator(n);
