@@ -20,11 +20,4 @@
     <PackageReference Include="Verify.Nupkg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\src\**\bin\Release\**\*.nupkg" Link="packages\%(RecursiveDir)%(Filename)%(Extension)">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </None>
-  </ItemGroup>
-
 </Project>
