@@ -873,10 +873,12 @@ For isolated false positives:
 
 _(Add notes here as you discover the actual state of each project)_
 
-- Initial verification suggests many warnings already fixed in prior work
-- Qwiq.Core.Rest: Build shows 0 warnings (better than estimate)
-- Qwiq.Linq: Build shows 0 warnings (much better than ~128 estimate)
-- Qwiq.Identity: Build shows 0 warnings (better than ~28 estimate)
+- **IMPORTANT DISCOVERY**: Initial baseline showed 0 warnings because suppressions were still active
+- When suppressions are removed from .editorconfig, ~315 CS8xxx errors appear across the solution
+- The warnings were hidden by the suppressions, not actually fixed
+- Most warnings are in Qwiq.Core project (TypeParser.cs, WorkItem.cs, WorkItemCommon.cs, etc.)
+- Need to fix all nullable reference type issues before suppressions can be removed
+- This will require actual code changes, not just verification
 
 ### Lessons Learned
 
