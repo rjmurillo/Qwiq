@@ -22,7 +22,7 @@ namespace Qwiq.Client.Soap
             _queue = new Queue<Node>();
             _currentGenerationCount = 1;
             _nextGenerationCount = 0;
-            Current = null;
+            Current = null!;
         }
 
         public void Dispose()

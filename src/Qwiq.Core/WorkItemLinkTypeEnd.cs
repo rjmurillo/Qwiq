@@ -7,8 +7,8 @@ namespace Qwiq
 
     {
 
-        private IWorkItemLinkTypeEnd _oppositeEnd;
-        private readonly Lazy<IWorkItemLinkTypeEnd> _lazyOpposite;
+        private IWorkItemLinkTypeEnd _oppositeEnd = null!;
+        private readonly Lazy<IWorkItemLinkTypeEnd> _lazyOpposite = null!;
 
         internal WorkItemLinkTypeEnd(string immutableName, IWorkItemLinkTypeEnd oppositeEnd)
             : this(immutableName)
@@ -38,9 +38,9 @@ namespace Qwiq
 
         public bool IsForwardLink { get; internal set; }
 
-        public IWorkItemLinkType LinkType { get; internal set; }
+        public IWorkItemLinkType LinkType { get; internal set; } = null!;
 
-        public string Name { get; internal set; }
+        public string Name { get; internal set; } = null!;
 
         public IWorkItemLinkTypeEnd OppositeEnd => _oppositeEnd ?? (_oppositeEnd = _lazyOpposite.Value);
 

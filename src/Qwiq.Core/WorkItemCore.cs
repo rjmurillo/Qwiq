@@ -7,7 +7,7 @@ namespace Qwiq
 {
     public abstract class WorkItemCore : IWorkItemCore, IEquatable<IWorkItemCore>, IRevisionInternal
     {
-        private readonly Dictionary<string, object> _fields;
+        private readonly Dictionary<string, object> _fields = null!;
 
         protected internal WorkItemCore()
         {

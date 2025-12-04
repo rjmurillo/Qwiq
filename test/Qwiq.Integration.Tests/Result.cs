@@ -5,9 +5,9 @@ namespace Qwiq
 {
     public class Result : IDisposable
     {
-        private IWorkItem _workItem;
+        private IWorkItem _workItem = null!;
 
-        public IEnumerable<IWorkItemLinkInfo> Links { get; set; }
+        public IEnumerable<IWorkItemLinkInfo> Links { get; set; } = null!;
 
         public IWorkItem WorkItem
         {
@@ -19,9 +19,9 @@ namespace Qwiq
             }
         }
 
-        public IWorkItemCollection WorkItems { get; set; }
+        public IWorkItemCollection WorkItems { get; set; } = null!;
 
-        public IWorkItemStore WorkItemStore { get; set; }
+        public IWorkItemStore WorkItemStore { get; set; } = null!;
 
         public void Dispose()
         {

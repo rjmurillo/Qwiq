@@ -6,7 +6,7 @@ namespace Qwiq
 {
     public class IdentityDescriptor : IIdentityDescriptor, IComparable<IdentityDescriptor>, IEquatable<IdentityDescriptor>
     {
-        private string _identifier;
+        private string _identifier = null!;
 
         /// <summary>
         /// </summary>

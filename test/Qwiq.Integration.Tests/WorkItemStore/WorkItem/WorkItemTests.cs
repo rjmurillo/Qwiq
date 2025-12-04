@@ -11,7 +11,7 @@ namespace Qwiq.WorkItemStore
     {
         private const int Id = 1;
 
-        protected IWorkItem Result { get; private set; }
+        protected IWorkItem Result { get; private set; } = null!;
 
         [TestMethod]
         [TestCategory("localOnly")]
