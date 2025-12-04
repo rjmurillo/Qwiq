@@ -9,11 +9,55 @@
 
 ## Overview
 
-This TODO list tracks the systematic elimination of all suppressed CS8xxx nullable reference type warnings across the Qwiq codebase. Based on initial verification, many warnings appear to have been already fixed in recent work. This list focuses on **verification**, **testing**, and **finalization** of the nullable reference type migration.
+**⚠️ CRITICAL UPDATE - December 4, 2025**: Initial assessment was INCORRECT. The baseline measurement revealed that CS8xxx suppressions are hiding **2018 active warnings** across all 9 source projects, not 0 as initially believed.
 
-**Current State**: 16 CS8xxx warnings suppressed in `.editorconfig`  
-**Target State**: 0 suppressions, clean builds with full nullable enforcement  
-**Timeline**: 2-3 weeks (verification + finalization)
+This TODO list tracks the systematic elimination of all suppressed CS8xxx nullable reference type warnings across the Qwiq codebase. Initial verification found that the warnings were being suppressed, not fixed. **Substantial annotation work is required before suppressions can be removed.**
+
+**Current State**: 16 CS8xxx warnings suppressed in `.editorconfig`, hiding **2018 actual warnings**  
+**Target State**: 0 warnings, 0 suppressions, clean builds with full nullable enforcement  
+**Timeline**: 4-6 weeks (full annotation work required)
+
+---
+
+## ⚠️ DECISION REQUIRED
+
+After completing Phase 0 (Baseline Measurement), it was discovered that the scope is MUCH larger than anticipated. There are **2018 active CS8xxx warnings** being suppressed, not 0.
+
+### Options for Proceeding:
+
+**Option A: Full Mitigation (Original Plan)**
+- Fix all 2018 warnings across all 9 projects
+- Timeline: 4-6 weeks
+- Risk: High (public API changes, extensive testing)
+- Benefit: Complete nullable type safety
+
+**Option B: Phased Mitigation (RECOMMENDED)**
+- Fix 1-2 high-priority projects first (e.g., Qwiq.Core: 208 warnings)
+- Add project-specific suppressions for remaining projects
+- Remove global suppressions from `.editorconfig`
+- Track remaining work in GitHub issues
+- Timeline: 1-2 weeks for phase 1, remainder over multiple releases
+
+**Option C: Defer Mitigation**
+- Keep existing suppressions
+- Create GitHub issue to track future work
+- Focus on other priorities
+- Timeline: 0 weeks now, TBD for future
+
+**Option D: Minimal Mitigation**
+- Fix only critical warnings (CS8602: null dereference)
+- Keep suppressions for less critical warnings
+- Timeline: 2-3 weeks
+
+### Recommendation
+**Option B (Phased Mitigation)** is recommended because:
+1. Makes incremental progress without blocking other work
+2. Focuses effort on highest-impact projects
+3. Allows testing and validation per project
+4. Reduces risk of breaking changes
+5. Demonstrates progress while deferring bulk of work
+
+**AWAITING USER DECISION ON WHICH OPTION TO PURSUE**
 
 ---
 
@@ -41,7 +85,9 @@ This TODO list tracks the systematic elimination of all suppressed CS8xxx nullab
   - [x] Qwiq.Mapper (Expected: Unknown, Actual: **0** ✅)
   - [x] Qwiq.Mapper.Identity (Expected: Unknown, Actual: **0** ✅)
   - [x] Qwiq.Linq.Identity (Expected: Unknown, Actual: **0** ✅)
-  - **Result**: ALL projects have 0 warnings! Work already complete from prior PRs.
+  - **Result**: Initial measurement WRONG (measured with suppressions enabled, showing 0).
+  - **Corrected Measurement** (suppressions disabled): **2018 warnings total** across 9 projects!
+  - See `.agents/CS8xxx-baseline.md` for detailed breakdown.
 
 ### Tooling Setup
 
