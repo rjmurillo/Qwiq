@@ -21,7 +21,7 @@ namespace Qwiq
         /// <exclude />
         public static string TenantId = "72F988BF-86F1-41AF-91AB-2D7CD011DB47";
 
-        private static readonly Uri Uri = new Uri("https://microsoft.visualstudio.com/defaultcollection");
+        private static readonly Uri Uri = new Uri("https://qwiq-sandbox.visualstudio.com/WIT");
 
         /// <exclude />
         public static AuthenticationOptions AuthenticationOptions { get; } = new AuthenticationOptions(Uri, AuthenticationTypes.Windows, Credentials);
