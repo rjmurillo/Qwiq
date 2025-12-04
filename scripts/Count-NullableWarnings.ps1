@@ -21,7 +21,10 @@
 param(
     [Parameter(Mandatory = $false)]
     [ValidateSet('Debug', 'Release')]
-    [string]$Configuration = 'Debug'
+    [string]$Configuration = 'Debug',
+
+    [Parameter(Mandatory = $false)]
+    [switch]$Parallel
 )
 
 $ErrorActionPreference = 'Stop'
@@ -55,11 +58,12 @@ Write-Information ""
 # Results collection
 $results = @()
 
-foreach ($project in $projects) {
+# Analysis script block for parallel or sequential execution
+$analyzeProject = {
+    param($project, $Configuration)
+    
     $projectName = $project.BaseName
     $projectPath = $project.FullName
-    
-    Write-Information "Analyzing: $projectName"
     
     # Build project and capture output
     $buildOutput = dotnet build $projectPath `
@@ -69,13 +73,13 @@ foreach ($project in $projects) {
         --no-incremental `
         2>&1 | Out-String
     
-    # Count CS8xxx warnings
-    $cs8Warnings = [regex]::Matches($buildOutput, 'warning CS8\d{3}')
+    # Count CS8xxx warnings (use specific pattern to avoid partial matches)
+    $cs8Warnings = [regex]::Matches($buildOutput, 'warning CS8\d{3}:')
     $warningCount = $cs8Warnings.Count
     
     # Count by specific warning code
     $warningsByCode = $cs8Warnings | 
-        ForEach-Object { $_.Value -replace 'warning ', '' } |
+        ForEach-Object { $_.Value -replace 'warning ', '' -replace ':', '' } |
         Group-Object |
         Sort-Object Name
     
@@ -85,13 +89,32 @@ foreach ($project in $projects) {
         'None'
     }
     
-    $results += [PSCustomObject]@{
+    [PSCustomObject]@{
         Project = $projectName
         TotalWarnings = $warningCount
         WarningCodes = $warningCodes
     }
+}
+
+if ($Parallel -and $PSVersionTable.PSVersion.Major -ge 7) {
+    Write-Information "Using parallel processing (PowerShell 7+)"
+    $results = $projects | ForEach-Object -Parallel {
+        $project = $_
+        $Configuration = $using:Configuration
+        Write-Information "Analyzing: $($project.BaseName)"
+        
+        & $using:analyzeProject -project $project -Configuration $Configuration
+    } -ThrottleLimit 4
+} else {
+    if ($Parallel) {
+        Write-Warning "Parallel processing requires PowerShell 7+. Using sequential processing."
+    }
     
-    Write-Verbose "  Warnings: $warningCount"
+    foreach ($project in $projects) {
+        Write-Information "Analyzing: $($project.BaseName)"
+        $results += & $analyzeProject -project $project -Configuration $Configuration
+        Write-Verbose "  Warnings: $($results[-1].TotalWarnings)"
+    }
 }
 
 Write-Information ""
