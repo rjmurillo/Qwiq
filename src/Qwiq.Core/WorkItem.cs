@@ -13,11 +13,11 @@ namespace Qwiq
     /// <seealso cref="IWorkItem" />
     public abstract class WorkItem : WorkItemCommon, IWorkItem, IRevisionInternal, IEquatable<IWorkItem>
     {
-        private readonly Lazy<IWorkItemType> _lazyType;
-        private readonly IWorkItemType _type;
-        private Func<IFieldCollection> _fieldFactory;
+        private readonly Lazy<IWorkItemType> _lazyType = null!;
+        private readonly IWorkItemType _type = null!;
+        private Func<IFieldCollection> _fieldFactory = null!;
 
-        private IFieldCollection _fields;
+        private IFieldCollection _fields = null!;
 
         private bool _useFields = true;
 

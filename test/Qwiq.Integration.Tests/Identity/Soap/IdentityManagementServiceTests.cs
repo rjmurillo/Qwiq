@@ -9,8 +9,8 @@ namespace Qwiq.Identity.Soap
     [TestClass]
     public class Given_an_Account_with_Group_Membership : SoapIdentityManagementServiceContextSpecification
     {
-        private string _input;
-        private ITeamFoundationIdentity _result;
+        private string _input = null!;
+        private ITeamFoundationIdentity _result = null!;
 
         public override void Given()
         {

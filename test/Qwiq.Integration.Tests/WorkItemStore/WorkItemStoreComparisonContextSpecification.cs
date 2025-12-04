@@ -10,11 +10,11 @@ namespace Qwiq.WorkItemStore
     {
         protected internal IWorkItemStore Rest => RestResult.WorkItemStore;
 
-        protected Result RestResult { get; private set; }
+        protected Result RestResult { get; private set; } = null!;
 
         protected internal IWorkItemStore Soap => SoapResult.WorkItemStore;
 
-        protected Result SoapResult { get; private set; }
+        protected Result SoapResult { get; private set; } = null!;
 
         public override void Cleanup()
         {
