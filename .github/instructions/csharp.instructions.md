@@ -154,6 +154,7 @@ Before submitting changes, verify:
 - [ ] No new warnings introduced
 - [ ] Nullable annotations are correct
 - [ ] Exception handling follows logging pattern
+- [ ] Linting passes: `dotnet format` and `dotnet pprettier`
 - [ ] Tests pass: `dotnet test --filter "TestCategory!=localOnly&..."`
 - [ ] Similar files checked for established patterns
 

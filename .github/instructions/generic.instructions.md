@@ -47,7 +47,7 @@ For changes spanning multiple file types:
 5. **Validate comprehensively**
    - Build: `dotnet build Qwiq.sln /m:1 /nodeReuse:false -c Release`
    - Test: `dotnet test --filter "..."`
-   - Format: `dotnet format --verify-no-changes` (if applicable)
+   - Lint: `dotnet format` and `dotnet pprettier`
 
 6. **Prepare PR with evidence**
    - Document changes for each file type
@@ -130,7 +130,7 @@ Your changes are successful when:
 
 - All builds pass without warnings
 - All tests pass
-- No linting errors
+- No linting errors (`dotnet format` and `dotnet pprettier` pass)
 - PR description is complete and accurate
 - All checklist items completed
 - Established patterns are followed
