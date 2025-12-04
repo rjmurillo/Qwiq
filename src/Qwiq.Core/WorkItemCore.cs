@@ -48,12 +48,12 @@ namespace Qwiq
             }
         }
 
-        public bool Equals(IWorkItemCore other)
+        public bool Equals(IWorkItemCore? other)
         {
             return NullableIdentifiableComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return NullableIdentifiableComparer.Default.Equals(this, obj as IWorkItemCore);
         }
@@ -69,7 +69,7 @@ namespace Qwiq
             return NullableIdentifiableComparer.Default.GetHashCode(this);
         }
 
-        public void SetFieldValue(IFieldDefinition fieldDefinition, object value)
+        public void SetFieldValue(IFieldDefinition fieldDefinition, object? value)
         {
             if (fieldDefinition == null) throw new ArgumentNullException(nameof(fieldDefinition));
             SetValue(fieldDefinition.ReferenceName, value);
@@ -96,7 +96,7 @@ namespace Qwiq
             return val;
         }
 
-        protected virtual void SetValue(string name, object value)
+        protected virtual void SetValue(string name, object? value)
         {
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");
             _fields[name] = value;
