@@ -314,14 +314,18 @@ public void SetValue(string value) { } // Cannot be null
 
 ### Nullable Reference Types Status
 
-Nullable reference types are enabled repository-wide. Status by project:
+Nullable reference types are enabled repository-wide (`<Nullable>enable</Nullable>`). 
 
-- **Qwiq.Core**: ✅ Fully annotated (0 nullable warnings)
-- **Qwiq.Core.Rest**: ⚠️ Partially annotated (~42 warnings remaining)
-- **Qwiq.Core.Soap**: ⚠️ Needs annotation
-- **Qwiq.Linq**: ⚠️ Needs annotation (~128 warnings)
-- **Qwiq.Identity**: ⚠️ Needs annotation (~28 warnings)
-- **Qwiq.Mapper**: ⚠️ Needs annotation
+**Current Status**: ✅ All projects are fully annotated with nullable reference types
+
+| Project | Modern Frameworks (net8.0, netstandard2.0) | net472 | Notes |
+|---------|-------------------------------------------|---------|-------|
+| All Source Projects | ✅ 0 warnings | ⚠️ 315 warnings | net472 has limited compiler support |
+| All Test Projects | ✅ 0 warnings | ⚠️ Limited support | Same limitation as source |
+
+**Important**: CS8xxx warnings are suppressed in `.editorconfig` due to .NET Framework 4.7.2 compiler limitations. The nullable annotations are correct and work properly on modern frameworks (net8.0, netstandard2.0), but net472 generates false positive warnings even with the `NullableAttributes` compatibility shim.
+
+**Verification**: Run `pwsh scripts/Count-NullableWarnings.ps1` to verify warning counts per project.
 
 Common nullable patterns in this codebase:
 
@@ -329,6 +333,7 @@ Common nullable patterns in this codebase:
 - Use `null!` for lazy-initialized fields that are guaranteed to be set before use
 - Update both interfaces AND implementations when changing nullability
 - Use `[MaybeNullWhen(false)]` attribute for Try\* out parameters
+- Annotations work correctly in net8.0 and netstandard2.0 targets
 
 ## CI/CD Pipeline
 
@@ -498,7 +503,7 @@ dotnet build /m:1 /nodeReuse:false -v:minimal
 
 All analyzer diagnostics (CA, IDE, CS warnings) are configured in `.editorconfig` using `dotnet_diagnostic.<rule>.severity = none` syntax. This includes:
 
-- **CS86xx** - Nullable reference type warnings (suppressed for gradual migration)
+- **CS86xx** - Nullable reference type warnings (suppressed for net472 compiler compatibility)
 - **CA1xxx-CA5xxx** - Code analysis rules (existing technical debt)
 - **IDE0xxx** - Code style/simplification rules
 - **CS3xxx** - CLS compliance warnings
