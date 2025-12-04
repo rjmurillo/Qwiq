@@ -54,7 +54,11 @@ namespace Qwiq
         /// <exclude />
         public static bool IsContiniousIntegrationEnvironment { get; } =
             Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("CI"))
-            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("APPVEYOR"));
+            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("APPVEYOR"))
+            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("GITHUB_ACTIONS"))
+            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("TF_BUILD"))
+            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("TRAVIS"))
+            || Comparer.OrdinalIgnoreCase.Equals("True", Environment.GetEnvironmentVariable("CIRCLECI"));
 
         private static IEnumerable<VssCredentials> UnitTestCredentialsFactory(AuthenticationTypes types)
         {
