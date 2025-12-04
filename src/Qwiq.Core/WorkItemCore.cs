@@ -25,17 +25,16 @@ namespace Qwiq
         /// Gets or sets the <see cref="object"/> with the specified name.
         /// </summary>
         /// <value>
-        /// The <see cref="object"/>.
+        /// The <see cref="object"/>, or null if the field is not set.
         /// </value>
         /// <param name="name">
         /// The name.
         /// </param>
-        /// <returns>
-        /// </returns>
+        /// <returns>The field value, or null if not set.</returns>
         /// <exception cref="ArgumentNullException">
         /// name is null
         /// </exception>
-        public virtual object this[string name]
+        public virtual object? this[string name]
         {
             get
             {
