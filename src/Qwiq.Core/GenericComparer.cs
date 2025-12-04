@@ -63,7 +63,7 @@ namespace Qwiq
 
             // Implements IComparable<T>?
 
-            if (x is IComparable<T> comparable1 && y != null)
+            if (x is IComparable<T> comparable1 && !object.Equals(y, default(T)))
             {
                 return comparable1.CompareTo(y);
             }
@@ -77,7 +77,7 @@ namespace Qwiq
 
             // Implements IEquatable<T>?
 
-            if (x is IEquatable<T> equatable && y != null)
+            if (x is IEquatable<T> equatable && !object.Equals(y, default(T)))
             {
                 return equatable.Equals(y) ? 0 : -1;
             }
@@ -97,7 +97,23 @@ namespace Qwiq
 
         public virtual int GetHashCode(T obj)
         {
-            return obj?.GetHashCode() ?? 0;
+            if (obj == null) return 0;
+
+            // For IEnumerable types, compute content-based hash to match structural Equals
+            if (obj is IEnumerable enumerable)
+            {
+                unchecked
+                {
+                    int hash = 17;
+                    foreach (var item in enumerable)
+                    {
+                        hash = (hash * 31) + (item?.GetHashCode() ?? 0);
+                    }
+                    return hash;
+                }
+            }
+
+            return obj.GetHashCode();
         }
     }
 }
