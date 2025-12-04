@@ -52,7 +52,7 @@ For changes spanning multiple file types:
 
    - Build: `dotnet build Qwiq.sln /m:1 /nodeReuse:false -c Release`
    - Test: `dotnet test --filter "..."`
-   - Lint: `dotnet pprettier --write .` (auto-fixes all formatting)
+   - Lint: `dotnet format` (C# analyzer fixes) and `dotnet pprettier --write .` (formatting)
 
 6. **Prepare PR with evidence**
    - Document changes for each file type
@@ -139,7 +139,7 @@ Your changes are successful when:
 
 - All builds pass without warnings
 - All tests pass
-- No linting errors (run `dotnet pprettier --write .` to auto-fix)
+- No linting errors (run `dotnet format` and `dotnet pprettier --write .` to auto-fix)
 - PR description is complete and accurate
 - All checklist items completed
 - Established patterns are followed

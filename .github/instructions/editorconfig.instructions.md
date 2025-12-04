@@ -18,7 +18,7 @@ When working on .editorconfig, you MUST:
 
 1. Read this entire instruction file before making changes
 2. Understand the impact on code formatting and analyzers
-3. Run `dotnet pprettier --write .` to auto-fix all formatting issues
+3. Run `dotnet format` and `dotnet pprettier --write .` to verify changes
 4. Complete the Validation Checklist before submitting
 
 ## File Structure
@@ -94,7 +94,8 @@ dotnet_diagnostic.CA1234.severity = warning
 
 Before submitting changes, verify:
 
-- [ ] Run `dotnet pprettier --write .` to auto-fix all formatting issues
+- [ ] Run `dotnet format` to apply analyzer code fixes to C# files
+- [ ] Run `dotnet pprettier --write .` to auto-fix all formatting
 - [ ] `dotnet build Qwiq.sln -c Release` succeeds
 - [ ] No unexpected new warnings appear
 - [ ] Tests still pass

@@ -154,7 +154,9 @@ Before submitting changes, verify:
 - [ ] No new warnings introduced
 - [ ] Nullable annotations are correct
 - [ ] Exception handling follows logging pattern
-- [ ] Linting passes: run `dotnet pprettier --write .` to auto-fix all formatting
+- [ ] Linting passes:
+  - Run `dotnet format` to apply analyzer code fixes to C# files
+  - Run `dotnet pprettier --write .` to auto-fix all formatting
 - [ ] Tests pass: `dotnet test --filter "TestCategory!=localOnly&..."`
 - [ ] Similar files checked for established patterns
 
