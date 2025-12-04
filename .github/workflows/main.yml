@@ -45,7 +45,7 @@ jobs:
       run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
 
     - name: Run tests
-      run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory TestResults
+      run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults
 
     - name: Upload build logs
       if: success() || failure()
@@ -60,7 +60,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: TestResults/**/*.trx
+        path: ./artifacts/TestResults/**/*.trx
         if-no-files-found: ignore
 
     - name: Upload binaries
