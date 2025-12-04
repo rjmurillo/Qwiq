@@ -559,11 +559,97 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 
 ### Integration Tests
 
-Integration tests in `Qwiq.IntegrationTests` require:
+Integration tests in `Qwiq.IntegrationTests` connect to the `qwiq-sandbox` Azure DevOps organization.
 
-- TFS/Azure DevOps server credentials
-- Access to `https://microsoft.visualstudio.com/defaultcollection` (or configure `IntegrationSettings.cs`)
-- Windows environment (SOAP tests use net472)
+#### Sandbox Environment Details
+
+| Setting          | Value                                      |
+| ---------------- | ------------------------------------------ |
+| Organization URL | `https://qwiq-sandbox.visualstudio.com/`   |
+| Project Name     | `WIT`                                      |
+| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`     |
+| Process Template | `WIT_TEST`                                 |
+| Test User        | Richard Murillo (`rjmurillo@msn.com`)      |
+
+#### Test Work Items
+
+The sandbox contains pre-configured work items for integration testing:
+
+| ID | Type       | Title                                      | Purpose                    |
+|----|------------|--------------------------------------------|----------------------------|
+| 1  | Bug        | Integration Test                           | Basic work item tests      |
+| 2  | Task       | Child Task for Integration Tests           | Child of ID 3 (hierarchy)  |
+| 3  | User Story | Parent Story for Integration Tests         | Parent for hierarchy tests |
+| 4  | Bug        | Bug for Mapper Integration Tests           | Mapper tests               |
+| 5  | Bug        | Work Item with Links for Integration Tests | Work item with links       |
+| 6  | Task       | Child Task 2 for Hierarchy                 | Second child of ID 3       |
+
+**Hierarchy Structure:**
+
+```
+User Story (ID: 3) - "Parent Story for Integration Tests"
+├── Task (ID: 2) - "Child Task for Integration Tests"
+└── Task (ID: 6) - "Child Task 2 for Hierarchy"
+```
+
+#### Running Integration Tests
+
+```powershell
+# Run all integration tests (requires Windows + Azure DevOps access)
+dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --logger "console;verbosity=detailed"
+
+# Run only REST tests (skips SOAP which requires special auth)
+dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "TestCategory=REST|TestCategory=localOnly"
+
+# Run excluding SOAP tests (MSA accounts with MFA)
+dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "TestCategory!=SOAP"
+```
+
+#### Environment Variables for CI/CD
+
+| Variable               | Purpose                           | Default Value                              |
+| ---------------------- | --------------------------------- | ------------------------------------------ |
+| `QWIQ_TEST_URL`        | Override sandbox organization URL | `https://qwiq-sandbox.visualstudio.com/`   |
+| `QWIQ_PROJECT_GUID`    | Override project GUID             | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`     |
+| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication            | (none - uses Windows auth by default)     |
+
+**PAT Scopes Required:**
+
+- Work Items (Read & Write)
+- Project and Team (Read)
+- Identity (Read)
+
+#### Known Limitations
+
+1. **SOAP Authentication**: SOAP tests require Windows integrated authentication. They fail with MSA accounts that require MFA. Use `--filter "TestCategory!=SOAP"` to skip.
+
+2. **Single Test User**: The sandbox has only one user (Richard Murillo). Identity tests expecting multiple users with the same display name will fail.
+
+3. **REST/SOAP API Differences**: Comparison tests reveal actual API differences:
+   - REST returns `System.AreaLevel1-7` and `System.IterationLevel1-7` fields
+   - SOAP does not return these fields
+
+4. **Windows Required**: Full test suite requires Windows for `net472` SOAP tests.
+
+#### Test Data Constants
+
+All test work item IDs and identity constants are centralized in [`TestData.cs`](../test/Qwiq.Integration.Tests/TestData.cs):
+
+```csharp
+public static class TestData
+{
+    public const int BasicWorkItemId = 1;      // Bug for basic tests
+    public const int HierarchyChildId = 2;     // Task child of ID 3
+    public const int HierarchyParentId = 3;    // User Story parent
+    public const int MapperBugId = 4;          // Bug for mapper tests
+    public const int WorkItemWithLinksId = 5;  // Bug with related links
+
+    public const string TestUserUpn = "rjmurillo@msn.com";
+    public const string TestUserAlias = "rjmurillo";
+    public const string TestUserDisplayName = "Richard Murillo";
+    public const string ProjectName = "WIT";
+}
+```
 
 ### Test Patterns
 
