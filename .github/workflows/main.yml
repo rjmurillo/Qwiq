@@ -42,8 +42,8 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
 
-      - name: Build solution (net8.0 only)
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false /bl:./artifacts/logs/build.ubuntu.binlog
+      - name: Build solution
+        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /nodeReuse:false /bl:./artifacts/logs/build.ubuntu.binlog
 
       - name: Run tests (net8.0)
         run: |
@@ -103,7 +103,7 @@ jobs:
         run: dotnet restore Qwiq.sln
 
       - name: Build solution (all frameworks)
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false /bl:./artifacts/logs/build.windows.binlog
+        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /p:Deterministic=true /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /nodeReuse:false /bl:./artifacts/logs/build.windows.binlog
 
       - name: Pack NuGet packages
         run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
