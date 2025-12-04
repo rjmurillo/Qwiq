@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Qwiq.Mocks
 {
-        public class MockRevision : Revision
+    public class MockRevision : Revision
     {
         public MockRevision(Dictionary<string, object> dictionary, int index)
             : base(new MockFieldDefinitionCollection(dictionary.Keys.Select(MockFieldDefinition.Create)), index)

@@ -15,7 +15,7 @@ namespace Qwiq.Mocks
                                                                                        CoreFieldRefNames.NameLookup[CoreFieldRefNames
                                                                                                                             .WorkItemType],
                                                                                        CoreFieldRefNames.WorkItemType);
-        
+
         public static IEnumerable<IFieldDefinition> All { get; } = CoreFieldRefNames
                 .ReferenceNameLookup.Select(s => new MockFieldDefinition(CoreFieldRefNames.CoreFieldIdLookup[s.Value], s.Key, s.Value))
                 .ToList();

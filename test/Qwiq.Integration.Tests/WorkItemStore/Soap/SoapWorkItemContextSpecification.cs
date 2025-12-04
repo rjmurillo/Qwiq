@@ -4,14 +4,17 @@ namespace Qwiq.WorkItemStore.Soap
     {
         protected override IWorkItemStore Create()
         {
-            return TimedAction(() =>{
-                try{
-                 return IntegrationSettings.CreateSoapStore();
-                }catch (Exception)
+            return TimedAction(() =>
+            {
+                try
+                {
+                    return IntegrationSettings.CreateSoapStore();
+                }
+                catch (Exception)
                 {
                     return null;
                 }
-                 }, "SOAP", "WIS Create");
+            }, "SOAP", "WIS Create");
         }
     }
 }

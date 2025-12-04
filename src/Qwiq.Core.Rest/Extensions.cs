@@ -7,22 +7,22 @@ namespace Qwiq.Client.Rest
 {
     internal static class Extensions
     {
-        
+
         internal static IWorkItem AsProxy(this WorkItem item)
         {
             return ExceptionHandlingDynamicProxyFactory.Create<IWorkItem>(item);
         }
-        
+
         internal static IQuery AsProxy(this Query query)
         {
             return ExceptionHandlingDynamicProxyFactory.Create<IQuery>(query);
         }
-        
+
         internal static IIdentityDescriptor? AsProxy(this Microsoft.VisualStudio.Services.Identity.IdentityDescriptor? value)
         {
             return value == null ? null : ExceptionHandlingDynamicProxyFactory.Create<IIdentityDescriptor>(new IdentityDescriptor(value));
         }
-        
+
         internal static IInternalTeamProjectCollection? AsProxy(this VssConnection? tfsNative)
         {
             return tfsNative == null

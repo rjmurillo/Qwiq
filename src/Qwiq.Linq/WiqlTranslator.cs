@@ -78,7 +78,7 @@ namespace Qwiq.Linq
                 _expressionInProgress = new Queue<IFragment>();
             }
 
-        public override Expression? Visit(Expression? node)
+            public override Expression? Visit(Expression? node)
             {
                 if (node == null)
                 {

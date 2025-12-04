@@ -5,7 +5,7 @@ namespace Qwiq.Identity
 {
     public interface IIdentityManagementService
     {
-        
+
         IIdentityDescriptor CreateIdentityDescriptor(string identityType, string identifier);
 
         /// <summary>
@@ -13,7 +13,7 @@ namespace Qwiq.Identity
         /// </summary>
         /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s</param>
         /// <returns></returns>
-        
+
         IEnumerable<ITeamFoundationIdentity> ReadIdentities(IEnumerable<IIdentityDescriptor> descriptors);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Qwiq.Identity
         /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s</param>
         /// <param name="queryMembership"></param>
         /// <returns></returns>
-        
+
         IEnumerable<ITeamFoundationIdentity> ReadIdentities(IEnumerable<IIdentityDescriptor> descriptors, MembershipQuery queryMembership);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Qwiq.Identity
         /// <param name="searchFactor">Specific search.</param>
         /// <param name="searchFactorValues">Actual search strings.</param>
         /// <returns>An enumerable set of identities corresponding 1 to 1 with <paramref name="searchFactorValues"/>.</returns>
-        
+
         IEnumerable<KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>> ReadIdentities(
             IdentitySearchFactor searchFactor,
             IEnumerable<string> searchFactorValues);
@@ -43,14 +43,14 @@ namespace Qwiq.Identity
         /// <param name="searchFactorValues">Actual search strings.</param>
         /// <param name="queryMembership"></param>
         /// <returns>An enumerable set of identities corresponding 1 to 1 with <paramref name="searchFactorValues"/>.</returns>
-        
+
         IEnumerable<KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>> ReadIdentities(
             IdentitySearchFactor searchFactor,
             IEnumerable<string> searchFactorValues,
             MembershipQuery queryMembership);
-        
+
         ITeamFoundationIdentity ReadIdentity(IdentitySearchFactor searchFactor, string searchFactorValue);
-        
+
         ITeamFoundationIdentity ReadIdentity(IdentitySearchFactor searchFactor, string searchFactorValue, MembershipQuery queryMembership);
     }
 }
