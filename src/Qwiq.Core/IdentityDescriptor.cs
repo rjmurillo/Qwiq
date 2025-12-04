@@ -52,7 +52,7 @@ namespace Qwiq
 
         protected internal byte IdentityTypeId { get; private set; }
 
-        public int CompareTo(IdentityDescriptor other)
+        public int CompareTo(IdentityDescriptor? other)
         {
             if (this == other) return 0;
             if (this == null && other != null) return -1;
@@ -72,13 +72,13 @@ namespace Qwiq
         }
 
         /// <inheritdoc />
-        public bool Equals(IdentityDescriptor other)
+        public bool Equals(IdentityDescriptor? other)
         {
             return CompareTo(other) == 0;
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as IdentityDescriptor);
         }

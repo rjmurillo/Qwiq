@@ -44,12 +44,12 @@ namespace Qwiq
 
         public IWorkItemLinkTypeEnd OppositeEnd => _oppositeEnd ?? (_oppositeEnd = _lazyOpposite.Value);
 
-        public bool Equals(IWorkItemLinkTypeEnd other)
+        public bool Equals(IWorkItemLinkTypeEnd? other)
         {
             return WorkItemLinkTypeEndComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemLinkTypeEndComparer.Default.Equals(this, obj as IWorkItemLinkTypeEnd);
         }

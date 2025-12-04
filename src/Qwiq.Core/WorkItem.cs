@@ -100,7 +100,7 @@ namespace Qwiq
 
         public virtual IWorkItemType Type => _type ?? _lazyType?.Value ?? throw new InvalidOperationException($"No value specified for {nameof(Type)}.");
 
-        public override object this[string name]
+        public override object? this[string name]
         {
             get
             {
@@ -157,17 +157,17 @@ namespace Qwiq
             throw new NotSupportedException();
         }
 
-        public virtual IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd linkTypeEnd = null)
+        public virtual IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd? linkTypeEnd = null)
         {
             throw new NotSupportedException();
         }
 
-        public bool Equals(IWorkItem other)
+        public bool Equals(IWorkItem? other)
         {
             return WorkItemComparer.Default.Equals(this, other);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return WorkItemComparer.Default.Equals(this, obj as IWorkItem);
         }
