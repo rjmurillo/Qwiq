@@ -14,23 +14,23 @@ namespace Qwiq.Identity
         /// <param name="identityType">The type of identity (e.g., "Windows", "ServiceIdentity").</param>
         /// <param name="identifier">The unique identifier for the identity.</param>
         /// <returns>An <see cref="IIdentityDescriptor"/> representing the identity.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="identityType"/> or <paramref name="identifier"/> is <c>null</c>.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="identityType"/> or <paramref name="identifier"/> is null.</exception>
         IIdentityDescriptor CreateIdentityDescriptor(string identityType, string identifier);
 
         /// <summary>
         /// Read identities for given <paramref name="descriptors"/>.
         /// </summary>
-        /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s. Cannot be <c>null</c>.</param>
-        /// <returns>An enumerable of identities. May contain <c>null</c> entries for descriptors that could not be resolved.</returns>
+        /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s. Cannot be null.</param>
+        /// <returns>An enumerable of identities. May contain null entries for descriptors that could not be resolved.</returns>
 
         IEnumerable<ITeamFoundationIdentity> ReadIdentities(IEnumerable<IIdentityDescriptor> descriptors);
 
         /// <summary>
         /// Read identities for given <paramref name="descriptors"/>.
         /// </summary>
-        /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s. Cannot be <c>null</c>.</param>
+        /// <param name="descriptors">A set of <see cref="IIdentityDescriptor"/>s. Cannot be null.</param>
         /// <param name="queryMembership">Specifies whether to query membership information.</param>
-        /// <returns>An enumerable of identities. May contain <c>null</c> entries for descriptors that could not be resolved.</returns>
+        /// <returns>An enumerable of identities. May contain null entries for descriptors that could not be resolved.</returns>
 
         IEnumerable<ITeamFoundationIdentity> ReadIdentities(IEnumerable<IIdentityDescriptor> descriptors, MembershipQuery queryMembership);
 
@@ -38,7 +38,7 @@ namespace Qwiq.Identity
         /// Read identities for given <paramref name="searchFactor"/> and <paramref name="searchFactorValues"/>.
         /// </summary>
         /// <param name="searchFactor">Specific search.</param>
-        /// <param name="searchFactorValues">Actual search strings. Cannot be <c>null</c>.</param>
+        /// <param name="searchFactorValues">Actual search strings. Cannot be null.</param>
         /// <returns>An enumerable set of identities corresponding 1 to 1 with <paramref name="searchFactorValues"/>. Values may be empty if no matches found.</returns>
 
         IEnumerable<KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>> ReadIdentities(
@@ -49,7 +49,7 @@ namespace Qwiq.Identity
         /// Read identities for given <paramref name="searchFactor"/> and <paramref name="searchFactorValues"/>.
         /// </summary>
         /// <param name="searchFactor">Specific search.</param>
-        /// <param name="searchFactorValues">Actual search strings. Cannot be <c>null</c>.</param>
+        /// <param name="searchFactorValues">Actual search strings. Cannot be null.</param>
         /// <param name="queryMembership">Specifies whether to query membership information.</param>
         /// <returns>An enumerable set of identities corresponding 1 to 1 with <paramref name="searchFactorValues"/>. Values may be empty if no matches found.</returns>
 
@@ -62,17 +62,17 @@ namespace Qwiq.Identity
         /// Read a single identity for the given search criteria.
         /// </summary>
         /// <param name="searchFactor">The factor to search by.</param>
-        /// <param name="searchFactorValue">The value to search for. Cannot be <c>null</c>.</param>
-        /// <returns>The matching identity, or <c>null</c> if not found.</returns>
+        /// <param name="searchFactorValue">The value to search for. Cannot be null.</param>
+        /// <returns>The matching identity, or null if not found.</returns>
         ITeamFoundationIdentity? ReadIdentity(IdentitySearchFactor searchFactor, string searchFactorValue);
 
         /// <summary>
         /// Read a single identity for the given search criteria.
         /// </summary>
         /// <param name="searchFactor">The factor to search by.</param>
-        /// <param name="searchFactorValue">The value to search for. Cannot be <c>null</c>.</param>
+        /// <param name="searchFactorValue">The value to search for. Cannot be null.</param>
         /// <param name="queryMembership">Specifies whether to query membership information.</param>
-        /// <returns>The matching identity, or <c>null</c> if not found.</returns>
+        /// <returns>The matching identity, or null if not found.</returns>
         ITeamFoundationIdentity? ReadIdentity(IdentitySearchFactor searchFactor, string searchFactorValue, MembershipQuery queryMembership);
     }
 }
