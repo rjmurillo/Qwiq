@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.{yml,yaml}'
+applyTo: "**/*.{yml,yaml}"
 ---
 
 # YAML File Instructions
@@ -37,20 +37,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # Required for net472/SOAP projects
+    runs-on: windows-latest # Required for net472/SOAP projects
 
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for Nerdbank.GitVersioning
+          fetch-depth: 0 # Required for Nerdbank.GitVersioning
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: ./global.json  # Use pinned SDK version
+          global-json-file: ./global.json # Use pinned SDK version
 
       - name: Restore tools
-        run: dotnet tool restore  # For nbgv
+        run: dotnet tool restore # For nbgv
 
       - name: Restore packages
         run: dotnet restore Qwiq.sln
@@ -64,12 +64,12 @@ jobs:
 
 ### Key Requirements
 
-| Requirement | Reason |
-|-------------|--------|
-| `windows-latest` | SOAP projects require Windows for net472 |
-| `fetch-depth: 0` | Nerdbank.GitVersioning needs full history |
-| `dotnet tool restore` | Restores nbgv from dotnet tool manifest |
-| `global-json-file` | Uses pinned SDK version from repository |
+| Requirement           | Reason                                    |
+| --------------------- | ----------------------------------------- |
+| `windows-latest`      | SOAP projects require Windows for net472  |
+| `fetch-depth: 0`      | Nerdbank.GitVersioning needs full history |
+| `dotnet tool restore` | Restores nbgv from dotnet tool manifest   |
+| `global-json-file`    | Uses pinned SDK version from repository   |
 
 ### Deterministic Builds
 
@@ -111,6 +111,7 @@ Include in your PR description:
 - [x] All jobs completed successfully
 
 ## CI Evidence
+
 Link to workflow run: [#123](link)
 ```
 

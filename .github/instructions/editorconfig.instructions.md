@@ -1,5 +1,5 @@
 ---
-applyTo: '.editorconfig'
+applyTo: ".editorconfig"
 ---
 
 # .editorconfig Instructions
@@ -48,26 +48,27 @@ dotnet_diagnostic.CA1234.severity = warning
 
 ## Analyzer Categories
 
-| Category | Rules | Purpose |
-|----------|-------|---------|
-| CS warnings | CS0618, CS1574, CS1591, etc. | Compiler warnings |
-| CS86xx | CS8600-CS8769 | Nullable reference types (gradual migration) |
-| CS3xxx | CS3001-CS3027 | CLS compliance |
-| CA1xxx | CA1000-CA1070 | Design rules |
-| CA13xx | CA1303-CA1310 | Globalization rules |
-| CA15xx | CA1501-CA1513 | Maintainability rules |
-| CA17xx | CA1700-CA1725 | Naming rules |
-| CA18xx | CA1801-CA1863 | Performance rules |
-| CA2xxx | CA2000-CA2254 | Reliability/Usage rules |
-| CA3xxx-CA5xxx | CA3001-CA5403 | Security rules |
-| IDE0xxx | IDE0001-IDE1006 | Code style rules |
-| SYSLIB | SYSLIB0021, SYSLIB0050, SYSLIB0051 | Obsolete API warnings |
+| Category      | Rules                              | Purpose                                      |
+| ------------- | ---------------------------------- | -------------------------------------------- |
+| CS warnings   | CS0618, CS1574, CS1591, etc.       | Compiler warnings                            |
+| CS86xx        | CS8600-CS8769                      | Nullable reference types (gradual migration) |
+| CS3xxx        | CS3001-CS3027                      | CLS compliance                               |
+| CA1xxx        | CA1000-CA1070                      | Design rules                                 |
+| CA13xx        | CA1303-CA1310                      | Globalization rules                          |
+| CA15xx        | CA1501-CA1513                      | Maintainability rules                        |
+| CA17xx        | CA1700-CA1725                      | Naming rules                                 |
+| CA18xx        | CA1801-CA1863                      | Performance rules                            |
+| CA2xxx        | CA2000-CA2254                      | Reliability/Usage rules                      |
+| CA3xxx-CA5xxx | CA3001-CA5403                      | Security rules                               |
+| IDE0xxx       | IDE0001-IDE1006                    | Code style rules                             |
+| SYSLIB        | SYSLIB0021, SYSLIB0050, SYSLIB0051 | Obsolete API warnings                        |
 
 ## Making Changes
 
 ### To Suppress a New Warning
 
 1. Add to appropriate section in `.editorconfig`:
+
    ```editorconfig
    # <Brief explanation of why this is suppressed>
    dotnet_diagnostic.CA1234.severity = none
@@ -80,6 +81,7 @@ dotnet_diagnostic.CA1234.severity = warning
 ### To Enable a Warning
 
 1. Change severity from `none` to `warning` or `error`:
+
    ```editorconfig
    dotnet_diagnostic.CA1234.severity = warning
    ```
@@ -111,6 +113,7 @@ Include in your PR description:
 - [x] Build succeeds with no new warnings
 
 ## CI Evidence
+
 Link to CI run: [#123](link)
 ```
 

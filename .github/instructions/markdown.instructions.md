@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.md'
+applyTo: "**/*.md"
 ---
 
 # Markdown File Instructions
@@ -60,7 +60,7 @@ Use consistent formatting:
 
 ```markdown
 | Column 1 | Column 2 | Column 3 |
-|----------|----------|----------|
+| -------- | -------- | -------- |
 | Value 1  | Value 2  | Value 3  |
 ```
 
@@ -68,9 +68,11 @@ Use consistent formatting:
 
 ```markdown
 <!-- Inline links for one-time use -->
+
 See the [README](../README.md) for details.
 
 <!-- Reference links for repeated URLs -->
+
 Check the [documentation][docs] and [API reference][docs].
 
 [docs]: https://github.com/rjmurillo/Qwiq
@@ -102,18 +104,22 @@ Follow this structure:
 # Title
 
 ## Summary
+
 Brief description of changes.
 
 ## Changes
+
 - Specific change 1
 - Specific change 2
 
 ## Testing
+
 - [ ] Build succeeds
 - [ ] Tests pass
 - [ ] Documentation updated
 
 ## Related
+
 - Fixes #123
 - Related to #456
 ```
@@ -134,27 +140,35 @@ Before submitting changes, verify:
 ```markdown
 <!-- ❌ WRONG: No language identifier -->
 ```
+
 dotnet build
-```
+
+````
 
 <!-- ✅ CORRECT: With language identifier -->
 ```powershell
 dotnet build
-```
+````
 
 <!-- ❌ WRONG: Bold instead of heading -->
+
 **Section Title**
 
 <!-- ✅ CORRECT: Proper heading -->
+
 ## Section Title
 
 <!-- ❌ WRONG: Inconsistent list markers -->
-* Item 1
-- Item 2
+
+- Item 1
+
+* Item 2
 
 <!-- ✅ CORRECT: Consistent list markers -->
+
 - Item 1
 - Item 2
+
 ```
 
 ## Decision Trees
@@ -175,3 +189,4 @@ dotnet build
 
 - [generic.instructions.md](generic.instructions.md) - For multi-file changes
 - [csharp.instructions.md](csharp.instructions.md) - For code examples in docs
+```

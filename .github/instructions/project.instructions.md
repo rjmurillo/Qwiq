@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.{csproj,sln}'
+applyTo: "**/*.{csproj,sln}"
 ---
 
 # Project File Instructions
@@ -24,12 +24,12 @@ When working on project files, you MUST:
 
 ## Target Framework Reference
 
-| Project Type | Target Frameworks | Notes |
-|--------------|-------------------|-------|
-| Core libraries | `net472;netstandard2.0;net8.0` | Full multi-targeting |
-| SOAP projects | `net472` only | Windows-only, TFS Client OM dependency |
-| REST projects | `net472;netstandard2.0;net8.0` | Cross-platform capable |
-| Test projects | `net472;net8.0` | Skip netstandard for tests |
+| Project Type   | Target Frameworks              | Notes                                  |
+| -------------- | ------------------------------ | -------------------------------------- |
+| Core libraries | `net472;netstandard2.0;net8.0` | Full multi-targeting                   |
+| SOAP projects  | `net472` only                  | Windows-only, TFS Client OM dependency |
+| REST projects  | `net472;netstandard2.0;net8.0` | Cross-platform capable                 |
+| Test projects  | `net472;net8.0`                | Skip netstandard for tests             |
 
 ## Central Package Management
 
@@ -38,6 +38,7 @@ All package versions are defined in `Directory.Packages.props` at the repository
 ### Adding a New Package
 
 1. Add version to `Directory.Packages.props`:
+
    ```xml
    <PackageVersion Include="NewPackage" Version="1.2.3" />
    ```
@@ -69,13 +70,13 @@ After migration to SDK-style projects, `InternalsVisibleTo` is defined in .cspro
 
 ### Current Configuration
 
-| Source Project | Visible To |
-|----------------|------------|
-| `Qwiq.Core.csproj` | `Qwiq.Core.UnitTests`, `Qwiq.Mocks` |
-| `Qwiq.Client.Rest.csproj` | `Qwiq.IntegrationTests` |
-| `Qwiq.Client.Soap.csproj` | `Qwiq.Identity.Soap`, `Qwiq.IntegrationTests` |
-| `Qwiq.Identity.Soap.csproj` | `Qwiq.IntegrationTests` |
-| `Qwiq.Mapper.Identity.csproj` | `Qwiq.Identity.UnitTests` |
+| Source Project                | Visible To                                    |
+| ----------------------------- | --------------------------------------------- |
+| `Qwiq.Core.csproj`            | `Qwiq.Core.UnitTests`, `Qwiq.Mocks`           |
+| `Qwiq.Client.Rest.csproj`     | `Qwiq.IntegrationTests`                       |
+| `Qwiq.Client.Soap.csproj`     | `Qwiq.Identity.Soap`, `Qwiq.IntegrationTests` |
+| `Qwiq.Identity.Soap.csproj`   | `Qwiq.IntegrationTests`                       |
+| `Qwiq.Mapper.Identity.csproj` | `Qwiq.Identity.UnitTests`                     |
 
 If you encounter `'Type' is inaccessible due to its protection level` errors, add an `InternalsVisibleTo` entry.
 

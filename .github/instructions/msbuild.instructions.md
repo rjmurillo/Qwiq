@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.{props,targets}'
+applyTo: "**/*.{props,targets}"
 ---
 
 # MSBuild Property/Target File Instructions
@@ -16,8 +16,8 @@ applyTo: '**/*.{props,targets}'
 ## Critical Warning
 
 > ⚠️ **These files affect every project in the repository.**
-> 
-> Do NOT modify `Directory.Build.props`, `Directory.Build.targets`, or `Directory.Packages.props` 
+>
+> Do NOT modify `Directory.Build.props`, `Directory.Build.targets`, or `Directory.Packages.props`
 > as part of feature/bugfix PRs unless explicitly tasked with build system changes.
 
 ## Context Loading
@@ -95,11 +95,13 @@ Include in your PR description:
 ## MSBuild Validation Log
 
 Build output showing successful compilation:
+
 - [x] All projects build
 - [x] No new warnings
 - [x] Tests pass
 
 ## CI Evidence
+
 Link to CI run: [#123](link)
 ```
 

@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.json'
+applyTo: "**/*.json"
 ---
 
 # JSON File Instructions
@@ -38,6 +38,7 @@ Pins the .NET SDK version for reproducible builds:
 ```
 
 **Rules:**
+
 - Only update when explicitly tasked with SDK upgrade
 - Use `latestPatch` for security updates
 - Test build after any changes
@@ -60,6 +61,7 @@ Dotnet tool manifest for Nerdbank.GitVersioning:
 ```
 
 **Rules:**
+
 - Update via `dotnet tool update nbgv`
 - Commit changes to manifest
 - Test `dotnet tool restore` after changes
@@ -83,6 +85,7 @@ Nerdbank.GitVersioning configuration:
 ```
 
 **Rules:**
+
 - Version is managed by GitVersioning
 - Don't modify version numbers directly
 - Changes affect all package versions
@@ -101,6 +104,7 @@ NuGet package sources:
 ```
 
 **Rules:**
+
 - Do not add private feeds without approval
 - Do not modify as part of feature PRs
 

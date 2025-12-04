@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: "**"
 ---
 
 # Generic File Instructions
@@ -27,24 +27,29 @@ When working on ANY file, you MUST:
 For changes spanning multiple file types:
 
 1. **Identify all affected file types**
+
    - List every file that will be modified
    - Find corresponding instruction files for each type
 
 2. **Read all relevant instruction files**
+
    - Note validation requirements for each type
    - Identify dependencies between files
 
 3. **Plan the change order**
+
    - Code changes before documentation
    - Build files before source files
    - Tests after implementation
 
 4. **Execute changes systematically**
+
    - Make one logical change at a time
    - Validate after each significant change
    - Commit incrementally
 
 5. **Validate comprehensively**
+
    - Build: `dotnet build Qwiq.sln /m:1 /nodeReuse:false -c Release`
    - Test: `dotnet test --filter "..."`
    - Lint: `dotnet format` and `dotnet pprettier`
@@ -75,12 +80,16 @@ Include in your PR description:
 
 ### Build
 ```
+
 dotnet build output showing success
+
 ```
 
 ### Tests
 ```
+
 Test results showing all pass
+
 ```
 
 ### Files Changed

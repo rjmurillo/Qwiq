@@ -1,5 +1,5 @@
 ---
-applyTo: '**/*.ps1'
+applyTo: "**/*.ps1"
 ---
 
 # PowerShell Script Instructions
