@@ -1,6 +1,0 @@
-﻿/
-|-- Qwiq.Identity.Soap.nuspec
-|-- lib
-|   |-- net472
-|   |   |-- Qwiq.Identity.Soap.dll
-|   |   |-- Qwiq.Identity.Soap.xml
