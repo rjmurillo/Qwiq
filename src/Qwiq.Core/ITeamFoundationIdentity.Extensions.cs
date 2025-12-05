@@ -65,12 +65,21 @@ namespace Qwiq
                 {
                     // Extract the part after the backslash (the account name)
                     var afterBackslash = uniqueName.Substring(backslashIndex + 1);
+
+                    // Handle edge case where after backslash starts with @ (e.g., "DOMAIN\@something")
+                    // This is not a valid email, so return the whole thing after backslash
+                    if (afterBackslash.StartsWith('@'))
+                    {
+                        return afterBackslash;
+                    }
+
                     // If the account name is an email, extract just the alias part
                     var atIndex = afterBackslash.IndexOf('@');
                     if (atIndex > 0)
                     {
                         return afterBackslash.Substring(0, atIndex);
                     }
+
                     return afterBackslash;
                 }
 
