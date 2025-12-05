@@ -7,6 +7,7 @@
     <Description>QWIQ Identity SOAP - SOAP-based Identity management for TFS</Description>
     <PackageId>Qwiq.Identity.Soap</PackageId>
     <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

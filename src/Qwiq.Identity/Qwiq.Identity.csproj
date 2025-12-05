@@ -6,6 +6,7 @@
     <Description>QWIQ Identity - Identity management extensions for QWIQ</Description>
     <PackageId>Qwiq.Identity</PackageId>
     <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
