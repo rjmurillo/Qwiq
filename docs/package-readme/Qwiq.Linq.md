@@ -34,7 +34,7 @@ var context = new WorkItemStoreContext(store);
 
 // LINQ query
 var activeBugs = from wi in context.WorkItems
-                 where wi.Type == "Bug" 
+                 where wi.Type == "Bug"
                     && wi.State == "Active"
                  select wi;
 

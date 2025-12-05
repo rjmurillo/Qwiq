@@ -233,16 +233,19 @@ As part of the ongoing repository modernization effort, the package baseline tes
 ### Changes Made
 
 1. **Integrated Verify.Nupkg Plugin**
+
    - Added `<PackageReference Include="Verify.Nupkg" />` to `Qwiq.Package.Tests.csproj`
    - Added `VerifyNupkg.Initialize();` call in `ModuleInitializer.cs`
    - Replaced 150+ lines of custom ZIP parsing/tree generation with `VerifyFile().ScrubNuspec()`
 
 2. **Package Deduplication Logic**
+
    - Implemented timestamp-based deduplication to handle incremental builds
    - Uses `GroupBy(GetPackageDiscriminator).Select(group => group.OrderByDescending(LastWriteTimeUtc).First())`
    - Prevents test failures from multiple package versions in build output
 
 3. **Symbol Package Testing Deferred**
+
    - Verify.Nupkg currently only supports `.nupkg` files (not `.snupkg`)
    - Deleted 9 `.snupkg.verified` baseline files temporarily
    - Added logging to track skipped symbol packages

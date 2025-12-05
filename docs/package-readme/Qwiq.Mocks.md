@@ -247,12 +247,12 @@ public void MapWorkItem_ToStronglyTypedModel()
 
 ## Mock vs Real Implementation
 
-| Feature | MockWorkItemStore | Real Store |
-|---------|-------------------|------------|
-| Speed | ⚡ Instant | 🐌 Network calls |
-| Isolation | ✅ Full | ❌ Shared state |
-| Setup | ✅ Minimal | 🔧 Connection required |
-| Coverage | ✅ Unit tests | ✅ Integration tests |
+| Feature   | MockWorkItemStore | Real Store             |
+| --------- | ----------------- | ---------------------- |
+| Speed     | ⚡ Instant        | 🐌 Network calls       |
+| Isolation | ✅ Full           | ❌ Shared state        |
+| Setup     | ✅ Minimal        | 🔧 Connection required |
+| Coverage  | ✅ Unit tests     | ✅ Integration tests   |
 
 ## Best Practices
 

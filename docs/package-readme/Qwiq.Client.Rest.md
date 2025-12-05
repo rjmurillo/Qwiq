@@ -109,18 +109,21 @@ var pat = secret.Value.Value;
 ### Minimum Required Scopes
 
 When creating a PAT, use the minimum required scopes:
+
 - **Work Items (Read)**: For read-only operations
 - **Work Items (Write)**: For creating/updating work items
 
 ## REST vs SOAP
 
 Use Qwiq.Client.Rest when:
+
 - ✅ Targeting Azure DevOps Services
 - ✅ Need cross-platform support
 - ✅ Want better performance
 - ✅ Building new applications
 
 Use Qwiq.Client.Soap when:
+
 - Legacy TFS on-premises with SOAP-only access
 - Existing applications with SOAP dependencies
 

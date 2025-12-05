@@ -20,6 +20,7 @@ dotnet add package Qwiq.Mapper.Identity
 ```
 
 **Prerequisites:**
+
 - [Qwiq.Mapper](https://www.nuget.org/packages/Qwiq.Mapper/)
 - [Qwiq.Identity](https://www.nuget.org/packages/Qwiq.Identity/)
 
@@ -114,6 +115,7 @@ var tasks = workItems.Select(wi => mapper.Create<Task>(wi));
 ```
 
 For 100 work items with 2 identity fields each:
+
 - **Without bulk resolution**: 200 API calls
 - **With bulk resolution**: 1 API call
 
@@ -157,7 +159,7 @@ public class UserStory
     public string? AssignedTo { get; set; }
 
     // Derived property from identity field
-    public string? AssignedToEmail => 
+    public string? AssignedToEmail =>
         GetIdentityEmail(AssignedTo);
 }
 ```

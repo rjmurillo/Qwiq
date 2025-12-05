@@ -20,6 +20,7 @@ dotnet add package Qwiq.Linq.Identity
 ```
 
 **Prerequisites:**
+
 - [Qwiq.Linq](https://www.nuget.org/packages/Qwiq.Linq/)
 - [Qwiq.Identity](https://www.nuget.org/packages/Qwiq.Identity/)
 - [Qwiq.Mapper](https://www.nuget.org/packages/Qwiq.Mapper/) (for attribute mapping)

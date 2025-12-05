@@ -16,7 +16,9 @@ We release patches for security vulnerabilities in the following versions:
 Instead, please report them through GitHub Security Advisories:
 
 ### GitHub Security Advisories
+
 Report a vulnerability privately through GitHub:
+
 1. Go to the [Security tab](https://github.com/rjmurillo/Qwiq/security)
 2. Click "Report a vulnerability"
 3. Fill out the form with details about the vulnerability
@@ -33,22 +35,26 @@ Report a vulnerability privately through GitHub:
 When using Qwiq in your applications:
 
 ### Credential Management
+
 - **Never** hardcode credentials in source code
 - Use Azure Key Vault, environment variables, or secure credential managers
 - Rotate Personal Access Tokens (PATs) regularly
 - Use PATs with minimum required scopes
 
 ### Authentication
+
 - Prefer OAuth over basic authentication when possible
 - Use Windows authentication for on-premises TFS when available
 - Set appropriate token expiration periods
 
 ### Network Security
+
 - Use HTTPS connections to Azure DevOps/TFS
 - Validate SSL certificates in production environments
 - Consider using private endpoints for Azure DevOps
 
 ### Access Control
+
 - Follow the principle of least privilege
 - Review and audit PAT permissions regularly
 - Use service accounts with limited permissions for automated systems
@@ -56,12 +62,14 @@ When using Qwiq in your applications:
 ## Known Security Considerations
 
 ### Personal Access Tokens (PATs)
+
 - PATs grant access to your Azure DevOps organization
 - Treat PATs like passwords - never commit them to repositories
 - Use short-lived tokens when possible
 - Store tokens securely using credential managers
 
 ### TFS/Azure DevOps API
+
 - This library connects to Azure DevOps/TFS APIs
 - Ensure your Azure DevOps organization has appropriate security policies
 - Review Azure DevOps audit logs regularly
@@ -69,6 +77,7 @@ When using Qwiq in your applications:
 ## Security Updates
 
 Security updates will be:
+
 - Released as patch versions (e.g., 10.0.x)
 - Announced in release notes
 - Tagged with `security` label in GitHub releases

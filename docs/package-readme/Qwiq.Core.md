@@ -30,7 +30,7 @@ using Qwiq.Credentials;
 // Create authentication options
 var uri = new Uri("https://dev.azure.com/yourorg");
 var options = new AuthenticationOptions(
-    uri, 
+    uri,
     AuthenticationTypes.Windows
 );
 

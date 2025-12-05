@@ -111,11 +111,13 @@ dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Re
 Symbol packages (`.snupkg`) are **not currently baselined** because Verify.Nupkg doesn't support the `.snupkg` extension yet.
 
 **Current Behavior:**
+
 - Tests skip `.snupkg` files with logged message
 - CI validates symbol packages using `dotnet sourcelink test` (limited scope)
 - Upstream feature request: [MattKotsenas/Verify.Nupkg#38](https://github.com/MattKotsenas/Verify.Nupkg/issues/38)
 
 **When Upstream Adds Support:**
+
 1. Update `GetPackages()` to include `*.snupkg` in discovery
 2. Remove skip logging
 3. Regenerate 9 `.snupkg.verified` baseline files

@@ -576,33 +576,37 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 Whenever ANY change is made that affects NuGet package contents (adding/removing files, changing metadata, etc.), you MUST:
 
 1. **Run PackageTests first** to identify baseline mismatches:
+
    ```powershell
    dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Release
    ```
 
 2. **Review the test output** to verify changes are expected:
+
    - Check `.received.*` files show the correct new package contents
    - Compare against `.verified.*` files to see what changed
    - Ensure changes match expectations 1:1 for ALL affected packages
 
 3. **Update verified baselines** only after confirming changes are correct:
-   
+
    **Option A: Using Verify.Terminal (Recommended)**
+
    ```powershell
    # Install the tool locally (one-time setup)
    dotnet tool install verify.tool
-   
+
    # Or restore if already in manifest
    dotnet tool restore
-   
+
    # Review changes interactively and accept/reject individually
    dotnet verify review -w test/Qwiq.Package.Tests
-   
+
    # Or accept all changes at once (use with caution)
    dotnet verify accept -w test/Qwiq.Package.Tests
    ```
-   
+
    **Option B: Manual PowerShell copy**
+
    ```powershell
    Get-ChildItem -Path "test\Qwiq.Package.Tests" -Filter "*.received.*" | ForEach-Object {
        $verifiedName = $_.Name -replace '\.received\.', '.verified.'
@@ -613,12 +617,14 @@ Whenever ANY change is made that affects NuGet package contents (adding/removing
 4. **Commit the updated baselines** with the package changes
 
 **Common scenarios requiring baseline updates:**
+
 - Adding `PackageReadmeFile` configuration (adds `README.md` and `<readme>` element)
 - Changing package metadata (`<PackageIcon>`, `<PackageLicenseExpression>`, etc.)
 - Adding/removing packaged files (`<None Include="..." Pack="true">`)
 - Changing target frameworks (affects `<dependencies>` groups)
 
 **Example:** Adding `README.md` files to packages requires updating:
+
 - Manifest files (`*#manifest.verified.nuspec`) - adds `<readme>README.md</readme>` element
 - Contents files (`*#contents.verified.txt`) - adds `README.md` entry in package structure
 

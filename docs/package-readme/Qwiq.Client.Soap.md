@@ -34,6 +34,7 @@ var workItems = store.Query("SELECT * FROM WorkItems WHERE [System.Id] = 1");
 ## When to Use SOAP Client
 
 Use Qwiq.Client.Soap **only** when:
+
 - Working with legacy Team Foundation Server 2015-2018
 - Server doesn't support REST API
 - Existing application requires SOAP endpoints
@@ -41,6 +42,7 @@ Use Qwiq.Client.Soap **only** when:
 ## Recommended Alternative
 
 For new applications or when possible, use **Qwiq.Client.Rest** instead:
+
 - Cross-platform support (Windows, Linux, macOS)
 - Better performance
 - Active development and feature additions

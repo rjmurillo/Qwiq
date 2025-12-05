@@ -76,16 +76,16 @@ public enum IdentitySearchFactor
 {
     // Display name (e.g., "John Doe")
     DisplayName,
-    
+
     // User principal name (e.g., "john.doe@contoso.com")
     AccountName,
-    
+
     // Domain account (e.g., "CONTOSO\\johndoe")
     Alias,
-    
+
     // Team Foundation identity GUID
     Identifier,
-    
+
     // Email address
     MailAddress
 }
@@ -233,7 +233,7 @@ bool IsTeamMember(string userDisplayName, string teamName)
         IdentitySearchFactor.Identifier,
         team.Members.Select(m => m.TeamFoundationId.ToString())
     );
-    
+
     return members.Any(m => m.DisplayName == userDisplayName);
 }
 ```
