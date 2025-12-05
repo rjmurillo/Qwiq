@@ -46,7 +46,8 @@ namespace Qwiq.Identity.Soap
             ReadIdentityOptions.IncludeReadFromSource);
 
             // TODO: Use configuration options from IWorkItemStore to control proxy creation
-            return identities.Select(identity => identity?.AsProxy());
+            // Filter out null identities since interface contract requires non-null elements
+            return identities.Select(identity => identity?.AsProxy()).Where(identity => identity != null)!;
         }
 
         public IEnumerable<KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>> ReadIdentities(

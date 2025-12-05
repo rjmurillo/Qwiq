@@ -38,22 +38,22 @@ dotnet_diagnostic.SYSLIB0051.severity = warning
 #######################################
 
 # CS8766: Nullability of return type doesn't match implicitly implemented member
-dotnet_diagnostic.CS8766.severity = none
+dotnet_diagnostic.CS8766.severity = warning
 
 # CS8767: Nullability of parameter type doesn't match implicitly implemented member
-dotnet_diagnostic.CS8767.severity = none
+dotnet_diagnostic.CS8767.severity = warning
 
 # CS8769: Nullability of parameter type doesn't match implemented member
-dotnet_diagnostic.CS8769.severity = none
+dotnet_diagnostic.CS8769.severity = warning
 
 # CS8619: Nullability of reference types in value doesn't match target type
-dotnet_diagnostic.CS8619.severity = none
+dotnet_diagnostic.CS8619.severity = warning
 
 # CS8620: Argument nullability doesn't match parameter
-dotnet_diagnostic.CS8620.severity = none
+dotnet_diagnostic.CS8620.severity = warning
 
 # CS8629: Nullable value type may be null
-dotnet_diagnostic.CS8629.severity = none
+dotnet_diagnostic.CS8629.severity = warning
 
 #######################################
 # CA10xx: Design Rules

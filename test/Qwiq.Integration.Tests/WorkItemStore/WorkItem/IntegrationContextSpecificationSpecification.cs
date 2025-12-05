@@ -158,7 +158,7 @@ namespace Qwiq.WorkItemStore.WorkItem
                                                         {
                                                             try
                                                             {
-                                                                restValue.ShouldEqual(soapValue, GenericComparer<object>.Default);
+                                                                restValue.ShouldEqual(soapValue, GenericComparer<object?>.Default);
                                                             }
                                                             catch (Exception e)
                                                             {
