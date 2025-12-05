@@ -53,7 +53,7 @@ namespace Qwiq
 
             str = str.Trim();
 
-            if (str.Contains("\n")) return string.Format(CultureInfo.InvariantCulture, "{1}:\r\n[\r\n{0}\r\n]", str.Tab(), obj.GetType());
+            if (str.Contains('\n')) return string.Format(CultureInfo.InvariantCulture, "{1}:\r\n[\r\n{0}\r\n]", str.Tab(), obj.GetType());
 
             return obj.GetType().ToString() == str ? obj.GetType().ToString() : $"{obj.GetType()}:[{str}]";
         }

@@ -8,7 +8,7 @@ namespace Qwiq
 {
     public class FieldCollection : IFieldCollection
     {
-        private readonly IDictionary<int, IField> _cache;
+        private readonly Dictionary<int, IField> _cache;
 
         private readonly IFieldDefinitionCollection _definitions;
 
