@@ -184,7 +184,7 @@ namespace Qwiq.Client.Rest
             {
                 throw new InvalidOperationException($"No work item type for specified value '{wits}'.");
             }
-            return proj.WorkItemTypes[wits];
+            return proj.WorkItemTypes[wits!];
         }
 
         private ReadOnlyCollection<IWorkItemLinkInfo> RunkLinkQueryImpl()

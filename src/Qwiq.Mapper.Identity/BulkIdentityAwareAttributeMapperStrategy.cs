@@ -182,7 +182,7 @@ namespace Qwiq.Mapper
                     var fv = wi[fn] as string;
 
                     if (string.IsNullOrEmpty(fv)) continue;
-                    vf.Add(new WorkItemField { Name = fn, Value = fv });
+                    vf.Add(new WorkItemField { Name = fn, Value = fv! });
                 }
 
                 retval.Add(new WorkItemWithFields
@@ -227,8 +227,8 @@ namespace Qwiq.Mapper
                         ?.FieldName;
                     if (string.IsNullOrEmpty(witFieldName) || !identityProperty.CanWrite) continue;
 
-                    if (!props.ContainsKey(witFieldName)) props.Add(witFieldName, new List<PropertyInfo>());
-                    props[witFieldName].Add(identityProperty);
+                    if (!props.ContainsKey(witFieldName!)) props.Add(witFieldName!, new List<PropertyInfo>());
+                    props[witFieldName!].Add(identityProperty);
                 }
 
                 hashtable[targetWorkItemType] = props;

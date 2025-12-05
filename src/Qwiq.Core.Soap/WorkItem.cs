@@ -215,7 +215,7 @@ namespace Qwiq.Client.Soap
 
         public override IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd? linkTypeEnd = null)
         {
-            var rawLinkTypeEnd = LinkTypeEndMapper.Map(_item.Store, linkTypeEnd);
+            var rawLinkTypeEnd = LinkTypeEndMapper.Map(_item.Store, linkTypeEnd!);
             return ExceptionHandlingDynamicProxyFactory.Create<IRelatedLink>(new RelatedLink(new Tfs.RelatedLink(rawLinkTypeEnd, relatedWorkItemId)));
         }
 
