@@ -7,10 +7,10 @@ namespace Qwiq
         public ExternalLink(string uri, string name, string? comment = null)
             : base(comment, BaseLinkType.ExternalLink)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
             if (name.Trim().Length < 1) throw new ArgumentNullException(nameof(name));
 
-            if (uri == null) throw new ArgumentNullException(nameof(uri));
+            ArgumentNullException.ThrowIfNull(uri);
             if (uri.Trim().Length < 1) throw new ArgumentNullException(nameof(uri));
 
             if (uri.Length > 2083) throw new ArgumentException("Uri too long.");

@@ -64,7 +64,7 @@ namespace Qwiq
         {
             get
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
+                ArgumentNullException.ThrowIfNull(name);
                 Ensure();
                 if (_mapByName.TryGetValue(name, out int num)) return List[num];
 
@@ -74,7 +74,7 @@ namespace Qwiq
 
         public virtual bool Contains(string name)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
             Ensure();
             return _mapByName.ContainsKey(name);
         }

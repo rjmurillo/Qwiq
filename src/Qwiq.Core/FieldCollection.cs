@@ -33,7 +33,7 @@ namespace Qwiq
         {
             get
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
+                ArgumentNullException.ThrowIfNull(name);
                 return GetById(_definitions[name].Id);
             }
         }
@@ -150,7 +150,7 @@ namespace Qwiq
 
         protected internal void SetField(IField field)
         {
-            if (field == null) throw new ArgumentNullException(nameof(field));
+            ArgumentNullException.ThrowIfNull(field);
             if (field.ReferenceName == null || !_definitions.Contains(field.ReferenceName)) throw new InvalidOperationException();
 
             _cache[field.FieldDefinition.Id] = field;

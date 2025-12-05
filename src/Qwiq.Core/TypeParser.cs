@@ -21,7 +21,7 @@ namespace Qwiq
 
         public object? Parse(Type destinationType, object? value, object? defaultValue)
         {
-            if (destinationType == null) throw new ArgumentNullException(nameof(destinationType));
+            ArgumentNullException.ThrowIfNull(destinationType);
             var defaultValueType = defaultValue?.GetType();
             if (defaultValueType != null && destinationType != defaultValueType)
             {
@@ -33,7 +33,7 @@ namespace Qwiq
 
         public object? Parse(Type destinationType, object? input)
         {
-            if (destinationType == null) throw new ArgumentNullException(nameof(destinationType));
+            ArgumentNullException.ThrowIfNull(destinationType);
             return ParseImpl(destinationType, input);
         }
 
