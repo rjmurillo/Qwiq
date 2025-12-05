@@ -104,7 +104,7 @@ namespace Qwiq
 
         public bool Equals(ITeamFoundationIdentity? other)
         {
-            return Comparer.TeamFoundationIdentity.Equals(this, other);
+            return Comparer.TeamFoundationIdentity.Equals(this, other!);
         }
 
         public override bool Equals(object? obj)

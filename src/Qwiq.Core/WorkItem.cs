@@ -39,7 +39,7 @@ namespace Qwiq
         protected internal WorkItem(Lazy<IWorkItemType> type)
         {
             Contract.Requires(type != null);
-            _lazyType = type;
+            _lazyType = type ?? throw new ArgumentNullException(nameof(type));
         }
 
         protected internal WorkItem(IWorkItemType workItemType, Func<IFieldCollection> fieldCollectionFactory)
