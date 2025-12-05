@@ -8,24 +8,51 @@ namespace Qwiq
 
         public override bool Equals(IWorkItemTypeCollection? x, IWorkItemTypeCollection? y)
         {
-            if (ReferenceEquals(x, y)) return true;
-            if (ReferenceEquals(x, null)) return false;
-            if (ReferenceEquals(y, null)) return false;
+            if (ReferenceEquals(x, y))
+            {
+                return true;
+            }
 
-            // Note: We intentionally don't check x.Count == y.Count here because
-            // REST API (x) may return additional work item types that SOAP (y) doesn't expose.
-            // We iterate over y (SOAP/expected) and verify all types exist and match in x (REST/actual).
-            // This allows REST to have additional types that SOAP doesn't have.
+            if (ReferenceEquals(x, null))
+            {
+                return false;
+            }
 
+            if (ReferenceEquals(y, null))
+            {
+                return false;
+            }
+
+            // Check if both collections contain the same work item types by name.
+            // We need symmetric comparison: all items in x must exist in y and vice versa.
+            // Note: We compare by work item type name, which is the unique identifier.
+
+            // First, check that all types in x exist and match in y
+            foreach (var wit in x)
+            {
+                var witName = wit.Name;
+                if (witName == null || !y.Contains(witName))
+                {
+                    return false;
+                }
+
+                var tw = y[witName];
+                if (!WorkItemTypeComparer.Default.Equals(wit, tw))
+                {
+                    return false;
+                }
+            }
+
+            // Then, check that all types in y exist in x (they already matched above if they exist)
             foreach (var wit in y)
             {
                 var witName = wit.Name;
-                if (witName == null || !x.Contains(witName)) return false;
-                var tw = x[witName];
-                if (!WorkItemTypeComparer.Default.Equals(tw, wit)) return false;
+                if (witName == null || !x.Contains(witName))
+                {
+                    return false;
+                }
             }
 
-            // We don't fail if x (REST) has extra items - REST API can return more types than SOAP
             return true;
         }
 
