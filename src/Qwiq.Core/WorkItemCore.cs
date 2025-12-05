@@ -81,7 +81,7 @@ namespace Qwiq
 
             if (value == null) if (typeof(T) == typeof(string)) return (T)(object)string.Empty;
 
-            return TypeParser.Default.Parse(value, default(T));
+            return TypeParser.Default.Parse(value, default(T)!);
         }
         protected virtual object? GetValue(string name)
         {

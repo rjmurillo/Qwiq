@@ -75,7 +75,7 @@ namespace Qwiq
         {
             get
             {
-                if (!string.IsNullOrEmpty(_uniqueName)) return _uniqueName;
+                if (!string.IsNullOrEmpty(_uniqueName)) return _uniqueName!;
 
                 var domain = GetAttribute(IdentityAttributeTags.Domain, string.Empty);
                 var account = GetAttribute(IdentityAttributeTags.AccountName, string.Empty);

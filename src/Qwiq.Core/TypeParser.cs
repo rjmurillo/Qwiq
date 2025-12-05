@@ -59,7 +59,7 @@ namespace Qwiq
                 return destinationType.GetDefaultValueOfType();
             }
 
-            var valueType = value.GetType();
+            var valueType = value!.GetType();
 
             // Quit if no type conversion is actually required
             if (valueType == destinationType) return value;
@@ -135,7 +135,7 @@ namespace Qwiq
                 return defaultValue;
             }
 
-            var valueType = value.GetType();
+            var valueType = value!.GetType();
 
             // Quit if no type conversion is actually required
             if (valueType == destinationType) return value;
@@ -267,7 +267,7 @@ namespace Qwiq
         {
             var hashtable = TypeConverters;
 
-            var typeConverter = (TypeConverter)hashtable[valueType];
+            var typeConverter = (TypeConverter?)hashtable[valueType];
             if (typeConverter != null) return typeConverter;
 
             lock (hashtable)
