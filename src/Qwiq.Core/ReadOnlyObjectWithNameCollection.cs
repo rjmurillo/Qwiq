@@ -16,7 +16,7 @@ namespace Qwiq
         private readonly object _lockObj = new object();
         private readonly Func<T, string>? _nameFunc;
         // Dictionary is lazily initialized in Initialize() to avoid allocations during construction
-        private IDictionary<string, int> _mapByName = null!;
+        private Dictionary<string, int>? _mapByName;
 
         protected ReadOnlyObjectWithNameCollection(
             Func<IEnumerable<T>> itemFactory,

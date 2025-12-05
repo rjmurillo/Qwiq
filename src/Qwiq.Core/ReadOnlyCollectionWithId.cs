@@ -11,7 +11,7 @@ namespace Qwiq
     {
         private readonly Func<T, TId> _idFunc;
 
-        private readonly IDictionary<TId, int> _mapById;
+        private readonly Dictionary<TId, int>? _mapById;
 
 
 
