@@ -89,6 +89,18 @@ namespace Qwiq.Mapper.Identity
             kvp.Values.First().ShouldEqual(TestData.TestUserAlias);
         }
 
+        [TestMethod]
+        [TestCategory("localOnly")]
+        [TestCategory("SOAP")]
+        public void Resolved_alias_is_derived_from_UPN()
+        {
+            // The alias should be the username portion of the UPN - catches regressions
+            // where the mapper might return the original combo string instead of resolving
+            var kvp = (Dictionary<string, object>)ConvertedValue;
+            var alias = (string)kvp.Values.First();
+            TestData.TestUserUpn.ShouldContain(alias); // UPN "rjmurillo@msn.com" contains alias "rjmurillo"
+        }
+
         public override void When()
         {
             ConvertedValue = TimedAction(() => ValueConverter.Map(DisplayNames), "SOAP", "Map");
@@ -122,6 +134,26 @@ namespace Qwiq.Mapper.Identity
         {
             base.Given();
             DisplayName = $"{TestData.TestUserDisplayName} <{TestData.TestUserUpn}>";
+        }
+
+        [TestMethod]
+        [TestCategory("localOnly")]
+        [TestCategory("SOAP")]
+        public void Input_combostring_contains_UPN()
+        {
+            // Verify that our combo string input contains the UPN - this catches regressions
+            // where the identity mapper might return the original string instead of resolving it
+            DisplayName.ShouldContain(TestData.TestUserUpn);
+        }
+
+        [TestMethod]
+        [TestCategory("localOnly")]
+        [TestCategory("SOAP")]
+        public void Resolved_alias_is_derived_from_UPN()
+        {
+            // The alias should be the username portion of the UPN
+            var kvp = (string)ConvertedValue;
+            TestData.TestUserUpn.ShouldContain(kvp); // UPN "rjmurillo@msn.com" contains alias "rjmurillo"
         }
     }
 
@@ -189,6 +221,17 @@ namespace Qwiq.Mapper.Identity
         public new void Converted_value_result_is_expected_value()
         {
             ((string)ConvertedValue).ShouldEqual(TestData.TestUserAlias, Comparer.OrdinalIgnoreCase);
+        }
+
+        [TestMethod]
+        [TestCategory("localOnly")]
+        [TestCategory("SOAP")]
+        public void Resolved_alias_is_derived_from_UPN()
+        {
+            // The alias should be the username portion of the UPN - catches regressions
+            // where the mapper might return the original combo string instead of resolving
+            var alias = (string)ConvertedValue;
+            TestData.TestUserUpn.ShouldContain(alias); // UPN "rjmurillo@msn.com" contains alias "rjmurillo"
         }
     }
 }
