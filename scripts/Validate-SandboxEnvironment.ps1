@@ -53,6 +53,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 #region Configuration
+# NOTE: These values must be kept in sync with test/Qwiq.Integration.Tests/TestData.cs
+# When updating work item IDs or user information here, also update TestData.cs
 $script:Config = @{
     Organization = $Organization.TrimEnd('/')
     Project = $Project
