@@ -18,15 +18,8 @@ indent_size = 4
 # KEPT: ~4200 violations - adding XML docs is a significant effort tracked separately
 dotnet_diagnostic.CS1591.severity = none
 
-# CS1710: XML comment has duplicate typeparam tag
-dotnet_diagnostic.CS1710.severity = none
-
 # CS0618: Member is obsolete (e.g., TimeZone)
 dotnet_diagnostic.CS0618.severity = none
-
-# CS1574: XML comment cref attribute could not be resolved
-
-# CS1710: XML comment type parameter mismatch
 
 # SYSLIB0021: MD5CryptoServiceProvider is obsolete
 
