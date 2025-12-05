@@ -193,17 +193,31 @@ namespace Qwiq.WorkItemStore.WorkItem
 
         private void AssertWorkItemExpandConfiguration()
         {
+            // This is a test setup issue, not an environment data issue.
+            // The Given() method should configure WorkItemExpand appropriately.
             if (RestResult.WorkItemStore.Configuration.WorkItemExpand == WorkItemExpand.None
                 || RestResult.WorkItemStore.Configuration.WorkItemExpand == WorkItemExpand.Fields)
-                Assert.Inconclusive("The links could not tested because the expand configuration was not set to include links.");
+            {
+                Assert.Fail(
+                    "Test setup error: WorkItemExpand must be set to include links (All or Relations). " +
+                    $"Current value: {RestResult.WorkItemStore.Configuration.WorkItemExpand}. " +
+                    "Ensure the Given() method sets Rest.Configuration.WorkItemExpand = WorkItemExpand.All.");
+            }
         }
 
         private void GetCoreFieldComparisonAssertions(Func<IWorkItem, string, string> GetValue)
         {
             var exceptions = new List<Exception>();
 
+            // This is a test setup issue, not an environment data issue.
+            // The Given() method should configure WorkItemExpand appropriately.
             if (Rest.Configuration.WorkItemExpand != WorkItemExpand.All && Rest.Configuration.WorkItemExpand != WorkItemExpand.Fields)
-                Assert.Inconclusive("REST configuration does not include all fields.");
+            {
+                Assert.Fail(
+                    "Test setup error: REST configuration does not include all fields. " +
+                    $"Current value: {Rest.Configuration.WorkItemExpand}. " +
+                    "Ensure the Given() method sets Rest.Configuration.WorkItemExpand = WorkItemExpand.All or WorkItemExpand.Fields.");
+            }
 
             var fieldsWithKnownDifferences = new[]
                                                  {

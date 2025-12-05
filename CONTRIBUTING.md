@@ -235,6 +235,34 @@ dotnet test test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj --filter "T
 | `QWIQ_PROJECT_GUID`    | Override project GUID             |
 | `AZURE_DEVOPS_EXT_PAT` | PAT for authentication            |
 
+#### Validating the Sandbox Environment
+
+Before running integration tests, you can validate that the sandbox environment is correctly configured:
+
+```powershell
+# Set your PAT
+$env:AZURE_DEVOPS_PAT = "your-pat-here"
+
+# Run the validation script
+.\scripts\Validate-SandboxEnvironment.ps1
+
+# Or pass PAT directly
+.\scripts\Validate-SandboxEnvironment.ps1 -PersonalAccessToken "your-pat-here"
+```
+
+The validation script checks:
+- Connection to the Azure DevOps organization
+- Existence of the WIT project
+- Existence of required work items (IDs 1-7)
+- Work Item 1 is assigned to the test user
+- Work Item 5 has at least one attachment
+- Required shared query folders exist
+
+Exit codes:
+- `0` - All validations passed
+- `1` - One or more validations failed
+- `2` - Script error (authentication, network issues)
+
 ### Test Patterns
 
 Tests follow the `ContextSpecification` pattern:

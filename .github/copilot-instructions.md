@@ -540,14 +540,14 @@ To enable a specific rule, change its severity from `none` to `warning` or `erro
 
 Tests are categorized to allow selective execution:
 
-| Category           | Description                 | When to Run                                  |
-| ------------------ | --------------------------- | -------------------------------------------- |
-| (default)          | Unit tests                  | Always (CI)                                  |
-| `localOnly`        | Requires local TFS instance | Manual, local dev                            |
-| `Benchmark`        | Performance benchmarks      | Manual                                       |
-| `SOAP`             | SOAP integration tests      | Manual, interactive login prompt             |
-| `REST`             | REST integration tests      | Manual, interactive login prompt             |
-| `IntegrationTests` | Full integration suite      | Manual, interactive login prompt             |
+| Category           | Description                 | When to Run                      |
+| ------------------ | --------------------------- | -------------------------------- |
+| (default)          | Unit tests                  | Always (CI)                      |
+| `localOnly`        | Requires local TFS instance | Manual, local dev                |
+| `Benchmark`        | Performance benchmarks      | Manual                           |
+| `SOAP`             | SOAP integration tests      | Manual, interactive login prompt |
+| `REST`             | REST integration tests      | Manual, interactive login prompt |
+| `IntegrationTests` | Full integration suite      | Manual, interactive login prompt |
 
 **Note:** SOAP, REST, and IntegrationTests categories all prompt for credentials via an interactive dialog. This works fine locally but makes them unsuitable for headless CI/CD environments.
 
