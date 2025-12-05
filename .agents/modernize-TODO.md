@@ -538,10 +538,20 @@ Select-String -Path ".editorconfig" -Pattern "dotnet_diagnostic\.(CA|CS|IDE)\d+\
 ### Phase 1E: Build Quality Gates
 
 #### W1.19 Verify TreatWarningsAsErrors
-- [ ] **Task**: Confirm all projects treat warnings as errors
+- [ ] **Task**: Confirm all projects treat warnings as errors while adding a `PedanticMode` escape hatch for local builds
 - **Effort**: S (1 hour)
 - **Priority**: High
 - **Dependencies**: None
+
+**Goal**:
+- Mirror the [moq.analyzers `PedanticMode` pattern](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/codeanalysis/CodeAnalysis.targets#L3-L7) so that `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` track a single property.
+- Default `PedanticMode` to `$(ContinuousIntegrationBuild)` (true on CI) so automated builds stay strict, while allowing `dotnet build /p:PedanticMode=false` when developers need to diagnose noisy analyzers locally.
+- Document the workflow updates in contributor guidance (see [CONTRIBUTING.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/CONTRIBUTING.md?plain=1#L39-L57), [.github/copilot-instructions.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/copilot-instructions.md?plain=1#L482-L520), and [project instructions](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/instructions/project.instructions.md?plain=1#L159-L215)) so Qwiq contributors know when to toggle the switch.
+
+**Implementation Notes**:
+- Add a Qwiq-specific `build/targets/CodeAnalysis.targets` (or augment an existing shared targets file) that defines `PedanticMode`, assigns it with `ValueOrDefault('$(ContinuousIntegrationBuild)','false')`, and wires both `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` to that property.
+- Import the target in `Directory.Build.targets` so every project inherits the setting without copying it into individual `.csproj` files.
+- Update `.github/copilot-instructions.md`, `.github/instructions/project.instructions.md`, and `CONTRIBUTING.md` to spell out the strict build command (`dotnet build /p:PedanticMode=true`) and the escape hatch (`/p:PedanticMode=false`).
 
 **Verification**:
 ```powershell
@@ -550,9 +560,15 @@ Select-String -Path "**/*.csproj" -Pattern "TreatWarningsAsErrors" -Recurse |
     Where-Object { $_ -notmatch "true" }
 ```
 
+```powershell
+# Spot-check PedanticMode default wiring
+dotnet build Qwiq.sln -c Release /p:PedanticMode=false
+```
+
 - **Acceptance Criteria**:
-  - [ ] All projects inherit TreatWarningsAsErrors=true
-  - [ ] No project-level overrides to false
+  - [ ] All projects inherit `TreatWarningsAsErrors` via the centralized `PedanticMode` property
+  - [ ] CI runs with `PedanticMode=true` (warnings-as-errors), while developers can opt out locally by setting `/p:PedanticMode=false`
+  - [ ] Contributor documentation reflects the strict build command and the escape hatch
 
 ---
 
