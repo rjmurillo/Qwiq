@@ -589,8 +589,11 @@ Whenever ANY change is made that affects NuGet package contents (adding/removing
    
    **Option A: Using Verify.Terminal (Recommended)**
    ```powershell
-   # Install the tool (one-time setup)
-   dotnet tool install -g verify.tool
+   # Install the tool locally (one-time setup)
+   dotnet tool install verify.tool
+   
+   # Or restore if already in manifest
+   dotnet tool restore
    
    # Review changes interactively and accept/reject individually
    dotnet verify review -w test/Qwiq.Package.Tests
