@@ -76,6 +76,14 @@ See the [README](../README.md) for details.
 Check the [documentation][docs] and [API reference][docs].
 
 [docs]: https://github.com/rjmurillo/Qwiq
+
+## Quality Guidance
+
+- **Keep documentation cohesive**: Group related concepts together and avoid scattering requirements across multiple sections without cross-links.
+- **Reference canonical sources**: When documenting identities, configuration settings, or constants, link to `TestData.cs`, `Directory.Build.props`, or other authoritative files instead of copy/pasting values.
+- **Highlight testability impacts**: Call out when instructions change testing boundaries or prerequisites so contributors can assess coverage implications.
+- **Avoid duplicate guidance**: If a pattern is already documented in another instruction file, link to it rather than restating details; this reduces maintenance overhead and keeps the narrative consistent.
+- **Reference shared design canon**: When summarizing architectural intent, cite the Design Principles appendix (Alexander, Bain, Coplien, Fowler, GoF) so future contributors can trace rationale back to the primary sources.
 ```
 
 ## Special Files
@@ -133,6 +141,7 @@ Before submitting changes, verify:
 - [ ] Links are not broken
 - [ ] Tables render correctly
 - [ ] No trailing whitespace
+- [ ] Guidance avoids duplicate identity/configuration details by linking to canonical sources
 - [ ] File ends with newline
 
 ## Common Mistakes to AVOID

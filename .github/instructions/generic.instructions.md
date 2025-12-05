@@ -22,6 +22,16 @@ When working on ANY file, you MUST:
 3. Follow established patterns in similar files
 4. Complete the Validation Checklist before submitting
 
+## Core Quality Expectations
+
+- **Design for testability**: Every change should be easy to validate via automated tests. Introduce seams (interfaces, pure functions, composition) rather than writing logic that depends on static state or global configuration.
+- **Minimize coupling, maximize cohesion**: Keep related behavior together while ensuring modules depend only on the abstractions they consume. If a modification requires editing multiple unrelated components, reconsider the responsibility distribution.
+- **Respect canonical sources**: Identity constants, configuration defaults, and field names already exist in shared helpers (e.g., `TestData`, `Directory.Build.props`, `CoreFieldRefNames`). Reference them instead of duplicating literals.
+- **Encapsulate variability**: Wrap platform-specific or client-specific decisions behind strategies or feature switches so new cases extend behavior without rewriting existing flows.
+- **Practice pattern-oriented development**: Start from the patterns observed in the problem (Alexander, 1979) and run Common Variability Analysis to identify natural abstractions before coding. Call out the Strategy/Bridge/Adapter/etc. you are applying so reviewers can evaluate fit and cohesion.
+- **Separate use from creation**: Keep construction concerns isolated from consumption (Bloch, 2001). If a type must both create and use another, refactor toward factories, builders, or deferred instantiation helpers.
+- **Use the Software Hierarchy of Needs**: Guard the foundational qualities first (testability, cohesion, coupling, encapsulation). Practices, principles, and patterns should never erode those lower layers.
+
 ## Multi-File Change Flowchart
 
 For changes spanning multiple file types:
@@ -140,6 +150,8 @@ Your changes are successful when:
 - All builds pass without warnings
 - All tests pass
 - No linting errors (run `dotnet format` and `dotnet pprettier --write .` to auto-fix)
+- Architectural qualities preserved (low coupling, high cohesion, testability as leverage)
+- No duplicated identity or configuration literals (reuse canonical sources)
 - PR description is complete and accurate
 - All checklist items completed
 - Established patterns are followed

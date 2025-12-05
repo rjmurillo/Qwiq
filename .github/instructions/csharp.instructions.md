@@ -106,6 +106,17 @@ When `WorkItem` is null (constructor 2), `Revision.Id` returns `null`.
 string.Equals(rl.LinkTypeEnd?.ImmutableName, linkTypeEndName, StringComparison.OrdinalIgnoreCase)
 ```
 
+## Quality & Design Guidance
+
+- **Optimize for testability**: Design with seam-friendly abstractions. New collaborators should be injected via interfaces so tests can substitute mocks from `Qwiq.Mocks` or Moq without reflection tricks.
+- **Preserve cohesion and minimize coupling**: Keep each class focused. If a change touches multiple bounded contexts (Core, Mapper, Identity), validate that responsibilities are still well separated. Expose behavior via interfaces rather than concrete implementations.
+- **Avoid duplicated identity and field constants**: Reuse existing sources such as `CoreFieldRefNames`, `TestData`, and `IdentityConstants`. Introducing new literals requires justification and documentation in shared locations.
+- **Separate configuration from behavior**: Leave defaults in `Directory.Build.props`, `Directory.Packages.props`, or existing option classes. Application code should consume configuration values, not redefine them.
+- **Encapsulate variability**: When adding behavior that differs by transport (REST vs SOAP) or target framework, isolate logic in strategy classes or provider pattern extensions instead of branching across call sites.
+- **Program by intention**: Sketch the collaborators you need as if they already exist, then implement them behind focused interfaces. This enforces method-level cohesion and makes test seams explicit (Hunt & Thomas, 1999).
+- **Pattern-oriented design**: Identify the dominant pattern (Strategy, Bridge, Adapter, Façade, etc.), note its intent in XML documentation or review notes, and ensure new classes reinforce rather than dilute that context (Alexander, 1979; Coplien, 1999). Apply Common Variability Analysis: describe the shared concept, list its variations, then map relationships (is-a, has-a, uses) before coding.
+- **Separate use from creation**: Keep instantiation logic (factories, builders, `GetInstance` helpers) distinct from runtime behavior so that instantiation remains a late decision (Bloch, 2001). If a service both constructs and uses collaborators, refactor toward constructor injection or deferred factories.
+
 ## Test Patterns
 
 ### ContextSpecification Base Class
@@ -159,6 +170,7 @@ Before submitting changes, verify:
   - Run `dotnet pprettier --write .` to auto-fix all formatting
 - [ ] Tests pass: `dotnet test --filter "TestCategory!=localOnly&..."`
 - [ ] Similar files checked for established patterns
+- [ ] Architectural qualities reviewed (testability, cohesion, coupling) and no duplicated identity/configuration literals introduced
 
 ## Decision Trees
 

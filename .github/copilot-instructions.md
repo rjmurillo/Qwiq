@@ -312,6 +312,18 @@ public void SetValue(string value) { } // Cannot be null
    - When `WorkItem` is null, `Revision.Id` returns `null`
 6. **Null-conditional access for link types**: Use `?.` when accessing `LinkTypeEnd.ImmutableName` as it may be null
 
+### Quality Attributes & Architectural Guidance
+
+- **Testability as leverage** (Hevery, 2008; Bain, 2008): Structure code so the happy path can be exercised through unit tests without complex setup. Favor dependency injection, seam-friendly abstractions, and deterministic collaborators. If a change cannot be trivially unit tested, revisit the design before committing.
+- **Low coupling / high cohesion** (McConnell, 1993): Keep classes focused on a single responsibility. Interactions that cross bounded contexts (Core vs Mapper vs Identity) must flow through well-defined interfaces rather than concrete implementations. Avoid cyclic dependencies and prefer composition over inheritance.
+- **Identity and configuration canon**: Never duplicate identity constants or configuration literals. Reuse `TestData.cs`, `CoreFieldRefNames`, `Directory.Build.props`, and other canonical sources to prevent divergence.
+- **Pattern-oriented development** (Alexander, 1979; Coplien, 1999): Start with the problem's patterns, relate them in context, and run Common Variability Analysis (identify shared concepts, their variations, and relationships) before coding. Call out the patterns you are leveraging (Strategy, Bridge, Adapter, etc.) when introducing new abstractions so future work continues the same contextual thread.
+- **Emergent design loop** (Bain, 2008): Implement one testable requirement, refactor to remain open-closed, enhance, then refactor for quality. Repeat. Favor small, frequent deliveries that let the system differentiate instead of being re-synthesized with big rewrites.
+- **Encapsulate variation & separate use from creation** (GoF 1994; Bloch 2001): When behavior may change per transport (REST vs SOAP) or per target framework, isolate decisions behind strategy or provider abstractions. Hide constructors behind factories or `GetInstance` helpers so instantiation remains a late decision.
+- **Observability baked in**: When adding new operational code paths, instrument with `Trace` logging that can be toggled in diagnostics builds. Ensure logs do not leak credentials or PATs.
+- **Document decision trade-offs**: For significant new patterns, capture the why in XML doc comments or companion markdown so future contributors understand coupling/cohesion considerations and can keep the approach consistent. Reference the applicable principle or pattern from the design principles appendix where possible.
+- **Work down the Software Hierarchy of Needs**: Qualities (testability, cohesion, coupling, encapsulation) come first, then practices, principles, patterns, and finally paradigm choices. If a change compromises a lower tier, correct that before pursuing higher-level refinements.
+
 ### Nullable Reference Types Status
 
 Nullable reference types are enabled repository-wide. Status by project:
