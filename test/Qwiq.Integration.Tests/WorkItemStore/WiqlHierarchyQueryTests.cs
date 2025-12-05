@@ -11,14 +11,16 @@ namespace Qwiq.WorkItemStore
     {
         public override void When()
         {
-            const string WIQL = @"
+            // Use TestData.HierarchyParentId (User Story with 2 Task children)
+            // Note: Target type changed from 'Scenario' to 'Task' to match sandbox data
+            var wiql = $@"
 SELECT *
 FROM WorkItemLinks
-WHERE 
-    [Source].[System.TeamProject] = 'OS' AND
-    [Source].[System.ID] = 10726528 AND
+WHERE
+    [Source].[System.TeamProject] = '{TestData.ProjectName}' AND
+    [Source].[System.ID] = {TestData.HierarchyParentId} AND
     [System.Links.LinkType] = 'System.LinkTypes.Hierarchy-Forward' AND
-    [Target].[System.WorkItemType] = 'Scenario'
+    [Target].[System.WorkItemType] = 'Task'
 mode(recursive)
 ";
 
