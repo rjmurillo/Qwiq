@@ -18,11 +18,9 @@ namespace Qwiq.Identity
         /// Initializes a new instance of the <see cref="DisplayNameToAliasValueConverter"/> class.
         /// </summary>
         /// <param name="identityManagementService">The identity management service.</param>
-        /// <exception cref="ArgumentNullException">identityManagementService</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="identityManagementService"/> is <c>null</c>.</exception>
         public DisplayNameToAliasValueConverter(IIdentityManagementService identityManagementService)
         {
-            Contract.Requires(identityManagementService != null);
-
             _identityManagementService = identityManagementService ?? throw new ArgumentNullException(nameof(identityManagementService));
         }
 
@@ -36,7 +34,10 @@ namespace Qwiq.Identity
 
         private IDictionary<string, string[]> GetAliasesForDisplayNames(string[] displayNames)
         {
-            if (displayNames == null) throw new ArgumentNullException(nameof(displayNames));
+            if (displayNames == null)
+            {
+                throw new ArgumentNullException(nameof(displayNames));
+            }
 
             var identityResults = _identityManagementService.ReadIdentities(IdentitySearchFactor.DisplayName, displayNames);
             var result = new Dictionary<string, string[]>(Comparer.OrdinalIgnoreCase);
@@ -53,18 +54,9 @@ namespace Qwiq.Identity
                                         .Distinct(StringComparer.OrdinalIgnoreCase)
                                         .ToArray() ?? Array.Empty<string>();
 
-                if (result.TryGetValue(kvp.Key, out var existingAliases))
-                {
-                    // Combine existing aliases with new ones for duplicate keys
-                    var combinedAliases = existingAliases.Concat(aliases)
-                                                         .Distinct(StringComparer.OrdinalIgnoreCase)
-                                                         .ToArray();
-                    result[kvp.Key] = combinedAliases;
-                }
-                else
-                {
-                    result.Add(kvp.Key, aliases);
-                }
+                // Use indexer for assignment - handles both insert and update
+                // For duplicate keys (case-insensitive), the last value wins
+                result[kvp.Key] = aliases;
             }
 
             return result;
@@ -76,6 +68,11 @@ namespace Qwiq.Identity
         /// <param name="identity">The identity to extract the alias from.</param>
         /// <param name="searchKey">The original search key (display name or combo string).</param>
         /// <returns>The alias, or null if it cannot be determined.</returns>
+        /// <remarks>
+        /// Container identities (groups) are filtered out before this method is called via the
+        /// <see cref="ITeamFoundationIdentity.IsContainer"/> check in <see cref="GetAliasesForDisplayNames"/>.
+        /// This method focuses on extracting the alias from individual user identities.
+        /// </remarks>
         private static string? GetAliasFromIdentity(ITeamFoundationIdentity identity, string searchKey)
         {
             // First try to get the alias from the identity's descriptor
