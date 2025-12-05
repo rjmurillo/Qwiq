@@ -13,20 +13,13 @@ We release patches for security vulnerabilities in the following versions:
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, please report them via one of the following methods:
+Instead, please report them through GitHub Security Advisories:
 
-### Option 1: GitHub Security Advisories (Preferred)
+### GitHub Security Advisories
 Report a vulnerability privately through GitHub:
 1. Go to the [Security tab](https://github.com/rjmurillo/Qwiq/security)
 2. Click "Report a vulnerability"
 3. Fill out the form with details about the vulnerability
-
-### Option 2: Email
-Send an email to the maintainer at rjmurillo@msn.com with:
-- Description of the vulnerability
-- Steps to reproduce
-- Potential impact
-- Suggested fix (if any)
 
 ### What to Expect
 

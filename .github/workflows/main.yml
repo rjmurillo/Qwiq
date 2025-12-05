@@ -46,11 +46,10 @@ jobs:
 
       - name: Verify Source Link
         run: |
-          dotnet tool install --global sourcelink
           $packages = Get-ChildItem -Path src -Recurse -Filter "*.snupkg" -File | Where-Object { $_.FullName -match "bin\\Release" }
           foreach ($package in $packages) {
             Write-Host "Testing Source Link in: $($package.Name)"
-            sourcelink test $package.FullName
+            dotnet sourcelink test $package.FullName
             if ($LASTEXITCODE -ne 0) {
               Write-Error "Source Link validation failed for $($package.Name)"
               exit 1
@@ -71,9 +70,7 @@ jobs:
 
       - name: Generate coverage report
         if: success() || failure()
-        run: |
-          dotnet tool install -g dotnet-reportgenerator-globaltool
-          reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
+        run: dotnet reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
 
       - name: Upload test results
         if: success() || failure()
