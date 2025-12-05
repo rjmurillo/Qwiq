@@ -23,7 +23,9 @@ namespace Qwiq.Client.Rest
         private static IEnumerable<IWorkItemClassificationNode<int>> NewMethod(IEnumerable<WorkItemClassificationNode>? collection, string rootPath)
         {
             if (collection == null)
+            {
                 yield break;
+            }
 
             foreach (var n in collection)
             {
