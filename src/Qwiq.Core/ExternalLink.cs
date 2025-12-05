@@ -18,14 +18,14 @@ namespace Qwiq
             if (Comparer.OrdinalIgnoreCase.Equals("Related Workitem", name)
                 || Comparer.OrdinalIgnoreCase.Equals("Workitem Hyperlink", name))
             {
-                throw new ArgumentException(nameof(name));
+                throw new ArgumentException("Link type is not supported for external links.", nameof(name));
             }
 
             if (Comparer.OrdinalIgnoreCase.Equals("Fixed in Changeset", name)
                 || Comparer.OrdinalIgnoreCase.Equals("Source Code File", name)
                 || Comparer.OrdinalIgnoreCase.Equals("Test Result", name))
             {
-                throw new ArgumentException(nameof(uri));
+                throw new ArgumentException("Link type is not supported for external links.", nameof(uri));
             }
 
             LinkedArtifactUri = uri;

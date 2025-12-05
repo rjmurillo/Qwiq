@@ -128,7 +128,7 @@ namespace Qwiq
                         return null;
 
                     // A value type cannot have a null return
-                    throw new InvalidOperationException($"The type {destinationType} cannot have a null value.", new ArgumentNullException(nameof(value), new ArgumentNullException(nameof(defaultValue))));
+                    throw new InvalidOperationException($"The type {destinationType} cannot have a null value.", new ArgumentNullException("value or defaultValue", "Both value and defaultValue are null for a non-nullable type."));
                 }
 
                 // If the incoming value is null, return the default value
