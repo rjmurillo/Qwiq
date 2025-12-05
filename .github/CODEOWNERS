@@ -4,19 +4,3 @@
 
 # Default owner for everything
 * @rjmurillo
-
-# Build and CI configuration
-.github/ @rjmurillo
-Directory.Build.* @rjmurillo
-Directory.Packages.props @rjmurillo
-global.json @rjmurillo
-nuget.config @rjmurillo
-
-# Core libraries require review
-src/Qwiq.Core/ @rjmurillo
-src/Qwiq.Core.Rest/ @rjmurillo
-src/Qwiq.Core.Soap/ @rjmurillo
-
-# Documentation
-*.md @rjmurillo
-SECURITY.md @rjmurillo
