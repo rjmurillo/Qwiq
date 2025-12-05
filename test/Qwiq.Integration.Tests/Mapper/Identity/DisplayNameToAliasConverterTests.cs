@@ -3,7 +3,7 @@ using System.Linq;
 using Qwiq.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Should;
+using Shouldly;
 
 namespace Qwiq.Mapper.Identity
 {
@@ -27,8 +27,8 @@ namespace Qwiq.Mapper.Identity
             // With duplicate inputs for the same user, we should get the alias
             var kvp = (Dictionary<string, object>)ConvertedValue;
             kvp.ShouldNotBeNull();
-            kvp.Count.ShouldEqual(1); // Duplicate keys are merged
-            kvp[TestData.TestUserDisplayName].ShouldEqual(TestData.TestUserAlias);
+            kvp.Count.ShouldBe(1); // Duplicate keys are merged
+            kvp[TestData.TestUserDisplayName].ShouldBe(TestData.TestUserAlias);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace Qwiq.Mapper.Identity
         {
             // Duplicate display names resolve to the same identity, so only one result
             var kvp = (Dictionary<string, object>)ConvertedValue;
-            kvp.Count.ShouldEqual(1);
+            kvp.Count.ShouldBe(1);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Qwiq.Mapper.Identity
         {
             // Duplicate display names resolve to one unique result
             var kvp = (Dictionary<string, object>)ConvertedValue;
-            kvp.Count.ShouldEqual(1);
+            kvp.Count.ShouldBe(1);
         }
 
         public override void When()
@@ -75,7 +75,7 @@ namespace Qwiq.Mapper.Identity
         {
             // Duplicate combo strings resolve to one unique result
             var kvp = (Dictionary<string, object>)ConvertedValue;
-            kvp.Count.ShouldEqual(1);
+            kvp.Count.ShouldBe(1);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Qwiq.Mapper.Identity
             var kvp = (Dictionary<string, object>)ConvertedValue;
             kvp.ShouldNotBeNull();
             // The combo string key should map to the alias
-            kvp.Values.First().ShouldEqual(TestData.TestUserAlias);
+            kvp.Values.First().ShouldBe(TestData.TestUserAlias);
         }
 
         [TestMethod]
@@ -122,7 +122,7 @@ namespace Qwiq.Mapper.Identity
         public void Converted_value_result_is_expected_value()
         {
             var kvp = (string)ConvertedValue;
-            kvp.ShouldEqual(TestData.TestUserAlias);
+            kvp.ShouldBe(TestData.TestUserAlias);
         }
     }
 
@@ -181,7 +181,7 @@ namespace Qwiq.Mapper.Identity
         {
             // In a single-user sandbox, the alias should be returned
             var result = (string)ConvertedValue;
-            result.ShouldEqual(TestData.TestUserAlias);
+            result.ShouldBe(TestData.TestUserAlias);
         }
 
         [TestMethod]
@@ -220,7 +220,7 @@ namespace Qwiq.Mapper.Identity
         [TestCategory("SOAP")]
         public new void Converted_value_result_is_expected_value()
         {
-            ((string)ConvertedValue).ShouldEqual(TestData.TestUserAlias, Comparer.OrdinalIgnoreCase);
+            ((string)ConvertedValue).ShouldBe(TestData.TestUserAlias, Comparer.OrdinalIgnoreCase);
         }
 
         [TestMethod]
