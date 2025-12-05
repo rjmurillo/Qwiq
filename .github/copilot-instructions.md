@@ -600,7 +600,7 @@ The sandbox contains pre-configured work items for integration testing:
 
 **Hierarchy Structure:**
 
-```
+```text
 User Story (ID: 3) - "Parent Story for Integration Tests"
 ├── Task (ID: 2) - "Child Task for Integration Tests"
 └── Task (ID: 6) - "Child Task 2 for Hierarchy"
