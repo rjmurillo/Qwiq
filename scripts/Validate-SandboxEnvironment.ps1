@@ -69,24 +69,24 @@ function Write-ValidationResult {
     param(
         [Parameter(Mandatory)]
         [string]$Check,
-        
+
         [Parameter(Mandatory)]
         [bool]$Passed,
-        
+
         [Parameter()]
         [string]$Details = ""
     )
-    
+
     $symbol = if ($Passed) { "[PASS]" } else { "[FAIL]" }
     $color = if ($Passed) { "Green" } else { "Red" }
-    
+
     Write-Host "$symbol " -ForegroundColor $color -NoNewline
     Write-Host $Check
-    
+
     if ($Details -and -not $Passed) {
         Write-Host "       $Details" -ForegroundColor Yellow
     }
-    
+
     return $Passed
 }
 
@@ -94,22 +94,26 @@ function Invoke-AzureDevOpsApi {
     param(
         [Parameter(Mandatory)]
         [string]$Uri,
-        
+
         [Parameter()]
         [string]$Method = "GET"
     )
-    
+
     $headers = @{
         Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$PersonalAccessToken"))
         "Content-Type" = "application/json"
     }
-    
+
     try {
         $response = Invoke-RestMethod -Uri $Uri -Method $Method -Headers $headers
         return $response
     }
     catch {
-        $statusCode = $_.Exception.Response.StatusCode.value__
+        $statusCode = $null
+        if ($_.Exception.Response -ne $null) {
+            $statusCode = $_.Exception.Response.StatusCode.value__
+        }
+
         if ($statusCode -eq 401) {
             throw "Authentication failed. Please check your Personal Access Token."
         }
@@ -126,11 +130,11 @@ function Get-WorkItem {
     param(
         [Parameter(Mandatory)]
         [int]$Id,
-        
+
         [Parameter()]
         [string]$Expand = "Relations"
     )
-    
+
     $uri = "$($Config.Organization)/$($Config.Project)/_apis/wit/workitems/$($Id)?`$expand=$Expand&api-version=7.0"
     return Invoke-AzureDevOpsApi -Uri $uri
 }
@@ -145,7 +149,7 @@ function Get-QueryFolder {
         [Parameter(Mandatory)]
         [string]$Path
     )
-    
+
     $encodedPath = [System.Uri]::EscapeDataString($Path)
     $uri = "$($Config.Organization)/$($Config.Project)/_apis/wit/queries/$($encodedPath)?api-version=7.0"
     return Invoke-AzureDevOpsApi -Uri $uri
@@ -155,11 +159,11 @@ function Get-QueryFolder {
 #region Validation Functions
 function Test-Connection {
     Write-Host "`nValidating connection to Azure DevOps..." -ForegroundColor Cyan
-    
+
     try {
         $uri = "$($Config.Organization)/_apis/connectiondata?api-version=7.0"
         $result = Invoke-AzureDevOpsApi -Uri $uri
-        
+
         if ($result) {
             return Write-ValidationResult -Check "Connection to $($Config.Organization)" -Passed $true
         }
@@ -174,10 +178,10 @@ function Test-Connection {
 
 function Test-Project {
     Write-Host "`nValidating project exists..." -ForegroundColor Cyan
-    
+
     try {
         $project = Get-Project
-        
+
         if ($project) {
             return Write-ValidationResult -Check "Project '$($Config.Project)' exists" -Passed $true
         }
@@ -192,13 +196,13 @@ function Test-Project {
 
 function Test-WorkItemsExist {
     Write-Host "`nValidating work items exist..." -ForegroundColor Cyan
-    
+
     $allPassed = $true
-    
+
     foreach ($id in $Config.WorkItemIds) {
         try {
             $workItem = Get-WorkItem -Id $id -Expand "None"
-            
+
             if ($workItem) {
                 $title = $workItem.fields.'System.Title'
                 $type = $workItem.fields.'System.WorkItemType'
@@ -207,7 +211,7 @@ function Test-WorkItemsExist {
             else {
                 $passed = Write-ValidationResult -Check "Work Item $id exists" -Passed $false -Details "Work item not found"
             }
-            
+
             $allPassed = $allPassed -and $passed
         }
         catch {
@@ -215,20 +219,20 @@ function Test-WorkItemsExist {
             $allPassed = $false
         }
     }
-    
+
     return $allPassed
 }
 
 function Test-WorkItemAssignment {
     Write-Host "`nValidating work item assignment..." -ForegroundColor Cyan
-    
+
     try {
         $workItem = Get-WorkItem -Id $Config.AssignedWorkItemId -Expand "None"
-        
+
         if ($workItem) {
             $assignedTo = $workItem.fields.'System.AssignedTo'
             $assignedEmail = $null
-            
+
             if ($assignedTo -is [PSCustomObject]) {
                 $assignedEmail = $assignedTo.uniqueName
             }
@@ -241,9 +245,9 @@ function Test-WorkItemAssignment {
                     $assignedEmail = $assignedTo
                 }
             }
-            
-            $isCorrectUser = $assignedEmail -eq $Config.TestUserUpn
-            
+
+            $isCorrectUser = $assignedEmail -ieq $Config.TestUserUpn
+
             if ($isCorrectUser) {
                 return Write-ValidationResult -Check "Work Item $($Config.AssignedWorkItemId) assigned to $($Config.TestUserUpn)" -Passed $true
             }
@@ -265,20 +269,20 @@ function Test-WorkItemAssignment {
 
 function Test-WorkItemAttachments {
     Write-Host "`nValidating work item attachments..." -ForegroundColor Cyan
-    
+
     try {
         $workItem = Get-WorkItem -Id $Config.WorkItemWithAttachmentsId -Expand "Relations"
-        
+
         if ($workItem) {
             $relations = $workItem.relations
             $attachments = @()
-            
+
             if ($relations) {
                 $attachments = $relations | Where-Object { $_.rel -eq "AttachedFile" }
             }
-            
+
             $attachmentCount = ($attachments | Measure-Object).Count
-            
+
             if ($attachmentCount -gt 0) {
                 return Write-ValidationResult -Check "Work Item $($Config.WorkItemWithAttachmentsId) has attachments ($attachmentCount found)" -Passed $true
             }
@@ -300,10 +304,10 @@ function Test-WorkItemAttachments {
 
 function Test-SharedQueriesFolder {
     Write-Host "`nValidating shared queries folder..." -ForegroundColor Cyan
-    
+
     try {
         $queryFolder = Get-QueryFolder -Path $Config.SharedQueriesPath
-        
+
         if ($queryFolder) {
             return Write-ValidationResult -Check "Query folder '$($Config.SharedQueriesPath)' exists" -Passed $true
         }
@@ -326,16 +330,16 @@ function Main {
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host "`nOrganization: $($Config.Organization)"
     Write-Host "Project: $($Config.Project)"
-    
+
     # Check for PAT
     if ([string]::IsNullOrWhiteSpace($PersonalAccessToken)) {
         Write-Host "`n[ERROR] Personal Access Token not provided." -ForegroundColor Red
         Write-Host "Please provide a PAT using the -PersonalAccessToken parameter or set the AZURE_DEVOPS_PAT environment variable." -ForegroundColor Yellow
         exit 2
     }
-    
+
     $results = @()
-    
+
     # Run all validations
     $results += Test-Connection
     $results += Test-Project
@@ -343,15 +347,15 @@ function Main {
     $results += Test-WorkItemAssignment
     $results += Test-WorkItemAttachments
     $results += Test-SharedQueriesFolder
-    
+
     # Summary
     Write-Host "`n============================================" -ForegroundColor Cyan
     Write-Host "  Validation Summary" -ForegroundColor Cyan
     Write-Host "============================================" -ForegroundColor Cyan
-    
+
     $passedCount = ($results | Where-Object { $_ -eq $true } | Measure-Object).Count
     $totalCount = $results.Count
-    
+
     if ($passedCount -eq $totalCount) {
         Write-Host "`nAll validations passed! ($passedCount/$totalCount)" -ForegroundColor Green
         Write-Host "The sandbox environment is correctly configured for integration tests." -ForegroundColor Green
