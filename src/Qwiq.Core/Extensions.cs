@@ -18,7 +18,7 @@ namespace Qwiq
             sb.AppendLine("{");
             sb.Append(string.Join(",\n", enumerable.Select(x => ToUsefulString((object?)x).Tab()).Take(limit).ToArray()));
             if (enumerable.Count() > limit)
-                if (enumerable.Count() > limit + 1) sb.AppendLine(CultureInfo.InvariantCulture, $",\n  ...({enumerable.Count() - limit} more elements)");
+                if (enumerable.Count() > limit + 1) sb.AppendLine(string.Format(CultureInfo.InvariantCulture, ",\n  ...({0} more elements)", enumerable.Count() - limit));
                 else sb.AppendLine(",\n" + ToUsefulString((object?)enumerable.Last()).Tab());
             else sb.AppendLine();
 
