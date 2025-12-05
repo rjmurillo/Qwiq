@@ -66,31 +66,44 @@ public class PackageTests
         FileInfo package = new(packagePath);
 
         string discriminator = GetPackageDiscriminator(package.Name);
+        
+        var settings = new VerifySettings();
+        settings.UseTextForParameters(discriminator);
+        
+        // For .snupkg files, explicitly set extension to get .snupkg.verified naming  
+        // instead of default package extraction behavior
+        if (package.Extension.Equals(".snupkg", StringComparison.OrdinalIgnoreCase))
+        {
+            settings.UseExtension("snupkg");
+        }
 
-        return VerifyFile(package)
-            .ScrubNuspec()
-            .UseTextForParameters(discriminator);
+        return VerifyFile(package, settings)
+            .ScrubNuspec();
     }
 
     private static string GetPackageDiscriminator(string packageName)
     {
-        // Handle .snupkg (modern symbol packages)
-        if (packageName.EndsWith(".snupkg", StringComparison.Ordinal))
+        // For all package types, extract just the package name without version or extension
+        // The extension is handled separately via UseExtension() for .snupkg files
+        string baseName = packageName;
+        
+        // Remove .snupkg extension
+        if (baseName.EndsWith(".snupkg", StringComparison.Ordinal))
         {
-            string baseName = packageName.Replace(".snupkg", string.Empty, StringComparison.Ordinal);
-            return $"{ExtractPackageName(baseName)}_symbols";
+            baseName = baseName.Replace(".snupkg", string.Empty, StringComparison.Ordinal);
         }
-
-        // Handle .symbols.nupkg (legacy symbol packages)
-        if (packageName.Contains(".symbols.nupkg", StringComparison.Ordinal))
+        // Remove .symbols.nupkg extension (legacy)
+        else if (baseName.Contains(".symbols.nupkg", StringComparison.Ordinal))
         {
-            string baseName = packageName.Replace(".symbols.nupkg", string.Empty, StringComparison.Ordinal);
-            return $"{ExtractPackageName(baseName)}_symbols";
+            baseName = baseName.Replace(".symbols.nupkg", string.Empty, StringComparison.Ordinal);
         }
-
-        // Handle regular .nupkg
-        string name = packageName.Replace(".nupkg", string.Empty, StringComparison.Ordinal);
-        return ExtractPackageName(name);
+        // Remove .nupkg extension
+        else if (baseName.EndsWith(".nupkg", StringComparison.Ordinal))
+        {
+            baseName = baseName.Replace(".nupkg", string.Empty, StringComparison.Ordinal);
+        }
+        
+        return ExtractPackageName(baseName);
     }
 
     /// <summary>
