@@ -38,14 +38,27 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
 
-      - name: Build solution
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
+      - name: Build and pack solution
+        # Use /t:Build,Pack to ensure all packages are generated during build.
+        # GeneratePackageOnBuild alone doesn't work reliably with multi-targeting
+        # when building via solution file due to MSBuild's IsInnerBuild behavior.
+        run: dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
-      - name: Pack NuGet packages
-        run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
+      - name: Validate package output
+        # Scans csproj files to find packable projects and validates each produced
+        # both .nupkg and .snupkg files. Fails the build if any are missing.
+        run: ./build/scripts/Validate-PackageOutput.ps1
 
-      - name: Run tests
-        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults
+      - name: Verify Source Link
+        # Only run on push events (develop/master), not on pull_request events.
+        # During PR checks, GitHub creates a temporary merge commit that sourcelink
+        # cannot validate because the commit doesn't persist on GitHub's raw content server.
+        if: github.event_name == 'push'
+        run: ./build/scripts/Verify-SourceLink.ps1
+
+      - name: Run tests with coverage
+        id: test
+        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
         if: success() || failure()
@@ -55,12 +68,24 @@ jobs:
           path: ./artifacts/logs/
           if-no-files-found: ignore
 
+      - name: Generate coverage report
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
+        run: dotnet reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
+
       - name: Upload test results
-        if: success() || failure()
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: ./artifacts/TestResults/**/*.trx
+          if-no-files-found: ignore
+
+      - name: Upload coverage report
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./artifacts/CoverageReport/
           if-no-files-found: ignore
 
       - name: Upload binaries
@@ -82,4 +107,6 @@ jobs:
           path: |
             src/**/bin/Release/**/*.nupkg
             src/**/bin/Release/**/*.snupkg
+            test/**/bin/Release/**/*.nupkg
+            test/**/bin/Release/**/*.snupkg
           if-no-files-found: warn
