@@ -16,7 +16,9 @@
 | Wave 0 | ✅ Complete | 6 | 6/6 |
 | Wave 1 | 🔄 In Progress | 25 | 17/25 |
 | Wave 2 | 📋 Planned | 15 | 0/15 |
-| Wave 3 | 📋 Future | 7 | 0/7 |
+| Wave 3 | 📋 Future | 8 | 0/8 |
+
+**Key Decision**: Skip .NET 9 (STS), adopt .NET 10 (LTS) - SDK first, then TFM.
 
 **Analyzer Debt Summary**:
 | Category | Suppressed Count | Priority |
@@ -36,6 +38,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 8) | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition. | Docs: ✅ explainer + TODO updated. |
 | 2025-12-05 (Session 7) | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules. | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated. |
 | 2025-12-05 (Session 6) | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change. | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed. |
 | 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
@@ -1186,16 +1189,39 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 > These items are planned for after Wave 1 and Wave 2 are substantially complete.
 
-#### W3.1 Evaluate .NET 9 Support
-- [ ] **Task**: Test compatibility and plan adoption
-- **Effort**: M (1-2 days)
-- **Priority**: Low
-- **Dependencies**: All Wave 1 complete
+#### W3.1 .NET 10 SDK Upgrade
+- [ ] **Task**: Update global.json to .NET 10 SDK when LTS releases (Nov 2025)
+- **Effort**: S (2-4 hours)
+- **Priority**: Medium
+- **Dependencies**: Wave 2 substantially complete
+- **Note**: **Skip .NET 9 (STS)** - go directly to .NET 10 (LTS) for long-term support
+
+**Strategy**: SDK upgrade first, then TFM addition.
 
 - **Acceptance Criteria**:
-  - [ ] Compatibility assessment documented
-  - [ ] Breaking changes identified
-  - [ ] Migration plan if adopting
+  - [ ] global.json updated to 10.0.xxx SDK
+  - [ ] All projects build successfully
+  - [ ] CI matrix updated for .NET 10 SDK
+
+---
+
+#### W3.1a Add net10.0 Target Framework
+- [ ] **Task**: Add net10.0 TFM to multi-targeting projects
+- **Effort**: M (4-8 hours)
+- **Priority**: Medium
+- **Dependencies**: W3.1 (.NET 10 SDK in place)
+
+**Projects to update**:
+- Qwiq.Core, Qwiq.Core.Rest (add net10.0)
+- Qwiq.Linq, Qwiq.Mapper, Qwiq.Identity (add net10.0)
+- Test projects (add net10.0)
+- Consider dropping netstandard2.0 (net472 + net8.0 + net10.0)
+
+- **Acceptance Criteria**:
+  - [ ] net10.0 TFM added to all cross-platform projects
+  - [ ] Tests pass on net10.0
+  - [ ] No regressions on existing TFMs
+  - [ ] Compatibility matrix documented
 
 ---
 
@@ -1394,6 +1420,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 |---------|------|--------|---------|
 | 1.0 | Dec 2024 | Claudette | Initial comprehensive TODO |
 | 2.0 | Dec 5, 2025 | Claudette (Session 7) | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline |
+| 2.1 | Dec 5, 2025 | Claudette (Session 8) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
 
 ---
 

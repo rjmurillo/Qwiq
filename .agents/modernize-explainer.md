@@ -29,11 +29,12 @@
 | Wave 0 | .NET 8 adoption, SDK-style projects | ✅ **Complete** |
 | Wave 1 | Code quality baselines, contribution enablement | 🔄 **In Progress** (17/25 tasks) |
 | Wave 2 | Developer experience, observability, release automation | 📋 **Planned** |
-| Wave 3 | Framework modernization, .NET 9 evaluation | 📋 **Future** |
+| Wave 3 | Framework modernization, .NET 10 adoption | 📋 **Future** |
 
 ### Key Decisions Made
 
 - **Target Frameworks**: Maintain `net472`, `netstandard2.0`, `net8.0` for maximum compatibility
+- **.NET 10 Strategy**: Skip .NET 9 (STS), adopt .NET 10 (LTS) - SDK upgrade first, then TFM
 - **SOAP Client**: Maintenance-only mode (bug fixes only, no new features)
 - **REST Client**: Active development, cross-platform focus
 - **Nullable Migration**: ✅ Complete - 0 CS8xxx warnings across all source projects
@@ -319,7 +320,8 @@ Total suppressions: ~400 rules
 | ID | Task | Priority | Effort | Status |
 |----|------|----------|--------|--------|
 | W3.1 | OpenTelemetry basic tracing | Medium | M | 📋 |
-| W3.2 | .NET 9 evaluation | Low | M | 📋 |
+| W3.2 | .NET 10 SDK upgrade (when available) | Medium | S | 📋 |
+| W3.2a | Add net10.0 TFM | Medium | M | 📋 |
 | W3.3 | ARM64 testing infrastructure | Low | S | 📋 |
 | W3.4 | SOAP client deprecation plan | Low | L | 📋 |
 | W3.5 | API compatibility policy document | Medium | S | 📋 |
@@ -368,7 +370,7 @@ Total suppressions: ~400 rules
 │  ┌────────────────────────────────────────────────────────────────────┐│
 │  │ Wave 3 (Future)                                                    ││
 │  │ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              ││
-│  │ │ .NET 9       │  │ OpenTelemetry│  │ SOAP Deprec  │              ││
+│  │ │ .NET 10 LTS  │  │ OpenTelemetry│  │ SOAP Deprec  │              ││
 │  │ └──────────────┘  └──────────────┘  └──────────────┘              ││
 │  └────────────────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────────────────┘
@@ -385,7 +387,7 @@ Total suppressions: ~400 rules
 | Code coverage gates block PRs | Low | Medium | Start with warnings, graduate to gates |
 | Missing release automation causes manual errors | **High** | **High** | **Priority: Create release.yml** |
 | Supply chain vulnerabilities | Medium | High | Add SBOM, dependency-review-action |
-| .NET 9 introduces breaking changes | Low | Medium | Evaluate after Wave 2 complete |
+| .NET 10 introduces breaking changes | Low | Medium | Skip .NET 9 (STS), adopt .NET 10 (LTS) |
 
 ---
 
@@ -512,3 +514,4 @@ Modernization is **complete** when:
 |---------|------|--------|---------|
 | 1.0 | Dec 4, 2025 | Claudette | Initial comprehensive PRD |
 | 2.0 | Dec 5, 2025 | Claudette (Session 7) | Updated with Wave 1 progress (68%), resolved gaps, added Wave 2/3 tasks, corrected analyzer count (~400), added supply chain security requirements |
+| 2.1 | Dec 5, 2025 | Claudette (Session 8) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Strategy: SDK first, then TFM. Updated W3.1-W3.1a. |
