@@ -49,7 +49,9 @@ jobs:
         # During PR checks, GitHub creates a temporary merge commit that sourcelink
         # cannot validate because the commit doesn't persist on GitHub's raw content server.
         if: github.event_name == 'push'
-        run: ./build/scripts/Verify-SourceLink.ps1
+        # Expected packages: 9 source (Qwiq.Core, Client.Rest, Client.Soap, Identity,
+        # Identity.Soap, Linq, Linq.Identity, Mapper, Mapper.Identity) + 1 test (Qwiq.Mocks)
+        run: ./build/scripts/Verify-SourceLink.ps1 -ExpectedPackageCount 10
 
       - name: Run tests with coverage
         id: test
@@ -102,4 +104,6 @@ jobs:
           path: |
             src/**/bin/Release/**/*.nupkg
             src/**/bin/Release/**/*.snupkg
+            test/**/bin/Release/**/*.nupkg
+            test/**/bin/Release/**/*.snupkg
           if-no-files-found: warn
