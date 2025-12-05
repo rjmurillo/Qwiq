@@ -65,7 +65,7 @@ namespace Qwiq
 
             if (x is IComparable<T> comparable1 && !object.Equals(y, default(T)))
             {
-                return comparable1.CompareTo(y);
+                return comparable1.CompareTo(y!);
             }
 
             // Implements IComparable?
@@ -79,7 +79,7 @@ namespace Qwiq
 
             if (x is IEquatable<T> equatable && !object.Equals(y, default(T)))
             {
-                return equatable.Equals(y) ? 0 : -1;
+                return equatable.Equals(y!) ? 0 : -1;
             }
 
             // Last case, rely on Object.Equals
