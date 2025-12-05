@@ -42,17 +42,28 @@ jobs:
         run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
       - name: Verify Source Link
+        # Only run on push events (develop/master), not on pull_request events.
+        # During PR checks, GitHub creates a temporary merge commit that sourcelink
+        # cannot validate because the commit doesn't persist on GitHub's raw content server.
+        if: github.event_name == 'push'
         run: |
-          $packages = Get-ChildItem -Path src -Recurse -Filter "*.snupkg" -File | Where-Object { $_.FullName -match "bin\\Release" }
-          foreach ($package in $packages) {
-            Write-Host "Testing Source Link in: $($package.Name)"
-            dotnet sourcelink test $package.FullName
+          # sourcelink test works with .pdb files, not .snupkg files
+          # We test the PDB files directly from the Release output directories
+          $pdbs = Get-ChildItem -Path src -Recurse -Filter "*.pdb" -File | Where-Object { $_.FullName -match "bin\\Release" }
+          $failed = 0
+          foreach ($pdb in $pdbs) {
+            Write-Host "Testing Source Link in: $($pdb.Name)"
+            dotnet sourcelink test $pdb.FullName
             if ($LASTEXITCODE -ne 0) {
-              Write-Error "Source Link validation failed for $($package.Name)"
-              exit 1
+              Write-Error "Source Link validation failed for $($pdb.Name)"
+              $failed++
             }
           }
-          Write-Host "All $($packages.Count) symbol packages passed Source Link validation"
+          if ($failed -gt 0) {
+            Write-Error "$failed PDB files failed Source Link validation"
+            exit 1
+          }
+          Write-Host "All $($pdbs.Count) PDB files passed Source Link validation"
 
       - name: Run tests with coverage
         id: test
