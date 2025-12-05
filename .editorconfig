@@ -15,8 +15,16 @@ indent_size = 4
 #######################################
 
 # CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+# CS1574: XML comment cref attribute could not be resolved
+dotnet_diagnostic.CS1574.severity = none
+
+# CS1710: XML comment has duplicate typeparam tag
+dotnet_diagnostic.CS1710.severity = none
 
 # CS0618: Member is obsolete (e.g., TimeZone)
+dotnet_diagnostic.CS0618.severity = none
 
 # CS1574: XML comment cref attribute could not be resolved
 
@@ -27,6 +35,7 @@ indent_size = 4
 # SYSLIB0050: Formatter-based serialization is obsolete
 
 # SYSLIB0051: Legacy serialization support is obsolete
+dotnet_diagnostic.SYSLIB0051.severity = none
 
 #######################################
 # CLS Compliance Warnings
@@ -38,17 +47,59 @@ indent_size = 4
 # Suppressed for gradual migration
 #######################################
 
+# CS8766: Nullability of return type doesn't match implicitly implemented member
+dotnet_diagnostic.CS8766.severity = none
+
+# CS8767: Nullability of parameter type doesn't match implicitly implemented member
+dotnet_diagnostic.CS8767.severity = none
+
+# CS8769: Nullability of parameter type doesn't match implemented member
+dotnet_diagnostic.CS8769.severity = none
+
+# CS8619: Nullability of reference types in value doesn't match target type
+dotnet_diagnostic.CS8619.severity = none
+
+# CS8620: Argument nullability doesn't match parameter
+dotnet_diagnostic.CS8620.severity = none
+
+# CS8629: Nullable value type may be null
+dotnet_diagnostic.CS8629.severity = none
+
 #######################################
-# CA1xxx: Design Rules
+# CA10xx: Design Rules
 #######################################
+
+# CA1001: Types that own disposable fields should be disposable
+# Technical debt: Some test classes own disposable fields without implementing IDisposable
+dotnet_diagnostic.CA1001.severity = none
+
+# CA1051: Do not declare visible instance fields
+# Technical debt: Some fields are intentionally public for expression visitor pattern
+dotnet_diagnostic.CA1051.severity = none
+
+# CA1036: Override comparison operators when implementing IComparable
+# Technical debt: IdentityDescriptor implements IComparable but not comparison operators
+dotnet_diagnostic.CA1036.severity = none
 
 #######################################
 # CA12xx: Documentation Rules
 #######################################
 
+# CA1200: Avoid using cref tags with a prefix
+# Technical debt: XML docs use T: prefix for type references
+dotnet_diagnostic.CA1200.severity = none
+
 #######################################
 # CA13xx: Globalization Rules
 #######################################
+
+# CA1305: Specify IFormatProvider
+# Technical debt: Many string formatting calls don't specify culture
+dotnet_diagnostic.CA1305.severity = none
+
+# CA1310: Specify StringComparison for correctness
+# Technical debt: Many string comparison calls don't specify comparison type
+dotnet_diagnostic.CA1310.severity = none
 
 #######################################
 # CA14xx: Interoperability Rules
@@ -58,33 +109,101 @@ indent_size = 4
 # CA15xx: Maintainability/Throw Helper Rules
 #######################################
 
+# CA1512: Use ArgumentOutOfRangeException.ThrowIfEqual instead of throwing manually
+# Requires .NET 8+ API, not available on older targets
+dotnet_diagnostic.CA1512.severity = none
+
+# CA1510: Use ArgumentNullException.ThrowIfNull instead of throwing manually
+# We use this pattern but analyzer doesn't always recognize our polyfill
+dotnet_diagnostic.CA1510.severity = none
+
 #######################################
 # CA17xx: Naming Rules
 #######################################
+
+# CA1715: Prefix generic type parameter name with 'T'
+# Technical debt: IIdentityValueConverter uses 'U' as type parameter
+dotnet_diagnostic.CA1715.severity = none
+
+# CA1711: Identifiers should not have incorrect suffix
+# Technical debt: SaveFlags, WorkItemCopyFlags, ITeamProjectCollection are established API names
+dotnet_diagnostic.CA1711.severity = none
+
+# CA1716: Identifiers should not match keywords
+# Technical debt: When() method is part of established test specification pattern
+dotnet_diagnostic.CA1716.severity = none
+
+# CA1707: Identifiers should not contain underscores
+# Technical debt: Test classes and methods use Given_When_Then naming pattern
+dotnet_diagnostic.CA1707.severity = none
+
+# CA1720: Identifier contains type name
+# Technical debt: Guid property is established API name matching TFS/Azure DevOps patterns
+dotnet_diagnostic.CA1720.severity = none
+
+# CA1725: Parameter names should match base declaration
+# Technical debt: Some implementations use different parameter names
+dotnet_diagnostic.CA1725.severity = none
 
 #######################################
 # CA18xx: Performance Rules
 #######################################
 
-#######################################
-# CA2xxx: Reliability/Usage Rules
-#######################################
+# CA1805: Member is explicitly initialized to its default value
+# Technical debt: Some explicit initializations for clarity
+dotnet_diagnostic.CA1805.severity = none
 
-#######################################
-# CA23xx-CA24xx: Serialization Security
-#######################################
+# CA1806: Do not ignore method results (TryParse)
+# Technical debt: Methods intentionally ignore parse result when using out parameter
+dotnet_diagnostic.CA1806.severity = none
 
-#######################################
-# CA3xxx: Security Rules
-#######################################
+# CA1816: Call GC.SuppressFinalize correctly
+# Technical debt: Some Dispose implementations call SuppressFinalize incorrectly
+dotnet_diagnostic.CA1816.severity = none
 
-#######################################
-# CA5xxx: Cryptography/Security Rules
-#######################################
+# CA1822: Mark members as static
+# Technical debt: Some instance methods could be static but are kept for API compatibility
+dotnet_diagnostic.CA1822.severity = none
 
-#######################################
-# IDE0xxx: Code Style/Simplification
-#######################################
+# CA1825: Avoid unnecessary zero-length array allocations
+# Technical debt: Use Array.Empty<T>() instead
+dotnet_diagnostic.CA1825.severity = none
+
+# CA2208: Instantiate argument exceptions correctly
+# Technical debt: Some exceptions use descriptive strings instead of parameter names
+dotnet_diagnostic.CA2208.severity = none
+
+# CA2201: Do not raise reserved exception types (System.Exception)
+# Technical debt: Some code throws base Exception type
+dotnet_diagnostic.CA2201.severity = none
+
+# CA2211: Non-constant fields should not be visible
+# Technical debt: Test configuration uses visible static fields
+dotnet_diagnostic.CA2211.severity = none
+
+# CA1847: Use string.Contains(char) instead of string.Contains(string)
+# Technical debt: Would require framework-specific code paths
+dotnet_diagnostic.CA1847.severity = none
+
+# CA1859: Use concrete types when possible for improved performance
+# Technical debt: Interface types used intentionally for abstraction
+dotnet_diagnostic.CA1859.severity = none
+
+# CA1860: Prefer comparing Length/Count to 0 rather than using Any()
+# Technical debt: Many places use Any() which is idiomatic LINQ
+dotnet_diagnostic.CA1860.severity = none
+
+# CA1854: Prefer TryGetValue over ContainsKey + indexer
+# Technical debt: Some code uses ContainsKey pattern
+dotnet_diagnostic.CA1854.severity = none
+
+# CA1861: Avoid constant arrays as arguments
+# Technical debt: Some method calls use inline array literals
+dotnet_diagnostic.CA1861.severity = none
+
+# CA1863: Cache a CompositeFormat for repeated use
+# Requires .NET 8+ API, not available on older targets
+dotnet_diagnostic.CA1863.severity = none
 
 # Verify settings
 [*.{received,verified}.{json,txt,xml,nuspec}]

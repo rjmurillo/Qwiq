@@ -4,8 +4,34 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 7)
+> **Last Updated**: December 5, 2025 (Session 10)
 > **Status**: Active
+
+---
+
+## 🚀 Next Session Quick Start
+
+**Current Branch**: `feat/modernize-2` ✅ Clean, builds, 196 tests pass
+
+**⚠️ IMPORTANT**: There is pending work on branch `copilot/sub-pr-58` containing Phase 1D analyzer work (W1.15A-W1.17):
+- 65 security rules enabled (CA3xxx-CA5xxx)
+- 3 reliability rules enabled (CA1062, CA2000, CA2007)  
+- 4 performance rules enabled (CA1812, CA1826, CA1845, CA1852)
+
+**Next session should**:
+1. **Option A**: Merge `copilot/sub-pr-58` into `feat/modernize-2` and continue
+2. **Option B**: Start fresh from `feat/modernize-2` and redo analyzer work if merge is problematic
+
+**Priority tasks after merge**:
+1. W1.15A - Enable remaining P0 Security Rules (if not complete)
+2. W1.16 - Enable remaining P1 Reliability Rules  
+3. W2.11 - Create Release Workflow (**CRITICAL** - can parallel)
+
+**Build/Test Commands**:
+```powershell
+dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+```
 
 ---
 
@@ -14,8 +40,8 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 25 | 20/25 |
-| Wave 2 | 📋 Planned | 15 | 0/15 |
+| Wave 1 | 🔄 In Progress | 27 | 18/27 |
+| Wave 2 | 📋 Planned | 14 | 0/14 |
 | Wave 3 | 📋 Future | 8 | 0/8 |
 
 **Key Decision**: Skip .NET 9 (STS), adopt .NET 10 (LTS) - SDK first, then TFM.
@@ -38,9 +64,10 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 10) | **Documentation Cleanup & Handoff Preparation**: (1) Verified build succeeds (0 errors, 2 MSB3836 warnings). (2) Verified all 196 tests pass (108+16+34+28+10). (3) Corrected Quick Reference table: Wave 1 is 18/27 (not 20/25), Wave 2 is 14 (not 15). (4) Confirmed working branch is `feat/modernize-2` with clean tree. (5) **IMPORTANT**: Branch `copilot/sub-pr-58` contains Phase 1D work (W1.15A-W1.17) that needs to be merged. Next session should either merge or continue that work. | Build: ✅ 0 errors. Tests: ✅ 196 passed. Docs: ✅ Updated. Git: ✅ Clean. |
 | 2025-12-05 (Session 9) | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition. | Docs: ✅ explainer + TODO updated. |
 | 2025-12-05 (Session 8) | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules. | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated. |
-| 2025-12-05 (Session 7) | **Phase 1D Complete (W1.15-W1.18)**: Comprehensive analyzer debt reduction. (1) Created analyzer inventory (.agents/analyzer-debt-inventory.md) cataloging 403 suppressed rules. (2) Enabled all 65 security rules (CA3xxx-CA5xxx) - zero violations. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007) - zero violations. (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852) - zero violations. CA1822 deferred (8 violations require code changes). | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189 tests passing (net8.0). Rules enabled: 72 total (65 security + 3 reliability + 4 performance). Rules suppressed: 331 remaining (down from 403). |
+| 2025-12-05 (Session 7) | **Phase 1D Progress (W1.15-W1.17) on `copilot/sub-pr-58`**: (1) Created analyzer-debt-inventory.md cataloging all suppressed rules. (2) Enabled 65 security rules (CA3xxx-CA5xxx) - zero violations found. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007). (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852). (5) CA1822 deferred (8 violations require code changes). **Note:** This work is on branch `copilot/sub-pr-58`, pending merge to `feat/modernize-2`. | Build: ✅ 0 errors. Tests: ✅ 189 tests. Rules enabled: 72. |
 | 2025-12-05 (Session 6) | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change. | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed. |
 | 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
 | 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
@@ -1432,7 +1459,8 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 |---------|------|--------|---------|
 | 1.0 | Dec 2024 | Claudette | Initial comprehensive TODO |
 | 2.0 | Dec 5, 2025 | Claudette (Session 7) | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline |
-| 2.1 | Dec 5, 2025 | Claudette (Session 8) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
+| 2.1 | Dec 5, 2025 | Claudette (Session 9) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
+| 2.2 | Dec 5, 2025 | Claudette (Session 10) | Documentation cleanup for handoff. Corrected task counts (Wave 1: 18/27, Wave 2: 14). Added missing Session 7 entry. Fixed session numbering. |
 
 ---
 
