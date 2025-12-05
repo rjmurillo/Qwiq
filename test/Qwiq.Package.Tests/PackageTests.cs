@@ -30,16 +30,23 @@ public class PackageTests
                 "Could not find 'src' directory. Unable to locate NuGet packages.");
         }
 
-        // Search for packages in src/**/bin/Release/**/*.nupkg
-        FileInfo[] packages = srcDirectory.GetFiles("Qwiq*.nupkg", SearchOption.AllDirectories)
+        // Search for both .nupkg and .snupkg packages in src/**/bin/Release/**/
+        FileInfo[] nupkgPackages = srcDirectory.GetFiles("Qwiq*.nupkg", SearchOption.AllDirectories)
             .Where(f => f.FullName.Contains(Path.Combine("bin", "Release"), StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+
+        FileInfo[] snupkgPackages = srcDirectory.GetFiles("Qwiq*.snupkg", SearchOption.AllDirectories)
+            .Where(f => f.FullName.Contains(Path.Combine("bin", "Release"), StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+
+        FileInfo[] packages = nupkgPackages.Concat(snupkgPackages)
             .OrderBy(fileInfo => fileInfo.Name, StringComparer.Ordinal)
             .ToArray();
 
         if (packages.Length == 0)
         {
             throw new InvalidOperationException(
-                "No Qwiq*.nupkg files were found. Ensure the pack step runs before executing this test. " +
+                "No Qwiq*.nupkg or Qwiq*.snupkg files were found. Ensure the pack step runs before executing this test. " +
                 $"Searched in: {srcDirectory.FullName}");
         }
 
@@ -67,12 +74,21 @@ public class PackageTests
 
     private static string GetPackageDiscriminator(string packageName)
     {
+        // Handle .snupkg (modern symbol packages)
+        if (packageName.EndsWith(".snupkg", StringComparison.Ordinal))
+        {
+            string baseName = packageName.Replace(".snupkg", string.Empty, StringComparison.Ordinal);
+            return $"{ExtractPackageName(baseName)}_symbols";
+        }
+
+        // Handle .symbols.nupkg (legacy symbol packages)
         if (packageName.Contains(".symbols.nupkg", StringComparison.Ordinal))
         {
             string baseName = packageName.Replace(".symbols.nupkg", string.Empty, StringComparison.Ordinal);
             return $"{ExtractPackageName(baseName)}_symbols";
         }
 
+        // Handle regular .nupkg
         string name = packageName.Replace(".nupkg", string.Empty, StringComparison.Ordinal);
         return ExtractPackageName(name);
     }

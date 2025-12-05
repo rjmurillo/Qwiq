@@ -44,8 +44,22 @@ jobs:
       - name: Pack NuGet packages
         run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
 
-      - name: Run tests
-        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults
+      - name: Verify Source Link
+        run: |
+          dotnet tool install --global sourcelink
+          $packages = Get-ChildItem -Path src -Recurse -Filter "*.snupkg" -File | Where-Object { $_.FullName -match "bin\\Release" }
+          foreach ($package in $packages) {
+            Write-Host "Testing Source Link in: $($package.Name)"
+            sourcelink test $package.FullName
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Source Link validation failed for $($package.Name)"
+              exit 1
+            }
+          }
+          Write-Host "All $($packages.Count) symbol packages passed Source Link validation"
+
+      - name: Run tests with coverage
+        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
         if: success() || failure()
@@ -55,12 +69,26 @@ jobs:
           path: ./artifacts/logs/
           if-no-files-found: ignore
 
+      - name: Generate coverage report
+        if: success() || failure()
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
+
       - name: Upload test results
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: ./artifacts/TestResults/**/*.trx
+          if-no-files-found: ignore
+
+      - name: Upload coverage report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./artifacts/CoverageReport/
           if-no-files-found: ignore
 
       - name: Upload binaries
