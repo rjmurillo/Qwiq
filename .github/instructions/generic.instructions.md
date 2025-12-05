@@ -24,13 +24,11 @@ When working on ANY file, you MUST:
 
 ## Core Quality Expectations
 
-- **Design for testability**: Every change should be easy to validate via automated tests. Introduce seams (interfaces, pure functions, composition) rather than writing logic that depends on static state or global configuration.
-- **Minimize coupling, maximize cohesion**: Keep related behavior together while ensuring modules depend only on the abstractions they consume. If a modification requires editing multiple unrelated components, reconsider the responsibility distribution.
-- **Respect canonical sources**: Identity constants, configuration defaults, and field names already exist in shared helpers (e.g., `TestData`, `Directory.Build.props`, `CoreFieldRefNames`). Reference them instead of duplicating literals.
-- **Encapsulate variability**: Wrap platform-specific or client-specific decisions behind strategies or feature switches so new cases extend behavior without rewriting existing flows.
-- **Practice pattern-oriented development**: Start from the patterns observed in the problem (Alexander, 1979) and run Common Variability Analysis to identify natural abstractions before coding. Call out the Strategy/Bridge/Adapter/etc. you are applying so reviewers can evaluate fit and cohesion.
-- **Separate use from creation**: Keep construction concerns isolated from consumption (Bloch, 2001). If a type must both create and use another, refactor toward factories, builders, or deferred instantiation helpers.
-- **Use the Software Hierarchy of Needs**: Guard the foundational qualities first (testability, cohesion, coupling, encapsulation). Practices, principles, and patterns should never erode those lower layers.
+- **Write testable code**: Structure changes so unit tests are straightforward—prefer dependency injection, pure functions, and clear seams.
+- **Keep classes focused**: Give each type one responsibility and communicate across bounded contexts via interfaces, not concretes.
+- **Use existing constants**: Reuse identity/configuration values from canonical sources (`TestData`, `CoreFieldRefNames`, `Directory.Build.props`) instead of duplicating literals.
+- **Isolate platform differences**: Hide REST vs SOAP or framework-specific behavior behind strategies, feature switches, or factories so clients stay uniform.
+- **Separate creation from use**: Instantiate collaborators through factories or constructor injection; avoid mixing object construction with runtime logic.
 
 ## Multi-File Change Flowchart
 
