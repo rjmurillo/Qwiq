@@ -4,7 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 4, 2025 (Session 2)
+> **Last Updated**: December 5, 2025 (Session 4)
 > **Status**: Active
 
 ---
@@ -14,7 +14,7 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 23 | 9/23 |
+| Wave 1 | 🔄 In Progress | 24 | 10/24 |
 | Wave 2 | 📋 Planned | 7 | 0/7 |
 | Wave 3 | 📋 Future | 4 | 0/4 |
 
@@ -26,6 +26,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
 | 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
 | 2025-12-05 (Session 2) | **W1.1-W1.6 Complete + Package Testing**: (1) Updated .NET SDK 8.0.100→8.0.404. (2) Configured Source Link with .snupkg packages and portable PDBs. (3) Added code coverage collection and Source Link validation to CI. (4) Created CODEOWNERS file. (5) Created SECURITY.md. (6) Added CODE_OF_CONDUCT.md. (7) Modernized package testing with Verify.Nupkg plugin (150+ lines removed). | Build: ✅ Tests: ✅ 186 unit + 10 package tests. Coverage: ✅ CI configured. Source Link: ✅ 10 .snupkg + CI validation. Docs: ✅ CODEOWNERS, SECURITY.md, CODE_OF_CONDUCT.md, package testing documentation. |
 | 2025-12-04 (Session 1) | Maintained modernization documentation, confirmed that no checklist items were completed or regressed in this session. | `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` — all targeted tests passed (integration assembly skipped by filter). |
@@ -292,6 +293,44 @@ All foundation items have been completed in prior modernization efforts.
   - [x] Symbol package limitation documented
   - [x] Migration path defined for `.snupkg` support restoration
   - [x] All tests passing
+
+---
+
+#### W1.Y CI Package Output Validation ✅ COMPLETE
+- [x] **Task**: Add robust CI validation that all packable projects produce packages
+- **Effort**: S (2-3 hours) ⏱️ Actual: ~1.5 hours
+- **Priority**: High
+- **Dependencies**: W1.2, W1.3
+- **Completed**: 2025-12-05
+- **Changes Made**:
+  - Created `build/scripts/Validate-PackageOutput.ps1`:
+    - Scans all `.csproj` files to find packable projects (IsPackable=true + GeneratePackageOnBuild=true)
+    - Validates each packable project produced both `.nupkg` and `.snupkg`
+    - Fails build with clear error messages if any packages are missing
+    - Shows per-project status (OK, PARTIAL, MISSING)
+  - Refactored `build/scripts/Verify-SourceLink.ps1`:
+    - Simplified to be "naive" - just verifies whatever PDBs it finds
+    - Deduplicates by assembly name (prefers net8.0 target)
+    - Tests all 20 unique assemblies (source + test projects)
+    - Removed package count validation (now Validate-PackageOutput's job)
+  - Updated `.github/workflows/main.yml`:
+    - Added "Validate package output" step after build (runs unconditionally)
+    - Source Link verification still only runs on push events (not PRs)
+    - Better separation of concerns between the two validation scripts
+- **Files Created/Modified**:
+  - `build/scripts/Validate-PackageOutput.ps1` - NEW: Package validation script
+  - `build/scripts/Verify-SourceLink.ps1` - Simplified to naive PDB verification
+  - `.github/workflows/main.yml` - Added package validation step
+- **Validation**:
+  - ✅ Validate-PackageOutput correctly identifies all 10 packable projects
+  - ✅ Validate-PackageOutput fails when packages are missing (tested)
+  - ✅ Verify-SourceLink tests 20 unique PDBs
+  - ✅ All scripts committed and workflow updated
+- **Acceptance Criteria**:
+  - [x] CI fails if any packable project doesn't produce .nupkg
+  - [x] CI fails if any packable project doesn't produce .snupkg
+  - [x] Package validation runs for all builds (push + PR)
+  - [x] Source Link verification separated from package validation
 
 ---
 
