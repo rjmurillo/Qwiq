@@ -251,6 +251,7 @@ $env:AZURE_DEVOPS_PAT = "your-pat-here"
 ```
 
 The validation script checks:
+
 - Connection to the Azure DevOps organization
 - Existence of the WIT project
 - Existence of required work items (IDs 1-7)
@@ -259,6 +260,7 @@ The validation script checks:
 - Required shared query folders exist
 
 Exit codes:
+
 - `0` - All validations passed
 - `1` - One or more validations failed
 - `2` - Script error (authentication, network issues)
