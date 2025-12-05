@@ -79,11 +79,10 @@ Check the [documentation][docs] and [API reference][docs].
 
 ## Quality Guidance
 
-- **Keep documentation cohesive**: Group related concepts together and avoid scattering requirements across multiple sections without cross-links.
-- **Reference canonical sources**: When documenting identities, configuration settings, or constants, link to `TestData.cs`, `Directory.Build.props`, or other authoritative files instead of copy/pasting values.
-- **Highlight testability impacts**: Call out when instructions change testing boundaries or prerequisites so contributors can assess coverage implications.
-- **Avoid duplicate guidance**: If a pattern is already documented in another instruction file, link to it rather than restating details; this reduces maintenance overhead and keeps the narrative consistent.
-- **Reference shared design canon**: When summarizing architectural intent, cite the Design Principles appendix (Alexander, Bain, Coplien, Fowler, GoF) so future contributors can trace rationale back to the primary sources.
+- **Keep related info together**: Use clear headings and avoid scattering a topic across distant sections.
+- **Link to the source file**: When you mention constants or settings, point to `TestData.cs`, `Directory.Build.props`, or the correct file instead of copying values.
+- **Call out test impact**: If a doc update changes how tests run, highlight the new steps so readers do not miss them.
+- **Avoid doubles**: If guidance already exists in another instruction file, link to it rather than repeating the same text.
 ```
 
 ## Special Files
