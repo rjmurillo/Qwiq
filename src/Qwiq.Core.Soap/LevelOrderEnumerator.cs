@@ -64,7 +64,7 @@ namespace Qwiq.Client.Soap
 
             Debug.Assert(Current != null, nameof(Current) + " != null");
 
-            foreach (Node child in Current.ChildNodes)
+            foreach (Node child in Current!.ChildNodes)
             {
                 _nextGenerationCount++;
                 _queue.Enqueue(child);
@@ -82,6 +82,6 @@ namespace Qwiq.Client.Soap
 
         public Node? Current { get; private set; }
 
-        object IEnumerator.Current => Current;
+        object IEnumerator.Current => Current!;
     }
 }
