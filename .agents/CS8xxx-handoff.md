@@ -1,9 +1,9 @@
 # CS8xxx Nullable Reference Type Mitigation - Session Handoff
 
-**Date**: December 4, 2025  
-**Session End Time**: 23:32 UTC (Updated)  
+**Date**: December 5, 2025  
+**Session End Time**: 01:33 UTC (Updated)  
 **Current Branch**: `copilot/sub-pr-52-again`  
-**Status**: Phase 1, 2 & 3 Complete, Phases 4-5 Pending
+**Status**: Phase 1, 2, 3 & 4 (Core) Complete, Phase 4 (Other Projects) & Phase 5 Pending
 
 ---
 
@@ -11,9 +11,9 @@
 
 **Mission**: Systematically eliminate all 630 CS8xxx nullable reference type errors across the Qwiq solution by implementing the 5-phase fix strategy documented in `CS8xxx-analysis.md`.
 
-**Current Progress**: ✅ **Phase 1, 2 & 3 of 5 Complete** (~242 errors fixed total)
+**Current Progress**: ✅ **Phase 1, 2, 3 & 4 (Core) Complete** (~284 errors fixed total)
 
-**Next Action**: Begin Phase 4 - Method Calls and Returns (~240 CS8604, CS8603, CS8600, CS8601, CS8602 errors)
+**Next Action**: Complete Phase 4 for remaining projects (REST, SOAP, Linq, Tests) - 25 errors remaining
 
 ---
 
@@ -173,6 +173,50 @@
 
 **Errors Fixed**: ~40 CS8625 errors eliminated
 
+### Phase 4: Method Calls and Returns (Qwiq.Core) ✅ COMPLETE
+
+**Commits**:
+- `a06a9d9` - Fix Link constructor and Extensions nullability (Phase 4 partial)
+- `eab7e3b` - Fix TypeParser nullable handling (Phase 4 partial 2)
+- `7282e57` - Fix collection comparers and WorkItemCore dictionary (Phase 4 partial 3)
+- `c173bfa` - Complete Phase 4 CS860x fixes for Qwiq.Core (42/42 errors fixed)
+
+**Files Modified** (16 files in Qwiq.Core):
+
+- `Link.cs` - Made `comment` parameter nullable
+- `Extensions.cs` - Made `ToUsefulString` accept `object?`
+- `GenericComparer.cs` - Used null-forgiving for null-checked values
+- `TypeParser.cs` - Made methods accept nullable, added null checks, used null-forgiving
+- `WorkItemCore.cs` - Changed dictionary to `Dictionary<string, object?>`, made GetCurrentFieldValue nullable
+- `WorkItem.cs` - Added null check for Lazy parameter
+- `FieldCollection.cs` - Used null-forgiving in Equals call
+- `FieldDefinitionCollection.cs` - Used null-forgiving in Equals calls
+- `QueryDefinitionCollection.cs` - Used null-forgiving in Equals calls
+- `QueryFolderCollection.cs` - Used null-forgiving in Equals calls
+- `WorkItemCollection.cs` - Used null-forgiving in Equals calls
+- `TeamFoundationIdentity.cs` - Used null-forgiving in Equals and UniqueName
+- `IdentityDescriptor.cs` - Used null-forgiving after null checks in CompareTo
+- `IdentityFieldValue.cs` - Used null-forgiving in DisplayName property
+- `WorkItemCore.cs` - Used null-forgiving in GetValue<T>
+
+**Patterns Applied**:
+1. Made parameters/returns nullable where null is semantically valid
+2. Changed Dictionary<string, object> to Dictionary<string, object?> for fields
+3. Used null-forgiving operator (!) after explicit null checks
+4. Used null-forgiving operator for comparer calls (comparers handle null correctly)
+
+**Test Results**:
+- ✅ Build: 0 errors, 2 warnings (unrelated binding redirects)
+- ✅ Tests: 180/180 unit tests passing
+  - Core: 108 tests ✅
+  - Linq: 34 tests ✅
+  - Identity: 10 tests ✅
+  - Mapper: 28 tests ✅
+
+**Errors Fixed**: 42 CS8604/CS8603/CS8602/CS8600/CS8601 errors in Qwiq.Core
+
+**Remaining**: 25 CS860x errors in other projects (REST, SOAP, Linq, Tests)
+
 ---
 
 ## Current Repository State
@@ -191,14 +235,15 @@ dotnet test --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCatego
 
 ### Suppression Status
 - CS8xxx suppressions **still active** in `.editorconfig` lines 56-75
-- CS8618 and CS8625 suppressions removed (all errors fixed)
-- Suppressions must remain for Phases 4-5 errors
-- Removing all suppressions now would expose ~388 remaining errors
+- CS8618, CS8625 suppressions removed (all errors fixed)
+- CS860x suppressions can be removed for Qwiq.Core (all fixed)
+- Suppressions must remain for REST, SOAP, Linq, Tests
+- Removing all suppressions now would expose ~363 remaining errors
 
 ### Git Status
 - Branch: `copilot/sub-pr-52-again`
 - State: Clean (no uncommitted changes)
-- Last commit: `69ca5ee`
+- Last commit: `c173bfa`
 - Pushed to: `origin/copilot/sub-pr-52-again`
 
 ---
