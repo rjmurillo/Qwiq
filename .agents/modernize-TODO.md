@@ -4,7 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 5)
+> **Last Updated**: December 5, 2025 (Session 6)
 > **Status**: Active
 
 ---
@@ -14,7 +14,7 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 24 | 16/24 |
+| Wave 1 | 🔄 In Progress | 24 | 17/24 |
 | Wave 2 | 📋 Planned | 7 | 0/7 |
 | Wave 3 | 📋 Future | 4 | 0/4 |
 
@@ -26,6 +26,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 6) | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change. | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed. |
 | 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
 | 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
 | 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
@@ -593,38 +594,23 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 
 ---
 
-#### W1.21 Configure .gitattributes
-- [ ] **Task**: Verify/update .gitattributes for consistency
+#### W1.21 Configure .gitattributes ✅ COMPLETE
+- [x] **Task**: Verify/update `.gitattributes` for consistency
 - **Effort**: S (30 min)
 - **Priority**: Low
 - **Dependencies**: None
 - **File**: `.gitattributes`
-
-```text
-# Auto detect text files and perform LF normalization
-* text=auto
-
-# Explicitly declare text files
-*.cs text diff=csharp
-*.csproj text
-*.sln text eol=crlf
-*.md text
-*.json text
-*.xml text
-*.yml text
-*.yaml text
-
-# Declare binary files
-*.png binary
-*.jpg binary
-*.ico binary
-*.dll binary
-*.exe binary
-```
-
+- **Completed**: 2025-12-05 (Session 6)
+- **Changes Made**:
+  - Reconciled repository settings with `dotnet new gitattributes`, adding explicit CRLF enforcement for Windows batch/PowerShell scripts and LF enforcement for Unix shell scripts to support Linux agents.
+  - Locked Visual Studio solution/project files to CRLF in the working tree to avoid noisy diffs and re-enabled the `diff=csharp` driver for command-line comparisons.
+  - Retained Verify snapshot testing encodings and documented optional Git LFS filters for future adoption without enabling them today.
+- **Validation**:
+  - Tests: ✅ `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` (196 tests: 108 + 28 + 16 + 34 + 10) after updating `.gitattributes`.
+  - Build: Not run (line-ending update only).
 - **Acceptance Criteria**:
-  - [ ] Line endings consistent across platforms
-  - [ ] Binary files marked correctly
+  - [x] Line endings consistent across platforms
+  - [x] Binary files marked correctly
 
 ---
 
