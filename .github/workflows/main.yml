@@ -58,6 +58,7 @@ jobs:
           Write-Host "All $($packages.Count) symbol packages passed Source Link validation"
 
       - name: Run tests with coverage
+        id: test
         run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
@@ -69,11 +70,11 @@ jobs:
           if-no-files-found: ignore
 
       - name: Generate coverage report
-        if: success() || failure()
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         run: dotnet reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
 
       - name: Upload test results
-        if: success() || failure()
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: test-results
@@ -81,7 +82,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload coverage report
-        if: success() || failure()
+        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
