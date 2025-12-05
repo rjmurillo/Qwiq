@@ -41,8 +41,34 @@ jobs:
       - name: Build solution
         run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
-      - name: Pack NuGet packages
-        run: dotnet pack Qwiq.sln -c Release --no-build /p:ContinuousIntegrationBuild=true
+      - name: Verify NuGet packages
+        run: |
+          $nupkgs = Get-ChildItem -Path src -Recurse -Filter "*.nupkg" -File | Where-Object { $_.FullName -match "bin\\Release" -and $_.FullName -notmatch "\\.symbols\\.nupkg$" }
+          if ($nupkgs.Count -eq 0) {
+            Write-Error "No NuGet packages were generated for verification."
+            exit 1
+          }
+
+          foreach ($package in $nupkgs) {
+            Write-Host "Verifying package integrity for $($package.Name)"
+            dotnet nuget verify $package.FullName
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Verification failed for $($package.Name)"
+              exit 1
+            }
+          }
+
+          $snupkgs = Get-ChildItem -Path src -Recurse -Filter "*.snupkg" -File | Where-Object { $_.FullName -match "bin\\Release" }
+          foreach ($symbol in $snupkgs) {
+            Write-Host "Verifying symbol package integrity for $($symbol.Name)"
+            dotnet nuget verify $symbol.FullName
+            if ($LASTEXITCODE -ne 0) {
+              Write-Error "Verification failed for symbol package $($symbol.Name)"
+              exit 1
+            }
+          }
+
+          Write-Host "NuGet package verification complete for $($nupkgs.Count) packages and $($snupkgs.Count) symbol packages."
 
       - name: Verify Source Link
         run: |
