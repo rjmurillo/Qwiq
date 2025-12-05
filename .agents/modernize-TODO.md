@@ -14,7 +14,7 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 22 | 0/22 |
+| Wave 1 | 🔄 In Progress | 22 | 1/22 |
 | Wave 2 | 📋 Planned | 7 | 0/7 |
 | Wave 3 | 📋 Future | 4 | 0/4 |
 
@@ -26,6 +26,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 | **W1.1 Complete**: Updated .NET SDK from 8.0.100 to 8.0.404 in `global.json`. Changed `rollForward` from `latestFeature` to `latestPatch` for more stable builds. Fixed shallow clone issue via `git fetch --unshallow`. | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 186 unit tests passed (Core: 108, Linq: 34, Mapper: 28, Identity: 16). |
 | 2025-12-04 | Maintained modernization documentation, confirmed that no checklist items were completed or regressed in this session. | `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` — all targeted tests passed (integration assembly skipped by filter). |
 
 > **Note:** The `.agents` versions of this TODO and the companion explainer are the authoritative sources. No additional mirrors are maintained; update these files directly.
@@ -49,23 +50,25 @@ All foundation items have been completed in prior modernization efforts.
 
 ### Phase 1A: Infrastructure Updates (Quick Wins)
 
-#### W1.1 Update .NET SDK Version
-- [ ] **Task**: Update `global.json` from 8.0.100 to 8.0.404+
-- **Effort**: S (1-2 hours)
+#### W1.1 Update .NET SDK Version ✅ COMPLETE
+- [x] **Task**: Update `global.json` from 8.0.100 to 8.0.404+
+- **Effort**: S (1-2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: Medium
 - **Dependencies**: None
 - **File**: `global.json`
-- **Command**:
-  ```powershell
-  # Update SDK version
-  # Edit global.json: "version": "8.0.404"
-  dotnet --version  # Verify
-  dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false  # Test build
-  ```
+- **Completed**: 2025-12-05
+- **Changes Made**:
+  - Updated SDK version from `8.0.100` to `8.0.404`
+  - Changed `rollForward` from `latestFeature` to `latestPatch` (more conservative, aligns with LTS strategy)
+  - Fixed shallow clone issue that was blocking builds (`git fetch --unshallow`)
+- **Validation**:
+  - ✅ Build: 0 errors, 0 warnings
+  - ✅ Tests: 186 unit tests passed
+  - ✅ Runtime SDK: 8.0.416 (compatible with 8.0.404+ via latestPatch rollForward)
 - **Acceptance Criteria**:
-  - [ ] `global.json` updated to 8.0.404 or latest 8.0.x LTS
-  - [ ] Solution builds without errors
-  - [ ] All tests pass
+  - [x] `global.json` updated to 8.0.404 or latest 8.0.x LTS
+  - [x] Solution builds without errors
+  - [x] All tests pass
 
 ---
 
