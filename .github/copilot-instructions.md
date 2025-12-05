@@ -314,15 +314,15 @@ public void SetValue(string value) { } // Cannot be null
 
 ### Quality Attributes & Architectural Guidance
 
-- **Testability as leverage** (Hevery, 2008; Bain, 2008): Structure code so the happy path can be exercised through unit tests without complex setup. Favor dependency injection, seam-friendly abstractions, and deterministic collaborators. If a change cannot be trivially unit tested, revisit the design before committing.
-- **Low coupling / high cohesion** (McConnell, 1993): Keep classes focused on a single responsibility. Interactions that cross bounded contexts (Core vs Mapper vs Identity) must flow through well-defined interfaces rather than concrete implementations. Avoid cyclic dependencies and prefer composition over inheritance.
-- **Identity and configuration canon**: Never duplicate identity constants or configuration literals. Reuse `TestData.cs`, `CoreFieldRefNames`, `Directory.Build.props`, and other canonical sources to prevent divergence.
-- **Pattern-oriented development** (Alexander, 1979; Coplien, 1999): Start with the problem's patterns, relate them in context, and run Common Variability Analysis (identify shared concepts, their variations, and relationships) before coding. Call out the patterns you are leveraging (Strategy, Bridge, Adapter, etc.) when introducing new abstractions so future work continues the same contextual thread.
-- **Emergent design loop** (Bain, 2008): Implement one testable requirement, refactor to remain open-closed, enhance, then refactor for quality. Repeat. Favor small, frequent deliveries that let the system differentiate instead of being re-synthesized with big rewrites.
-- **Encapsulate variation & separate use from creation** (GoF 1994; Bloch 2001): When behavior may change per transport (REST vs SOAP) or per target framework, isolate decisions behind strategy or provider abstractions. Hide constructors behind factories or `GetInstance` helpers so instantiation remains a late decision.
-- **Observability baked in**: When adding new operational code paths, instrument with `Trace` logging that can be toggled in diagnostics builds. Ensure logs do not leak credentials or PATs.
-- **Document decision trade-offs**: For significant new patterns, capture the why in XML doc comments or companion markdown so future contributors understand coupling/cohesion considerations and can keep the approach consistent. Reference the applicable principle or pattern from the design principles appendix where possible.
-- **Work down the Software Hierarchy of Needs**: Qualities (testability, cohesion, coupling, encapsulation) come first, then practices, principles, patterns, and finally paradigm choices. If a change compromises a lower tier, correct that before pursuing higher-level refinements.
+- **Aim for easy tests**: Build seams with dependency injection, interfaces, or pure functions. If code is hard to test, step back and simplify before moving on.
+- **Keep coupling low**: Give every class one clear job. When code crosses areas (Core, Mapper, Identity), talk through interfaces instead of concrete types and avoid dependency cycles.
+- **Reuse shared constants**: Pull identity and configuration values from the known sources (`TestData.cs`, `CoreFieldRefNames`, `Directory.Build.props`) so numbers and names stay in sync.
+- **Follow existing patterns**: Before adding new behavior, spot the pattern already in use (Factory, Strategy, Adapter, etc.) and stick with it. Call out the chosen pattern in reviews or docs.
+- **Ship in small steps**: Add one testable change, refactor for clarity, then continue. Short cycles beat large rewrites.
+- **Hide variations and separate creation**: Keep REST vs SOAP or framework differences behind strategies or providers. Create objects through factories or helper methods so callers only use them.
+- **Log what matters**: Add `Trace` logging when you open a new runtime path, but never write secrets or tokens to the logs.
+- **Explain big choices**: Record why you chose a pattern or design tradeoff in XML comments or companion markdown so the next person has the context.
+- **Protect core qualities first**: Testability, cohesion, coupling, and encapsulation are the foundation. If any of them slip, fix that before layering on new features.
 
 ### Nullable Reference Types Status
 
