@@ -40,7 +40,6 @@ namespace Qwiq
             //  - System.RelatedLinks
             //  - System.LinkedFiles
             //  - System.BISLinks
-            //  - System.RelatedLinks
             // Additionally, REST API returns hierarchical level fields not present in SOAP:
             //  - System.AreaLevel1 through System.AreaLevel7
             //  - System.IterationLevel1 through System.IterationLevel7
