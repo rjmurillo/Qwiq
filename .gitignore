@@ -325,5 +325,9 @@ __pycache__/
 .nuget/*.exe
 
 
+# Verify snapshot testing artifacts
+*.received.*
+
+
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md

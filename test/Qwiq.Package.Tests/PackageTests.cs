@@ -66,16 +66,9 @@ public class PackageTests
         FileInfo package = new(packagePath);
 
         string discriminator = GetPackageDiscriminator(package.Name);
-        
+
         var settings = new VerifySettings();
         settings.UseTextForParameters(discriminator);
-        
-        // For .snupkg files, explicitly set extension to get .snupkg.verified naming  
-        // instead of default package extraction behavior
-        if (package.Extension.Equals(".snupkg", StringComparison.OrdinalIgnoreCase))
-        {
-            settings.UseExtension("snupkg");
-        }
 
         return VerifyFile(package, settings)
             .ScrubNuspec();
@@ -84,9 +77,8 @@ public class PackageTests
     private static string GetPackageDiscriminator(string packageName)
     {
         // For all package types, extract just the package name without version or extension
-        // The extension is handled separately via UseExtension() for .snupkg files
         string baseName = packageName;
-        
+
         // Remove .snupkg extension
         if (baseName.EndsWith(".snupkg", StringComparison.Ordinal))
         {
@@ -102,7 +94,7 @@ public class PackageTests
         {
             baseName = baseName.Replace(".nupkg", string.Empty, StringComparison.Ordinal);
         }
-        
+
         return ExtractPackageName(baseName);
     }
 

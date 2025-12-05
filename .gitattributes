@@ -73,3 +73,7 @@
 *.verified.nuspec text eol=lf working-tree-encoding=UTF-8
 *.verified.json text eol=lf working-tree-encoding=UTF-8
 *.verified.bin binary
+*.verified.nupkg binary
+*.nupkg.verified binary
+*.verified.snupkg binary
+*.snupkg.verified binary
