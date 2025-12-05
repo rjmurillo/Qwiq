@@ -72,7 +72,7 @@ namespace Qwiq.Client.Rest
         public override WorkItemErrorPolicy WorkItemErrorPolicy { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating which sub-elements of <see cref="TeamFoundation.WorkItemTracking.WebApi.Models.WorkItem"/> to expand. Default value is <see cref="M:WorkItemExpand.All"/>.
+        /// Gets or sets a value indicating which sub-elements of the REST API WorkItem model to expand. Default value is <see cref="M:WorkItemExpand.All"/>.
         /// </summary>
         /// <remarks>
         /// When value is set to <see cref="M:WorkItemExpand.All"/>, the value of <see cref="M:WorkItemStoreConfiguration.DefaultFields"/> is set to null.

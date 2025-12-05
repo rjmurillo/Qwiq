@@ -5,7 +5,9 @@ namespace Qwiq
     /// <summary>
     /// Flags specifying optional work item data that should be copied.
     /// </summary>
-    /// <seealso cref="TeamFoundation.WorkItemTracking.Client.WorkItemCopyFlags"/>
+    /// <remarks>
+    /// This enum mirrors the values from the TFS Client OM's WorkItemCopyFlags.
+    /// </remarks>
     [Flags]
     public enum WorkItemCopyFlags
     {
