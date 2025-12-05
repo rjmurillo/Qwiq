@@ -4,7 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 4)
+> **Last Updated**: December 5, 2025 (Session 5)
 > **Status**: Active
 
 ---
@@ -14,7 +14,7 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 24 | 10/24 |
+| Wave 1 | 🔄 In Progress | 24 | 16/24 |
 | Wave 2 | 📋 Planned | 7 | 0/7 |
 | Wave 3 | 📋 Future | 4 | 0/4 |
 
@@ -26,6 +26,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via Count-NullableWarnings.ps1. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
 | 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
 | 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
 | 2025-12-05 (Session 2) | **W1.1-W1.6 Complete + Package Testing**: (1) Updated .NET SDK 8.0.100→8.0.404. (2) Configured Source Link with .snupkg packages and portable PDBs. (3) Added code coverage collection and Source Link validation to CI. (4) Created CODEOWNERS file. (5) Created SECURITY.md. (6) Added CODE_OF_CONDUCT.md. (7) Modernized package testing with Verify.Nupkg plugin (150+ lines removed). | Build: ✅ Tests: ✅ 186 unit + 10 package tests. Coverage: ✅ CI configured. Source Link: ✅ 10 .snupkg + CI validation. Docs: ✅ CODEOWNERS, SECURITY.md, CODE_OF_CONDUCT.md, package testing documentation. |
@@ -334,118 +335,90 @@ All foundation items have been completed in prior modernization efforts.
 
 ---
 
-### Phase 1C: Nullable Reference Types Cleanup
+### Phase 1C: Nullable Reference Types Cleanup ✅ COMPLETE
 
-> **Strategy**: Remove suppressions one rule at a time, fix violations, commit atomically.
-> **Expert Recommendation**: Use RICE scoring (Reach × Impact × Confidence / Effort) to prioritize.
+> **Status**: All CS8xxx warnings have been mitigated via PR #52 (merged 2025-12-05).
+> All 9 source projects now have 0 CS8xxx warnings as verified by `scripts/Count-NullableWarnings.ps1`.
+> Baseline report available at `.agents/CS8xxx-baseline.md`.
 
-#### W1.9 Nullable Phase 1: Qwiq.Core
-- [ ] **Task**: Complete nullable annotations for Qwiq.Core
+#### W1.9 Nullable Phase 1: Qwiq.Core ✅ COMPLETE
+- [x] **Task**: Complete nullable annotations for Qwiq.Core
 - **Effort**: M (2-3 days)
 - **Priority**: High (Score: 140)
 - **Dependencies**: None
 - **Location**: `src/Qwiq.Core/`
-
-**Approach**:
-1. Count current warnings: `dotnet build src/Qwiq.Core -warnaserror:nullable 2>&1 | Select-String "warning CS86"`
-2. Enable one suppressed rule at a time in `.editorconfig`
-3. Fix violations using these patterns:
-
-```csharp
-// Parameter validation (netstandard2.0 compatible)
-public void Method(SomeType parameter)
-{
-    if (parameter is null) throw new ArgumentNullException(nameof(parameter));
-    _field = parameter;
-}
-
-// Nullable return types
-public string? GetValue() => _value;
-
-// Properties with backing fields
-private string? _name;
-public string Name
-{
-    get => _name ?? string.Empty;
-    set => _name = value ?? throw new ArgumentNullException(nameof(value));
-}
-```
-
-4. Add tests for null scenarios
-5. Commit each rule family separately
-
-**Rules to enable (in order)**:
-- [ ] CS8618 (Non-nullable field must contain non-null value)
-- [ ] CS8602 (Dereference of possibly null reference)
-- [ ] CS8603 (Possible null reference return)
-- [ ] CS8604 (Possible null reference argument)
-- [ ] Remaining CS86xx rules
+- **Completed**: 2025-12-05 (PR #52)
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in Qwiq.Core
-  - [ ] All public APIs have correct nullability annotations
-  - [ ] Tests verify null handling behavior
-  - [ ] No breaking API changes for consumers
+  - [x] Zero CS86xx warnings in Qwiq.Core
+  - [x] All public APIs have correct nullability annotations
+  - [x] Tests verify null handling behavior
+  - [x] No breaking API changes for consumers
 
 ---
 
-#### W1.10 Nullable Phase 2: Qwiq.Core.Rest
-- [ ] **Task**: Complete nullable annotations for REST client
+#### W1.10 Nullable Phase 2: Qwiq.Core.Rest ✅ COMPLETE
+- [x] **Task**: Complete nullable annotations for REST client
 - **Effort**: M (2-3 days)
 - **Priority**: High (Score: 128)
 - **Dependencies**: W1.9 (Core nullable complete)
 - **Location**: `src/Qwiq.Core.Rest/`
+- **Completed**: 2025-12-05 (PR #52)
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in Qwiq.Core.Rest
-  - [ ] Consistent with Qwiq.Core patterns
+  - [x] Zero CS86xx warnings in Qwiq.Core.Rest
+  - [x] Consistent with Qwiq.Core patterns
 
 ---
 
-#### W1.11 Nullable Phase 3: Qwiq.Mocks
-- [ ] **Task**: Complete nullable annotations for mock implementations
+#### W1.11 Nullable Phase 3: Qwiq.Mocks ✅ COMPLETE
+- [x] **Task**: Complete nullable annotations for mock implementations
 - **Effort**: S (1 day)
 - **Priority**: Medium
 - **Dependencies**: W1.9 (Core nullable complete)
 - **Location**: `test/Qwiq.Mocks/`
+- **Completed**: 2025-12-05 (PR #52)
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in Qwiq.Mocks
-  - [ ] Mock implementations match interface nullability
+  - [x] Zero CS86xx warnings in Qwiq.Mocks
+  - [x] Mock implementations match interface nullability
 
 ---
 
-#### W1.12 Nullable Phase 4: Qwiq.Linq
-- [ ] **Task**: Complete nullable annotations for LINQ provider
+#### W1.12 Nullable Phase 4: Qwiq.Linq ✅ COMPLETE
+- [x] **Task**: Complete nullable annotations for LINQ provider
 - **Effort**: L (3-5 days)
 - **Priority**: Medium (Score: 96)
 - **Dependencies**: W1.9
 - **Location**: `src/Qwiq.Linq/`
+- **Completed**: 2025-12-05 (PR #52)
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in Qwiq.Linq
-  - [ ] Query expression nullability is correct
+  - [x] Zero CS86xx warnings in Qwiq.Linq
+  - [x] Query expression nullability is correct
 
 ---
 
-#### W1.13 Nullable Phase 5: Qwiq.Mapper
-- [ ] **Task**: Complete nullable annotations for mapper
+#### W1.13 Nullable Phase 5: Qwiq.Mapper ✅ COMPLETE
+- [x] **Task**: Complete nullable annotations for mapper
 - **Effort**: M (2 days)
 - **Priority**: Medium
 - **Dependencies**: W1.9
 - **Location**: `src/Qwiq.Mapper/`
+- **Completed**: 2025-12-05 (PR #52)
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in Qwiq.Mapper
-  - [ ] Mapping strategy patterns are null-safe
+  - [x] Zero CS86xx warnings in Qwiq.Mapper
+  - [x] Mapping strategy patterns are null-safe
 
 ---
 
-#### W1.14 Nullable Phase 6: Qwiq.Identity + Remaining
-- [ ] **Task**: Complete nullable for Identity, Identity.Soap, integration layers
+#### W1.14 Nullable Phase 6: Qwiq.Identity + Remaining ✅ COMPLETE
+- [x] **Task**: Complete nullable for Identity, Identity.Soap, integration layers
 - **Effort**: M (2-3 days)
 - **Priority**: Low
 - **Dependencies**: W1.9, W1.10
+- **Completed**: 2025-12-05 (PR #52)
 - **Locations**:
   - `src/Qwiq.Identity/`
   - `src/Qwiq.Identity.Soap/`
@@ -453,8 +426,8 @@ public string Name
   - `src/Qwiq.Mapper.Identity/`
 
 - **Acceptance Criteria**:
-  - [ ] Zero CS86xx warnings in all remaining projects
-  - [ ] Remove all CS86xx suppressions from `.editorconfig`
+  - [x] Zero CS86xx warnings in all remaining projects
+  - [ ] Remove all CS86xx suppressions from `.editorconfig` (deferred - suppressions kept as safety net)
 
 ---
 
@@ -878,22 +851,23 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 | Metric | Current | Target | Status |
 |--------|---------|--------|--------|
-| Nullable warnings suppressed | ~17 rules | 0 | 🔴 |
+| CS8xxx warnings in source | 0 | 0 | 🟢 |
+| CS8xxx suppressions in .editorconfig | 10 rules | 0 (remove when stable) | 🟡 |
 | CA rules suppressed | ~150 | <30 priority | 🔴 |
-| Code coverage | Unknown | 70%+ new | 🔴 |
-| Documentation files | 4/8 | 8/8 | 🟡 |
-| Package READMEs | 0/7 | 7/7 | 🔴 |
+| Code coverage | Configured | 70%+ new | 🟡 |
+| Documentation files | 6/8 | 8/8 | 🟡 |
+| Package READMEs | 10/10 | 10/10 | 🟢 |
 
 ### Timeline (Recommended Order)
 
 ```
-Week 1-2:   W1.1, W1.2, W1.3 (Infrastructure - parallel)
-Week 2-3:   W1.4, W1.5, W1.6, W1.7 (Documentation - parallel)
-Week 3-4:   W1.8 (PackageReadme)
-Week 4-6:   W1.9 (Nullable Core)
-Week 6-8:   W1.10, W1.11 (Nullable Rest, Mocks)
-Week 8-12:  W1.12, W1.13, W1.14 (Nullable remaining)
-Week 12-14: W1.15, W1.16, W1.17, W1.18 (Analyzers)
+Week 1-2:   W1.1, W1.2, W1.3 (Infrastructure - parallel) ✅ DONE
+Week 2-3:   W1.4, W1.5, W1.6, W1.7 (Documentation - parallel) ✅ DONE
+Week 3-4:   W1.8 (PackageReadme) ✅ DONE
+Week 4-6:   W1.9 (Nullable Core) ✅ DONE (PR #52)
+Week 6-8:   W1.10, W1.11 (Nullable Rest, Mocks) ✅ DONE (PR #52)
+Week 8-12:  W1.12, W1.13, W1.14 (Nullable remaining) ✅ DONE (PR #52)
+Week 12-14: W1.15, W1.16, W1.17, W1.18 (Analyzers) ← NEXT
 Week 14-16: W1.19-W1.22 (Quality gates)
 Week 16+:   Wave 2 items
 ```
