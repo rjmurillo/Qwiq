@@ -19,14 +19,13 @@ indent_size = 4
 dotnet_diagnostic.CS1591.severity = none
 
 # CS0618: Member is obsolete (e.g., TimeZone)
+# KEPT: TimeZone is used in public interfaces IWorkItemStore and ITfsTeamProjectCollection.
+# Changing to TimeZoneInfo would be a breaking API change affecting 9+ implementations.
+# Track as future Wave 3 work item with proper versioning strategy.
 dotnet_diagnostic.CS0618.severity = none
 
-# SYSLIB0021: MD5CryptoServiceProvider is obsolete
-
-# SYSLIB0050: Formatter-based serialization is obsolete
-
 # SYSLIB0051: Legacy serialization support is obsolete
-dotnet_diagnostic.SYSLIB0051.severity = none
+dotnet_diagnostic.SYSLIB0051.severity = warning
 
 #######################################
 # CLS Compliance Warnings
