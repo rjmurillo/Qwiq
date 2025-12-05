@@ -59,10 +59,10 @@ namespace Qwiq
             if (this != null && other == null) return 1;
 
             var num = 0;
-            if (IdentityTypeId > other.IdentityTypeId) num = 1;
-            else if (IdentityTypeId < other.IdentityTypeId) num = -1;
+            if (IdentityTypeId > other!.IdentityTypeId) num = 1;
+            else if (IdentityTypeId < other!.IdentityTypeId) num = -1;
 
-            if (num == 0) num = StringComparer.OrdinalIgnoreCase.Compare(Identifier, other.Identifier);
+            if (num == 0) num = StringComparer.OrdinalIgnoreCase.Compare(Identifier, other!.Identifier);
             return num;
         }
 

@@ -7,15 +7,15 @@ namespace Qwiq
 {
     public abstract class WorkItemCore : IWorkItemCore, IEquatable<IWorkItemCore>, IRevisionInternal
     {
-        private readonly Dictionary<string, object> _fields = null!;
+        private readonly Dictionary<string, object?> _fields = null!;
 
         protected internal WorkItemCore()
         {
         }
 
-        protected internal WorkItemCore(Dictionary<string, object> fields)
+        protected internal WorkItemCore(Dictionary<string, object?> fields)
         {
-            _fields = fields ?? new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            _fields = fields ?? new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
         }
 
         public virtual int? Id => GetValue<int?>(CoreFieldRefNames.Id);
@@ -58,7 +58,7 @@ namespace Qwiq
             return NullableIdentifiableComparer.Default.Equals(this, obj as IWorkItemCore);
         }
 
-        public object GetCurrentFieldValue(IFieldDefinition fieldDefinition)
+        public object? GetCurrentFieldValue(IFieldDefinition fieldDefinition)
         {
             if (fieldDefinition == null) throw new ArgumentNullException(nameof(fieldDefinition));
             return GetValue(fieldDefinition.ReferenceName);
@@ -81,13 +81,13 @@ namespace Qwiq
 
             if (value == null) if (typeof(T) == typeof(string)) return (T)(object)string.Empty;
 
-            return TypeParser.Default.Parse(value, default(T));
+            return TypeParser.Default.Parse(value, default(T)!);
         }
         protected virtual object? GetValue(string name)
         {
             Contract.Requires(!string.IsNullOrEmpty(name));
             if (_fields == null) throw new InvalidOperationException("Type must be initialized with fields.");
-            _fields.TryGetValue(name, out object val);
+            _fields.TryGetValue(name, out object? val);
 
 #if DEBUG
             Trace.WriteLine($"Get \'{name}\': {val.ToUsefulString()}");

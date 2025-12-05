@@ -15,7 +15,7 @@ namespace Qwiq
     {
         private readonly Lazy<IWorkItemType> _lazyType = null!;
         private readonly IWorkItemType _type = null!;
-        private Func<IFieldCollection> _fieldFactory = null!;
+        private Func<IFieldCollection>? _fieldFactory = null!;
 
         private IFieldCollection _fields = null!;
 
@@ -39,7 +39,7 @@ namespace Qwiq
         protected internal WorkItem(Lazy<IWorkItemType> type)
         {
             Contract.Requires(type != null);
-            _lazyType = type;
+            _lazyType = type ?? throw new ArgumentNullException(nameof(type));
         }
 
         protected internal WorkItem(IWorkItemType workItemType, Func<IFieldCollection> fieldCollectionFactory)

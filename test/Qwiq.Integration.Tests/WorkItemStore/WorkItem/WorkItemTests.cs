@@ -29,7 +29,7 @@ namespace Qwiq.WorkItemStore
 
         public override void When()
         {
-            Result = WorkItemStore.Query(Id);
+            Result = WorkItemStore!.Query(Id)!;
         }
     }
 }
