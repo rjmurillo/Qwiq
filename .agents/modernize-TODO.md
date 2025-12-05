@@ -14,7 +14,7 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 24 | 17/24 |
+| Wave 1 | 🔄 In Progress | 25 | 17/25 |
 | Wave 2 | 📋 Planned | 7 | 0/7 |
 | Wave 3 | 📋 Future | 4 | 0/4 |
 
@@ -645,6 +645,54 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
   - [ ] Coverage expectations documented
   - [ ] Local coverage commands work
   - [ ] CI coverage matches local
+
+---
+
+#### W1.23 Configure ArtifactsPath and ArtifactsTestResultsPath
+- [ ] **Task**: Standardize build artifacts output layout
+- **Effort**: S (1-2 hours)
+- **Priority**: Medium
+- **Dependencies**: None
+- **Files**: `build/targets/artifacts/Artifacts.props`, `Directory.Build.targets`
+
+**Goal**:
+- Mirror the [moq.analyzers `Artifacts.props`](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/artifacts/Artifacts.props) pattern to centralize build output paths.
+- Use MSBuild `ArtifactsPath` property (supported in .NET 8+) to route binaries, packages, and test results to a consistent location (`artifacts/`).
+- Provide a dedicated `ArtifactsTestResultsPath` property so test runs can output `.trx` and coverage files to a predictable folder.
+
+**Implementation Notes**:
+1. Create `build/targets/artifacts/Artifacts.props`:
+   ```xml
+   <Project>
+     <PropertyGroup>
+       <ArtifactsPath>$(RepoRoot)/artifacts</ArtifactsPath>
+       <ArtifactsTestResultsPath>$(ArtifactsPath)/TestResults</ArtifactsTestResultsPath>
+     </PropertyGroup>
+   </Project>
+   ```
+2. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
+3. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
+4. Clean the new `artifacts/` folder in `.gitignore` if not already present.
+
+**Verification**:
+```powershell
+# Build and confirm output lands in artifacts/
+dotnet build Qwiq.sln -c Release
+Test-Path ./artifacts/bin | Should -BeTrue
+```
+
+```powershell
+# Run tests and confirm results land in artifacts/TestResults/
+dotnet test Qwiq.sln -c Release --results-directory ./artifacts/TestResults
+Get-ChildItem ./artifacts/TestResults -Filter *.trx | Measure-Object | Select-Object -ExpandProperty Count
+```
+
+- **Acceptance Criteria**:
+  - [ ] `Artifacts.props` created and imported
+  - [ ] Build binaries output to `artifacts/bin/<configuration>/<tfm>/`
+  - [ ] Test results output to `artifacts/TestResults/`
+  - [ ] CI workflow uses the centralized paths
+  - [ ] `artifacts/` ignored by git (or cleaned before pack)
 
 ---
 
