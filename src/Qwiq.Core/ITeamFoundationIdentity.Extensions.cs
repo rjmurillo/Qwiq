@@ -68,7 +68,11 @@ namespace Qwiq
 
                     // Handle edge case where after backslash starts with @ (e.g., "DOMAIN\@something")
                     // This is not a valid email, so return the whole thing after backslash
+#if NETFRAMEWORK || NETSTANDARD2_0
+                    if (afterBackslash.StartsWith("@", StringComparison.Ordinal))
+#else
                     if (afterBackslash.StartsWith('@'))
+#endif
                     {
                         return afterBackslash;
                     }
