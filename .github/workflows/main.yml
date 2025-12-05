@@ -38,8 +38,11 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
 
-      - name: Build solution
-        run: dotnet build Qwiq.sln -c Release --no-restore /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
+      - name: Build and pack solution
+        # Use /t:Build,Pack to ensure all packages are generated during build.
+        # GeneratePackageOnBuild alone doesn't work reliably with multi-targeting
+        # when building via solution file due to MSBuild's IsInnerBuild behavior.
+        run: dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
       - name: Verify Source Link
         # Only run on push events (develop/master), not on pull_request events.
