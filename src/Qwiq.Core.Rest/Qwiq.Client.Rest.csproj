@@ -6,6 +6,7 @@
     <Description>QWIQ REST Client - Azure DevOps REST-based Work Item client</Description>
     <PackageId>Qwiq.Client.Rest</PackageId>
     <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

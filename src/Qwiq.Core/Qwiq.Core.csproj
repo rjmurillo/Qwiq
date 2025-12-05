@@ -6,6 +6,7 @@
     <Description>QWIQ Core - Quick Work Item Query library for Azure DevOps / TFS</Description>
     <PackageId>Qwiq.Core</PackageId>
     <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
