@@ -72,6 +72,7 @@ namespace Qwiq.Identity.Benchmark.Tests
 namespace Qwiq.Mapper.Tests
 {
     [TestClass]
+    [TestCategory(Constants.TestCategory.Benchmark)]
     public class Given_a_set_of_WorkItems_with_an_AttributeMapperStrategy : ContextSpecification
     {
         private B.Benchmark _benchmark;

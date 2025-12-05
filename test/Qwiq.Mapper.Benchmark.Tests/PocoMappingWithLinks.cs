@@ -76,6 +76,7 @@ namespace Qwiq.Mapper.Benchmark.Tests
 namespace Qwiq.Mapper
 {
     [TestClass]
+    [TestCategory(Constants.TestCategory.Benchmark)]
     public class Given_a_set_of_WorkItems_with_Links_with_an_AttributeMapperStrategy_and_WorkItemLinksMapperStrategy : ContextSpecification
     {
         private B.Benchmark _benchmark = null!;
