@@ -1,6 +1,9 @@
 using System.Reflection;
 
 using NuGet.Versioning;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace Qwiq.Package.Tests;
 
@@ -39,16 +42,25 @@ public class PackageTests
             .Where(f => f.FullName.Contains(Path.Combine("bin", "Release"), StringComparison.OrdinalIgnoreCase))
             .ToArray();
 
-        FileInfo[] packages = nupkgPackages.Concat(snupkgPackages)
-            .OrderBy(fileInfo => fileInfo.Name, StringComparer.Ordinal)
-            .ToArray();
-
-        if (packages.Length == 0)
+        if (nupkgPackages.Length == 0)
         {
             throw new InvalidOperationException(
                 "No Qwiq*.nupkg or Qwiq*.snupkg files were found. Ensure the pack step runs before executing this test. " +
                 $"Searched in: {srcDirectory.FullName}");
         }
+
+        if (snupkgPackages.Length > 0)
+        {
+            Trace.TraceInformation(
+                "Skipping baseline verification for {0} symbol packages pending Verify.Nupkg support. See https://github.com/MattKotsenas/Verify.Nupkg/issues/38.",
+                snupkgPackages.Length);
+        }
+
+        FileInfo[] packages = nupkgPackages
+            .GroupBy(fileInfo => GetPackageDiscriminator(fileInfo.Name), StringComparer.OrdinalIgnoreCase)
+            .Select(group => group.OrderByDescending(fileInfo => fileInfo.LastWriteTimeUtc).First())
+            .OrderBy(fileInfo => fileInfo.Name, StringComparer.Ordinal)
+            .ToArray();
 
         TheoryData<string> theoryData = new();
         foreach (FileInfo package in packages)
@@ -79,13 +91,8 @@ public class PackageTests
         // For all package types, extract just the package name without version or extension
         string baseName = packageName;
 
-        // Remove .snupkg extension
-        if (baseName.EndsWith(".snupkg", StringComparison.Ordinal))
-        {
-            baseName = baseName.Replace(".snupkg", string.Empty, StringComparison.Ordinal);
-        }
         // Remove .symbols.nupkg extension (legacy)
-        else if (baseName.Contains(".symbols.nupkg", StringComparison.Ordinal))
+        if (baseName.Contains(".symbols.nupkg", StringComparison.Ordinal))
         {
             baseName = baseName.Replace(".symbols.nupkg", string.Empty, StringComparison.Ordinal);
         }
