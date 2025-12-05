@@ -26,7 +26,7 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
-| 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via Count-NullableWarnings.ps1. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
+| 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
 | 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
 | 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
 | 2025-12-05 (Session 2) | **W1.1-W1.6 Complete + Package Testing**: (1) Updated .NET SDK 8.0.100→8.0.404. (2) Configured Source Link with .snupkg packages and portable PDBs. (3) Added code coverage collection and Source Link validation to CI. (4) Created CODEOWNERS file. (5) Created SECURITY.md. (6) Added CODE_OF_CONDUCT.md. (7) Modernized package testing with Verify.Nupkg plugin (150+ lines removed). | Build: ✅ Tests: ✅ 186 unit + 10 package tests. Coverage: ✅ CI configured. Source Link: ✅ 10 .snupkg + CI validation. Docs: ✅ CODEOWNERS, SECURITY.md, CODE_OF_CONDUCT.md, package testing documentation. |
@@ -338,7 +338,7 @@ All foundation items have been completed in prior modernization efforts.
 ### Phase 1C: Nullable Reference Types Cleanup ✅ COMPLETE
 
 > **Status**: All CS8xxx warnings have been mitigated via PR #52 (merged 2025-12-05).
-> All 9 source projects now have 0 CS8xxx warnings as verified by `scripts/Count-NullableWarnings.ps1`.
+> All 9 source projects now have 0 CS8xxx warnings as verified by `build/scripts/Count-NullableWarnings.ps1`.
 > Baseline report available at `.agents/CS8xxx-baseline.md`.
 
 #### W1.9 Nullable Phase 1: Qwiq.Core ✅ COMPLETE

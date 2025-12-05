@@ -12,11 +12,11 @@
     Optional path to save the report. Defaults to .agents/CS8xxx-baseline.md
 
 .EXAMPLE
-    ./scripts/Count-NullableWarnings.ps1
+    ./build/scripts/Count-NullableWarnings.ps1
     Outputs warning counts to console and saves to .agents/CS8xxx-baseline.md
 
 .EXAMPLE
-    ./scripts/Count-NullableWarnings.ps1 -ReportPath ./warnings-report.md
+    ./build/scripts/Count-NullableWarnings.ps1 -ReportPath ./warnings-report.md
     Saves report to custom location
 #>
 
