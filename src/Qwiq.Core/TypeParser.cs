@@ -39,12 +39,12 @@ namespace Qwiq
 
         public T Parse<T>(object? value)
         {
-            return Parse(value, default(T));
+            return Parse(value, default(T)!);
         }
 
         public T Parse<T>(object? value, T defaultValue)
         {
-            return (T)Parse(typeof(T), value, defaultValue);
+            return (T)Parse(typeof(T), value, defaultValue)!;
         }
         private static object? ParseImpl(Type destinationType, object? value)
         {
@@ -193,8 +193,14 @@ namespace Qwiq
             return null;
         }
 
-        private static bool TryConvert(Type destinationType, object value, out object? result)
+        private static bool TryConvert(Type destinationType, object? value, out object? result)
         {
+            if (value == null)
+            {
+                result = null;
+                return destinationType.CanAcceptNull();
+            }
+
             if (destinationType.IsGenericNullable())
                 try
                 {
@@ -272,7 +278,7 @@ namespace Qwiq
             return typeConverter;
         }
 
-        private static bool ValueRepresentsNull(object value)
+        private static bool ValueRepresentsNull(object? value)
         {
             return value == null || value == DBNull.Value;
         }
