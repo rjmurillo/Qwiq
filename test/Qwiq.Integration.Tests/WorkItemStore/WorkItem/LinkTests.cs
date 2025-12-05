@@ -24,7 +24,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         public void AttachedFileCount_is_equal()
         {
             AssertWorkItemExpandConfiguration();
-            RestResult.WorkItem.AttachedFileCount.ShouldEqual(SoapResult.WorkItem.AttachedFileCount);
+            RestResult.WorkItem!.AttachedFileCount.ShouldEqual(SoapResult.WorkItem!.AttachedFileCount);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         public void ExternalLinkCount_is_equal()
         {
             AssertWorkItemExpandConfiguration();
-            RestResult.WorkItem.ExternalLinkCount.ShouldEqual(SoapResult.WorkItem.ExternalLinkCount);
+            RestResult.WorkItem!.ExternalLinkCount.ShouldEqual(SoapResult.WorkItem!.ExternalLinkCount);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         public void HyperlinkCount_is_equal()
         {
             AssertWorkItemExpandConfiguration();
-            RestResult.WorkItem.HyperlinkCount.ShouldEqual(SoapResult.WorkItem.HyperlinkCount);
+            RestResult.WorkItem!.HyperlinkCount.ShouldEqual(SoapResult.WorkItem!.HyperlinkCount);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem.Links.ShouldContainOnly(SoapResult.WorkItem.Links);
+            RestResult.WorkItem!.Links.ShouldContainOnly(SoapResult.WorkItem!.Links);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         public void RelatedLinkCount_is_equal()
         {
             AssertWorkItemExpandConfiguration();
-            RestResult.WorkItem.RelatedLinkCount.ShouldEqual(SoapResult.WorkItem.RelatedLinkCount);
+            RestResult.WorkItem!.RelatedLinkCount.ShouldEqual(SoapResult.WorkItem!.RelatedLinkCount);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            SoapResult.WorkItem.ExternalLinkCount.ShouldBeGreaterThan(0);
+            SoapResult.WorkItem!.ExternalLinkCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         public void SOAP_WorkItem_has_Hyper_links()
         {
             AssertWorkItemExpandConfiguration();
-            SoapResult.WorkItem.HyperlinkCount.ShouldBeGreaterThan(0);
+            SoapResult.WorkItem!.HyperlinkCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            SoapResult.WorkItem.AttachedFileCount.ShouldBeGreaterThan(0);
+            SoapResult.WorkItem!.AttachedFileCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            SoapResult.WorkItem.RelatedLinkCount.ShouldBeGreaterThan(0);
+            SoapResult.WorkItem!.RelatedLinkCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -114,7 +114,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem.ExternalLinkCount.ShouldBeGreaterThan(0);
+            RestResult.WorkItem!.ExternalLinkCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem.HyperlinkCount.ShouldBeGreaterThan(0);
+            RestResult.WorkItem!.HyperlinkCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -135,7 +135,7 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem.AttachedFileCount.ShouldBeGreaterThan(0);
+            RestResult.WorkItem!.AttachedFileCount.ShouldBeGreaterThan(0);
         }
 
         [TestMethod]
@@ -145,13 +145,13 @@ namespace Qwiq.WorkItemStore.WorkItem
         {
             AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem.RelatedLinkCount.ShouldBeGreaterThan(0);
+            RestResult.WorkItem!.RelatedLinkCount.ShouldBeGreaterThan(0);
         }
 
         private void AssertWorkItemExpandConfiguration()
         {
-            if (RestResult.WorkItemStore.Configuration.WorkItemExpand == WorkItemExpand.None
-                || RestResult.WorkItemStore.Configuration.WorkItemExpand == WorkItemExpand.Fields)
+            if (RestResult.WorkItemStore!.Configuration.WorkItemExpand == WorkItemExpand.None
+                || RestResult.WorkItemStore!.Configuration.WorkItemExpand == WorkItemExpand.Fields)
                 Assert.Inconclusive("The links could not tested because the expand configuration was not set to include links.");
         }
     }
