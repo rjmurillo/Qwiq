@@ -85,6 +85,7 @@ namespace Qwiq
                     _uniqueName = string.IsNullOrEmpty(domain)
                                       ? account
                                       : string.Format(
+                                          CultureInfo.InvariantCulture,
                                           IdentityConstants.DomainQualifiedAccountNameFormat,
                                           domain,
                                           account);
@@ -93,7 +94,7 @@ namespace Qwiq
                 {
                     _uniqueName = string.IsNullOrEmpty(domain)
                                       ? $"{account}:{UniqueUserId.ToString(CultureInfo.InvariantCulture)}"
-                                      : $"{string.Format(IdentityConstants.DomainQualifiedAccountNameFormat, domain, account)}:{UniqueUserId.ToString(CultureInfo.InvariantCulture)}";
+                                      : $"{string.Format(CultureInfo.InvariantCulture, IdentityConstants.DomainQualifiedAccountNameFormat, domain, account)}:{UniqueUserId.ToString(CultureInfo.InvariantCulture)}";
                 }
 
                 return _uniqueName!;
