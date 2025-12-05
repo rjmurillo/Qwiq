@@ -1,15 +1,38 @@
 # CS8xxx Nullable Reference Type Mitigation - Documentation Index
 
 **Project**: Qwiq  
-**Branch**: `copilot/sub-pr-52`  
-**Status**: Phase 2 Complete (2 of 5 phases)  
-**Last Updated**: December 4, 2025 23:22 UTC
+**Branch**: `copilot/sub-pr-52-again`  
+**Status**: Phase 4 Complete (4 of 5 phases)  
+**Last Updated**: December 5, 2025 04:09 UTC
+
+---
+
+## ⚠️ CRITICAL RULES
+
+### CS8xxx Suppression Policy
+
+**NEVER suppress CS8xxx nullable reference type warnings via `<NoWarn>` or `.editorconfig`.**
+
+- ✅ **DO**: Fix the underlying null safety issues
+- ✅ **DO**: Make types nullable where null is semantically valid
+- ✅ **DO**: Use null-forgiving operator (`!`) after explicit null checks
+- ❌ **DON'T**: Add suppressions to avoid fixing errors
+- ❌ **DON'T**: Use `<NoWarn>$(NoWarn);CS86xx</NoWarn>` in project files
+- ❌ **DON'T**: Add `dotnet_diagnostic.CS86xx.severity = none` to `.editorconfig`
+
+**Rationale**: This project is systematically eliminating all CS8xxx errors to improve type safety. Suppressions undermine this goal and hide potential null reference bugs.
+
+**If you encounter CS8xxx errors**:
+1. Analyze the error and understand the null flow
+2. Fix the issue using appropriate nullable annotations or null checks
+3. Test the fix thoroughly
+4. Document any complex null handling in code comments
 
 ---
 
 ## 🚀 Quick Start for Next Agent
 
-**START HERE**: Read `CS8xxx-handoff.md` - it contains everything you need to begin Phase 3.
+**START HERE**: Read `CS8xxx-handoff.md` - it contains everything you need to begin Phase 5.
 
 ---
 
