@@ -349,12 +349,14 @@ When making refactoring changes, especially for nullable reference type fixes or
 ### TDD Process for Refactoring
 
 1. **Write Tests FIRST** - Before making any code changes:
+
    - Identify the classes/methods you plan to modify
    - Write comprehensive tests that document current behavior
    - Ensure all tests pass with the current implementation
    - Tests serve as executable documentation and regression prevention
 
 2. **Make Changes** - After tests are passing:
+
    - Make the minimal changes needed (e.g., nullable annotations)
    - Do NOT change behavior - only change types/annotations
    - Run tests frequently during changes
@@ -406,6 +408,7 @@ protected internal WorkItemCore()
 ### Test Coverage Requirements
 
 When fixing initialization issues, write tests for:
+
 - All constructor overloads
 - Lazy initialization paths
 - Property accessors that depend on the field
@@ -414,6 +417,7 @@ When fixing initialization issues, write tests for:
 ### Why This Matters
 
 Using `null!` to suppress CS8618 warnings is **hiding the problem**, not fixing it. It tells the compiler "trust me, this will be initialized" but provides no runtime guarantee. Proper initialization ensures:
+
 - Compile-time safety (compiler knows it's initialized)
 - Runtime safety (no NullReferenceExceptions)
 - Clear intent (obvious from code that field is always initialized)

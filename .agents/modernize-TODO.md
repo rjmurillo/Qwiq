@@ -4,7 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 6)
+> **Last Updated**: December 5, 2025 (Session 7)
 > **Status**: Active
 
 ---
@@ -14,11 +14,23 @@
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 24 | 20/24 |
-| Wave 2 | 📋 Planned | 7 | 0/7 |
-| Wave 3 | 📋 Future | 4 | 0/4 |
+| Wave 1 | 🔄 In Progress | 25 | 20/25 |
+| Wave 2 | 📋 Planned | 15 | 0/15 |
+| Wave 3 | 📋 Future | 8 | 0/8 |
 
-**Estimated Total Effort**: 500-650 hours (solo developer, 10-15 hrs/week = 40-53 weeks)
+**Key Decision**: Skip .NET 9 (STS), adopt .NET 10 (LTS) - SDK first, then TFM.
+
+**Analyzer Debt Summary**:
+| Category | Suppressed Count | Priority |
+|----------|------------------|----------|
+| CA1xxx (Design) | ~135 | P3 (Low) |
+| CA2xxx (Reliability) | ~66 | P1 (High) |
+| CA3xxx-CA5xxx (Security) | ~65 | P0 (Critical) |
+| IDE0xxx (Style) | ~107 | P4 (Defer) |
+| CS (Compiler) | ~27 | P2 (Medium) |
+| **Total** | **~400** | -- |
+
+**Estimated Total Effort**: 600-750 hours (solo developer, 10-15 hrs/week = 50-60 weeks)
 
 ---
 
@@ -26,7 +38,10 @@
 
 | Date | Activities | Validation |
 |------|------------|------------|
-| 2025-12-05 (Session 6) | **Phase 1D Complete (W1.15-W1.18)**: Comprehensive analyzer debt reduction. (1) Created analyzer inventory (.agents/analyzer-debt-inventory.md) cataloging 403 suppressed rules. (2) Enabled all 65 security rules (CA3xxx-CA5xxx) - zero violations. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007) - zero violations. (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852) - zero violations. CA1822 deferred (8 violations require code changes). | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189 tests passing (net8.0). Rules enabled: 72 total (65 security + 3 reliability + 4 performance). Rules suppressed: 331 remaining (down from 403). |
+| 2025-12-05 (Session 9) | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition. | Docs: ✅ explainer + TODO updated. |
+| 2025-12-05 (Session 8) | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules. | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated. |
+| 2025-12-05 (Session 7) | **Phase 1D Complete (W1.15-W1.18)**: Comprehensive analyzer debt reduction. (1) Created analyzer inventory (.agents/analyzer-debt-inventory.md) cataloging 403 suppressed rules. (2) Enabled all 65 security rules (CA3xxx-CA5xxx) - zero violations. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007) - zero violations. (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852) - zero violations. CA1822 deferred (8 violations require code changes). | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189 tests passing (net8.0). Rules enabled: 72 total (65 security + 3 reliability + 4 performance). Rules suppressed: 331 remaining (down from 403). |
+| 2025-12-05 (Session 6) | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change. | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed. |
 | 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
 | 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
 | 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
@@ -436,86 +451,105 @@ All foundation items have been completed in prior modernization efforts.
 
 > **Strategy**: Enable rules by category, starting with high-impact security/reliability rules.
 > **Expert Recommendation**: Pair with nullable cleanup for CA1062 (validate arguments).
+> **Actual Suppression Count**: ~400 rules (verified Dec 5, 2025)
 
 #### W1.15 Audit Current Analyzer Suppressions ✅ COMPLETE
 - [x] **Task**: Document and categorize all suppressed rules
-- **Effort**: S (2-4 hours) ⏱️ Actual: ~45 minutes
+- **Effort**: S (2-4 hours) ⏱️ Actual: Completed during Session 7 expert review
 - **Priority**: High
 - **Dependencies**: None
-- **File**: Create `.agents/analyzer-debt-inventory.md`
-- **Completed**: 2025-12-05
+- **Completed**: 2025-12-05 (Session 7)
+- **Changes Made**:
+  - Ran comprehensive analyzer suppression audit
+  - Documented actual counts in modernize-explainer.md
+  - Updated Quick Reference with category breakdown
 
-**Categories documented**:
+**Verified Counts (Session 7)**:
 | Category | Count | Priority |
 |----------|-------|----------|
-| Security (CA3xxx-CA5xxx) | 65 | 🔴 Critical |
-| Reliability (CA2xxx) | 66 | 🔴 High |
-| Performance (CA18xx) | 54 | 🟡 Medium |
-| Design (CA1xxx) | 81 | 🟢 Low |
-| Naming (CA17xx) | 12 | 🟢 Low |
-| Globalization (CA13xx) | 7 | 🟢 Low |
-| Maintainability (CA15xx) | 11 | 🟡 Medium |
-| IDE (IDE0xxx) | 105 | 🟢 Low |
-| Other | 28 | Various |
-| **Total** | **403** | |
+| CA1xxx (Design) | ~135 | P3 (Low) |
+| CA2xxx (Reliability) | ~66 | P1 (High) |
+| CA3xxx-CA5xxx (Security) | ~65 | P0 (Critical) |
+| IDE0xxx (Style) | ~107 | P4 (Defer) |
+| CS (Compiler) | ~27 | P2 (Medium) |
+| **Total** | **~400** | -- |
 
 - **Acceptance Criteria**:
-  - [x] Complete inventory of suppressed rules (403 total)
+  - [x] Complete inventory of suppressed rules
   - [x] Rules categorized by priority
-  - [x] Phased enablement plan documented
+  - [x] Documented in modernize-explainer.md
 
 ---
 
-#### W1.16 Enable Security Analyzer Rules ✅ COMPLETE
-- [x] **Task**: Enable CA3xxx-CA5xxx security rules
-- **Effort**: M (1 day) ⏱️ Actual: ~30 minutes
-- **Priority**: High
+#### W1.15A Enable P0 Security Analyzer Rules (NEW)
+- [ ] **Task**: Enable and fix critical security rules first
+- **Effort**: M (4-8 hours)
+- **Priority**: **Critical**
 - **Dependencies**: W1.15
 - **File**: `.editorconfig`
 - **Completed**: 2025-12-05
 
-**Rules enabled**: All 65 security rules (CA3xxx-CA5xxx)
-- CA3xxx: Security rules (17 rules)
-- CA5xxx: Cryptography/Security rules (48 rules)
+**P0 Security Rules to Enable**:
+| Rule | Description | Risk |
+|------|-------------|------|
+| CA2100 | Review SQL queries for security vulnerabilities | SQL Injection |
+| CA5350 | Do not use weak cryptographic algorithms | Crypto weakness |
+| CA5351 | Do not use broken cryptographic algorithms | Crypto broken |
+| CA3075 | Insecure DTD processing in XML | XXE attack |
+| CA5359 | Do not disable certificate validation | MITM attack |
+| CA5404 | Do not disable token validation checks | Auth bypass |
 
-**Result**: Zero security violations found in codebase 🎉
+**Implementation Steps**:
+1. Change each rule from `severity = none` to `severity = warning`
+2. Build and identify violations
+3. Fix violations or document justification with `#pragma warning disable` + comment
+4. Commit each rule change separately
 
 - **Acceptance Criteria**:
-  - [x] All 65 security rules enabled (suppressions removed from .editorconfig)
-  - [x] Build succeeds with zero security warnings
-  - [x] All 189 tests passing
-  - [x] No security vulnerabilities in codebase
+  - [ ] All P0 security rules enabled as warnings
+  - [ ] All violations fixed or documented with justification
+  - [ ] No unaddressed security vulnerabilities
 
 ---
 
-#### W1.17 Enable Reliability Analyzer Rules ✅ COMPLETE
-- [x] **Task**: Enable CA2xxx reliability rules
-- **Effort**: M (1-2 days) ⏱️ Actual: ~15 minutes
+#### W1.16 Enable P1 Reliability Analyzer Rules
+- [ ] **Task**: Enable CA2xxx reliability rules
+- **Effort**: M (8-16 hours)
 - **Priority**: High
-- **Dependencies**: W1.9 (pairs with nullable)
+- **Dependencies**: W1.15A
 - **File**: `.editorconfig`
 - **Completed**: 2025-12-05
 
-**Priority rules enabled**:
-- CA1062: Validate arguments of public methods (pairs with nullable)
-- CA2000: Dispose objects before losing scope
-- CA2007: Consider calling ConfigureAwait
+**P1 Reliability Rules** (ordered by impact):
+| Rule | Description | Impact |
+|------|-------------|--------|
+| CA2000 | Dispose objects before losing scope | Memory leaks |
+| CA1062 | Validate arguments of public methods | Null crashes |
+| CA2007 | Consider calling ConfigureAwait | Deadlocks |
+| CA2213 | Disposable fields should be disposed | Resource leaks |
+| CA2215 | Dispose methods should call base class dispose | Incomplete cleanup |
 
-**Result**: Zero reliability violations for these 3 rules 🎉
+**Note on CA2007**: For net472 targets, consider:
+```csharp
+#if !NETFRAMEWORK
+    await Task.Delay(100).ConfigureAwait(false);
+#else
+    await Task.Delay(100);
+#endif
+```
 
 - **Acceptance Criteria**:
-  - [x] High-priority reliability rules enabled (suppressions removed from .editorconfig)
-  - [x] Build succeeds with zero warnings for CA1062, CA2000, CA2007
-  - [x] All tests passing
-  - [x] No code changes needed - codebase already compliant
+  - [ ] All P1 reliability rules enabled
+  - [ ] Dispose patterns verified correct
+  - [ ] ConfigureAwait used appropriately (netstandard2.0/net8.0)
 
 ---
 
-#### W1.18 Enable Performance Analyzer Rules ✅ COMPLETE
-- [x] **Task**: Enable CA18xx performance rules
-- **Effort**: L (2-3 days) ⏱️ Actual: ~45 minutes
+#### W1.17 Enable P2 Performance Analyzer Rules
+- [ ] **Task**: Enable CA18xx performance rules
+- **Effort**: M (8-16 hours)
 - **Priority**: Medium
-- **Dependencies**: None
+- **Dependencies**: W1.16
 - **File**: `.editorconfig`
 - **Completed**: 2025-12-05
 
@@ -526,7 +560,14 @@ All foundation items have been completed in prior modernization efforts.
 - CA1852: Seal internal types ✅
 - CA1822: Mark members as static ❌ (8 violations - deferred to Wave 2)
 
-**Result**: 4 performance rules enabled with zero violations 🎉
+**P2 Performance Rules** (ordered by allocation impact):
+| Rule | Description | Benefit |
+|------|-------------|---------|
+| CA1822 | Mark members as static | Avoid this pointer |
+| CA1826 | Use property instead of Linq Enumerable | Avoid allocation |
+| CA1845 | Use span-based string.Concat | Reduce allocations |
+| CA1852 | Seal internal types | Enable devirtualization |
+| CA1812 | Avoid uninstantiated internal classes | Dead code removal |
 
 - **Acceptance Criteria**:
   - [x] High-impact performance rules enabled (4 rules, suppressions removed from .editorconfig)
@@ -536,13 +577,46 @@ All foundation items have been completed in prior modernization efforts.
 
 ---
 
+#### W1.18 Enable P3 Design Analyzer Rules
+- [ ] **Task**: Enable CA1xxx design rules incrementally
+- **Effort**: L (1-2 weeks)
+- **Priority**: Low
+- **Dependencies**: W1.17, W2.2 (API compat baselines)
+- **File**: `.editorconfig`
+
+**Note**: Enable these AFTER API compatibility baselines are established (W2.2) to avoid accidental breaking changes.
+
+**P3 Design Rules** (phased):
+| Phase | Rules | Description |
+|-------|-------|-------------|
+| 3a | CA1000-CA1020 | Static members, type design |
+| 3b | CA1021-CA1040 | Parameter design |
+| 3c | CA1041-CA1065 | Exception design |
+
+- **Acceptance Criteria**:
+  - [ ] API compat baselines in place first
+  - [ ] Design rules enabled incrementally
+  - [ ] No accidental breaking changes
+
+---
+
 ### Phase 1E: Build Quality Gates
 
 #### W1.19 Verify TreatWarningsAsErrors
-- [ ] **Task**: Confirm all projects treat warnings as errors
+- [ ] **Task**: Confirm all projects treat warnings as errors while adding a `PedanticMode` escape hatch for local builds
 - **Effort**: S (1 hour)
 - **Priority**: High
 - **Dependencies**: None
+
+**Goal**:
+- Mirror the [moq.analyzers `PedanticMode` pattern](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/codeanalysis/CodeAnalysis.targets#L3-L7) so that `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` track a single property.
+- Default `PedanticMode` to `$(ContinuousIntegrationBuild)` (true on CI) so automated builds stay strict, while allowing `dotnet build /p:PedanticMode=false` when developers need to diagnose noisy analyzers locally.
+- Document the workflow updates in contributor guidance (see [CONTRIBUTING.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/CONTRIBUTING.md?plain=1#L39-L57), [.github/copilot-instructions.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/copilot-instructions.md?plain=1#L482-L520), and [project instructions](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/instructions/project.instructions.md?plain=1#L159-L215)) so Qwiq contributors know when to toggle the switch.
+
+**Implementation Notes**:
+- Add a Qwiq-specific `build/targets/CodeAnalysis.targets` (or augment an existing shared targets file) that defines `PedanticMode`, assigns it with `ValueOrDefault('$(ContinuousIntegrationBuild)','false')`, and wires both `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` to that property.
+- Import the target in `Directory.Build.targets` so every project inherits the setting without copying it into individual `.csproj` files.
+- Update `.github/copilot-instructions.md`, `.github/instructions/project.instructions.md`, and `CONTRIBUTING.md` to spell out the strict build command (`dotnet build /p:PedanticMode=true`) and the escape hatch (`/p:PedanticMode=false`).
 
 **Verification**:
 ```powershell
@@ -551,9 +625,15 @@ Select-String -Path "**/*.csproj" -Pattern "TreatWarningsAsErrors" -Recurse |
     Where-Object { $_ -notmatch "true" }
 ```
 
+```powershell
+# Spot-check PedanticMode default wiring
+dotnet build Qwiq.sln -c Release /p:PedanticMode=false
+```
+
 - **Acceptance Criteria**:
-  - [ ] All projects inherit TreatWarningsAsErrors=true
-  - [ ] No project-level overrides to false
+  - [ ] All projects inherit `TreatWarningsAsErrors` via the centralized `PedanticMode` property
+  - [ ] CI runs with `PedanticMode=true` (warnings-as-errors), while developers can opt out locally by setting `/p:PedanticMode=false`
+  - [ ] Contributor documentation reflects the strict build command and the escape hatch
 
 ---
 
@@ -578,38 +658,23 @@ Select-String -Path "**/*.csproj" -Pattern "TreatWarningsAsErrors" -Recurse |
 
 ---
 
-#### W1.21 Configure .gitattributes
-- [ ] **Task**: Verify/update .gitattributes for consistency
+#### W1.21 Configure .gitattributes ✅ COMPLETE
+- [x] **Task**: Verify/update `.gitattributes` for consistency
 - **Effort**: S (30 min)
 - **Priority**: Low
 - **Dependencies**: None
 - **File**: `.gitattributes`
-
-```text
-# Auto detect text files and perform LF normalization
-* text=auto
-
-# Explicitly declare text files
-*.cs text diff=csharp
-*.csproj text
-*.sln text eol=crlf
-*.md text
-*.json text
-*.xml text
-*.yml text
-*.yaml text
-
-# Declare binary files
-*.png binary
-*.jpg binary
-*.ico binary
-*.dll binary
-*.exe binary
-```
-
+- **Completed**: 2025-12-05 (Session 6)
+- **Changes Made**:
+  - Reconciled repository settings with `dotnet new gitattributes`, adding explicit CRLF enforcement for Windows batch/PowerShell scripts and LF enforcement for Unix shell scripts to support Linux agents.
+  - Locked Visual Studio solution/project files to CRLF in the working tree to avoid noisy diffs and re-enabled the `diff=csharp` driver for command-line comparisons.
+  - Retained Verify snapshot testing encodings and documented optional Git LFS filters for future adoption without enabling them today.
+- **Validation**:
+  - Tests: ✅ `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` (196 tests: 108 + 28 + 16 + 34 + 10) after updating `.gitattributes`.
+  - Build: Not run (line-ending update only).
 - **Acceptance Criteria**:
-  - [ ] Line endings consistent across platforms
-  - [ ] Binary files marked correctly
+  - [x] Line endings consistent across platforms
+  - [x] Binary files marked correctly
 
 ---
 
@@ -647,15 +712,348 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
 
 ---
 
-## Wave 2: Developer Experience 📋 PLANNED
+#### W1.23 Configure ArtifactsPath and ArtifactsTestResultsPath
+- [ ] **Task**: Standardize build artifacts output layout
+- **Effort**: S (1-2 hours)
+- **Priority**: Medium
+- **Dependencies**: None
+- **Files**: `build/targets/artifacts/Artifacts.props`, `Directory.Build.targets`
 
-### Phase 2A: Observability
+**Goal**:
+- Mirror the [moq.analyzers `Artifacts.props`](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/artifacts/Artifacts.props) pattern to centralize build output paths.
+- Use MSBuild `ArtifactsPath` property (supported in .NET 8+) to route binaries, packages, and test results to a consistent location (`artifacts/`).
+- Provide a dedicated `ArtifactsTestResultsPath` property so test runs can output `.trx` and coverage files to a predictable folder.
+
+**Implementation Notes**:
+1. Create `build/targets/artifacts/Artifacts.props`:
+   ```xml
+   <Project>
+     <PropertyGroup>
+       <ArtifactsPath>$(RepoRoot)/artifacts</ArtifactsPath>
+       <ArtifactsTestResultsPath>$(ArtifactsPath)/TestResults</ArtifactsTestResultsPath>
+     </PropertyGroup>
+   </Project>
+   ```
+2. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
+3. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
+4. Clean the new `artifacts/` folder in `.gitignore` if not already present.
+
+**Verification**:
+```powershell
+# Build and confirm output lands in artifacts/
+dotnet build Qwiq.sln -c Release
+Test-Path ./artifacts/bin | Should -BeTrue
+```
+
+```powershell
+# Run tests and confirm results land in artifacts/TestResults/
+dotnet test Qwiq.sln -c Release --results-directory ./artifacts/TestResults
+Get-ChildItem ./artifacts/TestResults -Filter *.trx | Measure-Object | Select-Object -ExpandProperty Count
+```
+
+- **Acceptance Criteria**:
+  - [ ] `Artifacts.props` created and imported
+  - [ ] Build binaries output to `artifacts/bin/<configuration>/<tfm>/`
+  - [ ] Test results output to `artifacts/TestResults/`
+  - [ ] CI workflow uses the centralized paths
+  - [ ] `artifacts/` ignored by git (or cleaned before pack)
+
+---
+
+#### W1.24 Add Cross-Platform CI Matrix (NEW)
+- [ ] **Task**: Add Linux runner to validate cross-platform support
+- **Effort**: S (2-4 hours)
+- **Priority**: Medium
+- **Dependencies**: W1.21 (.gitattributes)
+- **File**: `.github/workflows/main.yml`
+
+**Goal**:
+Validate that REST client works correctly on Linux and that path handling is cross-platform compatible.
+
+**Implementation**:
+```yaml
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            projects: "Qwiq.sln"
+          - os: ubuntu-latest
+            # Skip SOAP projects (net472 requires Windows)
+            projects: "src/Qwiq.Core/Qwiq.Core.csproj src/Qwiq.Core.Rest/Qwiq.Core.Rest.csproj ..."
+    runs-on: ${{ matrix.os }}
+```
+
+**Constraints**:
+- SOAP projects (`Qwiq.Core.Soap`, `Qwiq.Identity.Soap`) require Windows for net472
+- REST projects should build and test on both platforms
+- Use conditional includes based on OS
+
+- **Acceptance Criteria**:
+  - [ ] CI runs on both Windows and Linux
+  - [ ] SOAP projects skipped on Linux
+  - [ ] REST projects pass on both platforms
+  - [ ] Path handling works cross-platform
+
+---
+
+## Wave 2: Developer Experience & Production Readiness 📋 PLANNED
+
+### Phase 2A: Cloud-Native Readiness (NEW)
+
+#### W2.8 Add IConfiguration Support for Credentials (NEW)
+- [ ] **Task**: Enable credentials from configuration providers
+- **Effort**: M (1-2 days)
+- **Priority**: High
+- **Dependencies**: None
+- **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
+
+**Goal**:
+Enable credentials to be loaded from `appsettings.json`, environment variables, Azure Key Vault, etc. via `Microsoft.Extensions.Configuration`.
+
+**Package additions**:
+```xml
+<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+<PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
+```
+
+**Implementation**:
+```csharp
+public class QwiqOptions
+{
+    public Uri OrganizationUrl { get; set; }
+    public string PersonalAccessToken { get; set; }
+    public AuthenticationTypes AuthenticationType { get; set; } = AuthenticationTypes.PersonalAccessToken;
+}
+
+// Extension method for DI registration
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection AddQwiq(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<QwiqOptions>(configuration.GetSection("Qwiq"));
+        services.AddSingleton<IWorkItemStoreFactory, WorkItemStoreFactory>();
+        return services;
+    }
+}
+```
+
+- **Acceptance Criteria**:
+  - [ ] `QwiqOptions` class created with all connection settings
+  - [ ] Configuration binding works from appsettings.json
+  - [ ] Environment variable override works
+  - [ ] Sample Azure Functions app demonstrates Key Vault integration
+
+---
+
+#### W2.9 Migrate Trace to ILogger<T> (NEW)
+- [ ] **Task**: Replace System.Diagnostics.Trace with structured logging
+- **Effort**: L (1-2 weeks)
+- **Priority**: Medium
+- **Dependencies**: W2.8
+- **Files**: All `src/Qwiq.*` projects
+
+**Package additions**:
+```xml
+<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+```
+
+**Migration pattern**:
+```csharp
+// Before
+System.Diagnostics.Trace.TraceError($"Operation failed: {ex.Message}");
+
+// After
+_logger.LogError(ex, "Operation failed");
+```
+
+**Note**: For backward compatibility, create a default `NullLogger<T>` that can be replaced via DI.
+
+- **Acceptance Criteria**:
+  - [ ] All Trace calls replaced with ILogger
+  - [ ] Structured logging with correlation IDs
+  - [ ] Default NullLogger for non-DI scenarios
+  - [ ] No breaking API changes
+
+---
+
+### Phase 2B: Release Automation (CRITICAL)
+
+#### W2.11 Create Release Workflow (NEW)
+- [ ] **Task**: Automate NuGet publishing on version tags
+- **Effort**: M (1-2 days)
+- **Priority**: **Critical**
+- **Dependencies**: W1.2 (Source Link)
+- **File**: `.github/workflows/release.yml`
+
+**Implementation**:
+```yaml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: ./global.json
+
+      - name: Build
+        run: dotnet build Qwiq.sln -c Release
+
+      - name: Pack
+        run: dotnet pack Qwiq.sln -c Release --no-build
+
+      - name: Push to NuGet
+        run: |
+          dotnet nuget push "**/*.nupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push "**/*.snupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            **/*.nupkg
+          generate_release_notes: true
+```
+
+- **Acceptance Criteria**:
+  - [ ] `release.yml` workflow created
+  - [ ] NuGet API key stored as secret
+  - [ ] Version tags trigger releases
+  - [ ] GitHub Release created with changelog
+  - [ ] `--skip-duplicate` prevents re-publish errors
+
+---
+
+#### W2.12 Implement Package Signing (NEW)
+- [ ] **Task**: Sign NuGet packages with code signing certificate
+- **Effort**: M (1 day)
+- **Priority**: High
+- **Dependencies**: W2.11
+- **File**: `.github/workflows/release.yml`
+
+**Options**:
+1. **Azure SignTool** (recommended for open source)
+2. **DigiCert** or similar CA certificate
+
+**Implementation sketch**:
+```yaml
+- name: Sign Packages
+  run: |
+    dotnet tool install --global sign
+    sign code azure-key-vault **/*.nupkg ^
+      --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} ^
+      --azure-key-vault-certificate ${{ secrets.AZURE_KEY_VAULT_CERT_NAME }}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Packages signed with trusted certificate
+  - [ ] Signature verification passes
+  - [ ] Certificate stored securely in Azure Key Vault
+
+---
+
+### Phase 2C: Supply Chain Security (NEW)
+
+#### W2.13 Generate SBOM (NEW)
+- [ ] **Task**: Generate Software Bill of Materials for packages
+- **Effort**: S (2-4 hours)
+- **Priority**: High
+- **Dependencies**: W2.11
+- **File**: `.github/workflows/release.yml`
+
+**Implementation** (using Microsoft SBOM Tool):
+```yaml
+- name: Generate SBOM
+  uses: microsoft/sbom-tool@v1
+  with:
+    buildDropPath: ./artifacts/packages
+    outputPath: ./artifacts/sbom
+    packageName: Qwiq
+    packageVersion: ${{ github.ref_name }}
+```
+
+**Alternative** (CycloneDX):
+```yaml
+- name: Generate SBOM
+  run: dotnet CycloneDX Qwiq.sln -o ./artifacts/sbom
+```
+
+- **Acceptance Criteria**:
+  - [ ] SPDX or CycloneDX SBOM generated
+  - [ ] SBOM attached to GitHub Release
+  - [ ] Dependencies accurately listed
+
+---
+
+#### W2.14 Add Dependency Review Action (NEW)
+- [ ] **Task**: Block PRs that introduce vulnerable dependencies
+- **Effort**: S (1-2 hours)
+- **Priority**: Medium
+- **Dependencies**: None
+- **File**: `.github/workflows/main.yml`
+
+**Implementation**:
+```yaml
+- name: Dependency Review
+  uses: actions/dependency-review-action@v3
+  if: github.event_name == 'pull_request'
+  with:
+    fail-on-severity: moderate
+    deny-licenses: GPL-3.0, AGPL-3.0
+```
+
+- **Acceptance Criteria**:
+  - [ ] Dependency review runs on PRs
+  - [ ] Vulnerable dependencies blocked
+  - [ ] License violations detected
+
+---
+
+#### W2.15 Pin GitHub Actions by SHA (NEW)
+- [ ] **Task**: Use SHA-pinned action versions for security
+- **Effort**: S (1-2 hours)
+- **Priority**: Medium
+- **Dependencies**: None
+- **Files**: All `.github/workflows/*.yml`
+
+**Before**:
+```yaml
+- uses: actions/checkout@v4
+```
+
+**After**:
+```yaml
+- uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+```
+
+- **Acceptance Criteria**:
+  - [ ] All actions pinned by SHA
+  - [ ] Version comments added for maintainability
+  - [ ] Dependabot configured to update action SHAs
+
+---
+
+### Phase 2D: Observability
 
 #### W2.1 Add OpenTelemetry Basic Tracing
 - [ ] **Task**: Implement basic telemetry for query operations
 - **Effort**: M (2-3 days)
 - **Priority**: Medium
-- **Dependencies**: W1.9 (stable API surface)
+- **Dependencies**: W1.18 (stable API surface)
 - **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
 
 **Package additions**:
@@ -691,35 +1089,42 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-#### W2.2 Symbol Server Publishing
-- [ ] **Task**: Configure nuget.org symbol server publishing
-- **Effort**: S (2-4 hours)
-- **Priority**: Medium
-- **Dependencies**: W1.2 (Source Link)
-- **File**: `.github/workflows/main.yml`
+#### W2.2 Create API Compatibility Baselines
+- [ ] **Task**: Establish API surface baselines for breaking change detection
+- **Effort**: M (4-8 hours)
+- **Priority**: High
+- **Dependencies**: None
+- **Files**: `Directory.Packages.props`, per-project PublicAPI files
 
-**Add to pack/publish workflow**:
-```yaml
-- name: Push to NuGet
-  if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-  run: |
-    dotnet nuget push "**/*.nupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }}
-    dotnet nuget push "**/*.snupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }}
+**Package additions**:
+```xml
+<PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
 ```
 
+**Or using ApiCompat**:
+```xml
+<PackageVersion Include="Microsoft.DotNet.ApiCompat" Version="8.0.0" />
+```
+
+**Implementation**:
+1. Generate baseline API surface for each public project
+2. Configure CI to fail on breaking changes
+3. Document API stability policy
+
 - **Acceptance Criteria**:
-  - [ ] Symbol packages (.snupkg) published to nuget.org
-  - [ ] Debugging from NuGet package works in Visual Studio
+  - [ ] API baselines generated for all public projects
+  - [ ] Breaking change detection in CI
+  - [ ] API stability policy documented
 
 ---
 
-### Phase 2B: Testing Enhancements
+### Phase 2E: Testing Enhancements
 
 #### W2.3 Add Contract Tests for REST/SOAP Parity
 - [ ] **Task**: Create shared specification tests
 - **Effort**: M (2-3 days)
 - **Priority**: Low
-- **Dependencies**: W1.11 (Mocks nullable)
+- **Dependencies**: None
 
 - **Acceptance Criteria**:
   - [ ] Both clients satisfy IWorkItemStore contract
@@ -739,7 +1144,7 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-### Phase 2C: Documentation
+### Phase 2F: Documentation
 
 #### W2.5 Create Architecture Decision Records
 - [ ] **Task**: Document key architectural decisions
@@ -792,20 +1197,43 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-## Wave 3: Framework Modernization 📋 FUTURE
+## Wave 3: Framework Modernization & Long-Term Excellence 📋 FUTURE
 
 > These items are planned for after Wave 1 and Wave 2 are substantially complete.
 
-#### W3.1 Evaluate .NET 9 Support
-- [ ] **Task**: Test compatibility and plan adoption
-- **Effort**: M (1-2 days)
-- **Priority**: Low
-- **Dependencies**: All Wave 1 complete
+#### W3.1 .NET 10 SDK Upgrade
+- [ ] **Task**: Update global.json to .NET 10 SDK when LTS releases (Nov 2025)
+- **Effort**: S (2-4 hours)
+- **Priority**: Medium
+- **Dependencies**: Wave 2 substantially complete
+- **Note**: **Skip .NET 9 (STS)** - go directly to .NET 10 (LTS) for long-term support
+
+**Strategy**: SDK upgrade first, then TFM addition.
 
 - **Acceptance Criteria**:
-  - [ ] Compatibility assessment documented
-  - [ ] Breaking changes identified
-  - [ ] Migration plan if adopting
+  - [ ] global.json updated to 10.0.xxx SDK
+  - [ ] All projects build successfully
+  - [ ] CI matrix updated for .NET 10 SDK
+
+---
+
+#### W3.1a Add net10.0 Target Framework
+- [ ] **Task**: Add net10.0 TFM to multi-targeting projects
+- **Effort**: M (4-8 hours)
+- **Priority**: Medium
+- **Dependencies**: W3.1 (.NET 10 SDK in place)
+
+**Projects to update**:
+- Qwiq.Core, Qwiq.Core.Rest (add net10.0)
+- Qwiq.Linq, Qwiq.Mapper, Qwiq.Identity (add net10.0)
+- Test projects (add net10.0)
+- Consider dropping netstandard2.0 (net472 + net8.0 + net10.0)
+
+- **Acceptance Criteria**:
+  - [ ] net10.0 TFM added to all cross-platform projects
+  - [ ] Tests pass on net10.0
+  - [ ] No regressions on existing TFMs
+  - [ ] Compatibility matrix documented
 
 ---
 
@@ -846,6 +1274,69 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
+#### W3.5 Create API Compatibility Policy Document (NEW)
+- [ ] **Task**: Document API stability guarantees and versioning policy
+- **Effort**: S (2-4 hours)
+- **Priority**: Medium
+- **Dependencies**: W2.2 (API baselines)
+- **File**: `docs/API_COMPATIBILITY.md`
+
+**Contents**:
+- Semantic versioning policy
+- Breaking change definition
+- Deprecation timeline (e.g., 2 minor versions warning)
+- API compatibility between REST and SOAP clients
+
+- **Acceptance Criteria**:
+  - [ ] Versioning policy documented
+  - [ ] Breaking change examples provided
+  - [ ] Consumer migration guidance included
+
+---
+
+#### W3.6 Create SOAP to REST Migration Guide (NEW)
+- [ ] **Task**: Document migration path for SOAP client consumers
+- **Effort**: M (1-2 days)
+- **Priority**: Medium
+- **Dependencies**: W3.5
+- **File**: `docs/SOAP_TO_REST_MIGRATION.md`
+
+**Contents**:
+- Feature parity matrix (REST vs SOAP capabilities)
+- Authentication migration (Windows Auth → PAT/OAuth)
+- Code migration examples
+- Known behavioral differences
+- Deprecation timeline for SOAP client
+
+- **Acceptance Criteria**:
+  - [ ] Feature parity documented
+  - [ ] Code migration examples provided
+  - [ ] Known differences highlighted
+  - [ ] Timeline communicated
+
+---
+
+#### W3.7 Establish Performance Baselines (NEW)
+- [ ] **Task**: Create performance benchmarks with tracked baselines
+- **Effort**: M (1 day)
+- **Priority**: Low
+- **Dependencies**: W2.4 (Benchmark CI)
+- **Files**: `test/Qwiq.Benchmark/`, GitHub Actions
+
+**Implementation**:
+- Run BenchmarkDotNet on key operations
+- Store baseline results in repository
+- Compare PR results against baseline
+- Alert on regressions > 10%
+
+- **Acceptance Criteria**:
+  - [ ] Baseline benchmarks for Query, Map, Identity operations
+  - [ ] Benchmark results stored in repository
+  - [ ] CI compares against baseline
+  - [ ] Regression detection configured
+
+---
+
 ## Progress Tracking
 
 ### Metrics Dashboard
@@ -854,12 +1345,16 @@ public IEnumerable<IWorkItem> Query(string wiql)
 |--------|---------|--------|--------|
 | CS8xxx warnings in source | 0 | 0 | 🟢 |
 | CS8xxx suppressions in .editorconfig | 10 rules | 0 (remove when stable) | 🟡 |
-| CA rules suppressed | ~150 | <30 priority | 🔴 |
+| CA rules suppressed | **~400** | <50 priority | 🔴 |
+| Security rules (CA3xxx-CA5xxx) | ~65 suppressed | 0 | 🔴 |
+| Reliability rules (CA2xxx) | ~66 suppressed | <10 | 🔴 |
 | Code coverage | Configured | 70%+ new | 🟡 |
-| Documentation files | 6/8 | 8/8 | 🟡 |
+| Documentation files | 7/8 | 8/8 | 🟡 |
 | Package READMEs | 10/10 | 10/10 | 🟢 |
+| Release automation | ❌ None | Automated | 🔴 |
+| SBOM generation | ❌ None | SPDX/CycloneDX | 🔴 |
 
-### Timeline (Recommended Order)
+### Timeline (Updated Dec 5, 2025)
 
 ```
 Week 1-2:   W1.1, W1.2, W1.3 (Infrastructure - parallel) ✅ DONE
@@ -868,10 +1363,22 @@ Week 3-4:   W1.8 (PackageReadme) ✅ DONE
 Week 4-6:   W1.9 (Nullable Core) ✅ DONE (PR #52)
 Week 6-8:   W1.10, W1.11 (Nullable Rest, Mocks) ✅ DONE (PR #52)
 Week 8-12:  W1.12, W1.13, W1.14 (Nullable remaining) ✅ DONE (PR #52)
-Week 12-14: W1.15, W1.16, W1.17, W1.18 (Analyzers) ← NEXT
-Week 14-16: W1.19-W1.22 (Quality gates)
-Week 16+:   Wave 2 items
+Week 12-13: W1.15, W1.15A (Analyzer audit + P0 Security) ← CURRENT
+Week 13-15: W1.16, W1.17 (P1 Reliability, P2 Performance)
+Week 15-17: W1.18 (P3 Design - after API baselines)
+Week 17-18: W1.19-W1.24 (Quality gates, Cross-platform CI)
+Week 19-22: W2.8, W2.9, W2.11-W2.15 (Cloud-native + Release automation)
+Week 22-26: W2.1-W2.7 (Observability, Testing, Documentation)
+Week 26+:   Wave 3 items
 ```
+
+### Priority Order for Next Session
+
+1. **W1.15A** - Enable P0 Security Rules (CA3xxx-CA5xxx) - **CRITICAL**
+2. **W1.16** - Enable P1 Reliability Rules (CA2xxx) - High
+3. **W2.11** - Create Release Workflow - **CRITICAL** (can parallel)
+4. **W1.17** - Enable P2 Performance Rules (CA18xx) - Medium
+5. **W2.2** - API Compatibility Baselines - High (before W1.18)
 
 ---
 
@@ -924,6 +1431,8 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | Dec 2024 | Claudette | Initial comprehensive TODO |
+| 2.0 | Dec 5, 2025 | Claudette (Session 7) | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline |
+| 2.1 | Dec 5, 2025 | Claudette (Session 8) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
 
 ---
 
@@ -934,6 +1443,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 | ✅ | Complete |
 | 🔄 | In Progress |
 | 📋 | Planned |
-| 🔴 | Needs Attention |
+| 🔴 | Needs Attention / Critical |
 | 🟡 | Partial Progress |
 | 🟢 | On Track |
+| **Critical** | Highest priority - address immediately |
