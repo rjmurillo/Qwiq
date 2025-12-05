@@ -1,4 +1,4 @@
-﻿using Qwiq.Credentials;
+using Qwiq.Credentials;
 using Microsoft.VisualStudio.Services.Common;
 using System;
 
