@@ -24,8 +24,8 @@ WHERE
 mode(recursive)
 ";
 
-            RestResult.Links = TimedAction(() => RestResult.WorkItemStore!.QueryLinks(WIQL).ToList(), "REST", "QueryLinks");
-            SoapResult.Links = TimedAction(() => SoapResult.WorkItemStore!.QueryLinks(WIQL).ToList(), "SOAP", "QueryLinks");
+            RestResult.Links = TimedAction(() => RestResult.WorkItemStore!.QueryLinks(wiql).ToList(), "REST", "QueryLinks");
+            SoapResult.Links = TimedAction(() => SoapResult.WorkItemStore!.QueryLinks(wiql).ToList(), "SOAP", "QueryLinks");
         }
 
         [TestMethod]
