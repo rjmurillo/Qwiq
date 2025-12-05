@@ -2,7 +2,7 @@
   <PropertyGroup>
     <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
