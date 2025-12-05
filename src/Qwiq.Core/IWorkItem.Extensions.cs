@@ -16,7 +16,7 @@ namespace Qwiq
 
             ArgumentNullException.ThrowIfNull(workItem);
             ArgumentNullException.ThrowIfNull(store);
-            if (targetId == 0) throw new ArgumentOutOfRangeException(nameof(targetId));
+            ArgumentOutOfRangeException.ThrowIfZero(targetId);
 
             var end = store.WorkItemLinkTypes[CoreLinkTypeReferenceNames.Related].ForwardEnd;
             workItem.Links.Add(workItem.CreateRelatedLink(targetId, end));
@@ -29,7 +29,7 @@ namespace Qwiq
 
             ArgumentNullException.ThrowIfNull(workItem);
             ArgumentNullException.ThrowIfNull(store);
-            if (parentId == 0) throw new ArgumentOutOfRangeException(nameof(parentId));
+            ArgumentOutOfRangeException.ThrowIfZero(parentId);
 
             var end = store.GetParentLinkTypeEnd();
             workItem.Links.Add(workItem.CreateRelatedLink(parentId, end));
@@ -42,7 +42,7 @@ namespace Qwiq
 
             ArgumentNullException.ThrowIfNull(workItem);
             ArgumentNullException.ThrowIfNull(store);
-            if (childId == 0) throw new ArgumentOutOfRangeException(nameof(childId));
+            ArgumentOutOfRangeException.ThrowIfZero(childId);
 
             var end = store.GetChildLinkTypeEnd();
             workItem.Links.Add(workItem.CreateRelatedLink(childId, end));
