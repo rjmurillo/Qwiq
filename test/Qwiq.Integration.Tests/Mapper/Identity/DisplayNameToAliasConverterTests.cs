@@ -3,6 +3,7 @@ using System.Linq;
 using Qwiq.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Should;
 using Shouldly;
 
 namespace Qwiq.Mapper.Identity
