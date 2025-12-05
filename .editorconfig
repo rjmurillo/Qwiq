@@ -205,6 +205,14 @@ dotnet_diagnostic.CA1861.severity = none
 # Requires .NET 8+ API, not available on older targets
 dotnet_diagnostic.CA1863.severity = none
 
+#######################################
+# Test Project Specific Rules
+#######################################
+[test/**/*.cs]
+# CA2263: Prefer generic overload
+# Tests deliberately test both generic and non-generic overloads for coverage
+dotnet_diagnostic.CA2263.severity = none
+
 # Verify settings
 [*.{received,verified}.{json,txt,xml,nuspec}]
 charset = utf-8-bom

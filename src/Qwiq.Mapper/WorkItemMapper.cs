@@ -86,8 +86,8 @@ namespace Qwiq.Mapper
                         // Find default ctor for target type
                         var ctor = type.GetConstructors().First();
                         var newExp = Expression.New(ctor);
-                        var lambda = Expression.Lambda(typeof(ObjectActivator), newExp);
-                        var compiled = (ObjectActivator)lambda.Compile();
+                        var lambda = Expression.Lambda<ObjectActivator>(newExp);
+                        var compiled = lambda.Compile();
                         return compiled;
                     });
         }

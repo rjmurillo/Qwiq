@@ -7,7 +7,7 @@
   <ItemGroup>
     <!-- Build and Analysis -->
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.143" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />
+    <!-- Microsoft.CodeAnalysis.NetAnalyzers is included in .NET SDK 5+ and doesn't need explicit reference -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 
     <!-- Azure DevOps / TFS Client Libraries -->

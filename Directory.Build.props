@@ -86,9 +86,7 @@
   <ItemGroup>
     <!-- Add Nerdbank.GitVersioning for all projects -->
     <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
-
-    <!-- Add Microsoft.CodeAnalysis.NetAnalyzers to replace deprecated FxCop -->
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
+    <!-- Microsoft.CodeAnalysis.NetAnalyzers is included in .NET SDK 5+ via EnableNETAnalyzers=true -->
   </ItemGroup>
 
   <!-- Source Link for all projects (even test projects benefit from source linking in debugging) -->
