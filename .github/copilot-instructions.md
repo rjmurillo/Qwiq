@@ -586,6 +586,20 @@ Whenever ANY change is made that affects NuGet package contents (adding/removing
    - Ensure changes match expectations 1:1 for ALL affected packages
 
 3. **Update verified baselines** only after confirming changes are correct:
+   
+   **Option A: Using Verify.Terminal (Recommended)**
+   ```powershell
+   # Install the tool (one-time setup)
+   dotnet tool install -g verify.tool
+   
+   # Review changes interactively and accept/reject individually
+   dotnet verify review -w test/Qwiq.Package.Tests
+   
+   # Or accept all changes at once (use with caution)
+   dotnet verify accept -w test/Qwiq.Package.Tests
+   ```
+   
+   **Option B: Manual PowerShell copy**
    ```powershell
    Get-ChildItem -Path "test\Qwiq.Package.Tests" -Filter "*.received.*" | ForEach-Object {
        $verifiedName = $_.Name -replace '\.received\.', '.verified.'
