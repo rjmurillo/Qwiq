@@ -108,14 +108,14 @@ string.Equals(rl.LinkTypeEnd?.ImmutableName, linkTypeEndName, StringComparison.O
 
 ## Quality & Design Guidance
 
-- **Optimize for testability**: Design with seam-friendly abstractions. New collaborators should be injected via interfaces so tests can substitute mocks from `Qwiq.Mocks` or Moq without reflection tricks.
-- **Preserve cohesion and minimize coupling**: Keep each class focused. If a change touches multiple bounded contexts (Core, Mapper, Identity), validate that responsibilities are still well separated. Expose behavior via interfaces rather than concrete implementations.
-- **Avoid duplicated identity and field constants**: Reuse existing sources such as `CoreFieldRefNames`, `TestData`, and `IdentityConstants`. Introducing new literals requires justification and documentation in shared locations.
-- **Separate configuration from behavior**: Leave defaults in `Directory.Build.props`, `Directory.Packages.props`, or existing option classes. Application code should consume configuration values, not redefine them.
-- **Encapsulate variability**: When adding behavior that differs by transport (REST vs SOAP) or target framework, isolate logic in strategy classes or provider pattern extensions instead of branching across call sites.
-- **Program by intention**: Sketch the collaborators you need as if they already exist, then implement them behind focused interfaces. This enforces method-level cohesion and makes test seams explicit (Hunt & Thomas, 1999).
-- **Pattern-oriented design**: Identify the dominant pattern (Strategy, Bridge, Adapter, Façade, etc.), note its intent in XML documentation or review notes, and ensure new classes reinforce rather than dilute that context (Alexander, 1979; Coplien, 1999). Apply Common Variability Analysis: describe the shared concept, list its variations, then map relationships (is-a, has-a, uses) before coding.
-- **Separate use from creation**: Keep instantiation logic (factories, builders, `GetInstance` helpers) distinct from runtime behavior so that instantiation remains a late decision (Bloch, 2001). If a service both constructs and uses collaborators, refactor toward constructor injection or deferred factories.
+- **Make testing simple**: Inject dependencies, keep methods small, and expose seams so unit tests can plug in mocks from `Qwiq.Mocks` or Moq.
+- **Keep responsibilities clear**: Each class should own one job. If a change touches several areas (Core, Mapper, Identity), double-check that only interfaces cross the boundaries.
+- **Reuse identity and field values**: Pull names and constants from `CoreFieldRefNames`, `TestData`, and `IdentityConstants` to avoid drifting copies.
+- **Leave configuration in config files**: Defaults belong in `Directory.Build.props`, `Directory.Packages.props`, or option classes—not hardcoded in methods.
+- **Isolate REST vs SOAP differences**: Push variation into strategies, providers, or small helper classes instead of scattering `if` checks through call sites.
+- **Program by intention**: Sketch the methods you wish existed, then implement them behind focused interfaces. This keeps methods cohesive and reveals missing seams.
+- **Call out the pattern you follow**: If you add a Strategy, Adapter, Façade, or Factory, say so in code comments or reviews so future work stays aligned.
+- **Create objects separately**: Build services through factories, builders, or constructor injection. Avoid new-ing up dependencies inside business logic.
 
 ## Test Patterns
 
