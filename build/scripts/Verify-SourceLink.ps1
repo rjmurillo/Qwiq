@@ -1,39 +1,27 @@
 <#
 .SYNOPSIS
-    Verifies Source Link information and package counts in NuGet packages.
+    Verifies Source Link information in NuGet packages.
 
 .DESCRIPTION
-    This script validates that:
-    1. The expected number of .nupkg packages are produced
-    2. Each .nupkg has a corresponding .snupkg symbol package (1:1 ratio)
-    3. Source Link information is correctly embedded in all NuGet packages
-
+    This script validates that Source Link information is correctly embedded in PDB files.
     It uses the dotnet-sourcelink tool to verify that all source file URLs are accessible.
 
+    This script is intentionally naive - it verifies whatever PDB files it finds.
+    Use Validate-PackageOutput.ps1 for build-time package count validation.
+
 .PARAMETER SearchPaths
-    Array of root paths to search for .nupkg files. Defaults to 'src' and 'test'.
+    Array of root paths to search for PDB files. Defaults to 'src' and 'test'.
 
 .PARAMETER Pattern
     The path pattern to match within the search. Defaults to 'bin\Release'.
 
-.PARAMETER ExpectedPackageCount
-    The expected number of .nupkg packages. If not specified, count validation is skipped.
-    When specified, the script will fail if the actual count doesn't match.
-
-.PARAMETER SkipSymbolValidation
-    If specified, skips validation that .snupkg count matches .nupkg count.
-
 .EXAMPLE
     .\Verify-SourceLink.ps1
-    Verifies all .nupkg files in src/**/bin/Release and test/**/bin/Release directories.
-
-.EXAMPLE
-    .\Verify-SourceLink.ps1 -ExpectedPackageCount 10
-    Verifies exactly 10 .nupkg files exist with matching .snupkg files.
+    Verifies Source Link in all PDB files in src/**/bin/Release and test/**/bin/Release.
 
 .EXAMPLE
     .\Verify-SourceLink.ps1 -SearchPaths "artifacts" -Pattern "packages"
-    Verifies all .nupkg files in artifacts/**/packages directories.
+    Verifies PDB files in artifacts/**/packages directories.
 
 .NOTES
     Requires the dotnet-sourcelink tool to be installed:
@@ -47,115 +35,47 @@ param(
     [string[]]$SearchPaths = @("src", "test"),
 
     [Parameter(Mandatory = $false)]
-    [string]$Pattern = "bin\\Release",
-
-    [Parameter(Mandatory = $false)]
-    [int]$ExpectedPackageCount = 0,
-
-    [Parameter(Mandatory = $false)]
-    [switch]$SkipSymbolValidation
+    [string]$Pattern = "bin\\Release"
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-# Collect all packages from all search paths
-$packages = @()
-$symbolPackages = @()
+# Collect PDB files from all search paths
+# We test PDBs directly because with snupkg format, PDBs are not embedded in nupkg files
+$pdbFiles = @()
 
 foreach ($searchPath in $SearchPaths) {
     if (Test-Path $searchPath) {
-        $found = Get-ChildItem -Path $searchPath -Recurse -Filter "*.nupkg" -File |
-            Where-Object { $_.FullName -match $Pattern -and $_.Name -notmatch "\.snupkg$" }
-        if ($found) {
-            $packages += $found
-        }
-
-        $foundSymbols = Get-ChildItem -Path $searchPath -Recurse -Filter "*.snupkg" -File |
+        $found = Get-ChildItem -Path $searchPath -Recurse -Filter "*.pdb" -File |
             Where-Object { $_.FullName -match $Pattern }
-        if ($foundSymbols) {
-            $symbolPackages += $foundSymbols
+        if ($found) {
+            $pdbFiles += $found
         }
     }
 }
+
+# Deduplicate by assembly name (prefer net8.0 target)
+$uniquePdbs = @{}
+foreach ($pdb in $pdbFiles) {
+    $baseName = $pdb.BaseName
+    if (-not $uniquePdbs.ContainsKey($baseName)) {
+        $uniquePdbs[$baseName] = $pdb
+    }
+    elseif ($pdb.FullName -match 'net8\.0' -and $uniquePdbs[$baseName].FullName -notmatch 'net8\.0') {
+        # Prefer net8.0 version
+        $uniquePdbs[$baseName] = $pdb
+    }
+}
+
+$pdbFiles = $uniquePdbs.Values | Sort-Object Name
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Package Count Validation" -ForegroundColor Cyan
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Search paths:   $($SearchPaths -join ', ')" -ForegroundColor White
-Write-Host "  Pattern:        $Pattern" -ForegroundColor White
-Write-Host "  .nupkg count:   $($packages.Count)" -ForegroundColor White
-Write-Host "  .snupkg count:  $($symbolPackages.Count)" -ForegroundColor White
-
-if ($ExpectedPackageCount -gt 0) {
-    Write-Host "  Expected:       $ExpectedPackageCount" -ForegroundColor White
-
-    if ($packages.Count -ne $ExpectedPackageCount) {
-        Write-Host "`nERROR: Package count mismatch!" -ForegroundColor Red
-        Write-Host "  Expected $ExpectedPackageCount .nupkg files but found $($packages.Count)" -ForegroundColor Red
-        Write-Host "`nPackages found:" -ForegroundColor Yellow
-        foreach ($pkg in $packages) {
-            Write-Host "  - $($pkg.Name)" -ForegroundColor White
-        }
-        exit 1
-    }
-    Write-Host "`n  Package count validation: PASSED" -ForegroundColor Green
-}
-
-if (-not $SkipSymbolValidation) {
-    if ($packages.Count -ne $symbolPackages.Count) {
-        Write-Host "`nERROR: Symbol package count mismatch!" -ForegroundColor Red
-        Write-Host "  Found $($packages.Count) .nupkg but $($symbolPackages.Count) .snupkg files" -ForegroundColor Red
-        Write-Host "  Each .nupkg should have a corresponding .snupkg" -ForegroundColor Red
-
-        # Show which packages are missing symbol packages
-        $packageNames = $packages | ForEach-Object { $_.Name -replace '\.nupkg$', '' }
-        $symbolNames = $symbolPackages | ForEach-Object { $_.Name -replace '\.snupkg$', '' }
-
-        $missingSymbols = $packageNames | Where-Object { $_ -notin $symbolNames }
-        if ($missingSymbols) {
-            Write-Host "`nPackages missing .snupkg:" -ForegroundColor Yellow
-            foreach ($missing in $missingSymbols) {
-                Write-Host "  - $missing" -ForegroundColor Red
-            }
-        }
-        exit 1
-    }
-    Write-Host "  Symbol package validation: PASSED" -ForegroundColor Green
-}
-
-if ($packages.Count -eq 0) {
-    Write-Warning "No .nupkg files found in search paths matching pattern '$Pattern'"
-    exit 0
-}
-
-# Collect PDB files for Source Link testing - one per package
-# We test PDBs directly because with snupkg format, PDBs are not embedded in nupkg files
-# For each package, find the corresponding PDB in the same project directory
-$pdbFiles = @()
-foreach ($package in $packages) {
-    # Extract package name without version (e.g., "Qwiq.Core" from "Qwiq.Core.10.0.60-xxx.nupkg")
-    $packageBaseName = $package.Name -replace '\.\d+\.\d+\.\d+.*\.nupkg$', ''
-
-    # Find PDB in the same directory tree (prefer net8.0, then any)
-    $pkgDir = $package.Directory.Parent  # Go up from bin/Release to project folder
-    $matchingPdb = Get-ChildItem -Path $pkgDir.FullName -Recurse -Filter "$packageBaseName.pdb" -File |
-        Where-Object { $_.FullName -match $Pattern } |
-        Sort-Object { if ($_.FullName -match 'net8\.0') { 0 } else { 1 } } |
-        Select-Object -First 1
-
-    if ($matchingPdb) {
-        $pdbFiles += $matchingPdb
-    }
-    else {
-        Write-Warning "Could not find PDB for package: $($package.Name)"
-    }
-}
-
-Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host "Source Link Verification" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Found $($pdbFiles.Count) PDB file(s) to verify" -ForegroundColor Cyan
+Write-Host "  Search paths: $($SearchPaths -join ', ')" -ForegroundColor White
+Write-Host "  Pattern:      $Pattern" -ForegroundColor White
+Write-Host "  PDBs found:   $($pdbFiles.Count)" -ForegroundColor White
 
 if ($pdbFiles.Count -eq 0) {
     Write-Warning "No .pdb files found in search paths matching pattern '$Pattern'"
@@ -188,14 +108,13 @@ foreach ($pdb in $pdbFiles) {
 Write-Host "`n========================================" -ForegroundColor Cyan
 Write-Host "Source Link Verification Summary" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Packages: $($packages.Count)" -ForegroundColor White
 Write-Host "  PDBs tested: $($pdbFiles.Count)" -ForegroundColor White
-Write-Host "  Passed: $passed" -ForegroundColor Green
+Write-Host "  Passed:      $passed" -ForegroundColor Green
 if ($failed -gt 0) {
-    Write-Host "  Failed: $failed" -ForegroundColor Red
+    Write-Host "  Failed:      $failed" -ForegroundColor Red
 }
 else {
-    Write-Host "  Failed: $failed" -ForegroundColor Green
+    Write-Host "  Failed:      $failed" -ForegroundColor Green
 }
 
 if ($failed -gt 0) {

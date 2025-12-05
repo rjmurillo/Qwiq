@@ -44,14 +44,17 @@ jobs:
         # when building via solution file due to MSBuild's IsInnerBuild behavior.
         run: dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
+      - name: Validate package output
+        # Scans csproj files to find packable projects and validates each produced
+        # both .nupkg and .snupkg files. Fails the build if any are missing.
+        run: ./build/scripts/Validate-PackageOutput.ps1
+
       - name: Verify Source Link
         # Only run on push events (develop/master), not on pull_request events.
         # During PR checks, GitHub creates a temporary merge commit that sourcelink
         # cannot validate because the commit doesn't persist on GitHub's raw content server.
         if: github.event_name == 'push'
-        # Expected packages: 9 source (Qwiq.Core, Client.Rest, Client.Soap, Identity,
-        # Identity.Soap, Linq, Linq.Identity, Mapper, Mapper.Identity) + 1 test (Qwiq.Mocks)
-        run: ./build/scripts/Verify-SourceLink.ps1 -ExpectedPackageCount 10
+        run: ./build/scripts/Verify-SourceLink.ps1
 
       - name: Run tests with coverage
         id: test
