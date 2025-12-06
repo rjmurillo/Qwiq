@@ -71,8 +71,26 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
 | Wave 1 | 🔄 In Progress | 27 | 20/27 |
-| Wave 2 | 📋 Planned | 14 | 0/14 |
-| Wave 3 | 📋 Future | 8 | 0/8 |
+| Wave 2 | 📋 Planned | 15 | 0/15 |
+| Wave 3 | 📋 Future | 13 | 0/13 |
+
+**Wave 2 Changes (Session 12-13)**:
+- ❌ W2.8 (IConfiguration) → Deferred to W3.9
+- ❌ W2.9 (ILogger) → Deferred to W3.8 (Observability Overhaul)
+- ❌ W2.1 (OpenTelemetry) → Deferred to W3.8 (Observability Overhaul)
+- ❌ W2.12 (Package Signing) → Deferred to W3.10 (BLOCKED)
+- ❌ W2.6 (Good First Issue Labels) → REMOVED (project doesn't use Issues)
+- ✅ W2.11 Updated: DRY composite action, workflow_call pattern
+- ✅ W2.13 Updated: Dual-pipeline SBOM (build + release)
+- ⬆️ W2.15 Elevated: CRITICAL + Dependabot/Renovate SHA pinning
+- ⬆️ W2.5 Elevated: HIGH (foundational ADRs)
+- ⬆️ W2.2 Elevated: CRITICAL (API baselines before any changes)
+- ✅ W2.16 Updated: WireMock.Net + Moq 4.16 + Moq.Analyzers 0.4.0
+- ✅ W2.19 Updated: Integrated into main build (not separate workflow)
+- ✅ W2.14 Updated: License policy rationale documented
+- ➕ W2.17 NEW: SLSA Provenance Generation
+- ➕ W2.18 NEW: Package Validation (API compat)
+- ➕ W2.20 NEW: Secrets Scanning
 
 **Key Decision**: Skip .NET 9 (STS), adopt .NET 10 (LTS) - SDK first, then TFM.
 
@@ -863,330 +881,569 @@ jobs:
 
 ## Wave 2: Developer Experience & Production Readiness 📋 PLANNED
 
-### Phase 2A: Cloud-Native Readiness (NEW)
+> **Updated**: December 5, 2025 (Session 12)
+> **Key Changes**: W2.8, W2.9, W2.1, W2.12 deferred to Wave 3. W2.11 updated with DRY pattern. W2.13 updated for dual-pipeline SBOM. W2.15 elevated to CRITICAL. New tasks W2.16-W2.20 added.
 
-#### W2.8 Add IConfiguration Support for Credentials (NEW)
-- [ ] **Task**: Enable credentials from configuration providers
+### Phase 2A: Release Automation (CRITICAL)
+
+#### W2.11 Create Release Workflow ✅ UPDATED
+- [ ] **Task**: Automate NuGet publishing on version tags with DRY composite action
 - **Effort**: M (1-2 days)
-- **Priority**: High
-- **Dependencies**: None
-- **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
-
-**Goal**:
-Enable credentials to be loaded from `appsettings.json`, environment variables, Azure Key Vault, etc. via `Microsoft.Extensions.Configuration`.
-
-**Package additions**:
-```xml
-<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-<PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
-```
-
-**Implementation**:
-```csharp
-public class QwiqOptions
-{
-    public Uri OrganizationUrl { get; set; }
-    public string PersonalAccessToken { get; set; }
-    public AuthenticationTypes AuthenticationType { get; set; } = AuthenticationTypes.PersonalAccessToken;
-}
-
-// Extension method for DI registration
-public static class ServiceCollectionExtensions
-{
-    public static IServiceCollection AddQwiq(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.Configure<QwiqOptions>(configuration.GetSection("Qwiq"));
-        services.AddSingleton<IWorkItemStoreFactory, WorkItemStoreFactory>();
-        return services;
-    }
-}
-```
-
-- **Acceptance Criteria**:
-  - [ ] `QwiqOptions` class created with all connection settings
-  - [ ] Configuration binding works from appsettings.json
-  - [ ] Environment variable override works
-  - [ ] Sample Azure Functions app demonstrates Key Vault integration
-
----
-
-#### W2.9 Migrate Trace to ILogger<T> (NEW)
-- [ ] **Task**: Replace System.Diagnostics.Trace with structured logging
-- **Effort**: L (1-2 weeks)
-- **Priority**: Medium
-- **Dependencies**: W2.8
-- **Files**: All `src/Qwiq.*` projects
-
-**Package additions**:
-```xml
-<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-```
-
-**Migration pattern**:
-```csharp
-// Before
-System.Diagnostics.Trace.TraceError($"Operation failed: {ex.Message}");
-
-// After
-_logger.LogError(ex, "Operation failed");
-```
-
-**Note**: For backward compatibility, create a default `NullLogger<T>` that can be replaced via DI.
-
-- **Acceptance Criteria**:
-  - [ ] All Trace calls replaced with ILogger
-  - [ ] Structured logging with correlation IDs
-  - [ ] Default NullLogger for non-DI scenarios
-  - [ ] No breaking API changes
-
----
-
-### Phase 2B: Release Automation (CRITICAL)
-
-#### W2.11 Create Release Workflow (NEW)
-- [ ] **Task**: Automate NuGet publishing on version tags
-- **Effort**: M (1-2 days)
-- **Priority**: **Critical**
+- **Priority**: **CRITICAL**
 - **Dependencies**: W1.2 (Source Link)
-- **File**: `.github/workflows/release.yml`
+- **Files**: `.github/workflows/release.yml`, `.github/actions/dotnet-build/action.yml`
 
-**Implementation**:
+**Design Goals**: Repeatable release flow, secure secrets handling, traceable artifacts.
+
+**Reference**: [moq.analyzers release.yml](https://github.com/rjmurillo/moq.analyzers/blob/main/.github/workflows/release.yml)
+
+**Implementation - Composite Action** (`.github/actions/dotnet-build/action.yml`):
+```yaml
+name: 'Build .NET Solution'
+description: 'Setup, restore, build, test, and pack .NET solution'
+inputs:
+  configuration:
+    description: 'Build configuration'
+    default: 'Release'
+  skip-tests:
+    description: 'Skip test execution'
+    default: 'false'
+  pedantic-mode:
+    description: 'Treat warnings as errors'
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: ./global.json
+
+    - name: Restore tools
+      shell: pwsh
+      run: dotnet tool restore
+
+    - name: Restore packages
+      shell: pwsh
+      run: dotnet restore Qwiq.sln --locked-mode
+
+    - name: Build
+      shell: pwsh
+      run: |
+        dotnet build Qwiq.sln -c ${{ inputs.configuration }} --no-restore `
+          /p:ContinuousIntegrationBuild=true `
+          /p:Deterministic=true `
+          /p:PedanticMode=${{ inputs.pedantic-mode }}
+
+    - name: Test
+      if: inputs.skip-tests != 'true'
+      shell: pwsh
+      run: |
+        dotnet test Qwiq.sln -c ${{ inputs.configuration }} --no-build `
+          --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+
+    - name: Pack
+      shell: pwsh
+      run: dotnet pack Qwiq.sln -c ${{ inputs.configuration }} --no-build -o ./artifacts/packages
+```
+
+**Implementation - Release Workflow** (`.github/workflows/release.yml`):
 ```yaml
 name: Release
 
 on:
+  workflow_dispatch:
+  release:
+    types:
+      - published # Run the workflow when a new GitHub release is published
+      - edited
+      - prereleased
+      - released
   push:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+  packages: read
+  actions: read
+
 jobs:
-  release:
-    runs-on: windows-latest
+  build:
+    uses: ./.github/workflows/main.yml  # Reuse existing workflow via workflow_call
+
+  publish:
+    needs: build
+    runs-on: windows-latest  # Required for net472
+    environment:
+      name: production-nuget
+      url: https://nuget.org/packages/Qwiq
     steps:
-      - uses: actions/checkout@v4
+      - name: Download packages
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
+          name: packages-windows-latest
+          path: packages
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: ./global.json
-
-      - name: Build
-        run: dotnet build Qwiq.sln -c Release
-
-      - name: Pack
-        run: dotnet pack Qwiq.sln -c Release --no-build
-
-      - name: Push to NuGet
+      - name: Publish to NuGet
+        shell: pwsh
         run: |
-          dotnet nuget push "**/*.nupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
-          dotnet nuget push "**/*.snupkg" --source nuget.org --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          foreach ($file in (Get-ChildItem ./packages -Recurse -Include *.nupkg)) {
+            dotnet nuget push $file --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
+          foreach ($file in (Get-ChildItem ./packages -Recurse -Include *.snupkg)) {
+            dotnet nuget push $file --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            **/*.nupkg
+          files: packages/**/*.nupkg
           generate_release_notes: true
 ```
 
+**C# Tooling Best Practices**:
+- Use `--locked-mode` for restore to ensure reproducible builds
+- Set `ContinuousIntegrationBuild=true` and `Deterministic=true`
+- Use `--no-restore` on build/test after restore step
+- Never store API keys in repository; use GitHub secrets
+
 - **Acceptance Criteria**:
-  - [ ] `release.yml` workflow created
-  - [ ] NuGet API key stored as secret
-  - [ ] Version tags trigger releases
-  - [ ] GitHub Release created with changelog
+  - [ ] Composite action created at `.github/actions/dotnet-build/`
+  - [ ] `release.yml` workflow uses `workflow_call` to reuse main.yml
+  - [ ] NuGet API key stored as repository secret
+  - [ ] Version tags (`v*`) trigger releases
+  - [ ] GitHub Release created with auto-generated changelog
   - [ ] `--skip-duplicate` prevents re-publish errors
+  - [ ] Environment approval gate for production-nuget
 
 ---
 
-#### W2.12 Implement Package Signing (NEW)
-- [ ] **Task**: Sign NuGet packages with code signing certificate
-- **Effort**: M (1 day)
-- **Priority**: High
-- **Dependencies**: W2.11
-- **File**: `.github/workflows/release.yml`
+### Phase 2B: Supply Chain Security (CRITICAL)
 
-**Options**:
-1. **Azure SignTool** (recommended for open source)
-2. **DigiCert** or similar CA certificate
-
-**Implementation sketch**:
-```yaml
-- name: Sign Packages
-  run: |
-    dotnet tool install --global sign
-    sign code azure-key-vault **/*.nupkg ^
-      --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} ^
-      --azure-key-vault-certificate ${{ secrets.AZURE_KEY_VAULT_CERT_NAME }}
-```
-
-- **Acceptance Criteria**:
-  - [ ] Packages signed with trusted certificate
-  - [ ] Signature verification passes
-  - [ ] Certificate stored securely in Azure Key Vault
-
----
-
-### Phase 2C: Supply Chain Security (NEW)
-
-#### W2.13 Generate SBOM (NEW)
-- [ ] **Task**: Generate Software Bill of Materials for packages
+#### W2.13 Generate SBOM (Dual Pipeline) ✅ UPDATED
+- [ ] **Task**: Generate Software Bill of Materials in BOTH build and release pipelines
 - **Effort**: S (2-4 hours)
-- **Priority**: High
+- **Priority**: **HIGH**
 - **Dependencies**: W2.11
-- **File**: `.github/workflows/release.yml`
+- **Files**: `.github/workflows/main.yml`, `.github/workflows/release.yml`
 
-**Implementation** (using Microsoft SBOM Tool):
+**Rationale**: "We don't release often and want to make sure SBOM is always running"
+
+**Design**:
+1. **Build Pipeline**: Generate SBOM for validation (catches issues early)
+2. **Release Pipeline**: Generate authoritative SBOM attached to GitHub Release
+
+**Implementation - Build Pipeline** (`.github/workflows/main.yml`):
 ```yaml
-- name: Generate SBOM
+- name: Generate SBOM (validation)
   uses: microsoft/sbom-tool@v1
   with:
     buildDropPath: ./artifacts/packages
     outputPath: ./artifacts/sbom
     packageName: Qwiq
-    packageVersion: ${{ github.ref_name }}
+    packageVersion: ${{ github.run_number }}
+    manifestDirPath: ./artifacts/sbom
+
+- name: Upload SBOM artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: sbom-validation
+    path: ./artifacts/sbom/
 ```
 
-**Alternative** (CycloneDX):
+**Implementation - Release Pipeline** (`.github/workflows/release.yml`):
 ```yaml
-- name: Generate SBOM
-  run: dotnet CycloneDX Qwiq.sln -o ./artifacts/sbom
+- name: Generate SBOM (release)
+  uses: microsoft/sbom-tool@v1
+  with:
+    buildDropPath: ./packages
+    outputPath: ./sbom
+    packageName: Qwiq
+    packageVersion: ${{ github.ref_name }}
+    manifestDirPath: ./sbom
+
+- name: Attach SBOM to Release
+  uses: softprops/action-gh-release@v1
+  with:
+    files: |
+      packages/**/*.nupkg
+      sbom/**/*.spdx.json
 ```
+
+**Compliance Notes**:
+- SPDX 2.2+ format meets NTIA Minimum Elements
+- Executive Order 14028 compliance
+- Include `--component-type library` for correct classification
 
 - **Acceptance Criteria**:
-  - [ ] SPDX or CycloneDX SBOM generated
+  - [ ] SBOM generated in build pipeline (validation)
+  - [ ] SBOM generated in release pipeline (authoritative)
+  - [ ] SPDX format with full dependency graph
   - [ ] SBOM attached to GitHub Release
-  - [ ] Dependencies accurately listed
+  - [ ] Dependencies accurately listed including transitive
 
 ---
 
-#### W2.14 Add Dependency Review Action (NEW)
+#### W2.14 Add Dependency Review Action
 - [ ] **Task**: Block PRs that introduce vulnerable dependencies
 - **Effort**: S (1-2 hours)
-- **Priority**: Medium
+- **Priority**: **HIGH** (elevated from Medium)
 - **Dependencies**: None
 - **File**: `.github/workflows/main.yml`
+
+**License Policy Rationale**:
+
+| License | Status | Rationale |
+|---------|--------|----------|
+| **Denied Licenses** | | |
+| GPL-2.0 | ❌ Deny | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution. |
+| GPL-3.0 | ❌ Deny | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force Qwiq consumers to GPL-license their code. |
+| AGPL-3.0 | ❌ Deny | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers. |
+| LGPL-3.0 | ❌ Deny | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers. |
+| **Allowed Licenses** | | |
+| MIT | ✅ Allow | Permissive: allows commercial use, modification, distribution with minimal restrictions. Qwiq's own license. |
+| Apache-2.0 | ✅ Allow | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages. |
+| BSD-3-Clause | ✅ Allow | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem. |
+| 0BSD | ✅ Allow | Public domain equivalent. No restrictions whatsoever. |
 
 **Implementation**:
 ```yaml
 - name: Dependency Review
-  uses: actions/dependency-review-action@v3
+  uses: actions/dependency-review-action@v4
   if: github.event_name == 'pull_request'
   with:
     fail-on-severity: moderate
-    deny-licenses: GPL-3.0, AGPL-3.0
+    fail-on-scopes: runtime,development
+    deny-licenses: |
+      GPL-2.0
+      GPL-3.0
+      AGPL-3.0
+      LGPL-3.0
+    allow-licenses: |
+      MIT
+      Apache-2.0
+      BSD-3-Clause
+      0BSD
+    comment-summary-in-pr: always
+    warn-only: false
 ```
 
 - **Acceptance Criteria**:
-  - [ ] Dependency review runs on PRs
-  - [ ] Vulnerable dependencies blocked
-  - [ ] License violations detected
+  - [ ] Dependency review runs on all PRs
+  - [ ] Vulnerable dependencies blocked (moderate+ severity)
+  - [ ] License violations detected and blocked
+  - [ ] PR comments show dependency summary
+  - [ ] License policy documented in CONTRIBUTING.md
 
 ---
 
-#### W2.15 Pin GitHub Actions by SHA (NEW)
-- [ ] **Task**: Use SHA-pinned action versions for security
+#### W2.15 Pin GitHub Actions by SHA ✅ ELEVATED TO CRITICAL
+- [ ] **Task**: Use SHA-pinned action versions for supply chain security
 - **Effort**: S (1-2 hours)
-- **Priority**: Medium
+- **Priority**: **CRITICAL** (elevated from Medium)
 - **Dependencies**: None
-- **Files**: All `.github/workflows/*.yml`
+- **Files**: All `.github/workflows/*.yml`, `.github/dependabot.yml`, `renovate.json`
 
-**Before**:
-```yaml
-- uses: actions/checkout@v4
+**Why Critical**: Supply chain attack vector (tag poisoning), SLSA Level 3 requirement, enterprise security policy requirement.
+
+**Current Actions Needing SHA Pinning**:
+```
+.github/workflows/main.yml:
+  - actions/checkout@v4 → needs SHA
+  - actions/setup-dotnet@v4 → needs SHA
+  - actions/upload-artifact@v4 → needs SHA
+  - softprops/action-gh-release@v1 → needs SHA
+
+.github/workflows/devskim.yml:
+  - actions/checkout@v6 → needs SHA
+  - microsoft/DevSkim-Action@v1 → needs SHA
+  - github/codeql-action/upload-sarif@v4 → needs SHA
 ```
 
-**After**:
+**Pattern**:
 ```yaml
+# Before
+- uses: actions/checkout@v4
+
+# After (with version comment for maintainability)
 - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 ```
 
+**Dependabot Configuration** (`.github/dependabot.yml`):
+```yaml
+version: 2
+updates:
+  # Keep GitHub Actions up to date with SHA pinning
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    # Dependabot will update SHA-pinned actions and preserve the version comment
+
+  # Keep NuGet packages up to date
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+    groups:
+      nuget-minor:
+        update-types:
+          - "minor"
+          - "patch"
+```
+
+**Renovate Configuration** (`renovate.json`) - Alternative/Complementary:
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "commitMessagePrefix": "ci:"
+    },
+    {
+      "matchManagers": ["nuget"],
+      "commitMessagePrefix": "deps:"
+    }
+  ],
+  "github-actions": {
+    "pinDigests": true
+  }
+}
+```
+
 - **Acceptance Criteria**:
-  - [ ] All actions pinned by SHA
-  - [ ] Version comments added for maintainability
-  - [ ] Dependabot configured to update action SHAs
+  - [ ] All actions pinned by SHA with version comments
+  - [ ] Dependabot configured to update action SHAs (pinDigests)
+  - [ ] Renovate configured as alternative/complementary (pinDigests)
+  - [ ] NuGet dependencies also tracked by Dependabot/Renovate
+  - [ ] Pinning policy documented in CONTRIBUTING.md
 
 ---
 
-### Phase 2D: Observability
+#### W2.17 SLSA Provenance Generation (NEW)
+- [ ] **Task**: Generate cryptographic build provenance for supply chain security
+- **Effort**: M (1 day)
+- **Priority**: **CRITICAL**
+- **Dependencies**: W2.11
+- **File**: `.github/workflows/release.yml`
 
-#### W2.1 Add OpenTelemetry Basic Tracing
-- [ ] **Task**: Implement basic telemetry for query operations
-- **Effort**: M (2-3 days)
-- **Priority**: Medium
-- **Dependencies**: W1.18 (stable API surface)
-- **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
+**Why Critical**: Supply chain security standard, required for enterprise compliance, SLSA Level 3.
+
+**Implementation**:
+```yaml
+permissions:
+  id-token: write  # Required for SLSA provenance
+  contents: read
+  actions: read
+
+jobs:
+  provenance:
+    needs: build
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
+      provenance-name: "qwiq-provenance.intoto.jsonl"
+      upload-assets: true
+```
+
+**Benefits**:
+- Cryptographic proof of build integrity
+- Verification of build environment and inputs
+- Non-forgeable build metadata
+
+- **Acceptance Criteria**:
+  - [ ] SLSA provenance generated for releases
+  - [ ] Provenance attached to GitHub Release
+  - [ ] Verification instructions documented
+
+---
+
+### Phase 2C: Testing Enhancements
+
+#### W2.16 REST/SOAP Unit Test Coverage (NEW)
+- [ ] **Task**: Enable unit testing for REST/SOAP clients without Azure DevOps connectivity
+- **Effort**: L (2-3 weeks total)
+- **Priority**: **HIGH**
+- **Dependencies**: None
+- **Files**: `test/Qwiq.Core.Tests/`, `Directory.Packages.props`
+- **PRD**: Needs detailed requirements document
+
+**Problem Statement**: Current REST/SOAP tests require Azure DevOps connectivity, creating friction for contributors and CI reliability issues.
+
+**Phase 1: REST Client Unit Tests** (M effort, 12-19 hours)
+- Cross-platform (Windows, Linux, macOS)
+- HTTP mocking with `WireMock.Net` (supports contract playback and request matching)
+- New test category: `RestUnit`
+
+**Phase 2: SOAP Client Unit Tests** (L effort, 8-14 hours)
+- Windows-only (net472 TFS Client OM dependency)
+- TFS Client OM mock wrappers using Moq
+- New test category: `SoapUnit`
 
 **Package additions**:
 ```xml
-<PackageVersion Include="OpenTelemetry" Version="1.7.0" />
-<PackageVersion Include="OpenTelemetry.Api" Version="1.7.0" />
+<!-- HTTP mocking for REST client tests -->
+<PackageVersion Include="WireMock.Net" Version="1.5.40" />
+
+<!-- Mocking framework for SOAP client tests -->
+<PackageVersion Include="Moq" Version="4.16.0" />
+<PackageVersion Include="Moq.Analyzers" Version="0.4.0" />
 ```
 
-**Initial instrumentation**:
+**WireMock.Net Pattern** (.NET 8 best practice):
 ```csharp
-public static class QwiqActivitySource
+using WireMock.Server;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
+
+[TestClass]
+[TestCategory("RestUnit")]
+public class Given_WorkItemStore_Query : ContextSpecification
 {
-    public static readonly ActivitySource Source = new("Qwiq", "1.0.0");
+    private WireMockServer _server;
+    private IWorkItemStore _store;
+
+    public override void Given()
+    {
+        // Start WireMock server on random port
+        _server = WireMockServer.Start();
+
+        // Configure mock response for WIQL query
+        _server
+            .Given(Request.Create()
+                .WithPath("/*/_apis/wit/wiql")
+                .UsingPost())
+            .RespondWith(Response.Create()
+                .WithStatusCode(200)
+                .WithHeader("Content-Type", "application/json")
+                .WithBody(@"{""workItems"":[{""id"":1,""url"":""https://test/_apis/wit/workItems/1""}]}"));
+
+        // Create store pointing to WireMock server
+        _store = CreateStoreWithBaseUrl(new Uri(_server.Url));
+    }
+
+    public override void When() => _result = _store.Query("SELECT * FROM WorkItems");
+
+    [TestMethod]
+    public void Should_return_work_items() => _result.ShouldNotBeEmpty();
+
+    public override void Cleanup() => _server?.Stop();
+}
+```
+
+**Async Test Pattern**:
+```csharp
+// Extend ContextSpecification for async support
+public override async Task WhenAsync()
+{
+    _result = await _store.QueryAsync("SELECT * FROM WorkItems");
 }
 
-// In WorkItemStore.Query
-public IEnumerable<IWorkItem> Query(string wiql)
-{
-    using var activity = QwiqActivitySource.Source.StartActivity("WorkItemStore.Query");
-    activity?.SetTag("wiql.length", wiql.Length);
+// Use Shouldly async assertions
+await Should.ThrowAsync<InvalidOperationException>(() => sut.ExecuteAsync(...));
+```
 
-    // ... existing implementation
+**CI Integration**:
+```yaml
+# REST tests run on all platforms
+- name: Run REST Unit Tests
+  run: dotnet test --filter "TestCategory=RestUnit"
 
-    activity?.SetTag("result.count", results.Count);
-    return results;
-}
+# SOAP tests run on Windows only
+- name: Run SOAP Unit Tests
+  if: runner.os == 'Windows'
+  run: dotnet test --filter "TestCategory=SoapUnit"
 ```
 
 - **Acceptance Criteria**:
-  - [ ] Query operations emit traces
-  - [ ] Work item counts tracked
-  - [ ] No performance regression (benchmark validation)
+  - [ ] PRD created for detailed requirements
+  - [ ] Phase 1: 30-50 REST unit tests passing on all platforms
+  - [ ] Phase 2: SOAP unit tests passing on Windows
+  - [ ] Zero Azure DevOps dependency for unit tests
+  - [ ] Test categories `RestUnit` and `SoapUnit` configured
+  - [ ] CI updated with conditional SOAP test execution
 
 ---
 
-#### W2.2 Create API Compatibility Baselines
+#### W2.18 Enable Package Validation (NEW)
+- [ ] **Task**: Detect breaking API changes automatically
+- **Effort**: S (4 hours)
+- **Priority**: **HIGH**
+- **Dependencies**: None
+- **Files**: `src/Qwiq.Core/Qwiq.Core.csproj` (and other packable projects)
+
+**Implementation**:
+```xml
+<!-- Add to each packable .csproj -->
+<PropertyGroup>
+  <EnablePackageValidation>true</EnablePackageValidation>
+  <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
+  <EnableStrictModeForCompatibleTfms>true</EnableStrictModeForCompatibleTfms>
+  <EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>
+</PropertyGroup>
+```
+
+**Benefits**:
+- Detect breaking changes automatically during build
+- Enforce semantic versioning
+- Protect consumers from API breakage
+
+- **Acceptance Criteria**:
+  - [ ] Package validation enabled for all packable projects
+  - [ ] Baseline version configured
+  - [ ] Breaking changes fail build
+  - [ ] Suppression mechanism documented for intentional breaks
+
+---
+
+#### W2.2 Create API Compatibility Baselines ⬆️ ELEVATED TO CRITICAL
 - [ ] **Task**: Establish API surface baselines for breaking change detection
 - **Effort**: M (4-8 hours)
-- **Priority**: High
-- **Dependencies**: None
+- **Priority**: **CRITICAL** (elevated - must be done BEFORE any API changes)
+- **Dependencies**: W2.18
 - **Files**: `Directory.Packages.props`, per-project PublicAPI files
+
+**Why Critical**: As we make modernization changes, we DO NOT want APIs to change unintentionally. This must be established early to catch any accidental breaking changes during the modernization process.
 
 **Package additions**:
 ```xml
 <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
 ```
 
-**Or using ApiCompat**:
-```xml
-<PackageVersion Include="Microsoft.DotNet.ApiCompat" Version="8.0.0" />
-```
-
 **Implementation**:
 1. Generate baseline API surface for each public project
 2. Configure CI to fail on breaking changes
 3. Document API stability policy
+4. Run baseline generation BEFORE any further code changes
 
 - **Acceptance Criteria**:
   - [ ] API baselines generated for all public projects
   - [ ] Breaking change detection in CI
   - [ ] API stability policy documented
+  - [ ] Baseline committed before any API-affecting changes
 
 ---
-
-### Phase 2E: Testing Enhancements
 
 #### W2.3 Add Contract Tests for REST/SOAP Parity
 - [ ] **Task**: Create shared specification tests
 - **Effort**: M (2-3 days)
 - **Priority**: Low
-- **Dependencies**: None
+- **Dependencies**: W2.16
 
 - **Acceptance Criteria**:
   - [ ] Both clients satisfy IWorkItemStore contract
@@ -1206,36 +1463,164 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-### Phase 2F: Documentation
+### Phase 2D: Security Hardening
 
-#### W2.5 Create Architecture Decision Records
-- [ ] **Task**: Document key architectural decisions
-- **Effort**: M (1 day)
+#### W2.19 CodeQL Advanced Security (NEW)
+- [ ] **Task**: Add advanced code scanning with CodeQL integrated into main build
+- **Effort**: S (2 hours)
 - **Priority**: Medium
 - **Dependencies**: None
+- **File**: `.github/workflows/main.yml` (integrated, not separate workflow)
+
+**Design Decision**: Integrate CodeQL into the main build workflow to avoid:
+- Duplicate repository clones
+- Duplicate builds with potentially different settings
+- Inconsistent build configurations between workflows
+
+**Implementation** (add to `.github/workflows/main.yml`):
+```yaml
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      security-events: write  # Required for CodeQL
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Initialize CodeQL BEFORE build
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+          queries: security-extended,security-and-quality
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: ./global.json
+
+      - name: Restore tools
+        run: dotnet tool restore
+
+      - name: Restore packages
+        run: dotnet restore Qwiq.sln
+
+      - name: Build
+        run: |
+          dotnet build Qwiq.sln -c Release --no-restore `
+            /p:ContinuousIntegrationBuild=true `
+            /p:Deterministic=true
+
+      # CodeQL analysis uses the same build output
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:csharp"
+
+      - name: Test
+        run: |
+          dotnet test Qwiq.sln -c Release --no-build `
+            --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+
+      # ... rest of workflow
+```
+
+**Benefits of Integration**:
+- Single clone, single build
+- Consistent build settings (same `/p:` properties)
+- CodeQL analyzes the exact same binaries that get tested/packaged
+- Faster CI overall (no duplicate work)
+
+**Weekly Scheduled Scan** (optional, add to triggers):
+```yaml
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop]
+  schedule:
+    - cron: '30 2 * * 1'  # Weekly Monday 2:30 AM for deep scan
+```
+
+- **Acceptance Criteria**:
+  - [ ] CodeQL integrated into main.yml (not separate workflow)
+  - [ ] Security-extended queries enabled
+  - [ ] Results visible in Security tab
+  - [ ] Same build configuration as regular CI
+  - [ ] Optional: Weekly scheduled deep scan
+
+---
+
+#### W2.20 Secrets Scanning (NEW)
+- [ ] **Task**: Add pre-commit secrets scanning
+- **Effort**: S (1 hour)
+- **Priority**: Medium
+- **Dependencies**: None
+- **File**: `.github/workflows/secrets.yml` or repository settings
+
+**Option 1 - GitHub Native** (recommended):
+Enable GitHub Secret Scanning in repository settings.
+
+**Option 2 - Gitleaks**:
+```yaml
+name: Secret Scanning
+
+on: [push, pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Secret scanning enabled (native or Gitleaks)
+  - [ ] Historical scan completed
+  - [ ] No secrets detected in repository
+
+---
+
+### Phase 2E: Documentation
+
+#### W2.5 Create Architecture Decision Records ⬆️ ELEVATED
+- [ ] **Task**: Document key architectural decisions
+- **Effort**: M (1 day)
+- **Priority**: **HIGH** (elevated - foundational for maintainability)
+- **Dependencies**: None
 - **Location**: `docs/adr/`
+
+**Why High Priority**: ADRs capture the "why" behind architectural choices. Without them, future maintainers may inadvertently break design invariants or repeat past mistakes. This is foundational documentation that should be created early.
 
 **Topics to document**:
 - ADR-001: Factory pattern for WorkItemStore
 - ADR-002: Interface-first design
 - ADR-003: REST vs SOAP client strategy
 - ADR-004: Multi-targeting approach
+- ADR-005: Central Package Management adoption
+- ADR-006: Nullable reference types migration strategy
 
 - **Acceptance Criteria**:
   - [ ] Key decisions documented
   - [ ] Rationale explained for future contributors
+  - [ ] Template established for future ADRs
 
 ---
 
-#### W2.6 Create "Good First Issue" Labels
-- [ ] **Task**: Label and document beginner-friendly issues
-- **Effort**: S (2 hours)
-- **Priority**: Low
-- **Dependencies**: None
-
-- **Acceptance Criteria**:
-  - [ ] Issues labeled with `good first issue`
-  - [ ] CONTRIBUTING.md explains label
+#### ~~W2.6 Create "Good First Issue" Labels~~ ❌ REMOVED
+> **Removed**: This project does not use GitHub Issues for tracking work.
 
 ---
 
@@ -1251,6 +1636,7 @@ public IEnumerable<IWorkItem> Query(string wiql)
 - PR process (reference CODEOWNERS)
 - Testing requirements
 - Security considerations
+- PedanticMode usage for local builds
 
 - **Acceptance Criteria**:
   - [ ] Clear contribution workflow
@@ -1261,12 +1647,203 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ## Wave 3: Framework Modernization & Long-Term Excellence 📋 FUTURE
 
+> **Updated**: December 5, 2025 (Session 12)
+> **Key Changes**: W2.8, W2.9, W2.1, W2.12 deferred from Wave 2. Consolidated into W3.8 Observability Overhaul.
 > These items are planned for after Wave 1 and Wave 2 are substantially complete.
+
+### Phase 3A: Deferred from Wave 2
+
+#### W3.8 Observability Overhaul (DEFERRED - Consolidates W2.1 + W2.9) 📋
+- [ ] **Task**: Comprehensive observability upgrade (ILogger + OpenTelemetry)
+- **Effort**: L (2-3 weeks)
+- **Priority**: P2 (Medium)
+- **Dependencies**: Wave 2 complete
+- **Status**: 📋 DEFERRED - Needs separate PRD
+- **Files**: All `src/Qwiq.*` projects, `Directory.Packages.props`
+
+**Scope** (consolidates W2.1 OpenTelemetry + W2.9 ILogger migration):
+1. Replace `System.Diagnostics.Trace` with `ILogger<T>` (18 Trace calls identified)
+2. Add OpenTelemetry `ActivitySource` for distributed tracing
+3. Create `QwiqDiagnostics` static class for centralized instrumentation
+4. Correlation ID propagation
+5. Metrics for query performance
+
+**Package additions**:
+```xml
+<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+<PackageVersion Include="OpenTelemetry" Version="1.7.0" />
+<PackageVersion Include="OpenTelemetry.Api" Version="1.7.0" />
+```
+
+**ILogger Pattern** (without forcing DI on consumers):
+```csharp
+public sealed class WorkItemQueryService
+{
+    private readonly ILogger<WorkItemQueryService> _logger;
+
+    // Optional logger - defaults to NullLogger
+    public WorkItemQueryService(ILogger<WorkItemQueryService>? logger = null)
+        => _logger = logger ?? NullLogger<WorkItemQueryService>.Instance;
+}
+```
+
+**Source-Generated Logging** (.NET 8 best practice):
+```csharp
+public static partial class WorkItemLoggerExtensions
+{
+    [LoggerMessage(Level = LogLevel.Information, Message = "Executing WIQL query: {QueryLength} chars")]
+    public static partial void LogQueryExecution(this ILogger logger, int queryLength);
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "Query failed")]
+    public static partial void LogQueryFailed(this ILogger logger, Exception ex);
+}
+```
+
+**ActivitySource Pattern**:
+```csharp
+public static class QwiqActivitySource
+{
+    public static readonly ActivitySource Source = new("Qwiq.Core", "1.0.0");
+}
+
+// Usage in WorkItemStore.Query
+public IEnumerable<IWorkItem> Query(string wiql)
+{
+    using var activity = QwiqActivitySource.Source.StartActivity("WorkItemStore.Query");
+    activity?.SetTag("wiql.length", wiql.Length);
+    // ... implementation
+    activity?.SetTag("result.count", results.Count);
+    return results;
+}
+```
+
+**OpenTelemetry Integration** (opt-in for consumers):
+```csharp
+// Consumer registration (optional)
+services.AddOpenTelemetry()
+    .WithTracing(builder => builder.AddSource("Qwiq.Core"));
+```
+
+- **Acceptance Criteria**:
+  - [ ] Separate PRD created for observability overhaul
+  - [ ] All 18 Trace calls replaced with ILogger
+  - [ ] Source-generated logging for high-cardinality fields
+  - [ ] ActivitySource for query operations
+  - [ ] Default NullLogger for non-DI scenarios
+  - [ ] No breaking API changes
+  - [ ] No performance regression (benchmark validation)
+  - [ ] Documentation for OpenTelemetry integration
+
+---
+
+#### W3.9 IConfiguration Support (DEFERRED - was W2.8) 📋
+- [ ] **Task**: Enable credentials from configuration providers
+- **Effort**: M (1-2 days)
+- **Priority**: P3 (Low) - Nice-to-have, not blocking modernization
+- **Dependencies**: W3.8 (Observability)
+- **Status**: 📋 DEFERRED
+- **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
+
+**Package additions**:
+```xml
+<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+<PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
+```
+
+**Options Pattern** (best practice for libraries):
+```csharp
+public class QwiqOptions
+{
+    public Uri? OrganizationUrl { get; set; }
+    public string? PersonalAccessToken { get; set; }
+    public AuthenticationTypes AuthenticationType { get; set; } = AuthenticationTypes.PersonalAccessToken;
+}
+
+// Registration with validation
+services.AddOptions<QwiqOptions>()
+    .Bind(configuration.GetSection("Qwiq"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+// Factory that accepts IOptions but doesn't require it
+public sealed class DefaultQwiqClientFactory : IQwiqClientFactory
+{
+    private readonly QwiqOptions _options;
+
+    // Constructor for DI scenarios
+    public DefaultQwiqClientFactory(IOptions<QwiqOptions> options)
+        => _options = options.Value;
+
+    // Constructor for non-DI scenarios
+    public DefaultQwiqClientFactory(QwiqOptions options)
+        => _options = options;
+}
+```
+
+**Testing Pattern**:
+```csharp
+// Use QwiqOptionsBuilder for tests (no IOptions dependency)
+var options = new QwiqOptionsBuilder()
+    .WithOrganizationUrl(new Uri("https://dev.azure.com/test"))
+    .WithPat("test-token")
+    .Build();
+```
+
+- **Acceptance Criteria**:
+  - [ ] `QwiqOptions` class created with all connection settings
+  - [ ] Configuration binding works from appsettings.json
+  - [ ] Environment variable override works
+  - [ ] Non-DI constructor preserved for backward compatibility
+  - [ ] Sample Azure Functions app demonstrates Key Vault integration
+
+---
+
+#### W3.10 Package Signing (DEFERRED - was W2.12) ⏸️ BLOCKED
+- [ ] **Task**: Sign NuGet packages with code signing certificate
+- **Effort**: M (1 day)
+- **Priority**: P3 (Low)
+- **Dependencies**: W2.11 (Release Automation)
+- **Status**: ⏸️ BLOCKED - Requires interactive Azure Key Vault setup
+- **File**: `.github/workflows/release.yml`
+
+**Prerequisites** (must be completed before implementation):
+- [ ] Azure subscription with Key Vault
+- [ ] Code signing certificate (EV recommended, ~$200-500/year)
+- [ ] GitHub secrets configured:
+  - `AZURE_KEY_VAULT_URL`
+  - `AZURE_KEY_VAULT_CERT_NAME`
+  - `AZURE_CLIENT_ID`
+  - `AZURE_CLIENT_SECRET`
+  - `AZURE_TENANT_ID`
+
+**Implementation** (after prerequisites):
+```yaml
+- name: Sign Packages
+  run: |
+    dotnet tool install --global sign
+    sign code azure-key-vault **/*.nupkg ^
+      --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} ^
+      --azure-key-vault-certificate ${{ secrets.AZURE_KEY_VAULT_CERT_NAME }} ^
+      --azure-key-vault-client-id ${{ secrets.AZURE_CLIENT_ID }} ^
+      --azure-key-vault-client-secret ${{ secrets.AZURE_CLIENT_SECRET }} ^
+      --azure-key-vault-tenant-id ${{ secrets.AZURE_TENANT_ID }}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Azure Key Vault configured (interactive setup)
+  - [ ] Code signing certificate procured
+  - [ ] GitHub secrets configured
+  - [ ] Packages signed with trusted certificate
+  - [ ] Signature verification passes
+
+---
+
+### Phase 3B: Framework Modernization
 
 #### W3.1 .NET 10 SDK Upgrade
 - [ ] **Task**: Update global.json to .NET 10 SDK when LTS releases (Nov 2025)
 - **Effort**: S (2-4 hours)
-- **Priority**: Medium
+- **Priority**: P1 (High when available)
 - **Dependencies**: Wave 2 substantially complete
 - **Note**: **Skip .NET 9 (STS)** - go directly to .NET 10 (LTS) for long-term support
 
@@ -1282,7 +1859,7 @@ public IEnumerable<IWorkItem> Query(string wiql)
 #### W3.1a Add net10.0 Target Framework
 - [ ] **Task**: Add net10.0 TFM to multi-targeting projects
 - **Effort**: M (4-8 hours)
-- **Priority**: Medium
+- **Priority**: P2 (Medium)
 - **Dependencies**: W3.1 (.NET 10 SDK in place)
 
 **Projects to update**:
@@ -1301,8 +1878,8 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 #### W3.2 ARM64 Validation
 - [ ] **Task**: Test and document ARM64 support
-- **Effort**: S (4-8 hours)
-- **Priority**: Low
+- **Effort**: M (4-8 hours)
+- **Priority**: P3 (Low)
 - **Dependencies**: W1.1 (SDK update)
 
 - **Acceptance Criteria**:
@@ -1314,7 +1891,7 @@ public IEnumerable<IWorkItem> Query(string wiql)
 #### W3.3 Remove AppVeyor Configuration
 - [ ] **Task**: Delete legacy CI configuration
 - **Effort**: S (15 min)
-- **Priority**: Low
+- **Priority**: P3 (Low)
 - **Dependencies**: GitHub Actions fully validated
 - **File**: `appveyor.yml`
 
@@ -1324,10 +1901,12 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
+### Phase 3C: API & Documentation
+
 #### W3.4 Deprecate netstandard2.0 (Evaluation)
 - [ ] **Task**: Evaluate dropping netstandard2.0 target
 - **Effort**: S (research only)
-- **Priority**: Low
+- **Priority**: P3 (Low)
 - **Dependencies**: Consumer feedback
 
 - **Acceptance Criteria**:
@@ -1336,10 +1915,10 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-#### W3.5 Create API Compatibility Policy Document (NEW)
+#### W3.5 Create API Compatibility Policy Document
 - [ ] **Task**: Document API stability guarantees and versioning policy
 - **Effort**: S (2-4 hours)
-- **Priority**: Medium
+- **Priority**: P2 (Medium)
 - **Dependencies**: W2.2 (API baselines)
 - **File**: `docs/API_COMPATIBILITY.md`
 
@@ -1356,10 +1935,10 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-#### W3.6 Create SOAP to REST Migration Guide (NEW)
+#### W3.6 Create SOAP to REST Migration Guide
 - [ ] **Task**: Document migration path for SOAP client consumers
 - **Effort**: M (1-2 days)
-- **Priority**: Medium
+- **Priority**: P2 (Medium)
 - **Dependencies**: W3.5
 - **File**: `docs/SOAP_TO_REST_MIGRATION.md`
 
@@ -1378,10 +1957,10 @@ public IEnumerable<IWorkItem> Query(string wiql)
 
 ---
 
-#### W3.7 Establish Performance Baselines (NEW)
+#### W3.7 Establish Performance Baselines
 - [ ] **Task**: Create performance benchmarks with tracked baselines
 - **Effort**: M (1 day)
-- **Priority**: Low
+- **Priority**: P3 (Low)
 - **Dependencies**: W2.4 (Benchmark CI)
 - **Files**: `test/Qwiq.Benchmark/`, GitHub Actions
 
@@ -1408,13 +1987,15 @@ public IEnumerable<IWorkItem> Query(string wiql)
 | CS8xxx warnings in source | 0 | 0 | 🟢 |
 | CS8xxx suppressions in .editorconfig | 10 rules | 0 (remove when stable) | 🟡 |
 | CA rules suppressed | **~400** | <50 priority | 🔴 |
-| Security rules (CA3xxx-CA5xxx) | ~65 suppressed | 0 | 🔴 |
-| Reliability rules (CA2xxx) | ~66 suppressed | <10 | 🔴 |
+| Security rules (CA3xxx-CA5xxx) | ✅ 0 suppressed | 0 | 🟢 |
+| Reliability rules (CA2xxx) | ~63 suppressed | <10 | 🟡 |
 | Code coverage | Configured | 70%+ new | 🟡 |
 | Documentation files | 7/8 | 8/8 | 🟡 |
 | Package READMEs | 10/10 | 10/10 | 🟢 |
 | Release automation | ❌ None | Automated | 🔴 |
-| SBOM generation | ❌ None | SPDX/CycloneDX | 🔴 |
+| SBOM generation | ❌ None | Dual-pipeline | 🔴 |
+| SLSA Provenance | ❌ None | Level 3 | 🔴 |
+| Actions SHA-pinned | ❌ No | All pinned | 🔴 |
 
 ### Timeline (Updated Dec 5, 2025)
 
@@ -1425,22 +2006,41 @@ Week 3-4:   W1.8 (PackageReadme) ✅ DONE
 Week 4-6:   W1.9 (Nullable Core) ✅ DONE (PR #52)
 Week 6-8:   W1.10, W1.11 (Nullable Rest, Mocks) ✅ DONE (PR #52)
 Week 8-12:  W1.12, W1.13, W1.14 (Nullable remaining) ✅ DONE (PR #52)
-Week 12-13: W1.15, W1.15A (Analyzer audit + P0 Security) ← CURRENT
-Week 13-15: W1.16, W1.17 (P1 Reliability, P2 Performance)
+Week 12-13: W1.15, W1.15A (Analyzer audit + P0 Security) ✅ DONE
+Week 13-15: W1.16, W1.17 (P1 Reliability, P2 Performance) ← CURRENT
 Week 15-17: W1.18 (P3 Design - after API baselines)
-Week 17-18: W1.19-W1.24 (Quality gates, Cross-platform CI)
-Week 19-22: W2.8, W2.9, W2.11-W2.15 (Cloud-native + Release automation)
-Week 22-26: W2.1-W2.7 (Observability, Testing, Documentation)
-Week 26+:   Wave 3 items
+Week 17-18: W1.19-W1.24 (Quality gates, Cross-platform CI) ✅ W1.19, W1.20 DONE
+Week 19-20: W2.15, W2.11 (SHA pinning + Release automation) - CRITICAL
+Week 20-21: W2.17, W2.13 (SLSA + SBOM) - Supply chain security
+Week 21-22: W2.14, W2.18 (Dependency review + Package validation)
+Week 22-24: W2.16 Phase 1 (REST Unit Tests)
+Week 24-26: W2.16 Phase 2 (SOAP Unit Tests)
+Week 26-28: W2.2-W2.7 (API baselines, Testing, Documentation)
+Week 28+:   Wave 3 items
 ```
 
 ### Priority Order for Next Session
 
-1. **W1.15A** - Enable P0 Security Rules (CA3xxx-CA5xxx) - **CRITICAL**
-2. **W1.16** - Enable P1 Reliability Rules (CA2xxx) - High
-3. **W2.11** - Create Release Workflow - **CRITICAL** (can parallel)
-4. **W1.17** - Enable P2 Performance Rules (CA18xx) - Medium
-5. **W2.2** - API Compatibility Baselines - High (before W1.18)
+**Sprint 1 (Week 1-2): Foundation & API Protection**
+1. **W2.5** - Create Architecture Decision Records - **HIGH** (foundational documentation)
+2. **W2.2** - Create API Compatibility Baselines - **CRITICAL** (MUST be done before any API changes)
+3. **W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate - **CRITICAL** (supply chain security)
+4. **W2.18** - Enable Package Validation - **HIGH** (prevents breaking changes)
+
+**Sprint 2 (Week 3-4): Release Automation & Supply Chain**
+5. **W2.11** - Create Release Workflow - **CRITICAL** (unblocks manual process)
+6. **W2.17** - SLSA Provenance Generation - **CRITICAL**
+7. **W2.13** - SBOM Generation (dual pipeline) - **HIGH**
+8. **W2.14** - Dependency Review Action - **HIGH**
+
+**Sprint 3 (Week 5-6): Testing & Security**
+9. **W2.16 Phase 1** - REST Unit Tests (WireMock.Net) - **HIGH**
+10. **W2.19** - CodeQL Advanced Security (integrated into main build) - Medium
+11. **W2.20** - Secrets Scanning - Medium
+
+**Sprint 4 (Week 7+): Extended Coverage**
+12. **W2.16 Phase 2** - SOAP Unit Tests (Moq 4.16 + Moq.Analyzers 0.4.0) - Medium
+13. **W1.16** - Enable remaining P1 Reliability Rules (CA2213, CA2215)
 
 ---
 
@@ -1496,6 +2096,8 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 | 2.0 | Dec 5, 2025 | Claudette (Session 7) | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline |
 | 2.1 | Dec 5, 2025 | Claudette (Session 9) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
 | 2.2 | Dec 5, 2025 | Claudette (Session 10) | Documentation cleanup for handoff. Corrected task counts (Wave 1: 18/27, Wave 2: 14). Added missing Session 7 entry. Fixed session numbering. |
+| 3.0 | Dec 5, 2025 | Claudette (Session 12) | **Major Wave 2/3 restructure**: Deferred W2.8, W2.9, W2.1, W2.12 to Wave 3. Updated W2.11 (DRY composite action), W2.13 (dual-pipeline SBOM). Elevated W2.15 to CRITICAL. Added W2.16 (REST/SOAP Unit Tests), W2.17 (SLSA Provenance), W2.18 (Package Validation), W2.19 (CodeQL), W2.20 (Secrets Scanning). Created W3.8 (Observability Overhaul consolidating W2.1+W2.9), W3.9 (IConfiguration), W3.10 (Package Signing BLOCKED). Updated task counts: Wave 2: 16, Wave 3: 13. |
+| 3.1 | Dec 6, 2025 | Claudette (Session 13) | **Priority & Implementation Updates**: (1) Elevated W2.5 (ADRs) to HIGH, moved to Sprint 1. (2) Elevated W2.2 (API Baselines) to CRITICAL - must be done before any API changes. (3) Removed W2.6 (Good First Issue Labels) - project doesn't use Issues. (4) Updated W2.19 (CodeQL) to integrate with main build instead of separate workflow. (5) Updated W2.16 to use WireMock.Net exclusively. (6) Added Moq 4.16.0 + Moq.Analyzers 0.4.0 for SOAP tests. (7) Updated W2.15 with Dependabot and Renovate configs for SHA pinning. (8) Added license policy rationale table to W2.14. Task count: Wave 2: 15 (was 16). |
 
 ---
 
