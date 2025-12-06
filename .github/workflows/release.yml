@@ -78,7 +78,7 @@ jobs:
           path: packages
 
       - name: Generate SBOM (release)
-        uses: microsoft/sbom-tool@v2
+        uses: microsoft/sbom-tool@v1
         with:
           buildDropPath: ./packages
           buildComponentPath: ./

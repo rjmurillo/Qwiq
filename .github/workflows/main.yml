@@ -163,7 +163,7 @@ jobs:
         # Generate SBOM for validation in build pipeline
         # Only run on Windows where all packages are built
         if: success() && matrix.os == 'windows-latest'
-        uses: microsoft/sbom-tool@v2
+        uses: microsoft/sbom-tool@v1
         with:
           buildDropPath: ./src
           buildComponentPath: ./
