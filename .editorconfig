@@ -77,7 +77,7 @@ dotnet_diagnostic.CA1036.severity = none
 
 # CA1200: Avoid using cref tags with a prefix
 # Technical debt: XML docs use T: prefix for type references
-dotnet_diagnostic.CA1200.severity = none
+dotnet_diagnostic.CA1200.severity = warning
 
 #######################################
 # CA13xx: Globalization Rules

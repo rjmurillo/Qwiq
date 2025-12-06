@@ -25,7 +25,7 @@ namespace Qwiq.Linq.Visitors
         }
 
         /// <summary>
-        ///     Visits the <see cref="T:System.Linq.Expressions.ConstantExpression" />.
+        ///     Visits the <see cref="System.Linq.Expressions.ConstantExpression" />.
         /// </summary>
         /// <param name="node">The expression to visit.</param>
         /// <returns>The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.</returns>
