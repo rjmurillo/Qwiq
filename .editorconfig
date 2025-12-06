@@ -10,8 +10,7 @@ indent_size = 4
 
 #######################################
 # Analyzer Severity Configuration
-# Migrated from Directory.Build.props NoWarn
-# These represent existing technical debt
+# These represent existing technical debt or intentional suppressions
 #######################################
 
 # CS1591: Missing XML comment for publicly visible type or member
@@ -21,7 +20,6 @@ dotnet_diagnostic.CS1591.severity = none
 # CS0618: Member is obsolete (e.g., TimeZone)
 # KEPT: TimeZone is used in public interfaces IWorkItemStore and ITfsTeamProjectCollection.
 # Changing to TimeZoneInfo would be a breaking API change affecting 9+ implementations.
-# Track as future Wave 3 work item with proper versioning strategy.
 dotnet_diagnostic.CS0618.severity = none
 
 #######################################
@@ -31,40 +29,39 @@ dotnet_diagnostic.CS0618.severity = none
 # CA1036: Override comparison operators when implementing IComparable
 # KEPT: IdentityDescriptor implements IComparable for sorting/dictionary keys but
 # comparison operators (<, >, <=, >=) are not used anywhere in the codebase.
-# Adding unused operators would increase API surface without benefit.
 dotnet_diagnostic.CA1036.severity = none
 
 #######################################
 # CA15xx: Maintainability/Throw Helper Rules
 #######################################
 
-# CA1512: Use ArgumentOutOfRangeException.ThrowIfEqual instead of throwing manually
-# Requires .NET 8+ API, not available on older targets
-dotnet_diagnostic.CA1512.severity = none
-
 # CA1510: Use ArgumentNullException.ThrowIfNull instead of throwing manually
 # Requires .NET 6+ API, not available on net472/netstandard2.0 targets
 dotnet_diagnostic.CA1510.severity = none
+
+# CA1512: Use ArgumentOutOfRangeException.ThrowIfEqual instead of throwing manually
+# Requires .NET 8+ API, not available on older targets
+dotnet_diagnostic.CA1512.severity = none
 
 #######################################
 # CA17xx: Naming Rules
 #######################################
 
-# CA1715: Prefix generic type parameter name with 'T'
-# KEPT: IIdentityValueConverter uses 'U' as type parameter - changing would be breaking API change
-dotnet_diagnostic.CA1715.severity = none
+# CA1707: Identifiers should not contain underscores
+# KEPT: Test classes and methods use Given_When_Then naming pattern (868 violations)
+dotnet_diagnostic.CA1707.severity = none
 
 # CA1711: Identifiers should not have incorrect suffix
 # KEPT: SaveFlags, WorkItemCopyFlags, ITeamProjectCollection are established API names
 dotnet_diagnostic.CA1711.severity = none
 
+# CA1715: Prefix generic type parameter name with 'T'
+# KEPT: IIdentityValueConverter uses 'U' as type parameter - changing would be breaking
+dotnet_diagnostic.CA1715.severity = none
+
 # CA1716: Identifiers should not match keywords
 # KEPT: When() method is part of established test specification pattern
 dotnet_diagnostic.CA1716.severity = none
-
-# CA1707: Identifiers should not contain underscores
-# KEPT: Test classes and methods use Given_When_Then naming pattern (868 violations)
-dotnet_diagnostic.CA1707.severity = none
 
 # CA1720: Identifier contains type name
 # KEPT: Guid property is established API name matching TFS/Azure DevOps patterns
@@ -82,33 +79,9 @@ dotnet_diagnostic.CA1725.severity = none
 # KEPT: Some instance methods could be static but are kept for API compatibility
 dotnet_diagnostic.CA1822.severity = none
 
-# CA2208: Instantiate argument exceptions correctly
-# KEPT: Some exceptions use descriptive strings instead of parameter names
-dotnet_diagnostic.CA2208.severity = warning
-
-# CA2201: Do not raise reserved exception types (System.Exception)
-# KEPT: Some code throws base Exception type - changing requires careful analysis
-dotnet_diagnostic.CA2201.severity = warning
-
-# CA2211: Non-constant fields should not be visible
-# KEPT: Test configuration uses visible static fields
-dotnet_diagnostic.CA2211.severity = warning
-
 # CA1859: Use concrete types when possible for improved performance
 # KEPT: Interface types used intentionally for abstraction and testability
 dotnet_diagnostic.CA1859.severity = none
-
-# CA1860: Prefer comparing Length/Count to 0 rather than using Any()
-# KEPT: Many places use Any() which is idiomatic LINQ
-dotnet_diagnostic.CA1860.severity = warning
-
-# CA1854: Prefer TryGetValue over ContainsKey + indexer
-# KEPT: Some code uses ContainsKey pattern intentionally
-dotnet_diagnostic.CA1854.severity = warning
-
-# CA1861: Avoid constant arrays as arguments
-# KEPT: Some method calls use inline array literals for clarity
-dotnet_diagnostic.CA1861.severity = warning
 
 # CA1863: Cache a CompositeFormat for repeated use
 # Requires .NET 8+ API, not available on older targets
