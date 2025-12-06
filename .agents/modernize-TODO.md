@@ -3,8 +3,13 @@
 > **Purpose**: Comprehensive, actionable task list for repository modernization.
 > This document serves as the synchronization point for agent coordination.
 >
-> **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 11)
+> **Companion Documents**:
+> - [AGENT-INSTRUCTIONS.md](./AGENT-INSTRUCTIONS.md) - **READ FIRST** - How Copilot agents execute work
+> - [HANDOFF.md](./HANDOFF.md) - Session-to-session context transfer
+> - [PROMPTS.md](./PROMPTS.md) - Standard prompts for starting/ending sessions
+> - [modernize-explainer.md](./modernize-explainer.md) - Architecture and design decisions
+>
+> **Last Updated**: December 6, 2025 (Session 13)
 > **Status**: Active
 
 ---
