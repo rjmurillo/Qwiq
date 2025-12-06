@@ -22,8 +22,6 @@ dotnet_diagnostic.CS1591.severity = none
 # Changing to TimeZoneInfo would be a breaking API change affecting 9+ implementations.
 dotnet_diagnostic.CS0618.severity = none
 
-
-
 #######################################
 # CA17xx: Naming Rules
 #######################################

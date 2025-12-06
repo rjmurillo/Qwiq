@@ -44,6 +44,12 @@
     </PackageReference>
   </ItemGroup>
 
+  <!-- Framework-specific PublicAPI files for polyfill types that only exist in net472 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <AdditionalFiles Include="PublicAPI.Shipped.net472.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.net472.txt" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="readme.txt" Pack="true" PackagePath="" />
   </ItemGroup>
