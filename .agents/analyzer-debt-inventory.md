@@ -2,15 +2,50 @@
 
 > **Purpose**: Comprehensive inventory of all suppressed analyzer rules in the Qwiq repository
 > **Created**: December 5, 2025
-> **Status**: Baseline for Phase 1D (W1.15-W1.18)
+> **Last Updated**: December 5, 2025 (Session 11)
+> **Status**: Updated after Phase 1D targeted suppression work
 
 ---
 
 ## Executive Summary
 
+### Current State (After Session 11)
+
+| Rule | Status | Notes |
+|------|--------|-------|
+| CS1591 | 🔴 Suppressed | ~4200 violations, XML docs - large effort |
+| CS0618 | 🔴 Suppressed | TimeZone obsolete - breaking API change |
+| CA1707 | 🔴 Suppressed | 868 violations - test naming pattern |
+| CA1716 | 🔴 Suppressed | 78 violations - keyword conflicts, intentional |
+| CA1822 | 🔴 Suppressed | 36 violations - API compatibility |
+| CA1859 | 🔴 Suppressed | 30 violations - intentional abstraction |
+| CA1863 | 🔴 Suppressed | 20 violations - requires .NET 8+ API |
+| CA2263 | 🟡 Scoped | Test-specific, scoped to test files |
+
+### Rules Converted to Targeted Suppressions (Session 11)
+
+| Rule | Action | Location |
+|------|--------|----------|
+| CA1036 | `[SuppressMessage]` | `IdentityDescriptor` class |
+| CA1711 | `[SuppressMessage]` | `SaveFlags`, `WorkItemCopyFlags`, `ITfsTeamProjectCollection`, `MockTfsTeamProjectCollection` |
+| CA1715 | `[SuppressMessage]` | `IIdentityValueConverter<T, U>` interface |
+| CA1720 | `[SuppressMessage]` | `IProject.Guid`, `Project.Guid` properties |
+| CA1725 | Fixed | Parameter renamed `id` → `relatedWorkItemId` |
+
+### Rules Enabled via Polyfills (Session 11)
+
+| Rule | Description | Polyfill |
+|------|-------------|----------|
+| CA1510 | Use `ArgumentNullException.ThrowIfNull` | `ArgumentNullExceptionPolyfill.cs` |
+| CA1512 | Use `ArgumentOutOfRangeException.ThrowIfNegative/Zero` | `ArgumentOutOfRangeExceptionPolyfill.cs` |
+
+---
+
+## Historical Baseline (Before Phase 1D)
+
 | Category | Count | Priority | Notes |
 |----------|-------|----------|-------|
-| Security (CA3xxx-CA5xxx) | 65 | 🔴 Critical | Must review all |
+| Security (CA3xxx-CA5xxx) | 65 | 🔴 Critical | ✅ All enabled (0 violations) |
 | Reliability (CA2xxx) | 66 | 🔴 High | Disposal, null checks |
 | Performance (CA18xx) | 54 | 🟡 Medium | Allocations, boxing |
 | Design (CA1xxx) | 81 | 🟢 Low | API design patterns |

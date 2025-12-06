@@ -4,7 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Document**: [modernize-explainer.md](./modernize-explainer.md)
-> **Last Updated**: December 5, 2025 (Session 10)
+> **Last Updated**: December 5, 2025 (Session 11)
 > **Status**: Active
 
 ---
@@ -22,7 +22,19 @@
 - ✅ 65 security rules enabled (CA3xxx-CA5xxx) - zero violations
 - ✅ 3 reliability rules enabled (CA1062, CA2000, CA2007) - zero violations
 - ✅ 4 performance rules enabled (CA1812, CA1826, CA1845, CA1852) - zero violations
+- ✅ 7 rules converted to targeted suppressions (CA1036, CA1510, CA1512, CA1711, CA1715, CA1720, CA1725)
+- ✅ Polyfill support for `ArgumentOutOfRangeException.ThrowIfNegative/Zero`
 - 🔴 **4 tests failing**: 2 LINQ + 2 Mapper (array.Contains() not recognized)
+
+**Remaining Global Suppressions** (8 rules with documented justifications):
+- CS1591 (~4200) - XML docs, large effort
+- CS0618 (1) - TimeZone obsolete, breaking API change
+- CA1707 (868) - Test naming pattern
+- CA1716 (78) - Keyword conflicts, intentional
+- CA1822 (36) - Static methods, API compatibility
+- CA1859 (30) - Concrete types, intentional abstraction
+- CA1863 (20) - CompositeFormat, .NET 8+ only
+- CA2263 (scoped) - Test-specific
 
 **Next Session Must**:
 1. **FIRST**: Fix test failures (see handoff document for debugging strategy)
@@ -71,6 +83,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-05 (Session 11) | **Phase 1D Targeted Suppressions & Polyfill Enablement**: (1) Converted 5 global suppressions to targeted `[SuppressMessage]` attributes (CA1036, CA1711, CA1715, CA1720, CA1725). (2) Enabled CA1510 and CA1512 using existing polyfills. (3) Added `ThrowIfNegative` and `ThrowIfNegativeOrZero` to `ArgumentOutOfRangeExceptionPolyfill.cs`. (4) Linked polyfill files to `Qwiq.Linq.csproj` and `Qwiq.Identity.csproj`. (5) Renamed `ExecuteImpl` → `ExecuteCore` and `MapImpl` → `MapCore` per CA1711. (6) Fixed parameter name `id` → `relatedWorkItemId` per CA1725. (7) Reduced global suppressions from 15+ to 8. See: `.agents/session-2025-12-05-phase-1d-targeted-suppressions.md` | Build: ✅ 0 errors, 0 warnings. Tests: 🔴 4 pre-existing failures (Contains clause). Git: ✅ 7 commits pushed. |
 | 2025-12-05 (Session 10) | **Documentation Cleanup & Handoff Preparation**: (1) Verified build succeeds (0 errors, 2 MSB3836 warnings). (2) Verified all 196 tests pass (108+16+34+28+10). (3) Corrected Quick Reference table: Wave 1 is 18/27 (not 20/25), Wave 2 is 14 (not 15). (4) Confirmed working branch is `feat/modernize-2` with clean tree. (5) **IMPORTANT**: Branch `copilot/sub-pr-58` contains Phase 1D work (W1.15A-W1.17) that needs to be merged. Next session should either merge or continue that work. | Build: ✅ 0 errors. Tests: ✅ 196 passed. Docs: ✅ Updated. Git: ✅ Clean. |
 | 2025-12-05 (Session 9) | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition. | Docs: ✅ explainer + TODO updated. |
 | 2025-12-05 (Session 8) | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules. | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated. |
