@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Diagnostics;
 using Qwiq.Linq.WiqlExpressions;
 
 namespace Qwiq.Linq.Visitors
@@ -100,8 +99,6 @@ namespace Qwiq.Linq.Visitors
             if (node.Method.Name == "Contains")
             {
                 var declaringType = node.Method.DeclaringType;
-                System.IO.File.AppendAllText("/tmp/contains-debug.txt", 
-                    $"Contains: DeclaringType={declaringType?.FullName}, Args={node.Arguments.Count}, Object={(node.Object != null ? "yes" : "null")}\n");
                 
                 // This is a contains used to do substring matching on a value, such as: bug => bug.Status.Contains("Approved")
                 if (declaringType == typeof(string))
@@ -113,33 +110,44 @@ namespace Qwiq.Linq.Visitors
                 }
                 
                 // This is a contains used to see if a value is in a list, such as: bug => aliases.Contains(bug.AssignedTo)
-                // For now, accept ALL non-string Contains and figure out the argument order based on count
-                // TODO: Add back restrictions for Collection<T>, HashSet<T> after fixing array support
+                // Supports: Enumerable.Contains, MemoryExtensions.Contains (arrays in .NET 9+), and IEnumerable<T> extensions
+                // Excludes: Collection<T>.Contains, HashSet<T>.Contains, List<T>.Contains (unsupported instance methods)
                 
-                Expression subject, target;
+                // Check for unsupported collection types (these have Contains as instance methods, not extensions)
+                var isUnsupportedCollection = 
+                    declaringType?.Name == "Collection`1" ||
+                    declaringType?.Name == "HashSet`1" ||
+                    declaringType?.Name == "List`1";
                 
-                if (node.Arguments.Count == 2)
+                if (isUnsupportedCollection)
                 {
-                    // Extension method: Contains(source, value)
-                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Using 2-arg extension method pattern\n");
-                    subject = Visit(node.Arguments[1]);
-                    target = Visit(node.Arguments[0]);
-                }
-                else if (node.Arguments.Count == 1)
-                {
-                    // Instance method syntax: source.Contains(value)
-                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Using 1-arg instance method pattern\n");
-                    subject = Visit(node.Arguments[0]);
-                    target = Visit(node.Object!);
+                    // These are not supported - let it fall through to throw NotSupportedException
                 }
                 else
                 {
-                    // Unknown Contains signature
-                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Unknown signature, falling through\n");
-                    goto unknown_method;
-                }
+                    // Supported Contains - determine argument pattern
+                    Expression subject, target;
+                    
+                    if (node.Arguments.Count == 2)
+                    {
+                        // Extension method pattern: Contains(source, value)
+                        subject = Visit(node.Arguments[1]);
+                        target = Visit(node.Arguments[0]);
+                    }
+                    else if (node.Arguments.Count == 1)
+                    {
+                        // Instance method syntax: source.Contains(value)
+                        subject = Visit(node.Arguments[0]);
+                        target = Visit(node.Object!);
+                    }
+                    else
+                    {
+                        // Unknown Contains signature - fall through
+                        goto unknown_method;
+                    }
 
-                return new InExpression(node.Type, subject, target);
+                    return new InExpression(node.Type, subject, target);
+                }
             }
             
             unknown_method:
@@ -170,8 +178,7 @@ namespace Qwiq.Linq.Visitors
             }
 
             // Unknown method call
-            var declaringTypeName = node.Method.DeclaringType?.FullName ?? "null";
-            throw new NotSupportedException($"The method '{node.Method.Name}' from type '{declaringTypeName}' is not supported");
+            throw new NotSupportedException($"The method '{node.Method.Name}' is not supported");
         }
     }
 }
