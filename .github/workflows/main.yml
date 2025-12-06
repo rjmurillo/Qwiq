@@ -167,8 +167,8 @@ jobs:
           Write-Host "Version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
-      - name: Generate SBOM (validation)
-        # Generate SBOM for validation in build pipeline
+      - name: Generate SBOM
+        # Generate SBOM for build artifacts
         # Uses local .NET tool (restored via dotnet tool restore) instead of container action
         if: success()
         shell: pwsh
@@ -180,6 +180,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: sbom-validation-${{ matrix.os }}
+          name: sbom-${{ matrix.os }}
           path: ./artifacts/sbom/
           if-no-files-found: warn
