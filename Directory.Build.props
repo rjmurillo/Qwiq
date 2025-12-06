@@ -19,6 +19,10 @@
     <!-- Analyzer diagnostic severities are configured in .editorconfig -->
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 
+    <!-- Deterministic Builds -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
     <!-- Output Configuration -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
