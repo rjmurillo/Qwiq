@@ -134,7 +134,7 @@ namespace Qwiq.Linq.Visitors
                         // For MemoryExtensions.Contains, the first argument may be wrapped in an op_Implicit conversion
                         // to ReadOnlySpan<T>. We need to unwrap it to get the original collection.
                         var sourceArg = node.Arguments[0];
-                        
+
                         // Unwrap ReadOnlySpan implicit conversions (e.g., array -> ReadOnlySpan)
                         if (sourceArg is MethodCallExpression conversionCall &&
                             conversionCall.Method.Name == "op_Implicit" &&
@@ -142,7 +142,7 @@ namespace Qwiq.Linq.Visitors
                         {
                             sourceArg = conversionCall.Arguments[0];
                         }
-                        
+
                         target = Visit(sourceArg);
                         subject = Visit(node.Arguments[1]);
                     }
