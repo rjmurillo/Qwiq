@@ -258,3 +258,70 @@ If the workflow fails, follow these steps:
 - **Build Configuration**: Release, Any CPU
 - **Test Filters**: Same categories excluded (localOnly, Benchmark, SOAP, REST, IntegrationTests)
 - **Multi-targeting**: net472, netstandard2.0, net8.0
+
+---
+
+## Code Coverage
+
+### Coverage Gates
+
+Code coverage is collected in CI and available as artifacts. The following gates apply to new code:
+
+| Metric | Minimum | Target | Notes |
+|--------|---------|--------|-------|
+| Line Coverage (new code) | 70% | 80% | Enforced for new PRs |
+| Branch Coverage (new code) | 60% | 70% | Logical path coverage |
+| Overall Line Coverage | Baseline | Improving | Tracked but not blocking |
+
+**Coverage Philosophy:**
+- New code should meet target coverage (80% line, 70% branch)
+- Existing code coverage tracked for visibility
+- Coverage reports available as CI artifacts
+- Focus on meaningful tests over hitting percentages
+
+### Running Coverage Locally
+
+To collect and view code coverage locally:
+
+```powershell
+# Run tests with coverage collection
+dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsettings
+
+# Generate HTML report using reportgenerator
+dotnet tool restore  # Ensures reportgenerator is available
+dotnet reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -reporttypes:Html
+
+# Open the report
+start ./coverage/index.html  # Windows
+open ./coverage/index.html   # macOS
+xdg-open ./coverage/index.html  # Linux
+```
+
+### Coverage Configuration
+
+Coverage settings are defined in `coverage.runsettings`:
+- Platform: x64 (matches CI environment)
+- Format: Cobertura XML (for report generation)
+- Exclusions: Test projects, generated code, compatibility shims
+
+### CI Coverage Workflow
+
+1. **Collection**: Tests run with `--collect:"XPlat Code Coverage"`
+2. **Report Generation**: `reportgenerator` creates HTML and summary reports
+3. **Artifact Upload**: Coverage reports uploaded as `coverage-report` artifact
+4. **Review**: Download artifact from Actions tab to view detailed coverage
+
+### Viewing CI Coverage Reports
+
+1. Navigate to the GitHub Actions run
+2. Scroll to "Artifacts" section at bottom
+3. Download `coverage-report.zip`
+4. Extract and open `index.html` in browser
+
+### Coverage Best Practices
+
+- Write tests for happy paths AND edge cases
+- Cover error handling and null checks
+- Test public APIs thoroughly
+- Use mocks from `Qwiq.Mocks` for unit tests
+- Integration tests supplement but don't replace unit test coverage
