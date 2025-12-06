@@ -132,19 +132,19 @@ namespace Qwiq.Client.Rest
 
                 var forwardEnd = ends.Count == 1 && !type.IsDirectional
                                      ? ends[0]
-                                     : ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Forward"));
+                                     : ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Forward", StringComparison.Ordinal));
 
                 if (forwardEnd == null)
                 {
                     throw new InvalidOperationException($"Could not find forward link type end for '{kvp.Key}'.");
                 }
-                if (!forwardEnd.ReferenceName.EndsWith("Forward")) forwardEnd.ReferenceName += "-Forward";
+                if (!forwardEnd.ReferenceName.EndsWith("Forward", StringComparison.Ordinal)) forwardEnd.ReferenceName += "-Forward";
 
                 type.SetForwardEnd(new WorkItemLinkTypeEnd(forwardEnd) { IsForwardLink = true, LinkType = type });
                 type.SetReverseEnd(
                                    type.IsDirectional
                                        ? new WorkItemLinkTypeEnd(
-                                                                 ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Reverse"))
+                                                                 ends.SingleOrDefault(p => p.ReferenceName.EndsWith("Reverse", StringComparison.Ordinal))
                                                                  ?? throw new InvalidOperationException($"Could not find reverse link type end for '{kvp.Key}'."))
                                        {
                                            LinkType
