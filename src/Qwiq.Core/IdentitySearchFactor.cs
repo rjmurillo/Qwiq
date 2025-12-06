@@ -32,7 +32,7 @@ namespace Qwiq
         ///     A general search for identity
         /// </summary>
         /// <remarks>
-        ///     This is the default search factor for shorter overloads of IIdentityManagementService.ReadIdentity,
+        ///     This is the default search factor for shorter overloads of <see cref="IIdentityManagementService" />.ReadIdentity,
         ///     and typically the correct choice for user input. Use the general search factor to find one or more identities by
         ///     one of the following properties:
         ///     - Display name

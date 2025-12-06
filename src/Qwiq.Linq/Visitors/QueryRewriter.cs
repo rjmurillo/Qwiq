@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Diagnostics;
 using Qwiq.Linq.WiqlExpressions;
 
 namespace Qwiq.Linq.Visitors
@@ -95,23 +96,53 @@ namespace Qwiq.Linq.Visitors
                 return new NotInGroupExpression(node.Type, subject, target);
             }
 
-            // This is a contains used to see if a value is in a list, such as: bug => aliases.Contains(bug.AssignedTo)
-            if (node.Method.DeclaringType == typeof(Enumerable) && node.Method.Name == "Contains")
+            // Handle Contains method calls
+            if (node.Method.Name == "Contains")
             {
-                var subject = Visit(node.Arguments[1]);
-                var target = Visit(node.Arguments[0]);
+                var declaringType = node.Method.DeclaringType;
+                System.IO.File.AppendAllText("/tmp/contains-debug.txt", 
+                    $"Contains: DeclaringType={declaringType?.FullName}, Args={node.Arguments.Count}, Object={(node.Object != null ? "yes" : "null")}\n");
+                
+                // This is a contains used to do substring matching on a value, such as: bug => bug.Status.Contains("Approved")
+                if (declaringType == typeof(string))
+                {
+                    var subject = Visit(node.Object);
+                    var target = Visit(node.Arguments[0]);
+
+                    return new ContainsExpression(node.Type, subject!, target!);
+                }
+                
+                // This is a contains used to see if a value is in a list, such as: bug => aliases.Contains(bug.AssignedTo)
+                // For now, accept ALL non-string Contains and figure out the argument order based on count
+                // TODO: Add back restrictions for Collection<T>, HashSet<T> after fixing array support
+                
+                Expression subject, target;
+                
+                if (node.Arguments.Count == 2)
+                {
+                    // Extension method: Contains(source, value)
+                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Using 2-arg extension method pattern\n");
+                    subject = Visit(node.Arguments[1]);
+                    target = Visit(node.Arguments[0]);
+                }
+                else if (node.Arguments.Count == 1)
+                {
+                    // Instance method syntax: source.Contains(value)
+                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Using 1-arg instance method pattern\n");
+                    subject = Visit(node.Arguments[0]);
+                    target = Visit(node.Object!);
+                }
+                else
+                {
+                    // Unknown Contains signature
+                    System.IO.File.AppendAllText("/tmp/contains-debug.txt", "  -> Unknown signature, falling through\n");
+                    goto unknown_method;
+                }
 
                 return new InExpression(node.Type, subject, target);
             }
-
-            // This is a contains used to do substring matching on a value, such as: bug => bug.Status.Contains("Approved")
-            if (node.Method.DeclaringType == typeof(string) && node.Method.Name == "Contains")
-            {
-                var subject = Visit(node.Object);
-                var target = Visit(node.Arguments[0]);
-
-                return new ContainsExpression(node.Type, subject!, target!);
-            }
+            
+            unknown_method:
 
             if (node.Method.DeclaringType == typeof(QueryExtensions) && node.Method.Name == "AsOf")
             {
@@ -139,7 +170,8 @@ namespace Qwiq.Linq.Visitors
             }
 
             // Unknown method call
-            throw new NotSupportedException($"The method '{node.Method.Name}' is not supported");
+            var declaringTypeName = node.Method.DeclaringType?.FullName ?? "null";
+            throw new NotSupportedException($"The method '{node.Method.Name}' from type '{declaringTypeName}' is not supported");
         }
     }
 }
