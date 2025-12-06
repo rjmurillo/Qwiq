@@ -88,35 +88,5 @@ namespace Qwiq
             return IdentityTypeMapper.Instance.GetTypeNameFromId(IdentityTypeId) + ";" + _identifier;
         }
 
-        public static bool operator ==(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            if (left is null) return right is null;
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            return !(left == right);
-        }
-
-        public static bool operator <(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            return left is null ? right is not null : left.CompareTo(right) < 0;
-        }
-
-        public static bool operator <=(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            return left is null || left.CompareTo(right) <= 0;
-        }
-
-        public static bool operator >(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            return left is not null && left.CompareTo(right) > 0;
-        }
-
-        public static bool operator >=(IdentityDescriptor? left, IdentityDescriptor? right)
-        {
-            return left is null ? right is null : left.CompareTo(right) >= 0;
-        }
     }
 }
