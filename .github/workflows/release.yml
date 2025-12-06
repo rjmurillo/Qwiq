@@ -78,13 +78,11 @@ jobs:
           path: packages
 
       - name: Generate SBOM (release)
-        uses: microsoft/sbom-tool@v4.1.4
-        with:
-          buildDropPath: ./packages
-          buildComponentPath: ./
-          outputPath: ./sbom
-          packageName: Qwiq
-          packageVersion: ${{ github.ref_name }}
+        # Uses .NET tool instead of container action (container actions only work on Linux)
+        shell: bash
+        run: |
+          dotnet tool install --global Microsoft.Sbom.DotNetTool
+          sbom-tool generate -b ./packages -bc ./ -pn Qwiq -pv ${{ github.ref_name }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./sbom
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4

@@ -162,14 +162,12 @@ jobs:
       - name: Generate SBOM (validation)
         # Generate SBOM for validation in build pipeline
         # Only run on Windows where all packages are built
+        # Uses .NET tool instead of container action (container actions only work on Linux)
         if: success() && matrix.os == 'windows-latest'
-        uses: microsoft/sbom-tool@v4.1.4
-        with:
-          buildDropPath: ./src
-          buildComponentPath: ./
-          outputPath: ./artifacts/sbom
-          packageName: Qwiq
-          packageVersion: ${{ github.run_number }}
+        shell: pwsh
+        run: |
+          dotnet tool install --global Microsoft.Sbom.DotNetTool
+          sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ github.run_number }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
