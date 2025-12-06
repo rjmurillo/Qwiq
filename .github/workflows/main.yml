@@ -15,7 +15,23 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            # Windows builds all projects including SOAP (net472)
+            build-projects: "Qwiq.sln"
+            skip-sourcelink: false
+          - os: ubuntu-latest
+            # Linux skips SOAP projects (net472 requires Windows)
+            # Only build REST-compatible projects
+            build-projects: "src/Qwiq.Core/Qwiq.Core.csproj src/Qwiq.Core.Rest/Qwiq.Client.Rest.csproj src/Qwiq.Linq/Qwiq.Linq.csproj src/Qwiq.Mapper/Qwiq.Mapper.csproj src/Qwiq.Identity/Qwiq.Identity.csproj src/Qwiq.Linq.Identity/Qwiq.Linq.Identity.csproj src/Qwiq.Mapper.Identity/Qwiq.Mapper.Identity.csproj test/Qwiq.Mocks/Qwiq.Mocks.csproj test/Qwiq.Tests.Common/Qwiq.Tests.Common.csproj test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj"
+            skip-sourcelink: true
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
+    name: Build (${{ matrix.os }})
 
     env:
       # Test filter matching AppVeyor configuration
@@ -42,29 +58,40 @@ jobs:
         # Use /t:Build,Pack to ensure all packages are generated during build.
         # GeneratePackageOnBuild alone doesn't work reliably with multi-targeting
         # when building via solution file due to MSBuild's IsInnerBuild behavior.
-        run: dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
+        # On Linux, we build only REST-compatible projects (no SOAP/net472)
+        run: dotnet build ${{ matrix.build-projects }} -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
       - name: Validate package output
         # Scans csproj files to find packable projects and validates each produced
         # both .nupkg and .snupkg files. Fails the build if any are missing.
+        # Only run on Windows (Linux builds don't generate all packages)
+        if: matrix.os == 'windows-latest'
         run: ./build/scripts/Validate-PackageOutput.ps1
 
       - name: Verify Source Link
         # Only run on push events (develop/master), not on pull_request events.
         # During PR checks, GitHub creates a temporary merge commit that sourcelink
         # cannot validate because the commit doesn't persist on GitHub's raw content server.
-        if: github.event_name == 'push'
+        # Only run on Windows builds (Linux builds don't generate all packages)
+        if: github.event_name == 'push' && matrix.os == 'windows-latest'
         run: ./build/scripts/Verify-SourceLink.ps1
 
       - name: Run tests with coverage
         id: test
-        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+        # On Windows, test the full solution. On Linux, test only cross-platform projects
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+          else
+            dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+          fi
+        shell: bash
 
       - name: Upload build logs
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs
+          name: build-logs-${{ matrix.os }}
           path: ./artifacts/logs/
           if-no-files-found: ignore
 
@@ -76,7 +103,7 @@ jobs:
         if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-${{ matrix.os }}
           path: ./artifacts/TestResults/**/*.trx
           if-no-files-found: ignore
 
@@ -84,7 +111,7 @@ jobs:
         if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-report-${{ matrix.os }}
           path: ./artifacts/CoverageReport/
           if-no-files-found: ignore
 
@@ -92,7 +119,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: binaries
+          name: binaries-${{ matrix.os }}
           path: |
             src/**/bin/Release/**/*.dll
             src/**/bin/Release/**/*.exe
@@ -101,7 +128,8 @@ jobs:
 
       - name: Upload packages
         uses: actions/upload-artifact@v4
-        if: success()
+        # Only upload packages from Windows build (Linux doesn't build all packages)
+        if: success() && matrix.os == 'windows-latest'
         with:
           name: packages
           path: |
