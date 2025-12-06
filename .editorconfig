@@ -42,28 +42,21 @@ dotnet_diagnostic.CA1512.severity = none
 # KEPT: Test classes and methods use Given_When_Then naming pattern (868 violations)
 dotnet_diagnostic.CA1707.severity = none
 
-
-
-
-
 # CA1716: Identifiers should not match keywords
-# KEPT: When() method is part of established test specification pattern
+# KEPT: When() method is part of established test specification pattern;
+# 'property' parameter name is standard for reflection APIs (78 violations)
 dotnet_diagnostic.CA1716.severity = none
-
-
-
-
 
 #######################################
 # CA18xx: Performance Rules
 #######################################
 
 # CA1822: Mark members as static
-# KEPT: Some instance methods could be static but are kept for API compatibility
+# KEPT: Some instance methods could be static but are kept for API compatibility (36 violations)
 dotnet_diagnostic.CA1822.severity = none
 
 # CA1859: Use concrete types when possible for improved performance
-# KEPT: Interface types used intentionally for abstraction and testability
+# KEPT: Interface types used intentionally for abstraction and testability (30 violations)
 dotnet_diagnostic.CA1859.severity = none
 
 # CA1863: Cache a CompositeFormat for repeated use
