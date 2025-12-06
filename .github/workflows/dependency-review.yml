@@ -33,11 +33,9 @@ jobs:
           # Check both runtime and development dependencies
           fail-on-scopes: runtime,development
 
-          # Deny copyleft licenses that would restrict library consumers
+          # Allow only permissive licenses compatible with MIT
+          # This implicitly denies copyleft licenses (GPL, AGPL, LGPL) that would restrict library consumers
           # See docs/CONTRIBUTING.md for license policy rationale
-          deny-licenses: GPL-2.0, GPL-3.0, AGPL-3.0, LGPL-3.0
-
-          # Allow permissive licenses compatible with MIT
           allow-licenses: MIT, Apache-2.0, BSD-3-Clause, 0BSD
 
           # Always comment on PRs with dependency summary
