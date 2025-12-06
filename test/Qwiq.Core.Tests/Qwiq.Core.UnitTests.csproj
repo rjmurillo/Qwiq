@@ -1,1 +1,41 @@
-<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TargetFrameworks>net472;net8.0</TargetFrameworks>    <RootNamespace>Qwiq</RootNamespace>    <AssemblyName>Qwiq.Core.UnitTests</AssemblyName>    <IsPackable>false</IsPackable>    <IsTestProject>true</IsTestProject>  </PropertyGroup>  <ItemGroup>    <PackageReference Include="Microsoft.NET.Test.Sdk" />    <PackageReference Include="MSTest.TestAdapter" />    <PackageReference Include="MSTest.TestFramework" />    <PackageReference Include="coverlet.collector" />    <PackageReference Include="Shouldly" />    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />    <PackageReference Include="Microsoft.TeamFoundationServer.Client" />    <PackageReference Include="Newtonsoft.Json" />  </ItemGroup>  <ItemGroup>    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />    <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />  </ItemGroup>  <!-- Include SOAP client only for net472 -->  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">    <ProjectReference Include="..\..\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />  </ItemGroup>  </Project>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net8.0</TargetFrameworks>
+    <RootNamespace>Qwiq</RootNamespace>
+    <AssemblyName>Qwiq.Core.UnitTests</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.Client" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="WireMock.Net" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Moq.Analyzers" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+  </ItemGroup>
+
+  <!-- Include REST client for unit testing -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qwiq.Core.Rest\Qwiq.Client.Rest.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+  </ItemGroup>
+
+  <!-- Include SOAP client only for net472 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <ProjectReference Include="..\..\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
+  </ItemGroup>
+
+</Project>
