@@ -507,23 +507,23 @@ QWIQ enforces a dependency license policy to protect library consumers from rest
 
 The following licenses are **allowed** because they are permissive and compatible with QWIQ's MIT license:
 
-| License       | Description                                                                           |
-| ------------- | ------------------------------------------------------------------------------------- |
-| **MIT**       | Permissive: allows commercial use, modification, distribution with minimal restrictions. QWIQ's own license. |
-| **Apache-2.0** | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages. |
-| **BSD-3-Clause** | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem. |
-| **0BSD**      | Public domain equivalent. No restrictions whatsoever.                                 |
+| License          | Description                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| **MIT**          | Permissive: allows commercial use, modification, distribution with minimal restrictions. QWIQ's own license. |
+| **Apache-2.0**   | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages.                 |
+| **BSD-3-Clause** | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem.                            |
+| **0BSD**         | Public domain equivalent. No restrictions whatsoever.                                                        |
 
 ### Denied Licenses (Copyleft)
 
 The following licenses are **denied** because they impose copyleft requirements that would restrict QWIQ's consumers:
 
-| License        | Why Denied                                                                                                                                            |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **GPL-2.0**    | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution.                                          |
-| **GPL-3.0**    | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force QWIQ consumers to GPL-license their code.                               |
-| **AGPL-3.0**   | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers.                                          |
-| **LGPL-3.0**   | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers.                                              |
+| License      | Why Denied                                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| **GPL-2.0**  | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution.            |
+| **GPL-3.0**  | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force QWIQ consumers to GPL-license their code. |
+| **AGPL-3.0** | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers.           |
+| **LGPL-3.0** | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers.               |
 
 ### License Enforcement
 
