@@ -11,7 +11,7 @@
 **Build Status**: ✅ PASSING (0 warnings, 0 errors)
 **Test Status**: ✅ PASSING (189 tests on net8.0)
 
-**Last Commit**: `815354e9` (feat(ci): add release workflow for NuGet publishing)
+**Last Commit**: `36c38d60` (chore(api): migrate API entries from Unshipped to Shipped)
 
 ---
 
@@ -49,6 +49,14 @@
   - Configured NuGet publishing with `--skip-duplicate`
   - Added environment approval gate (`production-nuget`)
   - Supports: workflow_dispatch, release events, and v* tags
+
+### API Baseline Migration (Session 17 Bonus)
+- [x] **API Migration** - Migrated 1,296 entries from Unshipped to Shipped (COMPLETE - commit 36c38d60)
+  - Created reusable script: `build/scripts/Migrate-PublicApiToShipped.ps1`
+  - Executed migration across 11 PublicAPI.Shipped.txt files
+  - All current API signatures now marked as "shipped" baseline
+  - Enables breaking change detection in future releases
+  - Build verified: 0 warnings, 0 errors
 
 ---
 
@@ -106,7 +114,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 | 2025-12-06 | 2A | W2.5 (ADRs), W2.2 (API infra) - Session 14 | ✅ Complete |
 | 2025-12-06 | 2A | W2.2 (API baselines populated) - Session 15 | ✅ Complete |
 | 2025-12-06 | 2A | W2.15 (Deps), W2.18 (Validation) - Session 16 | ✅ Complete |
-| 2025-12-06 | 2A | W2.11 (Release Workflow) - Session 17 | ✅ Complete |
+| 2025-12-06 | 2A | W2.11 (Release Workflow) + API Migration - Session 17 | ✅ Complete |
 
 ---
 
@@ -122,36 +130,37 @@ If you need context, read these files in order:
 
 ## Important Notes for Next Session
 
-1. **Phase 2A COMPLETE**: All 5 tasks done (W2.5, W2.2, W2.15, W2.18, W2.11)
+1. **Phase 2A COMPLETE**: All 5 tasks done (W2.5, W2.2, W2.15, W2.18, W2.11) ✅
+   - Plus bonus: API Migration (1,296 entries) completed in Session 17
 
-2. **NEXT PRIORITY**: Phase 2B - Supply Chain Security
+2. **Wave 2 Progress**: 5/15 tasks complete (33%)
+
+3. **NEXT PRIORITY**: Phase 2B - Supply Chain Security
    - W2.17 - SLSA Provenance Generation (CRITICAL)
    - W2.13 - SBOM Generation (HIGH)
    - W2.14 - Dependency Review Action (HIGH - partially done)
 
-3. **Release Workflow Manual Setup Required**:
+4. **Release Workflow Manual Setup Required**:
    - Create `production-nuget` environment in GitHub repo settings
    - Add `NUGET_API_KEY` secret to the repository
    - Test with `workflow_dispatch` before relying on tag triggers
 
-4. **Dependency Management Complete**: ✅
+5. **API Baselines Complete** ✅: 
+   - W2.2: 1,268 API entries documented in Unshipped files
+   - Session 17: 1,296 entries migrated to Shipped (establishes stable baseline)
+   - Script available: `build/scripts/Migrate-PublicApiToShipped.ps1` for future releases
+
+6. **Dependency Management Complete** ✅: 
    - Renovate will automatically pin GitHub Actions to SHAs via PR
    - Dependabot and Renovate both configured with proper grouping
    - Dependency review blocks vulnerable packages
-   - Auto-approve streamlines bot PRs (still requires CI pass)
 
-5. **Package Validation Enabled**: ✅
+7. **Package Validation Enabled** ✅: 
    - All 9 projects configured
    - Baseline version will be set after next release
    - Breaking changes will be detected automatically
 
-6. **API Baselines Complete**: ✅ W2.2 done - 1,268 API entries documented across 9 projects
-
-7. **ADRs Complete**: ✅ W2.5 done - 6 comprehensive ADRs documented (49.1 KB total)
-
-8. **Migration Script Available**: Use `build/scripts/Migrate-PublicApiToShipped.ps1` when releasing to move Unshipped → Shipped
-
-9. **Session Logs**: Always create session log at start (`.agents/sessions/YYYY-MM-DD-phase-XX.md`)
+8. **ADRs Complete** ✅: 6 comprehensive ADRs documented (49.1 KB total)
 
 ---
 

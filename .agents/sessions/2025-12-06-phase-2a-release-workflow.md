@@ -42,11 +42,81 @@
 
 ---
 
+### API Migration - 1,296 Entries (Bonus Task)
+**Status**: ✅ Complete
+
+**What was done**:
+- [x] Created `build/scripts/Migrate-PublicApiToShipped.ps1` - reusable PowerShell migration script
+- [x] Executed migration: moved 1,296 API entries from Unshipped to Shipped baseline
+- [x] Updated 11 PublicAPI.Shipped.txt files across all packable projects
+- [x] Verified build passes with 0 warnings, 0 errors
+
+**Why this was done**:
+- Library is already shipped to NuGet users
+- Establishes clear baseline for breaking change detection in future releases
+- PublicApiAnalyzers can now detect new/removed APIs in future PRs
+- Aligns with semantic versioning: all current signatures are "shipped"
+
+**Migration Details**:
+- Qwiq.Core: 910 entries + 36 net472 variant = 946
+- Qwiq.Core.Rest: 13 entries
+- Qwiq.Core.Soap: 23 entries
+- Qwiq.Identity: 35 entries + 1 net472 variant = 36
+- Qwiq.Identity.Soap: 3 entries
+- Qwiq.Linq: 134 entries
+- Qwiq.Linq.Identity: 3 entries
+- Qwiq.Mapper: 126 entries
+- Qwiq.Mapper.Identity: 12 entries
+- **Total: 1,296 entries migrated**
+
+**Script Features**:
+- Handles framework-specific files (e.g., `PublicAPI.Unshipped.net472.txt`)
+- Deduplicates entries and sorts alphabetically
+- Preserves `#nullable enable` header
+- Supports `-WhatIf` for dry runs
+- Comprehensive logging with emoji indicators
+
+**Files changed**:
+- `build/scripts/Migrate-PublicApiToShipped.ps1` - New reusable script
+- 11 × `PublicAPI.Shipped.txt` - All updated with migrated entries
+- 11 × `PublicAPI.Unshipped.txt` - All cleared (header only)
+
+**Commits**:
+- `36c38d60` - chore(api): migrate API entries from Unshipped to Shipped
+
+**Build verification**:
+- `dotnet build Qwiq.sln -c Release`
+- Result: ✅ 0 warnings, 0 errors, 14.14 seconds
+
+---
+
+## Phase 2A Completion
+
+All 5 Phase 2A tasks are now **COMPLETE**:
+- ✅ W2.5 - Architecture Decision Records (Session 14)
+- ✅ W2.2 - API Compatibility Baselines (Sessions 14-15)
+- ✅ W2.15 - Pin GitHub Actions by SHA (Session 16)
+- ✅ W2.18 - Enable Package Validation (Session 16)
+- ✅ W2.11 - Create Release Workflow (Session 17)
+
+Wave 2 Progress: **5/15 tasks complete (33%)**
+
+---
+
 ## Session Summary
 
-**Completed**: 1/1 tasks (W2.11)
-**Time spent**: ~30 minutes
-**Next up**: W2.17 (SLSA Provenance), W2.13 (SBOM), or remaining Phase 2A tasks
+**Completed**: 2 major tasks (W2.11 + API Migration)
+**Total commits**: 3 (815354e9, 219d1c85, 36c38d60)
+**Time spent**: ~1.5 hours
+**Build status**: ✅ 0 warnings, 0 errors
+**Test status**: ✅ 189/189 tests passing
+**Next up**: Phase 2B - W2.17 (SLSA Provenance), W2.13 (SBOM), W2.14 (Dependency Review)
+
+## Manual Setup Required
+For release.yml to work, a GitHub repository admin must:
+1. Create `production-nuget` environment in repo settings
+2. Add `NUGET_API_KEY` secret to the repository
+3. (Optional) Enable required reviewers on the environment for safety
 
 ## Verification Commands
 ```powershell
