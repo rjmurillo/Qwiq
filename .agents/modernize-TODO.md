@@ -1513,15 +1513,23 @@ await Should.ThrowAsync<InvalidOperationException>(() => sut.ExecuteAsync(...));
 
 ---
 
-#### W2.4 Benchmark CI Integration
-- [ ] **Task**: Run benchmarks in CI (compile-only validation)
-- **Effort**: S (2-4 hours)
+#### W2.4 Benchmark CI Integration ✅ COMPLETE
+- [x] **Task**: Run benchmarks in CI (compile-only validation)
+- **Effort**: S (< 1 hour actual)
 - **Priority**: Low
 - **Dependencies**: None
+- **Completed**: 2025-12-06 (Session 20 - Phase 2C)
+
+**Implementation**:
+- Verified all 3 benchmark projects compile successfully in CI
+- `dotnet build Qwiq.sln` in main.yml already builds all benchmarks
+- Windows build: All frameworks (net472, net8.0) compile
+- Linux build: net8.0 compiles successfully
+- Benchmarks excluded from test execution via `TestCategory!=Benchmark`
 
 - **Acceptance Criteria**:
-  - [ ] Benchmark projects compile in CI
-  - [ ] Optional performance regression detection
+  - [x] Benchmark projects compile in CI (Windows and Linux)
+  - [ ] Optional performance regression detection (deferred)
 
 ---
 

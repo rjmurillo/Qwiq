@@ -23,6 +23,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Qwiq.IntegrationTests" />
     <InternalsVisibleTo Include="Qwiq.Integration.Tests" />
+    <InternalsVisibleTo Include="Qwiq.Core.UnitTests" />
   </ItemGroup>
 
   <ItemGroup>
