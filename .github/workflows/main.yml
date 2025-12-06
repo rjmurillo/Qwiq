@@ -87,9 +87,10 @@ jobs:
         id: test-linux
         if: matrix.os == 'ubuntu-latest'
         shell: pwsh
-        # Run tests on Linux, excluding Package tests which require all TFMs to be built.
-        # net472 test projects are skipped automatically since they weren't built.
-        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}&TestCategory!=Package" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+        # Run tests on Linux with net8.0 only (excludes Package tests which require all TFMs).
+        # --framework net8.0 prevents VSTest from attempting to run net472 assemblies which require Mono.
+        # net472 assemblies are built but cannot be executed on Linux without Mono installed.
+        run: dotnet test Qwiq.sln -c Release --no-build --framework net8.0 --filter "${{ env.TEST_FILTER }}&TestCategory!=Package" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
         if: success() || failure()
