@@ -157,7 +157,7 @@ dotnet_diagnostic.CA1822.severity = none
 
 # CA1825: Avoid unnecessary zero-length array allocations
 # Technical debt: Use Array.Empty<T>() instead
-dotnet_diagnostic.CA1825.severity = none
+dotnet_diagnostic.CA1825.severity = warning
 
 # CA2208: Instantiate argument exceptions correctly
 # Technical debt: Some exceptions use descriptive strings instead of parameter names

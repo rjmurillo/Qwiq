@@ -220,7 +220,7 @@ namespace Qwiq.Mocks
                 else
                     yield return new KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>(
                                                                                                 searchFactor,
-                                                                                                new ITeamFoundationIdentity[0]);
+                                                                                                Array.Empty<ITeamFoundationIdentity>());
             }
         }
 
