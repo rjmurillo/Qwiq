@@ -1,8 +1,8 @@
 # ADR-007: REST Client Testability via Dependency Injection
 
-**Status**: Proposed  
+**Status**: Accepted  
 **Date**: 2025-12-06  
-**Deciders**: Development Team  
+**Deciders**: @rjmurillo  
 **Context Tags**: Testing, Architecture, REST Client
 
 ---

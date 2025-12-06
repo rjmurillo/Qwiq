@@ -1,6 +1,8 @@
+using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Qwiq.Client.Rest;
+using Qwiq.Credentials;
 using Qwiq.Tests.Common;
 using Shouldly;
 using System;
@@ -13,21 +15,35 @@ using WireMock.Server;
 
 namespace Qwiq.Client.Rest
 {
+    /// <summary>
+    /// Tests for REST client query execution using WireMock.Net for HTTP mocking.
+    /// </summary>
+    /// <remarks>
+    /// These tests demonstrate the refactored factory pattern that enables unit testing without Azure DevOps connectivity.
+    /// The WorkItemStoreFactory now accepts an internal ITfsConnectionFactory parameter for test injection.
+    /// 
+    /// KNOWN ISSUE: VssConnection attempts to establish a connection during construction, requiring SSL certificate validation.
+    /// Future enhancement: Configure HttpClient to accept WireMock's self-signed certificate or use a different mocking approach.
+    /// </remarks>
     [TestClass]
     [TestCategory("RestUnit")]
+    [Ignore("SSL certificate validation pending - see class remarks")]
     public class Given_WorkItemStore_When_Querying_With_WIQL : ContextSpecification
     {
-#pragma warning disable CS0649 // Field is never assigned to - pending implementation
         private WireMockServer? _server;
         private IWorkItemStore? _store;
         private IWorkItemCollection? _result;
-#pragma warning restore CS0649
         private const string TestWiql = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'Bug'";
 
         public override void Given()
         {
-            // Start WireMock server on random port
-            _server = WireMockServer.Start();
+            // Start WireMock server with HTTPS support
+            var settings = new WireMock.Settings.WireMockServerSettings
+            {
+                UseSSL = true,
+                Port = 0 // Use random port
+            };
+            _server = WireMockServer.Start(settings);
 
             // Configure mock response for WIQL query
             _server
@@ -91,19 +107,28 @@ namespace Qwiq.Client.Rest
                         ]
                     }"));
 
-            // TODO: Create store instance pointing to WireMock server
-            // This requires creating a test factory or helper that can inject the base URL
-            // For now, this is a placeholder showing the test structure
+            // Create mock connection factory that points to WireMock server
+            var mockConnectionFactory = new MockTfsConnectionFactory(new Uri(_server.Url!));
+
+            // Create authentication options with a simple credentials factory
+            // Credentials don't matter for WireMock, just need to provide something
+            var options = new AuthenticationOptions(
+                new Uri(_server.Url!),
+                AuthenticationTypes.Basic,
+                _ => new VssCredentials[] { new VssBasicCredential(string.Empty, string.Empty) });
+
+            // Get the factory instance and use internal overload for testing
+            var factory = (WorkItemStoreFactory)WorkItemStoreFactory.Default;
+            _store = factory.Create(options, mockConnectionFactory);
         }
 
         public override void When()
         {
-            // TODO: Execute query once store creation is implemented
-            // _result = _store?.Query(TestWiql);
+            // Execute query against WireMock server
+            _result = _store?.Query(TestWiql);
         }
 
         [TestMethod]
-        [Ignore("Implementation pending - requires REST client factory refactoring")]
         public void Should_Return_Two_WorkItems()
         {
             _result.ShouldNotBeNull();
@@ -113,7 +138,6 @@ namespace Qwiq.Client.Rest
         }
 
         [TestMethod]
-        [Ignore("Implementation pending - requires REST client factory refactoring")]
         public void Should_Have_Correct_WorkItem_Ids()
         {
             _result.ShouldNotBeNull();
@@ -123,7 +147,6 @@ namespace Qwiq.Client.Rest
         }
 
         [TestMethod]
-        [Ignore("Implementation pending - requires REST client factory refactoring")]
         public void Should_Have_Correct_WorkItem_Types()
         {
             _result.ShouldNotBeNull();
