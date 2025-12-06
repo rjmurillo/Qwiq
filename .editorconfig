@@ -173,7 +173,7 @@ dotnet_diagnostic.CA2211.severity = none
 
 # CA1847: Use string.Contains(char) instead of string.Contains(string)
 # Technical debt: Would require framework-specific code paths
-dotnet_diagnostic.CA1847.severity = none
+dotnet_diagnostic.CA1847.severity = warning
 
 # CA1859: Use concrete types when possible for improved performance
 # Technical debt: Interface types used intentionally for abstraction
