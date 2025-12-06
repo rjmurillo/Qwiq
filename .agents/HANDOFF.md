@@ -140,7 +140,7 @@ If you need context, read these files in order:
    - Dependency review blocks vulnerable packages
    - Auto-approve streamlines bot PRs (still requires CI pass)
 
-5. **Package Validation Enabled**: ✅ 
+5. **Package Validation Enabled**: ✅
    - All 9 projects configured
    - Baseline version will be set after next release
    - Breaking changes will be detected automatically
