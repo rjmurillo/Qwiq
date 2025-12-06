@@ -1,7 +1,7 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-06 by Copilot Agent (Session 19 - SBOM Tool Fix)
-> **Current Phase**: Phase 2B COMPLETE + SBOM Fix
+> **Last Updated**: 2025-12-06 by Copilot Agent (Session 20 - Phase 2C Partial)
+> **Current Phase**: Phase 2C (PARTIAL COMPLETION)
 > **Branch**: `copilot/sub-pr-65`
 
 ---
@@ -9,9 +9,29 @@
 ## Current State
 
 **Build Status**: ✅ PASSING (0 warnings, 0 errors)
-**Test Status**: ✅ PASSING (196 tests)
+**Test Status**: ✅ PASSING (108 unit tests)
 
-**Last Commit**: `236a2891` (refactor(ci): DRY out SBOM generation between main and release workflows)
+**Last Commit**: `18ba630` (docs(adr): add ADR-007 for REST client testability)
+
+### Session 20 Summary (Phase 2C Partial)
+
+**Completed**:
+1. ✅ W2.4 - Benchmark CI Integration (benchmarks already compile in CI)
+2. ✅ Created ADR-007 documenting REST client testability challenge
+3. ✅ Added WireMock.Net 1.5.40, Moq 4.16.0, Moq.Analyzers 0.4.0 packages
+4. ✅ Configured test infrastructure for REST unit tests
+
+**Architectural Challenge Discovered**:
+- W2.16 cannot proceed without refactoring REST client factory pattern
+- REST client tightly coupled to Azure DevOps SDK (VssConnection)
+- ADR-007 proposes internal overload pattern to enable testability
+- Implementation deferred pending architectural review
+
+**Blockers**:
+- W2.16 requires architectural decision before implementation can proceed
+- W2.3 blocked by W2.16 dependency
+
+See: `.agents/sessions/2025-12-06-phase-2c.md` for full details.
 
 ### Session 19 Summary (SBOM Tool Fix)
 
@@ -62,6 +82,14 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
   - Build verified: 0 warnings, 0 errors
 
 
+## What Was Completed
+
+### Phase 2C: Testing Enhancements (Session 20)
+- ✅ **W2.4** - Benchmark CI Integration (verified benchmarks compile in CI)
+- ⚠️ **W2.16 Phase 1** - Infrastructure complete (WireMock.Net, Moq added), implementation deferred
+- ⚠️ **ADR-007** - Created to document REST client testability challenge
+- ⏸️ **W2.3** - Blocked by W2.16 dependency
+
 ## What's Next
 
 ### Phase 2A: ✅ COMPLETE (5/5 tasks)
@@ -78,14 +106,30 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 2. ✅ ~~**W2.13** - SBOM Generation (dual pipeline)~~ (COMPLETE - commit e569bb5)
 3. ✅ ~~**W2.14** - Dependency Review Action~~ (COMPLETE - commit 5222a66)
 
-### Phase 2C: Testing Enhancements (NEXT)
+### Phase 2C: Testing Enhancements (1/3 complete)
 
-1. **W2.16** - REST/SOAP Unit Test Coverage - **HIGH**
-2. **W2.3** - Add Benchmark Tests - **LOW**
-3. **W2.4** - Improve Test Coverage - **LOW**
+1. ✅ ~~**W2.4** - Benchmark CI Integration~~ (COMPLETE)
+2. ⏸️ **W2.16** - REST/SOAP Unit Test Coverage - **HIGH** - Requires architectural decision on ADR-007
+3. ⏸️ **W2.3** - Contract Tests for REST/SOAP Parity - **LOW** - Blocked by W2.16
+
+### Phase 2D: Security Hardening (NEXT RECOMMENDED)
+
+1. **W2.19** - CodeQL Advanced Security - **MEDIUM** - Integrate CodeQL into main.yml
+2. **W2.20** - Secrets Scanning - **MEDIUM** - Add secrets scanning to CI
+
+### Phase 2E: Documentation
+
+1. **W2.7** - Update CONTRIBUTING.md - **MEDIUM** - Document new workflows and patterns
 
 
 ## Blockers & Concerns
+
+| Issue | Impact | Mitigation |
+|-------|--------|------------|
+| W2.16 architectural challenge | Cannot implement REST unit tests without refactoring | ADR-007 created proposing factory method pattern with internal overload. Requires architectural review before implementation. |
+| W2.3 blocked by W2.16 | Contract tests depend on REST unit test infrastructure | Defer W2.3 until W2.16 architectural decision approved and implemented. |
+
+### Previous Blockers (Resolved)
 
 | Issue | Impact | Mitigation |
 |-------|--------|------------|
@@ -121,6 +165,8 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 | 2025-12-06 | 2A | W2.15 (Deps), W2.18 (Validation) - Session 16 | ✅ Complete |
 | 2025-12-06 | 2A | W2.11 (Release Workflow) + API Migration - Session 17 | ✅ Complete |
 | 2025-12-06 | 2B | W2.17, W2.13, W2.14 (Supply Chain Security) - Session 18 | ✅ Complete |
+| 2025-12-06 | 2B | SBOM Tool Fix - Session 19 | ✅ Complete |
+| 2025-12-06 | 2C | W2.4, W2.16 infrastructure, ADR-007 - Session 20 | 🔄 Partial |
 
 
 ## Files to Review
@@ -142,12 +188,22 @@ If you need context, read these files in order:
    - Dual-pipeline SBOM (SPDX 2.3)
    - Enhanced dependency review with license policy
 
-3. **Wave 2 Progress**: 8/15 tasks complete (53%)
+3. **Phase 2C PARTIAL**: 1/3 tasks complete
+   - ✅ W2.4 - Benchmark CI Integration (verified working)
+   - ⏸️ W2.16 - Blocked pending ADR-007 architectural decision
+   - ⏸️ W2.3 - Blocked by W2.16
 
-4. **NEXT PRIORITY**: Phase 2C - Testing Enhancements
-   - W2.16 - REST/SOAP Unit Test Coverage (HIGH)
-   - W2.3 - Add Benchmark Tests (LOW)
-   - W2.4 - Improve Test Coverage (LOW)
+4. **Wave 2 Progress**: 9/15 tasks complete (60%)
+
+5. **CRITICAL DECISION REQUIRED**: ADR-007 REST Client Testability
+   - Review `docs/adr/007-rest-client-testability.md`
+   - Option 3a (Factory Method with Internal Overload) is recommended
+   - Decision needed before W2.16 implementation can proceed
+
+6. **NEXT RECOMMENDED**: Phase 2D - Security Hardening
+   - W2.19 - CodeQL Advanced Security (simpler, no blockers)
+   - W2.20 - Secrets Scanning (simpler, no blockers)
+   - Both can proceed independently while ADR-007 is under review
 
 4. **Release Workflow Manual Setup Required**:
    - Create `production-nuget` environment in GitHub repo settings
