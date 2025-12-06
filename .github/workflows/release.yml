@@ -14,18 +14,88 @@ on:
       - 'v*' # Run on version tags (e.g., v2.0.0, v2.1.0-beta.1)
 
 permissions:
-  contents: write # Required for creating GitHub releases
+  contents: write # Required for creating GitHub releases and attaching SLSA provenance
   packages: read
   actions: read
+  id-token: write # Required for SLSA provenance generation
 
 jobs:
   # Reuse the main build workflow for build/test/pack
   build:
     uses: ./.github/workflows/main.yml
+    permissions:
+      contents: read
+      actions: read
+
+  # Compute hashes of build artifacts for SLSA provenance
+  hashes:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+    
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: packages
+
+      - name: Compute hashes
+        id: hash
+        shell: bash
+        run: |
+          # Compute SHA256 hashes of all .nupkg files (excluding .snupkg)
+          cd packages
+          echo "hashes=$(sha256sum $(find . -type f -name '*.nupkg' ! -name '*.snupkg') | base64 -w0)" >> "$GITHUB_OUTPUT"
+
+  # Generate SLSA Level 3 provenance for supply chain security
+  provenance:
+    needs: [build, hashes]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      base64-subjects: "${{ needs.hashes.outputs.hashes }}"
+      provenance-name: "qwiq-provenance.intoto.jsonl"
+      upload-assets: true
+
+  # Generate SBOM (authoritative release version)
+  sbom:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: packages
+
+      - name: Generate SBOM (release)
+        uses: microsoft/sbom-tool@v1
+        with:
+          buildDropPath: ./packages
+          buildComponentPath: ./
+          outputPath: ./sbom
+          packageName: Qwiq
+          packageVersion: ${{ github.ref_name }}
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-release
+          path: ./sbom/**/*.spdx.json
+          if-no-files-found: error
 
   # Publish packages to NuGet after successful build
   publish:
-    needs: build
+    needs: [build, provenance, sbom]
     runs-on: windows-latest # Required for net472 packages
     environment:
       name: production-nuget
@@ -76,11 +146,27 @@ jobs:
 
           Write-Host "✅ NuGet publishing complete!"
 
+      - name: Download SLSA provenance
+        if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v4
+        with:
+          name: qwiq-provenance.intoto.jsonl
+          path: provenance
+
+      - name: Download SBOM
+        if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v4
+        with:
+          name: sbom-release
+          path: sbom
+
       - name: Upload packages to GitHub Release
         if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: |
             packages/**/*.nupkg
+            provenance/**/*.intoto.jsonl
+            sbom/**/*.spdx.json
           generate_release_notes: true
           fail_on_unmatched_files: false

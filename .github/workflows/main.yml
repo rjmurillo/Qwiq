@@ -158,3 +158,23 @@ jobs:
             test/**/bin/Release/**/*.nupkg
             test/**/bin/Release/**/*.snupkg
           if-no-files-found: warn
+
+      - name: Generate SBOM (validation)
+        # Generate SBOM for validation in build pipeline
+        # Only run on Windows where all packages are built
+        if: success() && matrix.os == 'windows-latest'
+        uses: microsoft/sbom-tool@v1
+        with:
+          buildDropPath: ./src
+          buildComponentPath: ./
+          outputPath: ./artifacts/sbom
+          packageName: Qwiq
+          packageVersion: ${{ github.run_number }}
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        if: success() && matrix.os == 'windows-latest'
+        with:
+          name: sbom-validation
+          path: ./artifacts/sbom/
+          if-no-files-found: warn
