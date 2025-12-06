@@ -52,9 +52,7 @@ dotnet_diagnostic.CA1716.severity = none
 
 
 
-# CA1725: Parameter names should match base declaration
-# KEPT: Some implementations use different parameter names - changing would be breaking
-dotnet_diagnostic.CA1725.severity = none
+
 
 #######################################
 # CA18xx: Performance Rules

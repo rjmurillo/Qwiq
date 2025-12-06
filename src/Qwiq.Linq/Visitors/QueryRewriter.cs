@@ -99,7 +99,7 @@ namespace Qwiq.Linq.Visitors
             if (node.Method.Name == "Contains")
             {
                 var declaringType = node.Method.DeclaringType;
-                
+
                 // This is a contains used to do substring matching on a value, such as: bug => bug.Status.Contains("Approved")
                 if (declaringType == typeof(string))
                 {
@@ -108,17 +108,17 @@ namespace Qwiq.Linq.Visitors
 
                     return new ContainsExpression(node.Type, subject!, target!);
                 }
-                
+
                 // This is a contains used to see if a value is in a list, such as: bug => aliases.Contains(bug.AssignedTo)
                 // Supports: Enumerable.Contains, MemoryExtensions.Contains (arrays in .NET 9+), and IEnumerable<T> extensions
                 // Excludes: Collection<T>.Contains, HashSet<T>.Contains, List<T>.Contains (unsupported instance methods)
-                
+
                 // Check for unsupported collection types (these have Contains as instance methods, not extensions)
-                var isUnsupportedCollection = 
+                var isUnsupportedCollection =
                     declaringType?.Name == "Collection`1" ||
                     declaringType?.Name == "HashSet`1" ||
                     declaringType?.Name == "List`1";
-                
+
                 if (isUnsupportedCollection)
                 {
                     // These are not supported - let it fall through to throw NotSupportedException
@@ -127,7 +127,7 @@ namespace Qwiq.Linq.Visitors
                 {
                     // Supported Contains - determine argument pattern
                     Expression subject, target;
-                    
+
                     if (node.Arguments.Count == 2)
                     {
                         // Extension method pattern: Contains(source, value)
@@ -149,8 +149,8 @@ namespace Qwiq.Linq.Visitors
                     return new InExpression(node.Type, subject, target);
                 }
             }
-            
-            unknown_method:
+
+        unknown_method:
 
             if (node.Method.DeclaringType == typeof(QueryExtensions) && node.Method.Name == "AsOf")
             {

@@ -92,18 +92,18 @@ namespace Qwiq.Mocks
             return retval;
         }
 
-        public override IRelatedLink CreateRelatedLink(int id, IWorkItemLinkTypeEnd? linkTypeEnd = null)
+        public override IRelatedLink CreateRelatedLink(int relatedWorkItemId, IWorkItemLinkTypeEnd? linkTypeEnd = null)
         {
             if (IsNew) throw new InvalidOperationException("Save first");
-            if (id != 0
+            if (relatedWorkItemId != 0
                 && linkTypeEnd == null)
             {
-                throw new ArgumentException($"Value cannot be zero when no {nameof(IWorkItemLinkTypeEnd)} specified.", nameof(id));
+                throw new ArgumentException($"Value cannot be zero when no {nameof(IWorkItemLinkTypeEnd)} specified.", nameof(relatedWorkItemId));
             }
 
-            if (id == 0 && linkTypeEnd == null) return new MockRelatedLink(null, Id);
+            if (relatedWorkItemId == 0 && linkTypeEnd == null) return new MockRelatedLink(null, Id);
 
-            return new MockRelatedLink(linkTypeEnd, Id, id);
+            return new MockRelatedLink(linkTypeEnd, Id, relatedWorkItemId);
         }
 
         public string? ReproSteps
@@ -252,7 +252,7 @@ namespace Qwiq.Mocks
 
         public bool IsNew => Id == 0;
 
-        public override void Save(SaveFlags flags)
+        public override void Save(SaveFlags saveFlags)
         {
             if (IsDirty || IsNew)
             {
