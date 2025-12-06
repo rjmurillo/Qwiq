@@ -11,7 +11,7 @@ namespace Qwiq.Mocks
     [Serializable]
     public class MockWorkItem : WorkItem, IWorkItem
     {
-        private static int tempId = 0;
+        private static int tempId;
 
         private IFieldCollection? _fields;
 

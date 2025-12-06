@@ -141,7 +141,7 @@ dotnet_diagnostic.CA1725.severity = none
 
 # CA1805: Member is explicitly initialized to its default value
 # Technical debt: Some explicit initializations for clarity
-dotnet_diagnostic.CA1805.severity = none
+dotnet_diagnostic.CA1805.severity = warning
 
 # CA1806: Do not ignore method results (TryParse)
 # Technical debt: Methods intentionally ignore parse result when using out parameter
