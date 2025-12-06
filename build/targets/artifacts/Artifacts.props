@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      Centralized artifact output configuration for test results
+      
+      Note: Full ArtifactsPath support requires .NET 9+ SDK. For .NET 8, we only configure
+      test results path which can be used via results-directory in dotnet test commands.
+      
+      Test teams can reference $(ArtifactsTestResultsPath) in test commands:
+        dotnet test -results-directory $(ArtifactsTestResultsPath)
+    -->
+    <RepoRoot Condition="'$(RepoRoot)' == ''">$(MSBuildThisFileDirectory)..\..\..\</RepoRoot>
+    <ArtifactsTestResultsPath Condition="'$(ArtifactsTestResultsPath)' == ''">$(RepoRoot)artifacts\TestResults</ArtifactsTestResultsPath>
+  </PropertyGroup>
+</Project>
