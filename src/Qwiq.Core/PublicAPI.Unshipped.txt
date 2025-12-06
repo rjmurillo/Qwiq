@@ -146,7 +146,6 @@ Qwiq.AccessDeniedException
 Qwiq.AccessDeniedException.AccessDeniedException() -> void
 Qwiq.AccessDeniedException.AccessDeniedException(string! message) -> void
 Qwiq.AccessDeniedException.AccessDeniedException(string! message, System.Exception! innerException) -> void
-Qwiq.AccessDeniedException.AccessDeniedException(System.Runtime.Serialization.SerializationInfo! info, System.Runtime.Serialization.StreamingContext context) -> void
 Qwiq.BaseLinkType
 Qwiq.BaseLinkType.ExternalLink = 5 -> Qwiq.BaseLinkType
 Qwiq.BaseLinkType.Hyperlink = 1 -> Qwiq.BaseLinkType
@@ -231,7 +230,6 @@ Qwiq.DeniedOrNotExistException
 Qwiq.DeniedOrNotExistException.DeniedOrNotExistException() -> void
 Qwiq.DeniedOrNotExistException.DeniedOrNotExistException(string! projectName) -> void
 Qwiq.DeniedOrNotExistException.DeniedOrNotExistException(System.Guid projectGuid) -> void
-Qwiq.DeniedOrNotExistException.DeniedOrNotExistException(System.Runtime.Serialization.SerializationInfo! info, System.Runtime.Serialization.StreamingContext context) -> void
 Qwiq.Exceptions.ExceptionHandlingDynamicProxy
 Qwiq.Exceptions.ExceptionHandlingDynamicProxy.ExceptionHandlingDynamicProxy(Qwiq.Exceptions.IExceptionMapper! exceptionMapper) -> void
 Qwiq.Exceptions.ExceptionHandlingDynamicProxy.Intercept(Castle.DynamicProxy.IInvocation! invocation) -> void
@@ -243,7 +241,6 @@ Qwiq.Exceptions.ProxyBase
 Qwiq.Exceptions.ProxyBase.ProxyBase() -> void
 Qwiq.Exceptions.TransientException
 Qwiq.Exceptions.TransientException.TransientException(string! message, System.Exception! innerException) -> void
-Qwiq.Exceptions.TransientException.TransientException(System.Runtime.Serialization.SerializationInfo! info, System.Runtime.Serialization.StreamingContext context) -> void
 Qwiq.Extensions
 Qwiq.FieldCollection
 Qwiq.FieldCollection.Contains(int id) -> bool
@@ -269,7 +266,6 @@ Qwiq.FieldDefinitionNotExistException
 Qwiq.FieldDefinitionNotExistException.FieldDefinitionNotExistException() -> void
 Qwiq.FieldDefinitionNotExistException.FieldDefinitionNotExistException(string! message, System.Exception! innerException) -> void
 Qwiq.FieldDefinitionNotExistException.FieldDefinitionNotExistException(string! name) -> void
-Qwiq.FieldDefinitionNotExistException.FieldDefinitionNotExistException(System.Runtime.Serialization.SerializationInfo! info, System.Runtime.Serialization.StreamingContext context) -> void
 Qwiq.FieldRefNames
 Qwiq.Hyperlink
 Qwiq.Hyperlink.Equals(Qwiq.IHyperlink? other) -> bool
@@ -568,7 +564,6 @@ Qwiq.NodeType.Iteration = 2 -> Qwiq.NodeType
 Qwiq.NodeType.None = 0 -> Qwiq.NodeType
 Qwiq.PageSizeRangeException
 Qwiq.PageSizeRangeException.PageSizeRangeException() -> void
-Qwiq.PageSizeRangeException.PageSizeRangeException(System.Runtime.Serialization.SerializationInfo! info, System.Runtime.Serialization.StreamingContext context) -> void
 Qwiq.Project
 Qwiq.Project.AreaRootNodes.get -> Qwiq.IWorkItemClassificationNodeCollection<int>!
 Qwiq.Project.Equals(Qwiq.IProject? other) -> bool
@@ -822,37 +817,6 @@ static readonly Qwiq.TeamFoundationIdentity.ZeroLengthArrayOfIdentityDescriptor 
 static System.TypeExtensions.CanAcceptNull(this System.Type! type) -> bool
 static System.TypeExtensions.GetDefaultValueOfType(this System.Type! type) -> object?
 static System.TypeExtensions.IsGenericNullable(this System.Type! type) -> bool
-System.Diagnostics.CodeAnalysis.AllowNullAttribute
-System.Diagnostics.CodeAnalysis.AllowNullAttribute.AllowNullAttribute() -> void
-System.Diagnostics.CodeAnalysis.DisallowNullAttribute
-System.Diagnostics.CodeAnalysis.DisallowNullAttribute.DisallowNullAttribute() -> void
-System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute
-System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute.DoesNotReturnAttribute() -> void
-System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute
-System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.DoesNotReturnIfAttribute(bool parameterValue) -> void
-System.Diagnostics.CodeAnalysis.DoesNotReturnIfAttribute.ParameterValue.get -> bool
-System.Diagnostics.CodeAnalysis.MaybeNullAttribute
-System.Diagnostics.CodeAnalysis.MaybeNullAttribute.MaybeNullAttribute() -> void
-System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute
-System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.MaybeNullWhenAttribute(bool returnValue) -> void
-System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.ReturnValue.get -> bool
-System.Diagnostics.CodeAnalysis.MemberNotNullAttribute
-System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.MemberNotNullAttribute(params string![]! members) -> void
-System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.MemberNotNullAttribute(string! member) -> void
-System.Diagnostics.CodeAnalysis.MemberNotNullAttribute.Members.get -> string![]!
-System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute
-System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.MemberNotNullWhenAttribute(bool returnValue, params string![]! members) -> void
-System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.MemberNotNullWhenAttribute(bool returnValue, string! member) -> void
-System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.Members.get -> string![]!
-System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.ReturnValue.get -> bool
-System.Diagnostics.CodeAnalysis.NotNullAttribute
-System.Diagnostics.CodeAnalysis.NotNullAttribute.NotNullAttribute() -> void
-System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute
-System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.NotNullIfNotNullAttribute(string! parameterName) -> void
-System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute.ParameterName.get -> string!
-System.Diagnostics.CodeAnalysis.NotNullWhenAttribute
-System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.NotNullWhenAttribute(bool returnValue) -> void
-System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.ReturnValue.get -> bool
 System.TypeExtensions
 virtual Qwiq.FieldCollection.GetById(int id) -> Qwiq.IField!
 virtual Qwiq.FieldCollection.IndexOf(Qwiq.IField! value) -> int
