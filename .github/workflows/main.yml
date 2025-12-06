@@ -172,7 +172,9 @@ jobs:
         # Uses local .NET tool (restored via dotnet tool restore) instead of container action
         if: success()
         shell: pwsh
-        run: dotnet sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ steps.nbgv.outputs.version }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
+        run: |
+          New-Item -ItemType Directory -Path ./artifacts/sbom -Force | Out-Null
+          dotnet sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ steps.nbgv.outputs.version }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
