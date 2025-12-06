@@ -29,7 +29,7 @@ namespace Qwiq.Client.Rest
         internal Query(IEnumerable<int> ids, Wiql query, WorkItemStore workItemStore)
             : this(query, false, workItemStore)
         {
-            if (ids == null) throw new ArgumentNullException(nameof(ids));
+            ArgumentNullException.ThrowIfNull(ids);
             Contract.Requires(workItemStore != null);
 
             _ids = new HashSet<int>(ids);

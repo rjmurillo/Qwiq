@@ -13,7 +13,7 @@ namespace Qwiq.Mocks
             Contract.Requires(dictionary != null);
             Contract.Requires(index > 0);
 
-            if (dictionary == null) throw new System.ArgumentNullException(nameof(dictionary));
+            ArgumentNullException.ThrowIfNull(dictionary);
             var fieldDefs = base.FieldDefinitions!;
             foreach (var kvp in dictionary)
             {

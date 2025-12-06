@@ -19,7 +19,7 @@ namespace Qwiq.Mapper
         {
             Contract.Requires(mapperStrategies != null);
 
-            if (mapperStrategies == null) throw new ArgumentNullException(nameof(mapperStrategies));
+            ArgumentNullException.ThrowIfNull(mapperStrategies);
             if (mapperStrategies.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(mapperStrategies));
 
             MapperStrategies = mapperStrategies;
@@ -77,7 +77,7 @@ namespace Qwiq.Mapper
         }
         private static ObjectActivator OptimizedCtorExpressionCache(Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            ArgumentNullException.ThrowIfNull(type);
 
             return OptimizedCtorExpression.GetOrAdd(
                 type.TypeHandle,

@@ -22,17 +22,7 @@ dotnet_diagnostic.CS1591.severity = none
 # Changing to TimeZoneInfo would be a breaking API change affecting 9+ implementations.
 dotnet_diagnostic.CS0618.severity = none
 
-#######################################
-# CA15xx: Maintainability/Throw Helper Rules
-#######################################
 
-# CA1510: Use ArgumentNullException.ThrowIfNull instead of throwing manually
-# Requires .NET 6+ API, not available on net472/netstandard2.0 targets
-dotnet_diagnostic.CA1510.severity = none
-
-# CA1512: Use ArgumentOutOfRangeException.ThrowIfEqual instead of throwing manually
-# Requires .NET 8+ API, not available on older targets
-dotnet_diagnostic.CA1512.severity = none
 
 #######################################
 # CA17xx: Naming Rules
