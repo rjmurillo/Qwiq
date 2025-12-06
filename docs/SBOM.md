@@ -20,6 +20,7 @@ SBOM files are provided in two ways:
 Every build generates a validation SBOM as an artifact. This helps catch dependency issues early.
 
 **Access validation SBOMs**:
+
 - Navigate to the [Actions tab](https://github.com/rjmurillo/Qwiq/actions)
 - Select a workflow run
 - Download the `sbom-validation` artifact
@@ -46,17 +47,20 @@ Qwiq uses the **SPDX 2.3** format, which is:
 Each SBOM includes:
 
 ### Package Information
+
 - **Name**: Package identifier (e.g., Qwiq.Core)
 - **Version**: Semantic version number
 - **Supplier**: Package maintainer information
 - **License**: SPDX license identifier (MIT)
 
 ### Dependencies
+
 - **Direct dependencies**: Packages explicitly referenced
 - **Transitive dependencies**: Dependencies of dependencies
 - **Dependency relationships**: Complete dependency graph
 
 ### Component Details
+
 - **Package URLs (PURL)**: Standard identifiers for each component
 - **File hashes**: SHA256/SHA1 checksums
 - **License information**: SPDX license identifiers
@@ -136,25 +140,27 @@ Qwiq SBOMs meet or exceed:
 
 ### Minimum Elements Coverage
 
-| Element | Included | Location in SBOM |
-|---------|----------|------------------|
-| Supplier Name | ✅ | `.packages[].supplier` |
-| Component Name | ✅ | `.packages[].name` |
-| Version | ✅ | `.packages[].versionInfo` |
-| Dependencies | ✅ | `.relationships[]` |
-| Author | ✅ | `.creationInfo.creators` |
-| Timestamp | ✅ | `.creationInfo.created` |
-| Unique Identifier | ✅ | `.packages[].SPDXID` |
+| Element           | Included | Location in SBOM          |
+| ----------------- | -------- | ------------------------- |
+| Supplier Name     | ✅       | `.packages[].supplier`    |
+| Component Name    | ✅       | `.packages[].name`        |
+| Version           | ✅       | `.packages[].versionInfo` |
+| Dependencies      | ✅       | `.relationships[]`        |
+| Author            | ✅       | `.creationInfo.creators`  |
+| Timestamp         | ✅       | `.creationInfo.created`   |
+| Unique Identifier | ✅       | `.packages[].SPDXID`      |
 
 ## SBOM Generation Process
 
 ### Build Pipeline (Validation)
+
 1. Build completes and creates packages
 2. Microsoft SBOM Tool scans build output
 3. Generates SBOM with all dependencies
 4. Uploads as workflow artifact for inspection
 
 ### Release Pipeline (Authoritative)
+
 1. Release is triggered (tag or GitHub Release)
 2. Packages are downloaded from build artifacts
 3. SBOM Tool generates authoritative SBOM with release version
