@@ -48,25 +48,17 @@
 
 ## What's Next
 
-### Phase 2A: Remaining Tasks (In Priority Order)
+### Phase 2A: Remaining Tasks
 
 1. ✅ ~~**W2.5** - Architecture Decision Records~~ (COMPLETE)
-
 2. ✅ ~~**W2.2** - API Compatibility Baselines~~ (COMPLETE)
+3. ✅ ~~**W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate~~ (COMPLETE)
+4. ✅ ~~**W2.18** - Enable Package Validation~~ (COMPLETE)
 
-3. **W2.15** - Pin GitHub Actions by SHA (CRITICAL)
-   - Update all workflow files with SHA-pinned actions
-   - Configure Dependabot for action updates
-   - Optionally add Renovate config
-
-4. **W2.18** - Enable Package Validation (HIGH)
-   - Add `EnablePackageValidation` to packable projects
-   - Set baseline version
-   - Test that breaking changes are detected
-
-5. **W2.11** - Create Release Workflow (CRITICAL)
+5. **W2.11** - Create Release Workflow (CRITICAL) - **NEXT PRIORITY**
    - Create composite action for DRY
    - Create release.yml workflow
+   - Configure NuGet publishing
    - Test with workflow_dispatch
 
 ---
@@ -106,6 +98,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 | 2025-12-06 | Planning | Wave 2 restructure (Session 12-13) | ✅ Complete |
 | 2025-12-06 | 2A | W2.5 (ADRs), W2.2 (API infra) - Session 14 | ✅ Complete |
 | 2025-12-06 | 2A | W2.2 (API baselines populated) - Session 15 | ✅ Complete |
+| 2025-12-06 | 2A | W2.15 (Deps), W2.18 (Validation) - Session 16 | ✅ Complete |
 
 ---
 
@@ -121,21 +114,30 @@ If you need context, read these files in order:
 
 ## Important Notes for Next Session
 
-1. **FIRST PRIORITY**: W2.15 - Pin GitHub Actions by SHA
-   - Use pattern: `actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1`
-   - Configure Dependabot for action updates
+1. **NEXT PRIORITY**: W2.11 - Create Release Workflow (CRITICAL)
+   - Reference: https://github.com/rjmurillo/moq.analyzers/blob/main/.github/workflows/release.yml
+   - Create composite action for DRY build steps
+   - Configure NuGet API key as secret
+   - Test with workflow_dispatch before enabling on tags
 
-2. **API Baselines Complete**: ✅ W2.2 done - 1,268 API entries documented across 9 projects. Build passes with 0 RS00xx warnings.
+2. **Dependency Management Complete**: ✅
+   - Renovate will automatically pin GitHub Actions to SHAs via PR
+   - Dependabot and Renovate both configured with proper grouping
+   - Dependency review blocks vulnerable packages
+   - Auto-approve streamlines bot PRs (still requires CI pass)
 
-3. **ADRs Complete**: ✅ W2.5 done - 6 comprehensive ADRs documented (49.1 KB total)
+3. **Package Validation Enabled**: ✅ 
+   - All 9 projects configured
+   - Baseline version will be set after next release
+   - Breaking changes will be detected automatically
 
-4. **Migration Script Available**: Use `build/scripts/Migrate-PublicApiToShipped.ps1` when releasing to move Unshipped → Shipped
+4. **API Baselines Complete**: ✅ W2.2 done - 1,268 API entries documented across 9 projects
 
-5. **Incremental Commits**: Make small commits after each logical change. Don't batch unrelated changes.
+5. **ADRs Complete**: ✅ W2.5 done - 6 comprehensive ADRs documented (49.1 KB total)
 
-6. **Documentation Updates**: Update modernize-TODO.md checkboxes immediately after completing each task.
+6. **Migration Script Available**: Use `build/scripts/Migrate-PublicApiToShipped.ps1` when releasing to move Unshipped → Shipped
 
-7. **Session Logs**: Always create `.agents/sessions/YYYY-MM-DD-phase-XX.md` at start of session
+7. **Session Logs**: Always create session log at start (`.agents/session-YYYY-MM-DD-phase-XX.md`)
 
 ---
 
