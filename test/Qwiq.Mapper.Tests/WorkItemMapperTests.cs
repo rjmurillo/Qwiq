@@ -17,7 +17,7 @@ namespace Qwiq.Mapper
     public abstract class WorkItemMapperContext<T> : ContextSpecification
         where T : IIdentifiable<int?>, new()
     {
-        protected readonly Dictionary<string, object?> WorkItemBackingStore = new Dictionary<string, object?>
+        protected Dictionary<string, object?> WorkItemBackingStore { get; } = new Dictionary<string, object?>
         {
             {
                 "DateTimeField",
@@ -68,13 +68,13 @@ namespace Qwiq.Mapper
             return new WorkItemMapper(mappingStrategies);
         }
 
-        protected IWorkItemStore? WorkItemStore;
+        protected IWorkItemStore? WorkItemStore { get; set; }
 
-        protected IWorkItemMapper WorkItemMapper = null!;
+        protected IWorkItemMapper WorkItemMapper { get; set; } = null!;
 
-        protected IEnumerable<IWorkItem> SourceWorkItems = null!;
+        protected IEnumerable<IWorkItem> SourceWorkItems { get; set; } = null!;
 
-        protected T Actual = default!;
+        protected T Actual { get; set; } = default!;
 
         public override void Given()
         {

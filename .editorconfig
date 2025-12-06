@@ -61,11 +61,11 @@ dotnet_diagnostic.CS8629.severity = warning
 
 # CA1001: Types that own disposable fields should be disposable
 # Technical debt: Some test classes own disposable fields without implementing IDisposable
-dotnet_diagnostic.CA1001.severity = none
+dotnet_diagnostic.CA1001.severity = warning
 
 # CA1051: Do not declare visible instance fields
 # Technical debt: Some fields are intentionally public for expression visitor pattern
-dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.CA1051.severity = warning
 
 # CA1036: Override comparison operators when implementing IComparable
 # Technical debt: IdentityDescriptor implements IComparable but not comparison operators
