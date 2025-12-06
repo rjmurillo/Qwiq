@@ -149,7 +149,7 @@ dotnet_diagnostic.CA1806.severity = warning
 
 # CA1816: Call GC.SuppressFinalize correctly
 # Technical debt: Some Dispose implementations call SuppressFinalize incorrectly
-dotnet_diagnostic.CA1816.severity = none
+dotnet_diagnostic.CA1816.severity = warning
 
 # CA1822: Mark members as static
 # Technical debt: Some instance methods could be static but are kept for API compatibility

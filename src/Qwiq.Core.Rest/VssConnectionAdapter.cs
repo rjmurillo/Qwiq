@@ -39,7 +39,6 @@ namespace Qwiq.Client.Rest
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         public T GetClient<T>()
