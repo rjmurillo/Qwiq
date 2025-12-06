@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 
 
@@ -17,6 +18,7 @@ namespace Qwiq.Mapper
             if (customAttribute == null)
                 throw new ArgumentException(
                                             string.Format(
+                                                          CultureInfo.InvariantCulture,
                                                           "No field definition found for property '{0}'. Querying on non-mapped fields is not allowed."
                                                           + " Either map the '{0}' property or remove it from the query.",
                                                           propertyName),

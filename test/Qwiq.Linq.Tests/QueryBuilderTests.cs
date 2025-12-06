@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -101,7 +102,7 @@ namespace Qwiq.Linq
         public override void Given()
         {
             // Use .Parse so we can specify the timezone we want (i.e. the build machine may be in a different time zone)
-            _date = DateTime.Parse("2014-06-01T00:00:00-7:00");
+            _date = DateTime.Parse("2014-06-01T00:00:00-7:00", CultureInfo.InvariantCulture);
             base.Given();
         }
 
@@ -537,7 +538,10 @@ namespace Qwiq.Linq
         {
             base.When();
             Expected = "SELECT * FROM WorkItems WHERE (([Id] = '42'))";
+            // CA1305: The ToString() call is intentional - this test verifies the LINQ provider handles ToString() in expressions
+#pragma warning disable CA1305
             Actual = Query.Where(item => item.Id.ToString() == "42").ToString()!;
+#pragma warning restore CA1305
         }
 
         [TestMethod]

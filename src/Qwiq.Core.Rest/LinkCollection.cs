@@ -107,7 +107,7 @@ namespace Qwiq.Client.Rest
         private static int ExtractId(string uri)
         {
             var arr = uri.Split('/');
-            return Convert.ToInt32(arr.Last());
+            return Convert.ToInt32(arr.Last(), System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private static string? ExtractProperty(IDictionary<string, object> relationAttributes, string property)

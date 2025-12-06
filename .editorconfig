@@ -85,7 +85,7 @@ dotnet_diagnostic.CA1200.severity = warning
 
 # CA1305: Specify IFormatProvider
 # Technical debt: Many string formatting calls don't specify culture
-dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1305.severity = warning
 
 # CA1310: Specify StringComparison for correctness
 # Technical debt: Many string comparison calls don't specify comparison type

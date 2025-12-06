@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 
 using Qwiq.Mapper.Attributes;
@@ -407,8 +408,8 @@ namespace Qwiq.Mapper
 
                 _expected = new MockModelWithNoType
                 {
-                    Id = int.Parse(WorkItemBackingStore["Id"]?.ToString()!),
-                    IntField = int.Parse(WorkItemBackingStore["IntField"]?.ToString()!)
+                    Id = int.Parse(WorkItemBackingStore["Id"]?.ToString()!, CultureInfo.InvariantCulture),
+                    IntField = int.Parse(WorkItemBackingStore["IntField"]?.ToString()!, CultureInfo.InvariantCulture)
                 };
                 base.Given();
             }
@@ -439,7 +440,7 @@ namespace Qwiq.Mapper
 
             SourceWorkItems = new[] { new MockWorkItem(new MockWorkItemType("Baz", WorkItemBackingStore.Keys.Select(MockFieldDefinition.Create)), WorkItemBackingStore) };
 
-            _expected = new MockModelWithNoBacking { Id = int.Parse(WorkItemBackingStore["Id"]?.ToString()!) };
+            _expected = new MockModelWithNoBacking { Id = int.Parse(WorkItemBackingStore["Id"]?.ToString()!, CultureInfo.InvariantCulture) };
             base.Given();
         }
 
