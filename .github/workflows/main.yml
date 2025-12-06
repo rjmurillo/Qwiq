@@ -158,3 +158,28 @@ jobs:
             test/**/bin/Release/**/*.nupkg
             test/**/bin/Release/**/*.snupkg
           if-no-files-found: warn
+
+      - name: Get version from nbgv
+        id: nbgv
+        shell: pwsh
+        run: |
+          $version = dotnet nbgv get-version -v NuGetPackageVersion
+          Write-Host "Version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Generate SBOM
+        # Generate SBOM for build artifacts
+        # Uses local .NET tool (restored via dotnet tool restore) instead of container action
+        if: success()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path ./artifacts/sbom -Force | Out-Null
+          dotnet sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ steps.nbgv.outputs.version }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: sbom-${{ matrix.os }}
+          path: ./artifacts/sbom/
+          if-no-files-found: warn

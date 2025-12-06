@@ -499,6 +499,56 @@ dotnet restore Qwiq.sln
 
 ---
 
+## Dependency License Policy
+
+QWIQ enforces a dependency license policy to protect library consumers from restrictive license requirements. This policy is automatically enforced via the [Dependency Review Action](.github/workflows/dependency-review.yml) on all pull requests.
+
+### Allowed Licenses (Permissive)
+
+The following licenses are **allowed** because they are permissive and compatible with QWIQ's MIT license:
+
+| License          | Description                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| **MIT**          | Permissive: allows commercial use, modification, distribution with minimal restrictions. QWIQ's own license. |
+| **Apache-2.0**   | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages.                 |
+| **BSD-3-Clause** | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem.                            |
+| **0BSD**         | Public domain equivalent. No restrictions whatsoever.                                                        |
+
+### Denied Licenses (Copyleft)
+
+The following licenses are **denied** because they impose copyleft requirements that would restrict QWIQ's consumers:
+
+| License      | Why Denied                                                                                                              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| **GPL-2.0**  | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution.            |
+| **GPL-3.0**  | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force QWIQ consumers to GPL-license their code. |
+| **AGPL-3.0** | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers.           |
+| **LGPL-3.0** | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers.               |
+
+### License Enforcement
+
+Pull requests that introduce dependencies with denied licenses will **fail the dependency review check** and cannot be merged. If you believe a specific dependency is essential despite its license, please:
+
+1. Open an issue explaining the use case
+2. Explore alternative packages with permissive licenses
+3. Request a license policy exception with business justification
+
+### Vulnerability Policy
+
+In addition to license restrictions, dependencies with **moderate or higher severity vulnerabilities** are blocked. This applies to both runtime and development dependencies.
+
+To check for vulnerabilities before submitting a PR:
+
+```powershell
+# Restore dependencies
+dotnet restore Qwiq.sln
+
+# List dependencies (optional)
+dotnet list package --vulnerable --include-transitive
+```
+
+---
+
 ## License
 
 By contributing to QWIQ, you agree that your contributions will be licensed under the MIT License.
