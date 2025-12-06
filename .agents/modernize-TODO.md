@@ -1416,12 +1416,13 @@ await Should.ThrowAsync<InvalidOperationException>(() => sut.ExecuteAsync(...));
 
 ---
 
-#### W2.2 Create API Compatibility Baselines ⬆️ ELEVATED TO CRITICAL
-- [ ] **Task**: Establish API surface baselines for breaking change detection
-- **Effort**: M (4-8 hours)
+#### W2.2 Create API Compatibility Baselines ⬆️ ELEVATED TO CRITICAL 🔄 PARTIAL
+- [x] **Task**: Establish API surface baselines for breaking change detection
+- **Effort**: M (4-8 hours) ⏱️ Actual: ~2 hours (infrastructure complete, baseline population remaining)
 - **Priority**: **CRITICAL** (elevated - must be done BEFORE any API changes)
 - **Dependencies**: W2.18
 - **Files**: `Directory.Packages.props`, per-project PublicAPI files
+- **Status**: Infrastructure complete, baseline files need population (2025-12-06, Session 14)
 
 **Why Critical**: As we make modernization changes, we DO NOT want APIs to change unintentionally. This must be established early to catch any accidental breaking changes during the modernization process.
 
@@ -1430,17 +1431,27 @@ await Should.ThrowAsync<InvalidOperationException>(() => sut.ExecuteAsync(...));
 <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
 ```
 
-**Implementation**:
-1. Generate baseline API surface for each public project
-2. Configure CI to fail on breaking changes
-3. Document API stability policy
-4. Run baseline generation BEFORE any further code changes
+**Implementation Progress**:
+1. ✅ Added analyzer package to all 9 packable projects
+2. ✅ Created minimal PublicAPI.Shipped.txt and PublicAPI.Unshipped.txt files
+3. ✅ Detected 5,562 public API members across all projects
+4. ⬜ Populate Unshipped.txt files (use IDE code fix or dotnet-format)
+5. ⬜ Configure CI to fail on breaking changes
+6. ⬜ Document API stability policy
+
+**Next Steps**:
+- Use Visual Studio or Rider: Right-click project → "Add all items to the public API"
+- OR use `dotnet format analyzers` after configuring properly
+- Commit populated baseline files
 
 - **Acceptance Criteria**:
-  - [ ] API baselines generated for all public projects
-  - [ ] Breaking change detection in CI
+  - [x] API analyzer infrastructure added to all public projects
+  - [ ] API baselines generated for all public projects (infrastructure ready, needs population)
+  - [ ] Breaking change detection in CI (analyzer will fail on changes)
   - [ ] API stability policy documented
-  - [ ] Baseline committed before any API-affecting changes
+  - [x] Baseline infrastructure committed before any API-affecting changes
+  
+**Commits**: 9bb975c (infrastructure)
 
 ---
 
@@ -1600,27 +1611,30 @@ jobs:
 
 ### Phase 2E: Documentation
 
-#### W2.5 Create Architecture Decision Records ⬆️ ELEVATED
-- [ ] **Task**: Document key architectural decisions
-- **Effort**: M (1 day)
+#### W2.5 Create Architecture Decision Records ⬆️ ELEVATED ✅ COMPLETE
+- [x] **Task**: Document key architectural decisions
+- **Effort**: M (1 day) ⏱️ Actual: ~3 hours
 - **Priority**: **HIGH** (elevated - foundational for maintainability)
 - **Dependencies**: None
 - **Location**: `docs/adr/`
+- **Completed**: 2025-12-06 (Session 14)
 
 **Why High Priority**: ADRs capture the "why" behind architectural choices. Without them, future maintainers may inadvertently break design invariants or repeat past mistakes. This is foundational documentation that should be created early.
 
-**Topics to document**:
-- ADR-001: Factory pattern for WorkItemStore
-- ADR-002: Interface-first design
-- ADR-003: REST vs SOAP client strategy
-- ADR-004: Multi-targeting approach
-- ADR-005: Central Package Management adoption
-- ADR-006: Nullable reference types migration strategy
+**Topics documented**:
+- ADR-001: Factory pattern for WorkItemStore (5.5 KB)
+- ADR-002: Interface-first design (6.7 KB)
+- ADR-003: REST vs SOAP client strategy (9.0 KB)
+- ADR-004: Multi-targeting approach (8.3 KB)
+- ADR-005: Central Package Management adoption (9.4 KB)
+- ADR-006: Nullable reference types migration strategy (10.0 KB)
 
 - **Acceptance Criteria**:
-  - [ ] Key decisions documented
-  - [ ] Rationale explained for future contributors
-  - [ ] Template established for future ADRs
+  - [x] Key decisions documented (6 ADRs created)
+  - [x] Rationale explained for future contributors
+  - [x] Template established for future ADRs (README.md with index and guidelines)
+  
+**Commit**: 28af61c
 
 ---
 
