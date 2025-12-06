@@ -116,12 +116,20 @@ docs: update contributing guide with sandbox details
 ### Full Solution Build
 
 ```powershell
-# Release build
+# Standard release build
 dotnet build Qwiq.sln -c Release
 
 # Debug build
 dotnet build Qwiq.sln -c Debug
+
+# Strict build (warnings as errors) - matches CI behavior
+dotnet build Qwiq.sln -c Release /p:PedanticMode=true
+
+# Flexible build (warnings allowed) - for diagnosing analyzers
+dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ```
+
+**PedanticMode**: Controls whether warnings are treated as errors. Defaults to `true` on CI (via `ContinuousIntegrationBuild`). Use `/p:PedanticMode=false` locally when investigating noisy analyzer rules.
 
 ### Individual Project Builds
 

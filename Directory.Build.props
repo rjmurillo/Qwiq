@@ -15,9 +15,13 @@
     <HighEntropyVA>true</HighEntropyVA>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- TreatWarningsAsErrors is controlled by PedanticMode (see Directory.Build.targets) -->
     <!-- Analyzer diagnostic severities are configured in .editorconfig -->
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+
+    <!-- Deterministic Builds -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
 
     <!-- Output Configuration -->
     <OutputPath>bin\$(Configuration)\</OutputPath>

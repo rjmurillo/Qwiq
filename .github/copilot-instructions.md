@@ -32,7 +32,15 @@ dotnet build Qwiq.sln --configuration Release
 
 # Or single command (restore is implicit)
 dotnet build Qwiq.sln -c Release
+
+# Strict build (warnings as errors) - used by CI
+dotnet build Qwiq.sln -c Release /p:PedanticMode=true
+
+# Flexible build (warnings NOT as errors) - for diagnosing noisy analyzers
+dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ```
+
+**PedanticMode**: Controls `TreatWarningsAsErrors` behavior. Defaults to `true` on CI (via `ContinuousIntegrationBuild`), allowing local developers to use `/p:PedanticMode=false` when diagnosing analyzer issues.
 
 ### Test Commands
 

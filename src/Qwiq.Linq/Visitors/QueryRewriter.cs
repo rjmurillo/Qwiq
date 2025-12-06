@@ -131,8 +131,20 @@ namespace Qwiq.Linq.Visitors
                     if (node.Arguments.Count == 2)
                     {
                         // Extension method pattern: Contains(source, value)
+                        // For MemoryExtensions.Contains, the first argument may be wrapped in an op_Implicit conversion
+                        // to ReadOnlySpan<T>. We need to unwrap it to get the original collection.
+                        var sourceArg = node.Arguments[0];
+                        
+                        // Unwrap ReadOnlySpan implicit conversions (e.g., array -> ReadOnlySpan)
+                        if (sourceArg is MethodCallExpression conversionCall &&
+                            conversionCall.Method.Name == "op_Implicit" &&
+                            conversionCall.Method.DeclaringType?.Name.StartsWith("ReadOnlySpan", StringComparison.Ordinal) == true)
+                        {
+                            sourceArg = conversionCall.Arguments[0];
+                        }
+                        
+                        target = Visit(sourceArg);
                         subject = Visit(node.Arguments[1]);
-                        target = Visit(node.Arguments[0]);
                     }
                     else if (node.Arguments.Count == 1)
                     {
