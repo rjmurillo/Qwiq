@@ -23,15 +23,6 @@ dotnet_diagnostic.CS1591.severity = none
 dotnet_diagnostic.CS0618.severity = none
 
 #######################################
-# CA10xx: Design Rules
-#######################################
-
-# CA1036: Override comparison operators when implementing IComparable
-# KEPT: IdentityDescriptor implements IComparable for sorting/dictionary keys but
-# comparison operators (<, >, <=, >=) are not used anywhere in the codebase.
-dotnet_diagnostic.CA1036.severity = none
-
-#######################################
 # CA15xx: Maintainability/Throw Helper Rules
 #######################################
 
