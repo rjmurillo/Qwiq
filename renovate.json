@@ -1,25 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "helpers:pinGitHubActionDigests"
-  ],
-  "schedule": [
-    "before 10am on monday"
-  ],
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "schedule": ["before 10am on monday"],
   "timezone": "America/Los_Angeles",
-  "labels": [
-    "dependencies"
-  ],
-  "assignees": [
-    "@rjmurillo"
-  ],
+  "labels": ["dependencies"],
+  "assignees": ["@rjmurillo"],
   "packageRules": [
     {
       "description": "Pin GitHub Actions to commit SHAs for supply chain security",
-      "matchManagers": [
-        "github-actions"
-      ],
+      "matchManagers": ["github-actions"],
       "pinDigests": true,
       "commitMessagePrefix": "ci:",
       "commitMessageAction": "pin",
@@ -27,9 +16,7 @@
     },
     {
       "description": "Group NuGet test dependencies together",
-      "matchManagers": [
-        "nuget"
-      ],
+      "matchManagers": ["nuget"],
       "matchPackagePatterns": [
         "^MSTest\\.",
         "^coverlet\\.",
@@ -42,21 +29,14 @@
     },
     {
       "description": "Group NuGet analyzer dependencies together",
-      "matchManagers": [
-        "nuget"
-      ],
-      "matchPackagePatterns": [
-        "Microsoft\\.CodeAnalysis\\.",
-        "\\.Analyzers$"
-      ],
+      "matchManagers": ["nuget"],
+      "matchPackagePatterns": ["Microsoft\\.CodeAnalysis\\.", "\\.Analyzers$"],
       "groupName": "NuGet analyzers",
       "commitMessagePrefix": "deps:"
     },
     {
       "description": "Ignore Azure DevOps SDK packages (require careful coordination)",
-      "matchManagers": [
-        "nuget"
-      ],
+      "matchManagers": ["nuget"],
       "matchPackagePatterns": [
         "^Microsoft\\.TeamFoundationServer\\.",
         "^Microsoft\\.VisualStudio\\.Services\\."
@@ -65,19 +45,13 @@
     },
     {
       "description": ".NET SDK updates",
-      "matchManagers": [
-        "dotnet-sdk"
-      ],
+      "matchManagers": ["dotnet-sdk"],
       "commitMessagePrefix": "chore:",
       "commitMessageAction": "update"
     }
   ],
   "vulnerabilityAlerts": {
-    "labels": [
-      "security"
-    ],
-    "assignees": [
-      "@rjmurillo"
-    ]
+    "labels": ["security"],
+    "assignees": ["@rjmurillo"]
   }
 }
