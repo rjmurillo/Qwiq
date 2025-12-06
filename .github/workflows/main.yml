@@ -45,29 +45,19 @@ jobs:
         run: dotnet restore Qwiq.sln
 
       - name: Build and pack solution
-        # Use /t:Build,Pack to ensure all packages are generated during build.
-        # GeneratePackageOnBuild alone doesn't work reliably with multi-targeting
-        # when building via solution file due to MSBuild's IsInnerBuild behavior.
-        # On Linux, we build only REST-compatible projects (no SOAP/net472)
+        # Windows: Use /t:Build,Pack to ensure all packages are generated during build.
+        # This produces packages for all target frameworks including net472.
+        #
+        # Linux: Use solution-level build with GeneratePackageOnBuild=false.
+        # Linux cannot build net472 (requires Windows/.NET Framework), so we skip packing.
+        # The SDK automatically filters out Windows-only TFMs during inner builds.
+        # Packages are only produced on Windows where all TFMs can be built.
         run: |
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
             dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
           else
-            # Linux: Build each project individually to avoid quoting issues
-            dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
-            dotnet build src/Qwiq.Core.Rest/Qwiq.Client.Rest.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build src/Qwiq.Linq/Qwiq.Linq.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build src/Qwiq.Mapper/Qwiq.Mapper.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build src/Qwiq.Identity/Qwiq.Identity.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build src/Qwiq.Linq.Identity/Qwiq.Linq.Identity.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build src/Qwiq.Mapper.Identity/Qwiq.Mapper.Identity.csproj -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Mocks/Qwiq.Mocks.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Tests.Common/Qwiq.Tests.Common.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj -c Release --no-restore /m:1 /nodeReuse:false
-            dotnet build test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj -c Release --no-restore /m:1 /nodeReuse:false
+            # Linux: Build solution without packing (net472 cannot be built on Linux)
+            dotnet build Qwiq.sln -c Release --no-restore /p:GeneratePackageOnBuild=false /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
           fi
         shell: bash
 
@@ -88,14 +78,10 @@ jobs:
 
       - name: Run tests with coverage
         id: test
-        # On Windows, test the full solution. On Linux, test only cross-platform projects
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
-          else
-            dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
-          fi
-        shell: bash
+        # Run tests for all projects that were built.
+        # The test filter excludes integration tests that require server connectivity.
+        # On Linux, net472 test projects are skipped automatically since they weren't built.
+        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
         if: success() || failure()
