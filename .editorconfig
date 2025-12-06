@@ -46,9 +46,7 @@ dotnet_diagnostic.CA1707.severity = none
 # KEPT: SaveFlags, WorkItemCopyFlags, ITeamProjectCollection are established API names
 dotnet_diagnostic.CA1711.severity = none
 
-# CA1715: Prefix generic type parameter name with 'T'
-# KEPT: IIdentityValueConverter uses 'U' as type parameter - changing would be breaking
-dotnet_diagnostic.CA1715.severity = none
+
 
 # CA1716: Identifiers should not match keywords
 # KEPT: When() method is part of established test specification pattern
