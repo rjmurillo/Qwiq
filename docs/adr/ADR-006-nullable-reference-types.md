@@ -11,6 +11,7 @@
 C# 8.0 introduced Nullable Reference Types (NRT), a compiler feature that helps prevent null reference exceptions by making nullability explicit in type signatures. This is a significant improvement for code safety and developer experience.
 
 Qwiq was originally written before C# 8.0, using:
+
 - JetBrains.Annotations (`[NotNull]`, `[CanBeNull]`, etc.) for nullability hints
 - Runtime null checks with `ArgumentNullException`
 - No compile-time null safety
@@ -18,6 +19,7 @@ Qwiq was originally written before C# 8.0, using:
 ### Problem Statement
 
 How can we migrate Qwiq to use Nullable Reference Types while:
+
 1. Minimizing breaking changes for consumers
 2. Maintaining runtime null safety
 3. Avoiding false positives from the compiler
@@ -60,7 +62,7 @@ namespace System.Diagnostics.CodeAnalysis
     [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class NotNullWhenAttribute : Attribute
     {
-        public NotNullWhenAttribute(bool returnValue) 
+        public NotNullWhenAttribute(bool returnValue)
             => ReturnValue = returnValue;
         public bool ReturnValue { get; }
     }
@@ -68,7 +70,7 @@ namespace System.Diagnostics.CodeAnalysis
     [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class MaybeNullWhenAttribute : Attribute
     {
-        public MaybeNullWhenAttribute(bool returnValue) 
+        public MaybeNullWhenAttribute(bool returnValue)
             => ReturnValue = returnValue;
         public bool ReturnValue { get; }
     }
@@ -126,14 +128,14 @@ public bool TryGetWorkItem(int id, [NotNullWhen(true)] out IWorkItem? item)
 
 ### Migration Phases
 
-| Phase | Projects | Status | Completion |
-|-------|----------|--------|------------|
-| **Phase 1** | Qwiq.Core | ✅ Complete | PR #52 |
-| **Phase 2** | Qwiq.Client.Rest | ✅ Complete | PR #52 |
-| **Phase 3** | Qwiq.Mocks | ✅ Complete | PR #52 |
-| **Phase 4** | Qwiq.Linq | ✅ Complete | PR #52 |
-| **Phase 5** | Qwiq.Mapper | ✅ Complete | PR #52 |
-| **Phase 6** | Qwiq.Identity, Qwiq.Identity.Soap, etc. | ✅ Complete | PR #52 |
+| Phase       | Projects                                | Status      | Completion |
+| ----------- | --------------------------------------- | ----------- | ---------- |
+| **Phase 1** | Qwiq.Core                               | ✅ Complete | PR #52     |
+| **Phase 2** | Qwiq.Client.Rest                        | ✅ Complete | PR #52     |
+| **Phase 3** | Qwiq.Mocks                              | ✅ Complete | PR #52     |
+| **Phase 4** | Qwiq.Linq                               | ✅ Complete | PR #52     |
+| **Phase 5** | Qwiq.Mapper                             | ✅ Complete | PR #52     |
+| **Phase 6** | Qwiq.Identity, Qwiq.Identity.Soap, etc. | ✅ Complete | PR #52     |
 
 ## Consequences
 
@@ -163,11 +165,11 @@ public bool TryGetWorkItem(int id, [NotNullWhen(true)] out IWorkItem? item)
 ### Risks
 
 - **Consumer Breaks**: Changing method signatures can break consumers
-  - *Mitigation*: Semantic versioning, extensive testing, API compatibility analyzers (W2.2)
+  - _Mitigation_: Semantic versioning, extensive testing, API compatibility analyzers (W2.2)
 - **Incomplete Migration**: Half-migrated codebase is confusing
-  - *Mitigation*: Phased approach, track progress in modernize-TODO.md
+  - _Mitigation_: Phased approach, track progress in modernize-TODO.md
 - **Suppression Abuse**: Developers might use `!` operator to silence warnings
-  - *Mitigation*: Code review, document proper patterns, avoid `null!` for field initialization
+  - _Mitigation_: Code review, document proper patterns, avoid `null!` for field initialization
 
 ## Migration Guidelines
 
@@ -176,7 +178,7 @@ public bool TryGetWorkItem(int id, [NotNullWhen(true)] out IWorkItem? item)
 - ✅ Use non-nullable reference types by default
 - ✅ Use `?` suffix for nullable reference types (e.g., `string?`)
 - ✅ Use runtime null checks with `ArgumentNullException`
-- ✅ Use `[NotNullWhen]` and `[MaybeNullWhen]` for Try* methods
+- ✅ Use `[NotNullWhen]` and `[MaybeNullWhen]` for Try\* methods
 - ✅ Document nullability in XML comments
 - ✅ Fix CS8618 by proper field initialization (not `null!` suppression)
 
@@ -200,7 +202,7 @@ private readonly Dictionary<string, object?> _fields = new();
 
 // ✅ GOOD: Initialize in ALL constructors
 private readonly Dictionary<string, object?> _fields;
-protected internal WorkItemCore() 
+protected internal WorkItemCore()
 {
     _fields = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
 }
@@ -242,6 +244,7 @@ dotnet_diagnostic.CS8604.severity = none  # Possible null reference argument
 ```
 
 **Rejected because:**
+
 - Third-party dependency
 - Not compile-time enforced
 - Doesn't integrate with C# language features
@@ -250,6 +253,7 @@ dotnet_diagnostic.CS8604.severity = none  # Possible null reference argument
 ### Alternative 2: Delay NRT Until Breaking Version
 
 **Rejected because:**
+
 - Delays safety improvements
 - Makes codebase harder to maintain
 - C# ecosystem has already moved to NRT
@@ -262,6 +266,7 @@ dotnet_diagnostic.CS8604.severity = none  # Possible null reference argument
 ```
 
 **Rejected because:**
+
 - Inconsistent developer experience
 - Harder to maintain
 - Partial migration is confusing
@@ -274,6 +279,7 @@ dotnet_diagnostic.CS8604.severity = none  # Possible null reference argument
 ```
 
 **Rejected because:**
+
 - Conflicts with Microsoft.VisualStudio.Services.Client polyfills (317 ambiguous method errors)
 - Custom polyfill file is simpler and conflict-free
 
@@ -292,6 +298,6 @@ dotnet_diagnostic.CS8604.severity = none  # Possible null reference argument
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                                       |
+| ---------- | ------------- | ------------------------------------------------------------- |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting NRT migration strategy and completion |

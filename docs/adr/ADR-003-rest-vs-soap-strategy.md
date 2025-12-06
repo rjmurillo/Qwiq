@@ -9,6 +9,7 @@
 ## Context
 
 Azure DevOps and Team Foundation Server expose work item tracking through two primary APIs:
+
 1. **REST API** - Modern, cross-platform, HTTP/JSON-based
 2. **SOAP API** - Legacy, Windows-only, via TFS Client Object Model
 
@@ -17,6 +18,7 @@ Both APIs have different characteristics, capabilities, and constraints. Qwiq mu
 ### Problem Statement
 
 How should Qwiq support both REST and SOAP APIs while:
+
 1. Providing a unified API surface to consumers
 2. Allowing consumers to choose the appropriate backend
 3. Maintaining feature parity where possible
@@ -71,7 +73,7 @@ namespace Qwiq.Client.Rest
     public sealed class WorkItemStoreFactory : IWorkItemStoreFactory
     {
         public static readonly WorkItemStoreFactory Default = new();
-        
+
         public IWorkItemStore Create(AuthenticationOptions options)
         {
             // REST implementation using HttpClient
@@ -92,7 +94,7 @@ namespace Qwiq.Client.Soap
     public sealed class WorkItemStoreFactory : IWorkItemStoreFactory
     {
         public static readonly WorkItemStoreFactory Default = new();
-        
+
         public IWorkItemStore Create(AuthenticationOptions options)
         {
             // SOAP implementation using TFS Client OM
@@ -123,18 +125,18 @@ var items = store.Query("SELECT [System.Id] FROM WorkItems");
 
 ### Client Comparison
 
-| Feature | REST Client | SOAP Client |
-|---------|-------------|-------------|
-| **Platform** | Cross-platform | Windows only |
-| **Target Frameworks** | net472, netstandard2.0, net8.0 | net472 only |
-| **Azure DevOps Services** | ✅ Full support | ✅ Full support |
-| **Azure DevOps Server 2019+** | ✅ Full support | ✅ Full support |
-| **TFS 2018 and older** | ⚠️ Limited | ✅ Full support |
-| **Authentication** | PAT, OAuth, Basic | Windows, PAT, Basic |
-| **Query Performance** | Fast for simple queries | Better for complex queries |
-| **Work Item Linking** | ✅ Supported | ✅ Supported |
-| **Field Updates** | ✅ Supported | ✅ Supported |
-| **Batch Operations** | ✅ Efficient | ⚠️ Less efficient |
+| Feature                       | REST Client                    | SOAP Client                |
+| ----------------------------- | ------------------------------ | -------------------------- |
+| **Platform**                  | Cross-platform                 | Windows only               |
+| **Target Frameworks**         | net472, netstandard2.0, net8.0 | net472 only                |
+| **Azure DevOps Services**     | ✅ Full support                | ✅ Full support            |
+| **Azure DevOps Server 2019+** | ✅ Full support                | ✅ Full support            |
+| **TFS 2018 and older**        | ⚠️ Limited                     | ✅ Full support            |
+| **Authentication**            | PAT, OAuth, Basic              | Windows, PAT, Basic        |
+| **Query Performance**         | Fast for simple queries        | Better for complex queries |
+| **Work Item Linking**         | ✅ Supported                   | ✅ Supported               |
+| **Field Updates**             | ✅ Supported                   | ✅ Supported               |
+| **Batch Operations**          | ✅ Efficient                   | ⚠️ Less efficient          |
 
 ## Consequences
 
@@ -164,11 +166,11 @@ var items = store.Query("SELECT [System.Id] FROM WorkItems");
 ### Risks
 
 - **SOAP Deprecation**: Microsoft may eventually remove SOAP API
-  - *Mitigation*: Provide clear migration guide, encourage REST adoption
+  - _Mitigation_: Provide clear migration guide, encourage REST adoption
 - **Behavioral Differences**: Subtle differences between REST and SOAP
-  - *Mitigation*: Comprehensive integration tests, document known differences
+  - _Mitigation_: Comprehensive integration tests, document known differences
 - **Dependency Hell**: SOAP requires TFS Client OM, which has many transitive dependencies
-  - *Mitigation*: Use separate NuGet packages, consumers opt in
+  - _Mitigation_: Use separate NuGet packages, consumers opt in
 
 ## Alternatives Considered
 
@@ -179,6 +181,7 @@ var items = store.Query("SELECT [System.Id] FROM WorkItems");
 ```
 
 **Rejected because:**
+
 - Breaks backward compatibility for TFS 2018 and earlier users
 - Some customers locked into Windows-only environments with legacy TFS
 - Complex queries sometimes perform better with SOAP
@@ -200,6 +203,7 @@ public class UnifiedWorkItemStore : IWorkItemStore
 ```
 
 **Rejected because:**
+
 - Consumers can't explicitly choose backend
 - Binary bloat (includes both clients always)
 - Complex feature detection logic
@@ -221,6 +225,7 @@ public class WorkItemStore
 ```
 
 **Rejected because:**
+
 - Over-engineered for current needs
 - Consumer confusion about which provider to use
 - No clear benefit over explicit factory choice
@@ -230,6 +235,7 @@ public class WorkItemStore
 ### When to Use REST
 
 ✅ **Recommended for:**
+
 - New projects
 - Cross-platform applications (Linux, macOS, Docker)
 - Azure DevOps Services
@@ -240,6 +246,7 @@ public class WorkItemStore
 ### When to Use SOAP
 
 ✅ **Recommended for:**
+
 - Legacy applications on TFS 2018 and earlier
 - Complex queries with advanced filtering
 - Windows-only environments
@@ -248,10 +255,10 @@ public class WorkItemStore
 
 ### Deprecation Timeline
 
-| Date | Milestone |
-|------|-----------|
-| 2024 | SOAP client marked as "legacy" in documentation |
-| 2025 | REST client recommended for all new projects |
+| Date  | Milestone                                               |
+| ----- | ------------------------------------------------------- |
+| 2024  | SOAP client marked as "legacy" in documentation         |
+| 2025  | REST client recommended for all new projects            |
 | 2026+ | Evaluate SOAP client deprecation based on usage metrics |
 
 ## Related Decisions
@@ -268,6 +275,6 @@ public class WorkItemStore
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                      |
+| ---------- | ------------- | -------------------------------------------- |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting dual client strategy |

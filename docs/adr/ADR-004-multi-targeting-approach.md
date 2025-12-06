@@ -9,18 +9,21 @@
 ## Context
 
 Qwiq must support a diverse set of consumers:
+
 - Legacy .NET Framework 4.7.2 applications
 - .NET Standard 2.0 libraries
 - Modern .NET 8 applications
 - Future .NET versions (e.g., .NET 10 LTS)
 
 Additionally, there are platform-specific constraints:
+
 - SOAP client requires Windows + .NET Framework 4.7.2 (TFS Client OM dependency)
 - REST client should be cross-platform
 
 ### Problem Statement
 
 How can we structure Qwiq to:
+
 1. Support multiple .NET target frameworks
 2. Maximize cross-platform compatibility
 3. Maintain a single codebase (avoid branching)
@@ -42,15 +45,15 @@ We will use **.NET SDK-style multi-targeting** with carefully chosen target fram
 
 ### Target Framework Strategy
 
-| Project | Target Frameworks | Rationale |
-|---------|-------------------|-----------|
-| **Qwiq.Core** | `net472;netstandard2.0;net8.0` | Core interfaces, maximum compatibility |
-| **Qwiq.Client.Rest** | `net472;netstandard2.0;net8.0` | Cross-platform REST client |
-| **Qwiq.Client.Soap** | `net472` | Windows-only (TFS Client OM requires net472) |
-| **Qwiq.Linq** | `net472;net8.0` | LINQ provider, skip netstandard2.0 (not needed) |
-| **Qwiq.Mapper** | `net472;net8.0` | Object mapping, skip netstandard2.0 |
-| **Qwiq.Identity** | `net472;net8.0` | Identity services |
-| **Test Projects** | `net472;net8.0` | Test both oldest and newest frameworks |
+| Project              | Target Frameworks              | Rationale                                       |
+| -------------------- | ------------------------------ | ----------------------------------------------- |
+| **Qwiq.Core**        | `net472;netstandard2.0;net8.0` | Core interfaces, maximum compatibility          |
+| **Qwiq.Client.Rest** | `net472;netstandard2.0;net8.0` | Cross-platform REST client                      |
+| **Qwiq.Client.Soap** | `net472`                       | Windows-only (TFS Client OM requires net472)    |
+| **Qwiq.Linq**        | `net472;net8.0`                | LINQ provider, skip netstandard2.0 (not needed) |
+| **Qwiq.Mapper**      | `net472;net8.0`                | Object mapping, skip netstandard2.0             |
+| **Qwiq.Identity**    | `net472;net8.0`                | Identity services                               |
+| **Test Projects**    | `net472;net8.0`                | Test both oldest and newest frameworks          |
 
 ### Implementation
 
@@ -162,11 +165,11 @@ When .NET 10 LTS is released (November 2025):
 ### Risks
 
 - **API Surface Differences**: Some APIs only available in certain TFMs
-  - *Mitigation*: Use polyfills, design lowest-common-denominator APIs
+  - _Mitigation_: Use polyfills, design lowest-common-denominator APIs
 - **Behavioral Differences**: Subtle runtime differences between frameworks
-  - *Mitigation*: Comprehensive cross-TFM integration tests
+  - _Mitigation_: Comprehensive cross-TFM integration tests
 - **Dependency Conflicts**: Package versions may differ by TFM
-  - *Mitigation*: Central Package Management, careful version selection
+  - _Mitigation_: Central Package Management, careful version selection
 
 ## Alternatives Considered
 
@@ -180,6 +183,7 @@ When .NET 10 LTS is released (November 2025):
 ```
 
 **Rejected because:**
+
 - Breaks backward compatibility for .NET Framework customers
 - Forces migration for existing consumers
 - Loses market share of legacy applications
@@ -193,6 +197,7 @@ Qwiq.Core.Net80
 ```
 
 **Rejected because:**
+
 - Consumer confusion about which package to use
 - Difficult to maintain multiple packages
 - NuGet handles multi-targeting natively
@@ -207,6 +212,7 @@ Qwiq.Core.Net80
 ```
 
 **Rejected because:**
+
 - Lowest common denominator, can't use modern APIs
 - Performance loss (no Span<T>, no modern JSON, etc.)
 - Still requires net472 for SOAP client
@@ -221,6 +227,7 @@ Qwiq.Core.Net80
 ```
 
 **Rejected because:**
+
 - Build time explosion
 - Testing nightmare
 - Unnecessary - NuGet rolls forward automatically
@@ -258,6 +265,6 @@ Qwiq.Core.Net80
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                          |
+| ---------- | ------------- | ------------------------------------------------ |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting multi-targeting strategy |

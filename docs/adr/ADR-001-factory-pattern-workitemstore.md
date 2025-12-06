@@ -9,6 +9,7 @@
 ## Context
 
 Qwiq supports multiple backends for accessing work items from Azure DevOps / Team Foundation Server:
+
 - REST API (modern, cross-platform)
 - SOAP API (legacy, Windows-only via TFS Client OM)
 
@@ -17,6 +18,7 @@ Users need a consistent way to create `IWorkItemStore` instances regardless of w
 ### Problem Statement
 
 How can we provide a flexible, testable API for creating work item store instances while:
+
 1. Hiding implementation complexity from consumers
 2. Supporting multiple backends (REST, SOAP)
 3. Enabling dependency injection scenarios
@@ -44,7 +46,7 @@ Each client library provides a `WorkItemStoreFactory` class:
 public sealed class WorkItemStoreFactory : IWorkItemStoreFactory
 {
     public static readonly WorkItemStoreFactory Default = new();
-    
+
     public IWorkItemStore Create(AuthenticationOptions options)
     {
         // Create REST-based implementation
@@ -55,7 +57,7 @@ public sealed class WorkItemStoreFactory : IWorkItemStoreFactory
 public sealed class WorkItemStoreFactory : IWorkItemStoreFactory
 {
     public static readonly WorkItemStoreFactory Default = new();
-    
+
     public IWorkItemStore Create(AuthenticationOptions options)
     {
         // Create SOAP-based implementation
@@ -110,9 +112,9 @@ IWorkItemStore store = new MockWorkItemStore();
 ### Risks
 
 - **Breaking Changes**: Changes to `AuthenticationOptions` could impact all consumers
-  - *Mitigation*: Use optional parameters, obsolete old signatures before removal
+  - _Mitigation_: Use optional parameters, obsolete old signatures before removal
 - **Factory Proliferation**: Too many factory variants could confuse users
-  - *Mitigation*: Keep single `Default` factory per client, document clearly
+  - _Mitigation_: Keep single `Default` factory per client, document clearly
 
 ## Alternatives Considered
 
@@ -124,6 +126,7 @@ var store = new RestWorkItemStore(options);
 ```
 
 **Rejected because:**
+
 - Exposes concrete types to consumers
 - Harder to swap implementations
 - Breaks dependency inversion principle
@@ -136,6 +139,7 @@ var store = ServiceLocator.Resolve<IWorkItemStore>();
 ```
 
 **Rejected because:**
+
 - Considered anti-pattern in modern C# development
 - Hides dependencies, makes testing harder
 - Requires global service registry
@@ -151,6 +155,7 @@ var store = new WorkItemStoreBuilder()
 ```
 
 **Rejected because:**
+
 - Overkill for simple object creation
 - More code for consumers to write
 - Factory pattern is more discoverable
@@ -168,6 +173,6 @@ var store = new WorkItemStoreBuilder()
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                          |
+| ---------- | ------------- | ------------------------------------------------ |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting existing factory pattern |

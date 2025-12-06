@@ -9,6 +9,7 @@
 ## Context
 
 Qwiq is a multi-project solution with:
+
 - 9 source projects (Qwiq.Core, Qwiq.Client.Rest, Qwiq.Client.Soap, Qwiq.Linq, Qwiq.Mapper, Qwiq.Identity, etc.)
 - 7 test projects (unit tests, integration tests, mocks)
 - Multiple target frameworks (net472, netstandard2.0, net8.0)
@@ -17,6 +18,7 @@ Qwiq is a multi-project solution with:
 ### Problem Statement
 
 How can we manage NuGet package versions across the solution to:
+
 1. Ensure all projects use consistent package versions
 2. Simplify dependency upgrades
 3. Avoid version conflicts and assembly binding redirects
@@ -65,11 +67,11 @@ Qwiq/
     <!-- Azure DevOps SDK -->
     <PackageVersion Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="19.240.1" />
     <PackageVersion Include="Microsoft.VisualStudio.Services.Client" Version="19.240.1" />
-    
+
     <!-- Core Dependencies -->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
-    
+
     <!-- Polyfills -->
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
   </ItemGroup>
@@ -166,11 +168,11 @@ git commit -m "deps: upgrade Shouldly to 4.2.1"
 ### Risks
 
 - **Unintended Upgrades**: Updating one project's need upgrades all
-  - *Mitigation*: Thorough testing, run full test suite before committing
+  - _Mitigation_: Thorough testing, run full test suite before committing
 - **Breaking Changes**: Package upgrade breaks multiple projects at once
-  - *Mitigation*: Test before merging, use semantic versioning awareness
+  - _Mitigation_: Test before merging, use semantic versioning awareness
 - **Downgrade Difficulty**: Can't easily have different versions for different projects
-  - *Mitigation*: Use TFM-specific package versions if absolutely necessary
+  - _Mitigation_: Use TFM-specific package versions if absolutely necessary
 
 ## Alternatives Considered
 
@@ -186,6 +188,7 @@ git commit -m "deps: upgrade Shouldly to 4.2.1"
 ```
 
 **Rejected because:**
+
 - Version drift across projects
 - Difficult to upgrade consistently
 - Merge conflicts in project files
@@ -199,6 +202,7 @@ nuget Newtonsoft.Json 13.0.3
 ```
 
 **Rejected because:**
+
 - Additional tool to learn and maintain
 - Non-standard in .NET ecosystem
 - CPM provides same benefits natively
@@ -215,6 +219,7 @@ nuget Newtonsoft.Json 13.0.3
 ```
 
 **Rejected because:**
+
 - Non-deterministic builds (versions can change)
 - Doesn't solve consistency problem
 - Harder to audit
@@ -222,6 +227,7 @@ nuget Newtonsoft.Json 13.0.3
 ### Alternative 4: Git Submodules for Dependencies
 
 **Rejected because:**
+
 - Massive complexity
 - Breaks NuGet ecosystem
 - Build time explosion
@@ -278,6 +284,6 @@ Qwiq migrated from traditional to CPM during Wave 0 modernization:
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                                     |
+| ---------- | ------------- | ----------------------------------------------------------- |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting Central Package Management strategy |

@@ -13,6 +13,7 @@ Qwiq is a library that wraps the Azure DevOps / TFS work item tracking APIs. The
 ### Problem Statement
 
 How can we design an API that:
+
 1. Is easy to mock and test without Azure DevOps connectivity
 2. Abstracts away differences between REST and SOAP implementations
 3. Maintains type safety and compile-time checking
@@ -105,7 +106,7 @@ mockStore.Add(new MockWorkItem { Id = 1, Title = "Test" });
 1. **Testability**: Easy to create mocks, no Azure DevOps dependency
 2. **Flexibility**: Can swap REST/SOAP/Mock implementations transparently
 3. **Abstraction**: Consumers don't depend on Azure DevOps SDK types
-4. **SOLID Compliance**: 
+4. **SOLID Compliance**:
    - Interface Segregation Principle (focused interfaces)
    - Dependency Inversion Principle (depend on abstractions)
 5. **Future-Proof**: New implementations don't break existing code
@@ -127,9 +128,9 @@ mockStore.Add(new MockWorkItem { Id = 1, Title = "Test" });
 ### Risks
 
 - **Breaking Changes**: Interface modifications are breaking for consumers
-  - *Mitigation*: Use semantic versioning, extensive testing, API compatibility analyzers
+  - _Mitigation_: Use semantic versioning, extensive testing, API compatibility analyzers
 - **Interface Bloat**: Too many small interfaces can be confusing
-  - *Mitigation*: Design cohesive interfaces, use interface segregation judiciously
+  - _Mitigation_: Design cohesive interfaces, use interface segregation judiciously
 
 ## Alternatives Considered
 
@@ -145,6 +146,7 @@ public abstract class WorkItemBase
 ```
 
 **Rejected because:**
+
 - Single inheritance limitation in C#
 - Harder to compose behaviors
 - More coupling than interfaces
@@ -161,6 +163,7 @@ public class WorkItem
 ```
 
 **Rejected because:**
+
 - Exposes implementation details
 - Harder to test without subclassing
 - Breaks encapsulation
@@ -173,6 +176,7 @@ public Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem GetWorkItem(int
 ```
 
 **Rejected because:**
+
 - Tight coupling to Microsoft SDK
 - Impossible to unit test without TFS
 - Windows-only (SOAP client limitation)
@@ -209,6 +213,6 @@ public Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem GetWorkItem(int
 
 ## Revision History
 
-| Date | Author | Changes |
-|------|--------|---------|
+| Date       | Author        | Changes                                                  |
+| ---------- | ------------- | -------------------------------------------------------- |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting interface-first design principle |
