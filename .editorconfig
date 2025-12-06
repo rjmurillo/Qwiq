@@ -50,9 +50,7 @@ dotnet_diagnostic.CA1707.severity = none
 # KEPT: When() method is part of established test specification pattern
 dotnet_diagnostic.CA1716.severity = none
 
-# CA1720: Identifier contains type name
-# KEPT: Guid property is established API name matching TFS/Azure DevOps patterns
-dotnet_diagnostic.CA1720.severity = none
+
 
 # CA1725: Parameter names should match base declaration
 # KEPT: Some implementations use different parameter names - changing would be breaking
