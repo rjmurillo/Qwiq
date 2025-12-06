@@ -23,19 +23,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Mocks\Qwiq.Mocks.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
-    <ProjectReference Include="..\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="$(RepoRoot)\src\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="$(RepoRoot)\src\Qwiq.Mocks\Qwiq.Mocks.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="$(RepoRoot)\src\Qwiq.Tests.Common\Qwiq.Tests.Common.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
 
   <!-- Include REST client for unit testing -->
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qwiq.Core.Rest\Qwiq.Client.Rest.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
+    <ProjectReference Include="$(RepoRoot)\src\Qwiq.Core.Rest\Qwiq.Client.Rest.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
 
   <!-- Include SOAP client only for net472 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <ProjectReference Include="..\..\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
+    <ProjectReference Include="$(RepoRoot)\src\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
   </ItemGroup>
 
 </Project>
