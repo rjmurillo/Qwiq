@@ -44,25 +44,21 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
 
-      - name: Build and pack solution
-        # Windows: Use -t:Build,Pack to ensure all packages are generated during build.
+      - name: Build and pack solution (Windows)
+        # Windows: Use /t:Build,Pack to ensure all packages are generated during build.
         # This produces packages for all target frameworks including net472.
-        #
-        # Linux: Use solution-level build with GeneratePackageOnBuild=false.
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
+
+      - name: Build solution (Linux)
+        # Linux: Build solution without packing.
         # Linux cannot build net472 (requires Windows/.NET Framework), so we skip packing.
         # The SDK automatically filters out Windows-only TFMs during inner builds.
         # Packages are only produced on Windows where all TFMs can be built.
-        #
-        # Note: Use -t: instead of /t: for cross-platform bash compatibility.
-        # Use -p: instead of /p: for the same reason.
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            dotnet build Qwiq.sln -c Release --no-restore -t:Build,Pack -p:ContinuousIntegrationBuild=true -m:1 -nodeReuse:false -bl:./artifacts/logs/build.binlog
-          else
-            # Linux: Build solution without packing (net472 cannot be built on Linux)
-            dotnet build Qwiq.sln -c Release --no-restore -p:GeneratePackageOnBuild=false -p:ContinuousIntegrationBuild=true -m:1 -nodeReuse:false -bl:./artifacts/logs/build.binlog
-          fi
-        shell: bash
+        if: matrix.os == 'ubuntu-latest'
+        shell: pwsh
+        run: dotnet build Qwiq.sln -c Release --no-restore /p:GeneratePackageOnBuild=false /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
       - name: Validate package output
         # Scans csproj files to find packable projects and validates each produced
@@ -79,12 +75,21 @@ jobs:
         if: github.event_name == 'push' && matrix.os == 'windows-latest'
         run: ./build/scripts/Verify-SourceLink.ps1
 
-      - name: Run tests with coverage
-        id: test
-        # Run tests for all projects that were built.
+      - name: Run tests with coverage (Windows)
+        id: test-windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        # Run all tests on Windows where all TFMs are built.
         # The test filter excludes integration tests that require server connectivity.
-        # On Linux, net472 test projects are skipped automatically since they weren't built.
         run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+
+      - name: Run tests with coverage (Linux)
+        id: test-linux
+        if: matrix.os == 'ubuntu-latest'
+        shell: pwsh
+        # Run tests on Linux, excluding Package tests which require all TFMs to be built.
+        # net472 test projects are skipped automatically since they weren't built.
+        run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}&TestCategory!=Package" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
 
       - name: Upload build logs
         if: success() || failure()
@@ -95,11 +100,12 @@ jobs:
           if-no-files-found: ignore
 
       - name: Generate coverage report
-        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
+        if: always() && (steps.test-windows.outcome == 'success' || steps.test-windows.outcome == 'failure' || steps.test-linux.outcome == 'success' || steps.test-linux.outcome == 'failure')
+        shell: pwsh
         run: dotnet reportgenerator -reports:"./artifacts/TestResults/**/coverage.cobertura.xml" -targetdir:"./artifacts/CoverageReport" -reporttypes:"Cobertura;HtmlSummary;HtmlInline_AzurePipelines"
 
       - name: Upload test results
-        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
+        if: always() && (steps.test-windows.outcome == 'success' || steps.test-windows.outcome == 'failure' || steps.test-linux.outcome == 'success' || steps.test-linux.outcome == 'failure')
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.os }}
@@ -107,7 +113,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Upload coverage report
-        if: steps.test.outcome == 'success' || steps.test.outcome == 'failure'
+        if: always() && (steps.test-windows.outcome == 'success' || steps.test-windows.outcome == 'failure' || steps.test-linux.outcome == 'success' || steps.test-linux.outcome == 'failure')
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report-${{ matrix.os }}

@@ -7,6 +7,12 @@ using System.Linq;
 
 namespace Qwiq.Package.Tests;
 
+/// <summary>
+/// Tests that verify NuGet package contents against verified baselines.
+/// These tests require all target frameworks to be built and packed, so they
+/// only run on Windows where net472 can be built.
+/// </summary>
+[Trait("TestCategory", "Package")]
 public class PackageTests
 {
     public static TheoryData<string> GetPackages()
