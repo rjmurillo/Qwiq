@@ -1,4 +1,7 @@
 <Project>
+  <!-- Import centralized artifact test results configuration -->
+  <Import Project="$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props" />
+
   <PropertyGroup>
     <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
