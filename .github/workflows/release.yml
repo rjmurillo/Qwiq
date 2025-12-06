@@ -62,9 +62,40 @@ jobs:
       provenance-name: "qwiq-provenance.intoto.jsonl"
       upload-assets: true
 
+  # Generate SBOM (authoritative release version)
+  sbom:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: packages
+
+      - name: Generate SBOM (release)
+        uses: microsoft/sbom-tool@v2
+        with:
+          buildDropPath: ./packages
+          buildComponentPath: ./
+          outputPath: ./sbom
+          packageName: Qwiq
+          packageVersion: ${{ github.ref_name }}
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-release
+          path: ./sbom/**/*.spdx.json
+          if-no-files-found: error
+
   # Publish packages to NuGet after successful build
   publish:
-    needs: [build, provenance]
+    needs: [build, provenance, sbom]
     runs-on: windows-latest # Required for net472 packages
     environment:
       name: production-nuget
@@ -122,6 +153,13 @@ jobs:
           name: qwiq-provenance.intoto.jsonl
           path: provenance
 
+      - name: Download SBOM
+        if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v4
+        with:
+          name: sbom-release
+          path: sbom
+
       - name: Upload packages to GitHub Release
         if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
@@ -129,5 +167,6 @@ jobs:
           files: |
             packages/**/*.nupkg
             provenance/**/*.intoto.jsonl
+            sbom/**/*.spdx.json
           generate_release_notes: true
           fail_on_unmatched_files: false
