@@ -1,7 +1,7 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-06 by Copilot Agent (Session 16 - Phase 2A W2.15 & W2.18)
-> **Current Phase**: Phase 2A (In Progress - 4/5 tasks)
+> **Last Updated**: 2025-12-06 by Copilot Agent (Session 17 - Phase 2A W2.11 Release Workflow)
+> **Current Phase**: Phase 2A (COMPLETE - 5/5 tasks)
 > **Branch**: `copilot/sub-pr-65`
 
 ---
@@ -11,7 +11,7 @@
 **Build Status**: ✅ PASSING (0 warnings, 0 errors)
 **Test Status**: ✅ PASSING (189 tests on net8.0)
 
-**Last Commit**: `91c3244` (feat(pack): enable package validation for all 9 packable projects)
+**Last Commit**: `815354e9` (feat(ci): add release workflow for NuGet publishing)
 
 ---
 
@@ -43,23 +43,30 @@
   - Enabled for all 9 packable projects
   - Configured strict mode for TFM and framework compatibility
   - Baseline version deferred until next release
+- [x] **W2.11** - Create Release Workflow (COMPLETE - commit 815354e9)
+  - Added `workflow_call` trigger to main.yml for DRY reuse
+  - Created release.yml that reuses main.yml build/test/pack pipeline
+  - Configured NuGet publishing with `--skip-duplicate`
+  - Added environment approval gate (`production-nuget`)
+  - Supports: workflow_dispatch, release events, and v* tags
 
 ---
 
 ## What's Next
 
-### Phase 2A: Remaining Tasks
+### Phase 2A: ✅ COMPLETE (5/5 tasks)
 
 1. ✅ ~~**W2.5** - Architecture Decision Records~~ (COMPLETE)
 2. ✅ ~~**W2.2** - API Compatibility Baselines~~ (COMPLETE)
 3. ✅ ~~**W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate~~ (COMPLETE)
 4. ✅ ~~**W2.18** - Enable Package Validation~~ (COMPLETE)
+5. ✅ ~~**W2.11** - Create Release Workflow~~ (COMPLETE)
 
-5. **W2.11** - Create Release Workflow (CRITICAL) - **NEXT PRIORITY**
-   - Create composite action for DRY
-   - Create release.yml workflow
-   - Configure NuGet publishing
-   - Test with workflow_dispatch
+### Phase 2B: Supply Chain Security (NEXT)
+
+1. **W2.17** - SLSA Provenance Generation - **CRITICAL**
+2. **W2.13** - SBOM Generation (dual pipeline) - **HIGH**
+3. **W2.14** - Dependency Review Action - **HIGH** (partially done in Session 16)
 
 ---
 
@@ -99,6 +106,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 | 2025-12-06 | 2A | W2.5 (ADRs), W2.2 (API infra) - Session 14 | ✅ Complete |
 | 2025-12-06 | 2A | W2.2 (API baselines populated) - Session 15 | ✅ Complete |
 | 2025-12-06 | 2A | W2.15 (Deps), W2.18 (Validation) - Session 16 | ✅ Complete |
+| 2025-12-06 | 2A | W2.11 (Release Workflow) - Session 17 | ✅ Complete |
 
 ---
 
@@ -114,30 +122,36 @@ If you need context, read these files in order:
 
 ## Important Notes for Next Session
 
-1. **NEXT PRIORITY**: W2.11 - Create Release Workflow (CRITICAL)
-   - Reference: https://github.com/rjmurillo/moq.analyzers/blob/main/.github/workflows/release.yml
-   - Create composite action for DRY build steps
-   - Configure NuGet API key as secret
-   - Test with workflow_dispatch before enabling on tags
+1. **Phase 2A COMPLETE**: All 5 tasks done (W2.5, W2.2, W2.15, W2.18, W2.11)
 
-2. **Dependency Management Complete**: ✅
+2. **NEXT PRIORITY**: Phase 2B - Supply Chain Security
+   - W2.17 - SLSA Provenance Generation (CRITICAL)
+   - W2.13 - SBOM Generation (HIGH)
+   - W2.14 - Dependency Review Action (HIGH - partially done)
+
+3. **Release Workflow Manual Setup Required**:
+   - Create `production-nuget` environment in GitHub repo settings
+   - Add `NUGET_API_KEY` secret to the repository
+   - Test with `workflow_dispatch` before relying on tag triggers
+
+4. **Dependency Management Complete**: ✅
    - Renovate will automatically pin GitHub Actions to SHAs via PR
    - Dependabot and Renovate both configured with proper grouping
    - Dependency review blocks vulnerable packages
    - Auto-approve streamlines bot PRs (still requires CI pass)
 
-3. **Package Validation Enabled**: ✅ 
+5. **Package Validation Enabled**: ✅ 
    - All 9 projects configured
    - Baseline version will be set after next release
    - Breaking changes will be detected automatically
 
-4. **API Baselines Complete**: ✅ W2.2 done - 1,268 API entries documented across 9 projects
+6. **API Baselines Complete**: ✅ W2.2 done - 1,268 API entries documented across 9 projects
 
-5. **ADRs Complete**: ✅ W2.5 done - 6 comprehensive ADRs documented (49.1 KB total)
+7. **ADRs Complete**: ✅ W2.5 done - 6 comprehensive ADRs documented (49.1 KB total)
 
-6. **Migration Script Available**: Use `build/scripts/Migrate-PublicApiToShipped.ps1` when releasing to move Unshipped → Shipped
+8. **Migration Script Available**: Use `build/scripts/Migrate-PublicApiToShipped.ps1` when releasing to move Unshipped → Shipped
 
-7. **Session Logs**: Always create session log at start (`.agents/session-YYYY-MM-DD-phase-XX.md`)
+9. **Session Logs**: Always create session log at start (`.agents/sessions/YYYY-MM-DD-phase-XX.md`)
 
 ---
 
@@ -161,6 +175,6 @@ When adding packages for Wave 2:
 
 The next Copilot session should:
 1. Read `AGENT-INSTRUCTIONS.md` completely
-2. Create session log: `.agents/sessions/2025-12-XX-phase-2a.md`
-3. Execute Phase 2A tasks in order
+2. Create session log: `.agents/sessions/2025-12-XX-phase-2b.md`
+3. Execute Phase 2B tasks (W2.17, W2.13, W2.14)
 4. Update this HANDOFF.md before ending

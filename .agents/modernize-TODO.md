@@ -9,7 +9,7 @@
 > - [PROMPTS.md](./PROMPTS.md) - Standard prompts for starting/ending sessions
 > - [modernize-explainer.md](./modernize-explainer.md) - Architecture and design decisions
 >
-> **Last Updated**: December 6, 2025 (Session 15)
+> **Last Updated**: December 6, 2025 (Session 17)
 > **Status**: Active
 
 ---
@@ -76,7 +76,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
 | Wave 1 | 🔄 In Progress | 27 | 20/27 |
-| Wave 2 | 🔄 In Progress | 15 | 2/15 |
+| Wave 2 | 🔄 In Progress | 15 | 5/15 |
 | Wave 3 | 📋 Future | 13 | 0/13 |
 
 **Wave 2 Changes (Session 12-13)**:
@@ -891,12 +891,13 @@ jobs:
 
 ### Phase 2A: Release Automation (CRITICAL)
 
-#### W2.11 Create Release Workflow ✅ UPDATED
-- [ ] **Task**: Automate NuGet publishing on version tags with DRY composite action
-- **Effort**: M (1-2 days)
+#### W2.11 Create Release Workflow ✅ COMPLETE
+- [x] **Task**: Automate NuGet publishing on version tags with DRY workflow_call
+- **Effort**: M (1-2 days) ⏱️ Actual: ~1 hour
 - **Priority**: **CRITICAL**
 - **Dependencies**: W1.2 (Source Link)
-- **Files**: `.github/workflows/release.yml`, `.github/actions/dotnet-build/action.yml`
+- **Files**: `.github/workflows/release.yml`, `.github/workflows/main.yml`
+- **Status**: ✅ COMPLETE (2025-12-06, Session 17)
 
 **Design Goals**: Repeatable release flow, secure secrets handling, traceable artifacts.
 
@@ -1014,13 +1015,21 @@ jobs:
 - Never store API keys in repository; use GitHub secrets
 
 - **Acceptance Criteria**:
-  - [ ] Composite action created at `.github/actions/dotnet-build/`
-  - [ ] `release.yml` workflow uses `workflow_call` to reuse main.yml
-  - [ ] NuGet API key stored as repository secret
-  - [ ] Version tags (`v*`) trigger releases
-  - [ ] GitHub Release created with auto-generated changelog
-  - [ ] `--skip-duplicate` prevents re-publish errors
-  - [ ] Environment approval gate for production-nuget
+  - [x] ~~Composite action created~~ → Used `workflow_call` instead (better DRY approach)
+  - [x] `release.yml` workflow uses `workflow_call` to reuse main.yml
+  - [ ] NuGet API key stored as repository secret (manual step - requires repo admin)
+  - [x] Version tags (`v*`) trigger releases
+  - [x] GitHub Release created with auto-generated changelog
+  - [x] `--skip-duplicate` prevents re-publish errors
+  - [x] Environment approval gate for production-nuget
+
+**Implementation Notes**:
+- Used `workflow_call` trigger in main.yml instead of composite action (simpler, same DRY benefit)
+- Release workflow reuses entire main.yml build/test/pack pipeline
+- Supports: workflow_dispatch (manual), release events, and v* tags
+- Environment `production-nuget` requires manual setup in GitHub repo settings
+
+**Commits**: 815354e9 (feat(ci): add release workflow for NuGet publishing)
 
 ---
 
@@ -2064,17 +2073,17 @@ Week 28+:   Wave 3 items
 
 ### Priority Order for Next Session
 
-**Sprint 1 (Week 1-2): Foundation & API Protection**
+**Sprint 1 (Week 1-2): Foundation & API Protection** ✅ COMPLETE
 1. ✅ **W2.5** - Create Architecture Decision Records - **COMPLETE** (Session 14)
 2. ✅ **W2.2** - Create API Compatibility Baselines - **COMPLETE** (Session 15)
-3. **W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate - **CRITICAL** (supply chain security)
-4. **W2.18** - Enable Package Validation - **HIGH** (prevents breaking changes)
+3. ✅ **W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate - **COMPLETE** (Session 16)
+4. ✅ **W2.18** - Enable Package Validation - **COMPLETE** (Session 16)
 
-**Sprint 2 (Week 3-4): Release Automation & Supply Chain**
-5. **W2.11** - Create Release Workflow - **CRITICAL** (unblocks manual process)
-6. **W2.17** - SLSA Provenance Generation - **CRITICAL**
+**Sprint 2 (Week 3-4): Release Automation & Supply Chain** 🔄 IN PROGRESS
+5. ✅ **W2.11** - Create Release Workflow - **COMPLETE** (Session 17)
+6. **W2.17** - SLSA Provenance Generation - **CRITICAL** (next priority)
 7. **W2.13** - SBOM Generation (dual pipeline) - **HIGH**
-8. **W2.14** - Dependency Review Action - **HIGH**
+8. **W2.14** - Dependency Review Action - **HIGH** (already implemented in Session 16)
 
 **Sprint 3 (Week 5-6): Testing & Security**
 9. **W2.16 Phase 1** - REST Unit Tests (WireMock.Net) - **HIGH**
