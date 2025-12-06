@@ -145,7 +145,7 @@ dotnet_diagnostic.CA1805.severity = warning
 
 # CA1806: Do not ignore method results (TryParse)
 # Technical debt: Methods intentionally ignore parse result when using out parameter
-dotnet_diagnostic.CA1806.severity = none
+dotnet_diagnostic.CA1806.severity = warning
 
 # CA1816: Call GC.SuppressFinalize correctly
 # Technical debt: Some Dispose implementations call SuppressFinalize incorrectly
