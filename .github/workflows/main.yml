@@ -87,10 +87,21 @@ jobs:
         id: test-linux
         if: matrix.os == 'ubuntu-latest'
         shell: pwsh
-        # Run tests on Linux with net8.0 only (excludes Package tests which require all TFMs).
-        # --framework net8.0 prevents VSTest from attempting to run net472 assemblies which require Mono.
-        # net472 assemblies are built but cannot be executed on Linux without Mono installed.
-        run: dotnet test Qwiq.sln -c Release --no-build --framework net8.0 --filter "${{ env.TEST_FILTER }}&TestCategory!=Package" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+        # Run tests on Linux with net8.0 only.
+        # Exclude IntegrationTests (net472-only, would require Mono).
+        # Exclude Package.Tests (requires .nupkg files which are only built on Windows).
+        # Benchmark tests are excluded by TEST_FILTER (TestCategory!=Benchmark).
+        # Test multi-targeted projects by explicitly specifying --framework net8.0.
+        run: |
+          $projects = @(
+            'test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj',
+            'test/Qwiq.Identity.Tests/Qwiq.Identity.UnitTests.csproj',
+            'test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj',
+            'test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj'
+          )
+          foreach ($project in $projects) {
+            dotnet test $project -c Release --no-build --framework net8.0 --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+          }
 
       - name: Upload build logs
         if: success() || failure()
