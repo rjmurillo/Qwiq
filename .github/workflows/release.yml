@@ -11,7 +11,7 @@ on:
       - released
   push:
     tags:
-      - 'v*' # Run on version tags (e.g., v2.0.0, v2.1.0-beta.1)
+      - "v*" # Run on version tags (e.g., v2.0.0, v2.1.0-beta.1)
 
 permissions:
   contents: write # Required for creating GitHub releases and attaching SLSA provenance
@@ -77,12 +77,18 @@ jobs:
           name: packages
           path: packages
 
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: ./global.json
+
+      - name: Restore .NET tools
+        run: dotnet tool restore
+
       - name: Generate SBOM (release)
-        # Uses .NET tool instead of container action (container actions only work on Linux)
+        # Uses local .NET tool (restored via dotnet tool restore) instead of container action
         shell: bash
-        run: |
-          dotnet tool install --global Microsoft.Sbom.DotNetTool
-          sbom-tool generate -b ./packages -bc ./ -pn Qwiq -pv ${{ github.ref_name }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./sbom
+        run: dotnet sbom-tool generate -b ./packages -bc ./ -pn Qwiq -pv ${{ github.ref_name }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./sbom
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
