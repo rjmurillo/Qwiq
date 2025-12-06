@@ -1,7 +1,4 @@
 <Project>
-  <!-- Import centralized artifact test results configuration -->
-  <Import Project="$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props" />
-
   <PropertyGroup>
     <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
@@ -25,6 +22,10 @@
     <!-- Deterministic Builds -->
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <!-- Artifact Output Configuration -->
+    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK. For .NET 8, we only configure test results path. -->
+    <ArtifactsTestResultsPath Condition="'$(ArtifactsTestResultsPath)' == ''">$(MSBuildThisFileDirectory)artifacts\TestResults</ArtifactsTestResultsPath>
 
     <!-- Output Configuration -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
