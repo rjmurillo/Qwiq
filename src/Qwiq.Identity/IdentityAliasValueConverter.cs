@@ -69,8 +69,8 @@ namespace Qwiq.Identity
             if (string.IsNullOrWhiteSpace(tenantId)) throw new ArgumentNullException(nameof(tenantId));
             if (domains == null) throw new ArgumentNullException(nameof(domains));
             if (logonNames == null) throw new ArgumentNullException(nameof(logonNames));
-            if (!domains.Any()) throw new ArgumentException(nameof(domains));
-            if (!logonNames.Any()) throw new ArgumentException(nameof(logonNames));
+            if (domains.Length == 0) throw new ArgumentException("Collection cannot be empty.", nameof(domains));
+            if (logonNames.Count == 0) throw new ArgumentException("Collection cannot be empty.", nameof(logonNames));
 
             var descriptorsToAliasLookup = CreatePossibleIdentityDescriptors(logonNames, domains, tenantId);
             var identities = GetIdentitiesForAliases(descriptorsToAliasLookup);

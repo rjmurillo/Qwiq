@@ -200,10 +200,11 @@ namespace Qwiq.Linq
     public class when_a_query_has_a_field_that_should_be_in_a_list_of_IEnumerable_string_values : WiqlQueryBuilderContextSpecification
     {
         private IEnumerable<string> _values = null!;
+        private static readonly string[] sourceArray = new[] { "person1", "person2" };
 
         public override void Given()
         {
-            _values = new[] { "person1", "person2" }.AsEnumerable();
+            _values = sourceArray.AsEnumerable();
             base.Given();
         }
 

@@ -213,10 +213,10 @@ namespace Qwiq.Mocks
 
             foreach (var searchFactor in searchFactors)
             {
-                if (_accountNameMappings.ContainsKey(searchFactor))
+                if (_accountNameMappings.TryGetValue(searchFactor, out ITeamFoundationIdentity[]? value))
                     yield return new KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>(
                                                                                                 searchFactor,
-                                                                                                _accountNameMappings[searchFactor]);
+value);
                 else
                     yield return new KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>(
                                                                                                 searchFactor,

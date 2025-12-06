@@ -73,7 +73,7 @@ namespace Qwiq.Identity.Soap
                 ReadIdentityOptions.IncludeReadFromSource);
 
             if (searchFactorArray.Length != identities.Length)
-                throw new IndexOutOfRangeException(
+                throw new InvalidOperationException(
                     "A call to IIdentityManagementService2.ReadIdentities resulted in a return set where there was not a one to one mapping between search terms and search results. This is unexpected behavior and execution cannot continue. Please check if the underlying service implementation has changed and update the consuming code as appropriate.");
 
             for (var i = 0; i < searchFactorArray.Length; i++)

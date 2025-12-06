@@ -77,9 +77,9 @@ namespace Qwiq.Client.Rest
         public void CopyTo(ILink[] array, int arrayIndex)
         {
             if (array == null) throw new ArgumentNullException(nameof(array));
-            if (array.Rank != 1) throw new ArgumentException(nameof(array));
+            if (array.Rank != 1) throw new ArgumentException("Array must be single-dimensional.", nameof(array));
             if (arrayIndex < 0) throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            if (array.Length - arrayIndex < Count) throw new ArgumentException(nameof(array));
+            if (array.Length - arrayIndex < Count) throw new ArgumentException("Destination array is not long enough.", nameof(array));
             foreach (var value in this) array.SetValue(value, arrayIndex++);
         }
 

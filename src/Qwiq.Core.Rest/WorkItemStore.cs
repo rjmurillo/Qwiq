@@ -85,7 +85,7 @@ namespace Qwiq.Client.Rest
             // Same behavior as SOAP version
             if (ids == null) throw new ArgumentNullException(nameof(ids));
             var ids2 = (int[])ids.ToArray().Clone();
-            if (!ids2.Any()) return Enumerable.Empty<IWorkItem>().ToWorkItemCollection();
+            if (ids2.Length == 0) return Enumerable.Empty<IWorkItem>().ToWorkItemCollection();
 
             var query = _queryFactory.Value.Create(ids2, asOf);
             return query.RunQuery();

@@ -258,7 +258,7 @@ namespace Qwiq.Mocks
             {
                 if (!IsValid())
                 {
-                    throw new Exception("Work item is not ready to save.");
+                    throw new InvalidOperationException("Work item is not ready to save.");
                 }
 
                 if (!(Type is MockWorkItemType))
@@ -281,7 +281,7 @@ namespace Qwiq.Mocks
         public override IEnumerable<IField> Validate()
         {
             var invalidFields = Fields.Where(p => !p.IsValid).Select(p => p).ToArray();
-            return invalidFields.Any() ? invalidFields : Array.Empty<IField>();
+            return invalidFields.Length != 0 ? invalidFields : Array.Empty<IField>();
         }
     }
 

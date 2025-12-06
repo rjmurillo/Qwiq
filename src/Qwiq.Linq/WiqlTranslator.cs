@@ -57,7 +57,7 @@ namespace Qwiq.Linq
 
 
             var workItemTypeRestriction = FieldMapper.GetWorkItemType(query.UnderlyingQueryType).ToList();
-            if (workItemTypeRestriction.Any())
+            if (workItemTypeRestriction.Count != 0)
             {
                 query.WhereClauses.Enqueue(new TypeRestrictionFragment(workItemTypeRestriction));
             }
@@ -130,7 +130,7 @@ namespace Qwiq.Linq
                 Visit(expression.Source);
                 Visit(expression.Filter);
 
-                if (_expressionInProgress.Any())
+                if (_expressionInProgress.Count != 0)
                 {
                     Query.WhereClauses.Enqueue(new CompoundFragment(_expressionInProgress));
                 }

@@ -116,9 +116,11 @@ namespace Qwiq.Mocks
             return wi;
         }
 
+        private static readonly string[] propertiesToSkip = new[] { "Revisions", "Item" };
+
         public static MockWorkItem Generate(this MockWorkItemStore store)
         {
-            var g = new WorkItemGenerator<MockWorkItem>(store.Create, new[] { "Revisions", "Item" });
+            var g = new WorkItemGenerator<MockWorkItem>(store.Create, propertiesToSkip);
             return g.Generate(1).Single();
         }
         public static IWorkItemStore? Store(this IWorkItemType type)

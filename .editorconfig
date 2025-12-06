@@ -84,15 +84,15 @@ dotnet_diagnostic.CA1822.severity = none
 
 # CA2208: Instantiate argument exceptions correctly
 # KEPT: Some exceptions use descriptive strings instead of parameter names
-dotnet_diagnostic.CA2208.severity = none
+dotnet_diagnostic.CA2208.severity = warning
 
 # CA2201: Do not raise reserved exception types (System.Exception)
 # KEPT: Some code throws base Exception type - changing requires careful analysis
-dotnet_diagnostic.CA2201.severity = none
+dotnet_diagnostic.CA2201.severity = warning
 
 # CA2211: Non-constant fields should not be visible
 # KEPT: Test configuration uses visible static fields
-dotnet_diagnostic.CA2211.severity = none
+dotnet_diagnostic.CA2211.severity = warning
 
 # CA1859: Use concrete types when possible for improved performance
 # KEPT: Interface types used intentionally for abstraction and testability
@@ -100,15 +100,15 @@ dotnet_diagnostic.CA1859.severity = none
 
 # CA1860: Prefer comparing Length/Count to 0 rather than using Any()
 # KEPT: Many places use Any() which is idiomatic LINQ
-dotnet_diagnostic.CA1860.severity = none
+dotnet_diagnostic.CA1860.severity = warning
 
 # CA1854: Prefer TryGetValue over ContainsKey + indexer
 # KEPT: Some code uses ContainsKey pattern intentionally
-dotnet_diagnostic.CA1854.severity = none
+dotnet_diagnostic.CA1854.severity = warning
 
 # CA1861: Avoid constant arrays as arguments
 # KEPT: Some method calls use inline array literals for clarity
-dotnet_diagnostic.CA1861.severity = none
+dotnet_diagnostic.CA1861.severity = warning
 
 # CA1863: Cache a CompositeFormat for repeated use
 # Requires .NET 8+ API, not available on older targets

@@ -76,7 +76,7 @@ namespace Qwiq.Client.Rest
             var m = AsOfRegex.Match(wiql);
             if (!m.Success) return null;
 
-            if (!DateTime.TryParse(m.Groups["date"].Value, out DateTime retval)) throw new Exception();
+            if (!DateTime.TryParse(m.Groups["date"].Value, out DateTime retval)) throw new FormatException($"Unable to parse ASOF date: {m.Groups["date"].Value}");
 
             return retval;
         }
