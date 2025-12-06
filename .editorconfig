@@ -69,7 +69,7 @@ dotnet_diagnostic.CA1051.severity = warning
 
 # CA1036: Override comparison operators when implementing IComparable
 # Technical debt: IdentityDescriptor implements IComparable but not comparison operators
-dotnet_diagnostic.CA1036.severity = none
+dotnet_diagnostic.CA1036.severity = warning
 
 #######################################
 # CA12xx: Documentation Rules
