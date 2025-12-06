@@ -12,7 +12,9 @@
 
 	<ItemGroup>
 		<None Include="..\..\docs\package-readme\Qwiq.Mocks.md" Pack="true" PackagePath="README.md" />
-	</ItemGroup>	<ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Services.Client" />
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>

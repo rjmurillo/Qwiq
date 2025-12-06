@@ -2,7 +2,7 @@
   <PropertyGroup>
     <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -86,9 +86,7 @@
   <ItemGroup>
     <!-- Add Nerdbank.GitVersioning for all projects -->
     <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" />
-
-    <!-- Add Microsoft.CodeAnalysis.NetAnalyzers to replace deprecated FxCop -->
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
+    <!-- Microsoft.CodeAnalysis.NetAnalyzers is included in .NET SDK 5+ via EnableNETAnalyzers=true -->
   </ItemGroup>
 
   <!-- Source Link for all projects (even test projects benefit from source linking in debugging) -->
