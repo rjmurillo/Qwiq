@@ -42,9 +42,7 @@ dotnet_diagnostic.CA1512.severity = none
 # KEPT: Test classes and methods use Given_When_Then naming pattern (868 violations)
 dotnet_diagnostic.CA1707.severity = none
 
-# CA1711: Identifiers should not have incorrect suffix
-# KEPT: SaveFlags, WorkItemCopyFlags, ITeamProjectCollection are established API names
-dotnet_diagnostic.CA1711.severity = none
+
 
 
 
