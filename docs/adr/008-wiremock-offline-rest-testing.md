@@ -1,8 +1,8 @@
 # ADR-008: WireMock-Based Offline REST Client Testing
 
-**Status**: Accepted  
-**Date**: 2025-12-08  
-**Deciders**: @rjmurillo  
+**Status**: Accepted
+**Date**: 2025-12-08
+**Deciders**: @rjmurillo
 **Context Tags**: Testing, REST Client, WireMock, Offline Testing
 
 ---
@@ -298,7 +298,7 @@ dotnet test --filter "TestCategory=WireMock"
 
 ## Approval
 
-**Approved By**: @rjmurillo  
+**Approved By**: @rjmurillo
 **Date**: 2025-12-08
 
 This decision represents a pragmatic solution to REST client offline testing, balancing the need for authentic API responses with the practical constraints of third-party SDK dependencies.

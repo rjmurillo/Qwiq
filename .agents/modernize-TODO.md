@@ -1379,8 +1379,6 @@ jobs:
 
 **Commit**: 91c3244
 
-**Commit**: 91c3244
-
 ---
 
 #### W2.2 Create API Compatibility Baselines ✅ COMPLETE
