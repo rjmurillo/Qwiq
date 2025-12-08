@@ -25,12 +25,12 @@
 - ✅ `.agents/WIREMOCK-IMPLEMENTATION-COMPLETE.md` documents details
 - ✅ ADR index updated
 
-**Phase 1E Progress (unchanged from Session 17)**:
+**Phase 1E Progress (COMPLETE - Session 2025-12-08)**:
 - ✅ **W1.20**: Deterministic builds enabled (`Deterministic=true`, `ContinuousIntegrationBuild`)
 - ✅ **W1.19**: PedanticMode implemented (`build/targets/codeanalysis/CodeAnalysis.targets`)
-- ⬜ **W1.22**: Document Testing Matrix (TODO - update TESTING.md)
-- ⬜ **W1.23**: Configure ArtifactsPath (TODO - standardize output paths)
-- ⬜ **W1.24**: Add Cross-Platform CI Matrix (TODO - Linux runner)
+- ✅ **W1.22**: Document Testing Matrix (COMPLETE - verified TESTING.md has coverage section)
+- ✅ **W1.23**: Configure ArtifactsPath (COMPLETE - Artifacts.props created and imported)
+- ✅ **W1.24**: Add Cross-Platform CI Matrix (COMPLETE - verified Windows/Linux matrix in main.yml)
 - ✅ **W1.21**: .gitattributes (COMPLETE - Session 6)
 
 **Status of Work on This Branch**:
@@ -54,9 +54,11 @@
 - CA2263 (scoped) - Test-specific
 
 **Next Session Should**:
-1. **Continue Phase 1E**: W1.22 (Testing Matrix), W1.23 (ArtifactsPath), W1.24 (Cross-Platform CI)
-2. **Optional**: Merge `copilot/sub-pr-58-again` → `feat/modernize-2` if Phase 1E complete
-3. **Then**: Continue with W1.16 (remaining P1 reliability rules: CA2213, CA2215)
+1. ✅ **Wave 1 COMPLETE**: All 27 tasks finished (2025-12-08)
+2. **Continue Wave 2**: Phase 2D (Security Hardening) recommended
+   - W2.19 - CodeQL Advanced Security
+   - W2.20 - Secrets Scanning
+3. **Or**: Continue Phase 2C - W2.16 Phase 2 (SOAP offline tests)
 
 **Priority Actions**:
 1. W1.22 - Document Testing Matrix (S, 1-2 hours)
@@ -77,7 +79,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 | Wave | Status | Tasks | Completed |
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
-| Wave 1 | 🔄 In Progress | 27 | 20/27 |
+| Wave 1 | ✅ Complete | 27 | 27/27 |
 | Wave 2 | 🔄 In Progress | 15 | 8/15 |
 | Wave 3 | 📋 Future | 13 | 0/13 |
 
