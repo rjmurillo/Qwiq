@@ -53,8 +53,21 @@ This explainer defines a plan to implement **unit test coverage** for REST and S
 1. **Refactoring Existing Architecture**: Work within the current "thin adapter" design pattern without major restructuring
 2. **Integration Test Replacement**: Unit tests complement (not replace) existing integration tests that validate real Azure DevOps connectivity
 3. **Code Coverage Percentage Targets**: Focus on critical paths rather than arbitrary coverage metrics
-4. **Recorded Responses**: Do NOT use recorded HTTP responses or real Azure DevOps data; use synthetic test data only
-5. **SOAP Priority**: Phase 2 (SOAP) is lower priority and deferred until Phase 1 (REST) is complete
+4. **SOAP Priority**: Phase 2 (SOAP) is lower priority and deferred until Phase 1 (REST) is complete
+
+## Implementation Decision: Real Captured Traffic (ADR-008)
+
+**Note**: The original requirement specified "synthetic test data only" (no recorded responses). However, during implementation, manual stub creation failed due to Azure DevOps SDK's proprietary JSON serialization requirements, particularly for `IdentityDescriptor` which requires exact string format `"Microsoft.IdentityModel.Claims.ClaimsIdentity;..."` rather than object format.
+
+**Decision**: Use real captured Azure DevOps HTTP traffic (via Fiddler HAR capture) converted to WireMock stubs. This approach was documented in ADR-008 and successfully implemented.
+
+**Rationale**:
+- Manual synthetic stubs failed due to serialization format mismatches
+- Real captured traffic ensures authentic API response formats
+- Captured stubs are deterministic and can be updated by recapturing traffic
+- No sensitive data: stubs contain only test work item data from sandbox environment
+
+See: `docs/adr/008-wiremock-offline-rest-testing.md` for full decision rationale.
 6. **Testing Framework Changes**: Continue using existing Moq, Shouldly, and ContextSpecification patterns
 
 ---
@@ -77,7 +90,7 @@ This explainer defines a plan to implement **unit test coverage** for REST and S
 
 3. **As a maintainer**, I want query execution tests that validate WIQL query handling, field mapping, and result parsing, so that I know the adapter correctly transforms between Qwiq abstractions and SDK types.
 
-4. **As a contributor**, I want to mock SDK responses using synthetic work item data, so that tests are fast, deterministic, and don't require authentication or network connectivity.
+4. **As a contributor**, I want to mock SDK responses using captured Azure DevOps API responses (converted to WireMock stubs), so that tests are fast, deterministic, and don't require authentication or network connectivity.
 
 5. **As a new contributor**, I want clear documentation showing how to write unit tests for REST/SOAP adapters, so that I can follow established patterns when adding new functionality.
 
@@ -195,7 +208,7 @@ The system must validate REST client query execution logic without requiring Azu
 The system must validate REST client work item retrieval and field access patterns.
 
 **Acceptance Criteria**:
-- Mock `GetWorkItemsAsync` responses with synthetic work item data
+- Mock `GetWorkItemsAsync` responses with captured Azure DevOps API responses (WireMock stubs)
 - Validate field value extraction (System.Id, System.Title, custom fields)
 - Test batch retrieval (multiple work items)
 - Verify revision handling
@@ -283,7 +296,7 @@ public class Given_REST_query_execution : ContextSpecification
             Mock.Of<VssCredentials>(),
             new VssHttpRequestSettings());
 
-        // Setup query response with synthetic data
+        // Setup query response with captured WireMock stub data
         var mockResponse = new WorkItemQueryResult
         {
             WorkItems = new[]
@@ -327,13 +340,16 @@ public class Given_REST_query_execution : ContextSpecification
 
 ### Test Data Management
 
-**Synthetic Test Data Principles**:
-1. **No Real Data**: Never use recorded responses from real Azure DevOps environments
-2. **Minimal Data**: Use smallest dataset that validates behavior
-3. **Representative Data**: Include edge cases (null fields, empty strings, special characters)
-4. **Consistent Identifiers**: Use predictable IDs (1, 2, 3) for easy test readability
+**Test Data Principles** (Updated per ADR-008):
+1. **Captured Real Traffic**: Use real Azure DevOps API responses captured via Fiddler and converted to WireMock stubs
+2. **Sandbox Environment Only**: Capture traffic from test/sandbox Azure DevOps instances, not production
+3. **Deterministic**: Same captured responses every test execution
+4. **Maintainable**: Stubs can be updated by recapturing traffic when APIs change
+5. **Minimal Sensitive Data**: Stubs contain only test work item data, no credentials or tokens
 
-**Example Synthetic Work Item**:
+**Note**: Original plan specified synthetic data only, but manual stub creation failed due to Azure DevOps SDK serialization requirements. Real captured traffic ensures authentic API response formats. See ADR-008 for full rationale.
+
+**Example Captured Work Item Data** (from WireMock stubs):
 ```csharp
 public static class TestWorkItems
 {
@@ -542,7 +558,7 @@ public class Given_REST_query_with_pagination : ContextSpecification
 - ✅ Deterministic (no flaky tests)
 - ✅ Isolated (no shared state between tests)
 - ✅ Readable (clear Given/When/Then structure)
-- ✅ Maintainable (synthetic data, not recorded responses)
+- ✅ Maintainable (captured stubs can be updated by recapturing traffic)
 
 **Forbidden Practices**:
 - ❌ Recording/playback of real Azure DevOps responses
@@ -780,7 +796,7 @@ public void Should_return_work_items_with_correct_fields()
 
 **Nice to Have**:
 - ✅ Mocking helper utilities for common SDK responses
-- ✅ Test data builders for synthetic work items
+- ✅ WireMock stubs with captured Azure DevOps API responses
 
 ### Quality Gates
 
