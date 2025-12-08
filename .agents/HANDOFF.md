@@ -131,11 +131,11 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 2. ✅ ~~**W2.13** - SBOM Generation (dual pipeline)~~ (COMPLETE - commit e569bb5)
 3. ✅ ~~**W2.14** - Dependency Review Action~~ (COMPLETE - commit 5222a66)
 
-### Phase 2C: Testing Enhancements (1/3 complete)
+### Phase 2C: Testing Enhancements (1 fully complete, 1 partial)
 
 1. ✅ ~~**W2.4** - Benchmark CI Integration~~ (COMPLETE)
-2. ⏸️ **W2.16** - REST/SOAP Unit Test Coverage - **HIGH** - Requires architectural decision on ADR-007
-3. ⏸️ **W2.3** - Contract Tests for REST/SOAP Parity - **LOW** - Blocked by W2.16
+2. 🔄 **W2.16** - REST/SOAP Unit Test Coverage - **HIGH** - Phase 1 (REST offline) ✅ COMPLETE, Phase 2 (SOAP offline) pending
+3. ⏸️ **W2.3** - Contract Tests for REST/SOAP Parity - **LOW** - Blocked by W2.16 Phase 2
 
 ### Phase 2D: Security Hardening (NEXT RECOMMENDED)
 
@@ -218,7 +218,7 @@ If you need context, read these files in order:
    - ⏸️ W2.16 - Blocked pending ADR-007 architectural decision
    - ⏸️ W2.3 - Blocked by W2.16
 
-4. **Wave 2 Progress**: 9/15 tasks complete (60%)
+4. **Wave 2 Progress**: 9/14 tasks fully complete, 1 partial (W2.16 Phase 1) (64% complete, 71% with partial)
 
 5. **CRITICAL DECISION REQUIRED**: ADR-007 REST Client Testability
    - Review `docs/adr/007-rest-client-testability.md`

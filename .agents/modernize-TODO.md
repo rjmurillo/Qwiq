@@ -80,7 +80,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
 | Wave 1 | ✅ Complete | 27 | 27/27 |
-| Wave 2 | 🔄 In Progress | 15 | 8/15 |
+| Wave 2 | 🔄 In Progress | 14 | 9/14 (W2.16 Phase 1 complete, Phase 2 pending) |
 | Wave 3 | 📋 Future | 13 | 0/13 |
 
 **Wave 2 Changes (Session 12-13)**:
