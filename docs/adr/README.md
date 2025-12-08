@@ -23,6 +23,8 @@ Each ADR follows this structure:
 - [ADR-004: Multi-Targeting Approach](ADR-004-multi-targeting-approach.md)
 - [ADR-005: Central Package Management](ADR-005-central-package-management.md)
 - [ADR-006: Nullable Reference Types Migration](ADR-006-nullable-reference-types.md)
+- [ADR-007: REST Client Testability](007-rest-client-testability.md)
+- [ADR-008: WireMock-Based Offline REST Client Testing](008-wiremock-offline-rest-testing.md)
 
 ## Creating a New ADR
 
