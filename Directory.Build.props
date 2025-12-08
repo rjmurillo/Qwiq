@@ -28,7 +28,7 @@
 
     <!-- Artifact Output Configuration -->
     <!-- ArtifactsPath and ArtifactsTestResultsPath are defined in build/targets/artifacts/Artifacts.props -->
-    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK. For .NET 8, paths are configured manually. -->
+    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK (we'll adopt in .NET 10 LTS, skipping .NET 9 STS). For .NET 8, paths are configured manually. -->
 
     <!-- Output Configuration -->
     <OutputPath>bin\$(Configuration)\</OutputPath>

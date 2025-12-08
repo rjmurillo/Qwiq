@@ -27,7 +27,7 @@
 **Key Achievements**:
 - All Phase 1E Build Quality Gates complete
 - All P1 Reliability Rules enabled and passing (5/5)
-- ArtifactsPath infrastructure ready for .NET 9+ upgrade
+- ArtifactsPath infrastructure ready for .NET 10+ upgrade (skipping .NET 9 STS, adopting .NET 10 LTS)
 - Cross-platform CI validated on Windows and Linux
 - Comprehensive documentation in place
 
@@ -314,7 +314,7 @@ All remaining Wave 1 tasks completed in this session:
 **Key Achievements**:
 - All Phase 1E Build Quality Gates complete
 - All P1 Reliability Rules enabled and passing (5/5: CA1062, CA2000, CA2007, CA2213, CA2215)
-- ArtifactsPath infrastructure ready for .NET 9+ upgrade
+- ArtifactsPath infrastructure ready for .NET 10+ upgrade (skipping .NET 9 STS, adopting .NET 10 LTS)
 - Cross-platform CI validated on Windows and Linux
 - Comprehensive documentation in place
 

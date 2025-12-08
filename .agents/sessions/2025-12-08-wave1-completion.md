@@ -45,7 +45,7 @@
 
 **Decisions made**:
 - Used RepoRoot fallback pattern for compatibility
-- ArtifactsPath ready for .NET 9+ SDK full support
+- ArtifactsPath ready for .NET 10+ SDK full support (skipping .NET 9 STS, adopting .NET 10 LTS)
 - CI workflow already aligned with centralized paths
 
 **Commits**:
@@ -157,7 +157,7 @@ Test-Path ./artifacts/TestResults | Should -BeTrue
 - Wave 1 is now 100% complete (27/27 tasks)
 - All Phase 1E Build Quality Gates complete
 - All P1 Reliability Rules enabled and passing
-- ArtifactsPath infrastructure ready for .NET 9+ upgrade
+- ArtifactsPath infrastructure ready for .NET 10+ upgrade (skipping .NET 9 STS, adopting .NET 10 LTS)
 - Cross-platform CI validated on Windows and Linux
 - Documentation comprehensive and up-to-date
 
