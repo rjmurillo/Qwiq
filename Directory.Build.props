@@ -1,4 +1,7 @@
 <Project>
+  <!-- Import Artifacts.props early to establish artifact paths before SDK-driven defaults -->
+  <Import Project="$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props" Condition="Exists('$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props')" />
+
   <PropertyGroup>
     <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
     <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
@@ -24,8 +27,8 @@
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
 
     <!-- Artifact Output Configuration -->
-    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK. For .NET 8, we only configure test results path. -->
-    <ArtifactsTestResultsPath Condition="'$(ArtifactsTestResultsPath)' == ''">$(MSBuildThisFileDirectory)artifacts\TestResults</ArtifactsTestResultsPath>
+    <!-- ArtifactsPath and ArtifactsTestResultsPath are defined in build/targets/artifacts/Artifacts.props -->
+    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK. For .NET 8, paths are configured manually. -->
 
     <!-- Output Configuration -->
     <OutputPath>bin\$(Configuration)\</OutputPath>
