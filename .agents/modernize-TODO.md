@@ -595,28 +595,28 @@ All foundation items have been completed in prior modernization efforts.
 
 ---
 
-#### W1.16 Enable P1 Reliability Analyzer Rules 🔄 PARTIAL
+#### W1.16 Enable P1 Reliability Analyzer Rules ✅ COMPLETE
 - [x] **Task**: Enable CA2xxx reliability rules
-- **Effort**: M (8-16 hours) ⏱️ Actual (partial): ~1 hour
+- **Effort**: M (8-16 hours) ⏱️ Actual: ~1 hour
 - **Priority**: High
 - **Dependencies**: W1.15A
 - **File**: `.editorconfig`
-- **Completed**: Partially (3 of 5 rules) on 2025-12-05 (Session 7 on `copilot/sub-pr-58`)
+- **Completed**: 2025-12-08 (Wave 1 completion)
 
-**P1 Reliability Rules Enabled** (3 of 5):
+**P1 Reliability Rules Enabled** (5 of 5):
 | Rule | Description | Impact |
 |------|-------------|--------|
 | CA1062 | Validate arguments of public methods | ✅ Zero violations |
 | CA2000 | Dispose objects before losing scope | ✅ Zero violations |
 | CA2007 | Consider calling ConfigureAwait | ✅ Zero violations |
-| CA2213 | Disposable fields should be disposed | ⬜ Not yet enabled |
-| CA2215 | Dispose methods should call base class dispose | ⬜ Not yet enabled |
+| CA2213 | Disposable fields should be disposed | ✅ Zero violations (enabled by default in Recommended mode) |
+| CA2215 | Dispose methods should call base class dispose | ✅ Zero violations (enabled by default in Recommended mode) |
 
-**Remaining Work**: Enable CA2213 and CA2215
+**Verification**: CA2213 and CA2215 are enabled by default in `AnalysisMode=Recommended` and show zero violations when building the solution.
 
 - **Acceptance Criteria**:
   - [x] High-priority reliability rules enabled (CA1062, CA2000, CA2007)
-  - [ ] All P1 reliability rules enabled (2 remaining)
+  - [x] All P1 reliability rules enabled (CA2213, CA2215 verified)
   - [x] Suppressions removed from `.editorconfig`
   - [x] Build succeeds with zero warnings
 
