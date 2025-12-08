@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-06 by Copilot Agent (Session 20 - Phase 2C Partial)
+> **Last Updated**: 2025-12-08 by Copilot Agent (WireMock offline REST testing)
 > **Current Phase**: Phase 2C (PARTIAL COMPLETION)
 > **Branch**: `copilot/sub-pr-65`
 
@@ -9,29 +9,29 @@
 ## Current State
 
 **Build Status**: ✅ PASSING (0 warnings, 0 errors)
-**Test Status**: ✅ PASSING (108 unit tests)
+**Test Status**: ✅ PASSING (WireMock suite: 9/9 in 4.17s)
 
-**Last Commit**: `18ba630` (docs(adr): add ADR-007 for REST client testability)
+**Last Commit**: `087ee43d` (docs(adr): add ADR-008 for WireMock-based offline REST testing)
 
-### Session 20 Summary (Phase 2C Partial)
+### Session Summary (WireMock Offline REST Testing)
 
 **Completed**:
-1. ✅ W2.4 - Benchmark CI Integration (benchmarks already compile in CI)
-2. ✅ Created ADR-007 documenting REST client testability challenge
-3. ✅ Added WireMock.Net 1.5.40, Moq 4.16.0, Moq.Analyzers 0.4.0 packages
-4. ✅ Configured test infrastructure for REST unit tests
+1. ✅ Implemented WireMock-based offline REST tests (9 passing) using real ADO traffic
+2. ✅ Captured HAR (1.7 MB) → Converted to stubs (1 MB, 5 mappings)
+3. ✅ Added infrastructure: WireMock context, base spec, stub loader
+4. ✅ Added tests: `WireMockQueryTests` (single, multiple, empty scenarios)
+5. ✅ Added PowerShell tooling: `Convert-HarToWireMock.ps1`, `Capture-WireMockTraffic.ps1`
+6. ✅ Documented via ADR-008 and `.agents/WIREMOCK-IMPLEMENTATION-COMPLETE.md`
+7. ✅ Updated ADR index; tests runnable with `dotnet test --filter "TestCategory=WireMock"`
 
-**Architectural Challenge Discovered**:
-- W2.16 cannot proceed without refactoring REST client factory pattern
-- REST client tightly coupled to Azure DevOps SDK (VssConnection)
-- ADR-007 proposes internal overload pattern to enable testability
-- Implementation deferred pending architectural review
+**Architectural Notes**:
+- IdentityDescriptor must be string format (captured traffic), not object
+- Fiddler system proxy required for capture; WireMock Cloud recording bypassed by SDK
+- Uses Newtonsoft.Json for .NET Framework 4.7.2 compatibility
 
 **Blockers**:
-- W2.16 requires architectural decision before implementation can proceed
-- W2.3 blocked by W2.16 dependency
-
-See: `.agents/sessions/2025-12-06-phase-2c.md` for full details.
+- SOAP offline tests (W2.16 Phase 2) remain TODO
+- Expand stub coverage (multiple IDs, empty queries, error cases) suggested but not required
 
 ### Session 19 Summary (SBOM Tool Fix)
 
@@ -96,11 +96,12 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 
 ## What Was Completed
 
-### Phase 2C: Testing Enhancements (Session 20)
+### Phase 2C: Testing Enhancements (Updated)
 - ✅ **W2.4** - Benchmark CI Integration (verified benchmarks compile in CI)
-- ⚠️ **W2.16 Phase 1** - Infrastructure complete (WireMock.Net, Moq added), implementation deferred
-- ⚠️ **ADR-007** - Created to document REST client testability challenge
-- ⏸️ **W2.3** - Blocked by W2.16 dependency
+- ✅ **W2.16 Phase 1 (REST offline)** - WireMock-based tests implemented and passing
+- ✅ **ADR-008** - WireMock-based offline REST testing decision
+- ⏸️ **W2.16 Phase 2 (SOAP offline)** - Not started (Windows-only, Moq-based)
+- ⏸️ **W2.3** - Blocked by W2.16 Phase 2
 
 ## What's Next
 
