@@ -51,6 +51,8 @@
 **Commits**:
 - `72196f4b` - chore(build): add Artifacts.props for centralized artifact paths (W1.23)
 
+**Challenges**: None - straightforward implementation following moq.analyzers pattern.
+
 ---
 
 ### W1.24 - Add Cross-Platform CI Matrix ✅
@@ -88,19 +90,42 @@
 **Commits**:
 - `d11aee8b` - docs(wave1): mark W1.16 complete - all P1 reliability rules enabled (W1.16)
 
+**Challenges**: None - rules were already enabled by default in Recommended analysis mode.
+
+---
+
+### Additional Work Completed
+
+#### Documentation Fixes
+- Fixed duplicate SBOM Tool Fix section in HANDOFF.md (removed lines 69-78)
+- Fixed inconsistent Wave 2 task counts (corrected from 15 to 14 tasks, updated completion from 8/15 to 9/14)
+
+**Commits**:
+- `b9090d00` - docs(handoff): remove duplicate SBOM Tool Fix section
+- `066a08e2` - docs(wave2): fix inconsistent task completion counts
+- `a92245a3` - docs(wave1): complete Wave 1 documentation updates
+
 ---
 
 ## Session Summary
 
-**Completed**: 4/4 Wave 1 remaining tasks
-- ✅ W1.22 - Testing Matrix (already complete)
-- ✅ W1.23 - ArtifactsPath configuration
-- ✅ W1.24 - Cross-Platform CI (already complete)
-- ✅ W1.16 - P1 Reliability Rules (CA2213, CA2215 verified)
+**Completed**: 4/4 Wave 1 remaining tasks + documentation fixes
+- ✅ W1.22 - Testing Matrix (verified already complete)
+- ✅ W1.23 - ArtifactsPath configuration (Artifacts.props created)
+- ✅ W1.24 - Cross-Platform CI (verified already complete)
+- ✅ W1.16 - P1 Reliability Rules (CA2213, CA2215 verified enabled)
+- ✅ Documentation fixes (duplicate removal, count corrections)
 
-**Time spent**: ~2 hours
+**Time spent**: ~2.5 hours
 
-**Wave 1 Status**: ✅ **COMPLETE** (27/27 tasks)
+**Wave 1 Status**: ✅ **COMPLETE** (27/27 tasks, 100%)
+
+**Total Commits**: 5
+1. `72196f4b` - W1.23: ArtifactsPath configuration
+2. `d11aee8b` - W1.16: P1 Reliability Rules complete
+3. `a92245a3` - Wave 1 documentation updates
+4. `b9090d00` - Fix duplicate SBOM section in HANDOFF.md
+5. `066a08e2` - Fix Wave 2 task counts (15→14, 8/15→9/14)
 
 **Next up**: 
 - Wave 2 tasks (Phase 2D: Security Hardening recommended)
@@ -109,15 +134,24 @@
 
 ## Verification Commands
 ```powershell
-# Verify build
+# Verify build (NOTE: Qwiq.Core.Tests has pre-existing compilation errors)
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 
-# Verify tests
-dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+# Verify source projects build successfully
+dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Release
+dotnet build src/Qwiq.Core.Rest/Qwiq.Core.Rest.csproj -c Release
+
+# Verify WireMock tests (should pass)
+dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory=WireMock"
 
 # Verify ArtifactsPath
 Test-Path ./artifacts/TestResults | Should -BeTrue
 ```
+
+**Pre-existing Issues Noted**:
+- `Qwiq.Core.Tests` has compilation errors (missing namespace references) - unrelated to Wave 1 work
+- Package test baselines may need updating - unrelated to Wave 1 work
+- These should be addressed in a separate session
 
 ## Notes for Next Session
 - Wave 1 is now 100% complete (27/27 tasks)

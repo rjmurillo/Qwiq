@@ -769,14 +769,17 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 
 ---
 
-#### W1.22 Document Testing Matrix
-- [ ] **Task**: Update TESTING.md with coverage gates
-- **Effort**: S (1-2 hours)
+#### W1.22 Document Testing Matrix ✅ COMPLETE
+- [x] **Task**: Update TESTING.md with coverage gates
+- **Effort**: S (1-2 hours) ⏱️ Actual: Verified already complete
 - **Priority**: Medium
 - **Dependencies**: W1.3
 - **File**: `TESTING.md`
+- **Completed**: 2025-12-08
 
-**Add section**:
+**Status**: Verified TESTING.md already contains comprehensive Code Coverage section (lines 264-330) with coverage gates, local commands, and CI workflow documentation.
+
+**Add section** (already present):
 ```markdown
 ## Code Coverage
 
@@ -803,12 +806,21 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
 
 ---
 
-#### W1.23 Configure ArtifactsPath and ArtifactsTestResultsPath
-- [ ] **Task**: Standardize build artifacts output layout
-- **Effort**: S (1-2 hours)
+#### W1.23 Configure ArtifactsPath and ArtifactsTestResultsPath ✅ COMPLETE
+- [x] **Task**: Standardize build artifacts output layout
+- **Effort**: S (1-2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: Medium
 - **Dependencies**: None
-- **Files**: `build/targets/artifacts/Artifacts.props`, `Directory.Build.targets`
+- **Files**: `build/targets/artifacts/Artifacts.props`, `Directory.Build.props`
+- **Completed**: 2025-12-08
+
+**Changes Made**:
+- Created `build/targets/artifacts/Artifacts.props` with centralized artifact path configuration
+- Imported Artifacts.props early in Directory.Build.props (before SDK-driven defaults)
+- Configured ArtifactsPath and ArtifactsTestResultsPath properties
+- Verified CI workflow already uses `./artifacts/` paths (no changes needed)
+
+**Commits**: `72196f4b` - chore(build): add Artifacts.props for centralized artifact paths (W1.23)
 
 **Goal**:
 - Mirror the [moq.analyzers `Artifacts.props`](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/artifacts/Artifacts.props) pattern to centralize build output paths.
@@ -851,12 +863,15 @@ Get-ChildItem ./artifacts/TestResults -Filter *.trx | Measure-Object | Select-Ob
 
 ---
 
-#### W1.24 Add Cross-Platform CI Matrix (NEW)
-- [ ] **Task**: Add Linux runner to validate cross-platform support
-- **Effort**: S (2-4 hours)
+#### W1.24 Add Cross-Platform CI Matrix ✅ COMPLETE
+- [x] **Task**: Add Linux runner to validate cross-platform support
+- **Effort**: S (2-4 hours) ⏱️ Actual: Verified already complete
 - **Priority**: Medium
 - **Dependencies**: W1.21 (.gitattributes)
 - **File**: `.github/workflows/main.yml`
+- **Completed**: 2025-12-08
+
+**Status**: Verified `.github/workflows/main.yml` already has cross-platform matrix with Windows and Linux runners (lines 22-23). SOAP projects correctly skipped on Linux, REST projects tested on both platforms.
 
 **Goal**:
 Validate that REST client works correctly on Linux and that path handling is cross-platform compatible.
