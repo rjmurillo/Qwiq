@@ -66,18 +66,6 @@ Fixed SBOM generation in GitHub Actions. The `microsoft/sbom-tool` GitHub Action
 See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 
 
-Fixed SBOM generation in GitHub Actions. The `microsoft/sbom-tool` GitHub Action is a container action that only works on Linux, causing Windows builds to fail. Solution:
-
-1. Added `microsoft.sbom.dotnettool` v4.1.4 to `.config/dotnet-tools.json`
-2. Use `dotnet sbom-tool generate` CLI instead of container action
-3. Use nbgv version for SBOM package version
-4. Run SBOM on both Windows and Linux (cross-platform)
-5. DRYed out workflows - release.yml now downloads SBOM from main.yml build
-6. Standardized all shells to `pwsh` for consistency
-
-See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
-
-
 ## What Was Completed
 
 ### Wave 1 (Code Quality & Contribution Enablement) ✅ COMPLETE
