@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Qwiq;
 using Qwiq.Tests.Common;
 using Shouldly;
 using System;
