@@ -23,6 +23,9 @@
   <ItemGroup>
     <!-- Link polyfill files from Qwiq.Core for compatibility on older frameworks -->
     <Compile Include="..\Qwiq.Core\Compatibility\NullableAttributes.cs" Link="Compatibility\NullableAttributes.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\EmbeddedAttribute.cs" Link="Compatibility\EmbeddedAttribute.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\CallerArgumentExpressionAttribute.cs" Link="Compatibility\CallerArgumentExpressionAttribute.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\ArgumentNullExceptionPolyfill.cs" Link="Compatibility\ArgumentNullExceptionPolyfill.cs" />
   </ItemGroup>
 
   <ItemGroup>
