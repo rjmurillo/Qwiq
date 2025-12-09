@@ -19,7 +19,7 @@ namespace Qwiq.Exceptions
         {
             Contract.Requires(instance != null);
             Contract.Ensures(Contract.Result<T>() != null);
-            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            ArgumentNullException.ThrowIfNull(instance);
 
             return Generator.CreateInterfaceProxyWithTarget<T>(instance, Options, Proxy);
         }
@@ -30,7 +30,7 @@ namespace Qwiq.Exceptions
             where T : class
         {
             Contract.Requires(instance != null);
-            if (instance == null) throw new ArgumentNullException(nameof(instance));
+            ArgumentNullException.ThrowIfNull(instance);
 
             var proxy = new ExceptionHandlingDynamicProxy(new ExceptionMapper(exploders ?? ExceptionExploders, mappers ?? ExceptionMappers));
 

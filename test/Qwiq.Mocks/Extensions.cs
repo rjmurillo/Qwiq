@@ -34,7 +34,7 @@ namespace Qwiq.Mocks
             IEnumerable<IWorkItem>? workItems,
             IEnumerable<IWorkItemLinkInfo>? links)
         {
-            if (store == null) throw new ArgumentNullException(nameof(store));
+            ArgumentNullException.ThrowIfNull(store);
             if (workItems == null && links == null)
                 throw new ArgumentException($"Both {nameof(workItems)} and {nameof(links)} cannot be null.");
             if (links != null && workItems == null)

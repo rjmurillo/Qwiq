@@ -26,8 +26,8 @@ namespace Qwiq.Mocks
 
         public MockWorkItemStore(Func<ITeamProjectCollection> tpcFactory, Func<MockWorkItemStore, IQueryFactory> queryFactory)
         {
-            if (tpcFactory == null) throw new ArgumentNullException(nameof(tpcFactory));
-            if (queryFactory == null) throw new ArgumentNullException(nameof(queryFactory));
+            ArgumentNullException.ThrowIfNull(tpcFactory);
+            ArgumentNullException.ThrowIfNull(queryFactory);
 
             _tfs = new Lazy<ITeamProjectCollection>(tpcFactory);
             _queryFactory = new Lazy<IQueryFactory>(() => queryFactory(this));
@@ -76,7 +76,7 @@ namespace Qwiq.Mocks
 
         public IWorkItemCollection Query(IEnumerable<int> ids, DateTime? asOf = null)
         {
-            if (ids == null) throw new ArgumentNullException(nameof(ids));
+            ArgumentNullException.ThrowIfNull(ids);
             var ids2 = (int[])ids.ToArray().Clone();
             if (ids2.Length == 0) return Enumerable.Empty<IWorkItem>().ToWorkItemCollection();
 
