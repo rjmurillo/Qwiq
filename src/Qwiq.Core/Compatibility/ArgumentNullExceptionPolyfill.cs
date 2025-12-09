@@ -16,7 +16,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-static partial class Polyfill
+internal static partial class Polyfill
 {
     extension(ArgumentNullException)
     {
