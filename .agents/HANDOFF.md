@@ -275,7 +275,7 @@ dotnet build src/Qwiq.Mapper/Qwiq.Mapper.csproj -f net472 -c Release
 dotnet build Qwiq.sln -c Release 2>&1 | Select-String "CS7069.*TimeZone|CS7069.*XmlElement"
 ```
 
-**Note**: 
+**Note**:
 - CS0006 errors (missing reference assemblies) are cascading from other compilation errors
 - Focus on fixing CS7069 (type forwarding) and CS0122/CS0012 errors first
 - Pre-existing issues in `Qwiq.Core.Tests` and package test baselines should be addressed separately
