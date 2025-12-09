@@ -28,7 +28,7 @@ namespace Qwiq.Client.Rest
 
         public ITeamProjectCollection Create(AuthenticationOptions options)
         {
-            ArgumentNullException.ThrowIfNull(options);
+            if (options == null) throw new ArgumentNullException(nameof(options));
 
             // Create a mock connection that redirects to WireMock server
             var mockConnection = CreateMockConnection();

@@ -37,7 +37,7 @@ namespace Qwiq.Identity
             string tenantId,
             params string[] domains)
         {
-            ArgumentNullException.ThrowIfNull(domains);
+            if (domains == null) throw new ArgumentNullException(nameof(domains));
             if (string.IsNullOrEmpty(tenantId)) throw new ArgumentException("Value cannot be null or empty.", nameof(tenantId));
             if (domains.Length == 0) throw new ArgumentException("Value cannot be an empty collection.", nameof(domains));
             if (domains.Any(d => d == null)) throw new ArgumentException("Domains cannot contain null values.", nameof(domains));
@@ -67,8 +67,8 @@ namespace Qwiq.Identity
             params string[] domains)
         {
             if (string.IsNullOrWhiteSpace(tenantId)) throw new ArgumentNullException(nameof(tenantId));
-            ArgumentNullException.ThrowIfNull(domains);
-            ArgumentNullException.ThrowIfNull(logonNames);
+            if (domains == null) throw new ArgumentNullException(nameof(domains));
+            if (logonNames == null) throw new ArgumentNullException(nameof(logonNames));
             if (domains.Length == 0) throw new ArgumentException("Collection cannot be empty.", nameof(domains));
             if (logonNames.Count == 0) throw new ArgumentException("Collection cannot be empty.", nameof(logonNames));
 

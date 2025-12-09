@@ -15,7 +15,7 @@ namespace Qwiq.Mocks
 
         private static string GetValue(IWorkItemLinkType linkType, bool isForward)
         {
-            ArgumentNullException.ThrowIfNull(linkType);
+            if (linkType == null) throw new ArgumentNullException(nameof(linkType));
             var referenceName = linkType.ReferenceName;
             if (!linkType.IsDirectional) return referenceName;
             return referenceName + (isForward ? "-Forward" : "-Reverse");

@@ -6,13 +6,13 @@ namespace Qwiq
     {
         public static IWorkItemLinkTypeEnd GetChildLinkTypeEnd(this IWorkItemStore store)
         {
-            ArgumentNullException.ThrowIfNull(store);
+            if (store == null) throw new ArgumentNullException(nameof(store));
             return store.GetLinkType(CoreLinkTypeReferenceNames.Hierarchy).ReverseEnd;
         }
 
         public static IWorkItemLinkType GetLinkType(this IWorkItemStore store, string linkTypeReferenceName)
         {
-            ArgumentNullException.ThrowIfNull(store);
+            if (store == null) throw new ArgumentNullException(nameof(store));
             return store.WorkItemLinkTypes[linkTypeReferenceName];
         }
 

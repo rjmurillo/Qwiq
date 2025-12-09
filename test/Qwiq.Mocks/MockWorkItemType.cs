@@ -31,7 +31,7 @@ namespace Qwiq.Mocks
             IWorkItemStore? store = null)
             : base(name, description, null, null)
         {
-            ArgumentNullException.ThrowIfNull(fieldDefinitions);
+            if (fieldDefinitions == null) throw new ArgumentNullException(nameof(fieldDefinitions));
             WorkItemFactory = () => new MockWorkItem(this);
             FieldDefinitionFactory =
                     () => new MockFieldDefinitionCollection(

@@ -40,14 +40,14 @@ namespace Qwiq.Mapper
 
         public IEnumerable<string> GetWorkItemType(Type type)
         {
-            ArgumentNullException.ThrowIfNull(type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
             var customAttributes = type.GetCustomAttributes(typeof(WorkItemTypeAttribute), true).Cast<WorkItemTypeAttribute>().ToList();
             return customAttributes.Select(ca => ca.GetTypeName()).OrderBy(name => name);
             // Order alphabetically so string comparisons work and we don't needlessly permute our queries
         }
         private static T? GetFieldAttribute<T>(Type type, string propertyName) where T : class
         {
-            ArgumentNullException.ThrowIfNull(type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
             Contract.Requires(!string.IsNullOrEmpty(propertyName));
 
             var property = type.GetProperty(propertyName);

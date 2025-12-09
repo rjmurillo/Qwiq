@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-internal static partial class Polyfill
+static partial class Polyfill
 {
     extension(ArgumentOutOfRangeException)
     {

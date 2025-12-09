@@ -9,7 +9,7 @@ namespace Qwiq
     {
         public virtual ITeamProjectCollection Create(AuthenticationOptions options)
         {
-            ArgumentNullException.ThrowIfNull(options);
+            if (options == null) throw new ArgumentNullException(nameof(options));
             var credentials = options.Credentials;
 
             foreach (var credential in credentials)

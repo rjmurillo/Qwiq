@@ -42,8 +42,8 @@ namespace Qwiq.Linq
 
         private string GenerateCacheKey(Type type, string method, string propertyName = "")
         {
-            ArgumentNullException.ThrowIfNull(type);
-            ArgumentNullException.ThrowIfNull(method);
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (method == null) throw new ArgumentNullException(nameof(method));
 
             return type.AssemblyQualifiedName + method + propertyName;
         }

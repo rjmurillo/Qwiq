@@ -34,7 +34,7 @@ namespace Qwiq.Identity
 
         private IDictionary<string, string[]> GetAliasesForDisplayNames(string[] displayNames)
         {
-            ArgumentNullException.ThrowIfNull(displayNames);
+            if (displayNames == null) throw new ArgumentNullException(nameof(displayNames));
 
             var identityResults = _identityManagementService.ReadIdentities(IdentitySearchFactor.DisplayName, displayNames);
             var result = new Dictionary<string, string[]>(Comparer.OrdinalIgnoreCase);

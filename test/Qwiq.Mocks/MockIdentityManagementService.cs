@@ -39,7 +39,7 @@ namespace Qwiq.Mocks
         /// </param>
         public MockIdentityManagementService(IDictionary<string, ITeamFoundationIdentity> accountNameMappings)
         {
-            ArgumentNullException.ThrowIfNull(accountNameMappings);
+            if (accountNameMappings == null) throw new ArgumentNullException(nameof(accountNameMappings));
 
             _accountNameMappings = new Dictionary<string, ITeamFoundationIdentity[]>(StringComparer.OrdinalIgnoreCase);
             _descriptorMappings = new Dictionary<IIdentityDescriptor, ITeamFoundationIdentity>(IdentityDescriptorComparer.Default);

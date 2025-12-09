@@ -104,7 +104,7 @@ namespace Qwiq
         {
             get
             {
-                ArgumentNullException.ThrowIfNull(name);
+                if (name == null) throw new ArgumentNullException(nameof(name));
                 if (_useFields)
                     try
                     {
@@ -123,7 +123,7 @@ namespace Qwiq
             }
             set
             {
-                ArgumentNullException.ThrowIfNull(name);
+                if (name == null) throw new ArgumentNullException(nameof(name));
                 if (_useFields)
                     try
                     {

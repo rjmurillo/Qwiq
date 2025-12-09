@@ -11,7 +11,7 @@ namespace Qwiq
         {
             Contract.Requires(wit != null);
 
-            ArgumentNullException.ThrowIfNull(wit);
+            if (wit == null) throw new ArgumentNullException(nameof(wit));
             var wi = wit.NewWorkItem();
 
             if (values == null)
@@ -30,8 +30,8 @@ namespace Qwiq
             Contract.Requires(values != null);
             Contract.Requires(wit != null);
 
-            ArgumentNullException.ThrowIfNull(wit);
-            ArgumentNullException.ThrowIfNull(values);
+            if (wit == null) throw new ArgumentNullException(nameof(wit));
+            if (values == null) throw new ArgumentNullException(nameof(values));
 
             return values.Select(wit.NewWorkItem);
         }

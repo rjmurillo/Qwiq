@@ -34,9 +34,9 @@ namespace Qwiq.Client.Rest
             Func<WorkItemTrackingHttpClient> wisFactory,
             Func<WorkItemStore, IQueryFactory> queryFactory)
         {
-            ArgumentNullException.ThrowIfNull(tpcFactory);
-            ArgumentNullException.ThrowIfNull(wisFactory);
-            ArgumentNullException.ThrowIfNull(queryFactory);
+            if (tpcFactory == null) throw new ArgumentNullException(nameof(tpcFactory));
+            if (wisFactory == null) throw new ArgumentNullException(nameof(wisFactory));
+            if (queryFactory == null) throw new ArgumentNullException(nameof(queryFactory));
             _tfs = new Lazy<IInternalTeamProjectCollection>(tpcFactory);
             NativeWorkItemStore = new Lazy<WorkItemTrackingHttpClient>(wisFactory);
             _queryFactory = new Lazy<IQueryFactory>(() => queryFactory(this));
@@ -83,7 +83,7 @@ namespace Qwiq.Client.Rest
         public IWorkItemCollection Query(IEnumerable<int> ids, DateTime? asOf = null)
         {
             // Same behavior as SOAP version
-            ArgumentNullException.ThrowIfNull(ids);
+            if (ids == null) throw new ArgumentNullException(nameof(ids));
             var ids2 = (int[])ids.ToArray().Clone();
             if (ids2.Length == 0) return Enumerable.Empty<IWorkItem>().ToWorkItemCollection();
 

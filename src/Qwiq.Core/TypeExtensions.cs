@@ -41,7 +41,7 @@ namespace System
 
         public static bool CanAcceptNull(this Type type)
         {
-            ArgumentNullException.ThrowIfNull(type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             if (IsGenericNullable(type))
             {
@@ -59,7 +59,7 @@ namespace System
         }
         public static object? GetDefaultValueOfType(this Type type)
         {
-            ArgumentNullException.ThrowIfNull(type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
 
             if (DefaultValuesForTypes.TryGetValue(type, out object? retval))
             {
@@ -71,7 +71,7 @@ namespace System
 
         public static bool IsGenericNullable(this Type type)
         {
-            ArgumentNullException.ThrowIfNull(type);
+            if (type == null) throw new ArgumentNullException(nameof(type));
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
     }

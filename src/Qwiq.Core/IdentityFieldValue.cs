@@ -39,7 +39,7 @@ namespace Qwiq
         {
             Contract.Requires(identity != null);
 
-            ArgumentNullException.ThrowIfNull(identity);
+            if (identity == null) throw new ArgumentNullException(nameof(identity));
         }
 
         /// <summary>

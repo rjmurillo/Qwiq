@@ -38,6 +38,8 @@
     <PackageReference Include="System.Runtime" />
   </ItemGroup>
 
+
+
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>

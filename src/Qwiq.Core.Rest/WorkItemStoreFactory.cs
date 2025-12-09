@@ -30,8 +30,8 @@ namespace Qwiq.Client.Rest
         /// </remarks>
         internal IWorkItemStore Create(AuthenticationOptions options, ITfsConnectionFactory connectionFactory)
         {
-            ArgumentNullException.ThrowIfNull(options);
-            ArgumentNullException.ThrowIfNull(connectionFactory);
+            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (connectionFactory == null) throw new ArgumentNullException(nameof(connectionFactory));
 
             var tfsProxy = (IInternalTeamProjectCollection)connectionFactory.Create(options);
             var wis = CreateRestWorkItemStore(tfsProxy);
