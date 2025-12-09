@@ -35,6 +35,13 @@
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" />
+    <!-- System.Runtime needed for net472 to resolve type conflicts with TFS client libraries -->
+    <PackageReference Include="System.Runtime" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Link polyfill files from Qwiq.Core for ArgumentNullException.ThrowIfNull and nullable attributes support -->
+    <Compile Include="..\Qwiq.Core\Compatibility\NullableAttributes.cs" Link="Compatibility\NullableAttributes.cs" />
   </ItemGroup>
 
   <ItemGroup>

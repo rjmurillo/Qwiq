@@ -15,7 +15,11 @@ static partial class Polyfill
 #if !NET6_0_OR_GREATER
         // Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull
         public static void ThrowIfNull(
+#if NETFRAMEWORK || NETSTANDARD2_0
             [NotNull] object? argument,
+#else
+            object? argument,
+#endif
             [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         {
             if (argument is null)

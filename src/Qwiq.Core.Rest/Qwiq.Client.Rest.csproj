@@ -33,6 +33,11 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" />
   </ItemGroup>
 
+  <!-- System.Runtime needed for net472 to resolve type conflicts with TFS client libraries -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="System.Runtime" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
