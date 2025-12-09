@@ -33,6 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Link polyfill files from Qwiq.Core for ArgumentNullException.ThrowIfNull and nullable attributes support -->
+    <Compile Include="..\Qwiq.Core\Compatibility\NullableAttributes.cs" Link="Compatibility\NullableAttributes.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\EmbeddedAttribute.cs" Link="Compatibility\EmbeddedAttribute.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\CallerArgumentExpressionAttribute.cs" Link="Compatibility\CallerArgumentExpressionAttribute.cs" />
+    <Compile Include="..\Qwiq.Core\Compatibility\ArgumentNullExceptionPolyfill.cs" Link="Compatibility\ArgumentNullExceptionPolyfill.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=net472" />
     <ProjectReference Include="..\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=net472" />
     <ProjectReference Include="..\Qwiq.Core.Soap\Qwiq.Client.Soap.csproj" />
