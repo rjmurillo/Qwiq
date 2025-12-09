@@ -19,6 +19,11 @@
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
+	<!-- System.Runtime needed for net472 to resolve type conflicts -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+		<PackageReference Include="System.Runtime" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Qwiq.Core\Qwiq.Core.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
 		<ProjectReference Include="..\..\src\Qwiq.Identity\Qwiq.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
