@@ -1,6 +1,3 @@
 {
-  "setup-worktree": [
-    "dotnet tool restore",
-    "dotnet restore"
-  ]
+  "setup-worktree": ["dotnet tool restore", "dotnet restore"]
 }

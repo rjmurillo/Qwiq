@@ -23,18 +23,21 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 ## Decision Drivers
 
 ### Functional Requirements
+
 - Enable offline REST client testing with authentic Azure DevOps API responses
 - Support CI/CD pipelines without requiring credentials or network access
 - Provide fast test execution (seconds vs minutes for integration tests)
 - Maintain accuracy by using real captured HTTP traffic
 
 ### Quality Attributes
+
 - **Reliability**: Tests must use authentic API responses, not manually crafted mocks
 - **Speed**: Sub-5-second execution for full test suite
 - **Determinism**: Same captured responses every execution
 - **Maintainability**: Easy to update stubs when APIs change by recapturing traffic
 
 ### Constraints
+
 - Azure DevOps SDK requires exact JSON serialization formats we cannot easily replicate
 - WireMock Cloud recording mode failed because SDK connects directly (bypassing proxy)
 - Must work on Windows with .NET Framework 4.7.2 compatibility
@@ -45,14 +48,17 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 ## Considered Options
 
 ### Option 1: Manual WireMock Stub Creation
+
 **Approach**: Write WireMock stub JSON files by hand, inferring response structure from SDK source code.
 
 **Pros**:
+
 - No external tools required
 - Full control over response content
 - Can create edge cases easily
 
 **Cons**:
+
 - Failed in practice due to `IdentityDescriptor` serialization mismatches
 - Time-consuming and error-prone
 - Difficult to validate accuracy
@@ -63,14 +69,17 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 ---
 
 ### Option 2: WireMock Cloud Recording Mode
+
 **Approach**: Use WireMock Cloud's recording proxy to capture Azure DevOps traffic automatically.
 
 **Pros**:
+
 - Automated traffic capture
 - Official WireMock feature
 - No additional tooling
 
 **Cons**:
+
 - Failed because Azure DevOps SDK connects directly, bypassing proxy configuration
 - SDK doesn't respect `HTTP_PROXY` environment variables
 - Would require deep SDK modification
@@ -80,9 +89,11 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 ---
 
 ### Option 3: Fiddler/HAR Capture + Conversion Script
+
 **Approach**: Use Fiddler system-level proxy to capture real Azure DevOps HTTP traffic, save as HAR (HTTP Archive), then convert to WireMock stub format using PowerShell script.
 
 **Pros**:
+
 - ✅ Captures real Azure DevOps API responses with correct serialization
 - ✅ System-level proxy intercepts all traffic (SDK cannot bypass)
 - ✅ HAR is a standard format (JSON-based HTTP archive)
@@ -91,6 +102,7 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 - ✅ Easy to recapture when APIs change
 
 **Cons**:
+
 - Requires one-time Fiddler setup for capture
 - HAR files can be large (1.7 MB captured, 1 MB final stubs)
 - Needs PowerShell script for conversion
@@ -106,11 +118,13 @@ The Azure DevOps SDK uses proprietary JSON serialization that is difficult to re
 We implemented a two-phase approach:
 
 ### Phase 1: Traffic Capture
+
 1. Configure Fiddler as system-level HTTPS proxy
 2. Execute real Azure DevOps operations (login, query work items, etc.)
 3. Export captured traffic as HAR file (HTTP Archive format)
 
 ### Phase 2: Stub Extraction
+
 1. Parse HAR file using PowerShell (`Convert-HarToWireMock.ps1`)
 2. Filter relevant Azure DevOps API endpoints
 3. Deduplicate similar requests
@@ -121,16 +135,19 @@ We implemented a two-phase approach:
 ### Implementation Components
 
 **PowerShell Scripts** (in `scripts/`):
+
 - `Capture-WireMockTraffic.ps1` - Documentation/helper for WireMock Cloud (fallback)
 - `Convert-HarToWireMock.ps1` - HAR to WireMock JSON converter (244 lines)
 
 **Test Infrastructure** (in `test/Qwiq.Integration.Tests/WireMock/`):
+
 - `WireMockRestStoreContext.cs` - Creates WireMock server with HTTPS, bypasses SSL validation
 - `WireMockRestContextSpecification.cs` - Base class for WireMock-based tests
 - `AzureDevOpsWireMockExtensions.cs` - Loads stubs from JSON, configures WireMock server
 - `RecordingTests.cs` - Placeholder for future traffic recording tests
 
 **Captured Stubs** (in `test/Qwiq.Integration.Tests/WireMock/Stubs/`):
+
 - `azure-devops-stubs.json` - 1,016,579 bytes with 5 real API response mappings:
   - `GET /WIT/_apis/wit/workItemTypes` - Field definitions
   - `GET /_apis/connectionData` - VssConnection handshake with IdentityDescriptor
@@ -139,11 +156,13 @@ We implemented a two-phase approach:
   - `GET /_apis/projects` - Projects list
 
 **Test Classes** (9 tests total):
+
 - `Given_WireMock_WorkItemStore_When_Querying_Single_Bug` - 4 tests
 - `Given_WireMock_WorkItemStore_When_Querying_Multiple_Bugs` - 3 tests
 - `Given_WireMock_WorkItemStore_When_Query_Returns_Empty` - 2 tests
 
 ### Test Results
+
 ```
 Test Run Successful.
 Total tests: 9
@@ -158,59 +177,70 @@ Total tests: 9
 ### Positive
 
 **Fast Execution**: WireMock tests execute in ~4 seconds vs 30+ seconds for live integration tests
+
 - No network latency
 - No authentication handshakes
 - Deterministic response times
 
 **Offline Capable**: Tests run without Azure DevOps connectivity
+
 - ✅ CI/CD pipelines work without credentials
 - ✅ Contributors can run tests locally
 - ✅ Air-gapped environments supported
 
 **Authentic Responses**: Real captured traffic ensures accuracy
+
 - ✅ Correct IdentityDescriptor format: `"Microsoft.IdentityModel.Claims.ClaimsIdentity;00020100039B8083@Live.com"`
 - ✅ Real Azure DevOps JSON serialization
 - ✅ Actual field names, types, and structure
 
 **Maintainable**: Easy to update when APIs change
+
 - Recapture traffic using Fiddler
 - Run conversion script
 - Replace stub file
 - No code changes needed
 
 **Complementary Testing Strategy**:
+
 - **WireMock tests** (offline, fast): REST client logic, HTTP handling, serialization
 - **Integration tests** (online, slow): End-to-end validation, real authentication
 
 ### Negative
 
 **Initial Setup Complexity**: One-time Fiddler configuration required for recapture
+
 - Must install Fiddler and configure HTTPS decryption
 - Need access to Azure DevOps instance to capture traffic
 - HAR export and conversion steps
 
 **Stub File Size**: 1 MB stub file in repository
+
 - Adds to repository size
 - Not human-readable (minified JSON)
 - Mitigated: Single file, rarely updated
 
 **Limited Scenario Coverage**: Current stubs only cover basic queries
+
 - Only work item ID 1 captured (title: "Integration Test")
 - No coverage for updates, links, attachments, errors
 - Future: Capture additional scenarios as needed
 
 **Brittle to API Changes**: If Azure DevOps changes response format, stubs become outdated
+
 - Mitigated: Easy to recapture and regenerate stubs
 - Integration tests still validate against live API
 
 ### Technical Debt
 
 **Identified Limitations**:
+
 1. Stubs only contain work item ID 1 - multiple work item tests use same data
 2. Empty query result tests don't have matching stub (fall through to default behavior)
 3. No error scenario stubs (404, 401, rate limits)
 
 **Future Enhancements**:
+
 - Capture stubs for work item updates/creates
 - Capture stubs for multiple work items (IDs 2, 3, 4, etc.)
 - Capture error responses (404 Not Found, 401 Unauthorized)
@@ -224,6 +254,7 @@ Total tests: 9
 ### Key Technical Discoveries
 
 **IdentityDescriptor Format**:
+
 ```json
 // ❌ WRONG (manual attempt):
 "descriptor": {
@@ -236,15 +267,18 @@ Total tests: 9
 ```
 
 **PowerShell HAR Parsing**:
+
 - Used `-AsHashtable` parameter to handle empty string property names
 - Base64-decoded response bodies from HAR format
 - Deduplicated similar requests based on URL and method
 
 **.NET Framework Compatibility**:
+
 - Used `Newtonsoft.Json` instead of `System.Text.Json` (not available in .NET Framework 4.7.2)
 - Added null-forgiving operators for nullable reference type warnings
 
 **SSL Certificate Bypass**:
+
 - WireMock uses self-signed certificate for HTTPS
 - Temporarily bypass `ServicePointManager.ServerCertificateValidationCallback` in test context only
 - Restored original callback in `Dispose()` method
@@ -252,6 +286,7 @@ Total tests: 9
 ### Usage Instructions
 
 **Running WireMock Tests**:
+
 ```powershell
 # Run only offline WireMock tests (fast, no credentials)
 dotnet test --filter "TestCategory=WireMock"
@@ -261,6 +296,7 @@ dotnet test --filter "TestCategory=WireMock" --logger "console;verbosity=detaile
 ```
 
 **Recapturing Stubs** (when Azure DevOps APIs change):
+
 ```powershell
 # 1. Start Fiddler with HTTPS decryption enabled
 # 2. Execute desired Azure DevOps operations (login, query work items, etc.)

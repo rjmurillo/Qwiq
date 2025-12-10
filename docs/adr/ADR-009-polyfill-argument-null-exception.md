@@ -1,6 +1,7 @@
 # ADR-009: Polyfill Strategy for ArgumentNullException.ThrowIfNull
 
 ## Status
+
 Accepted (Revised)
 
 ## Context
@@ -11,6 +12,7 @@ Accepted (Revised)
 - File-level locks (e.g., Microsoft Defender) complicated incremental builds; stability and determinism were prioritized.
 
 ### What we tried (and why it initially failed)
+
 - **C# 14 extension members syntax** (inspired by SimonCropp/Polyfill):
   - Implemented `Polyfill.extension(ArgumentNullException).ThrowIfNull` with global usings.
   - Worked in-assembly but caused **CS0121 ambiguous call** errors across projects/assemblies targeting `net472`.
@@ -21,6 +23,7 @@ Accepted (Revised)
   - Reduced call-site noise but did not eliminate ambiguity when the same extension surfaced from multiple referenced assemblies.
 
 ### The Solution: `[Embedded]` Attribute
+
 After further research (see Andrew Lock's article on the `[Embedded]` attribute), we discovered that the **`Microsoft.CodeAnalysis.EmbeddedAttribute`** solves the cross-assembly ambiguity problem:
 
 - The `[Embedded]` attribute marks types as invisible outside the current compilation unit
@@ -29,6 +32,7 @@ After further research (see Andrew Lock's article on the `[Embedded]` attribute)
 - Available in Roslyn 4.14+ (.NET 10 SDK), but can be polyfilled for older frameworks
 
 ### Why not ship the SimonCropp Polyfill package directly?
+
 - The repo already ships custom compatibility shims (e.g., `NullableAttributes.cs`) to avoid conflicts with VSS Client polyfills.
 - Adding the package would risk namespace/type clashes with existing TFS/VSS dependencies.
 
@@ -43,6 +47,7 @@ After further research (see Andrew Lock's article on the `[Embedded]` attribute)
 ## Consequences
 
 ### Positive
+
 - **Eliminates CS0121 ambiguity** - The `[Embedded]` attribute prevents type leakage across assemblies.
 - **Modern API surface** - Code uses `ArgumentNullException.ThrowIfNull(param)` consistently across all TFMs.
 - **Automatic parameter name capture** - `CallerArgumentExpression` provides parameter names without `nameof()`.
@@ -50,6 +55,7 @@ After further research (see Andrew Lock's article on the `[Embedded]` attribute)
 - **No external dependencies** - Self-contained polyfills avoid package conflicts.
 
 ### Negative / Trade-offs
+
 - **File linking required** - Each project must link the polyfill files (adds csproj complexity).
 - **Partial class coordination** - The `[Embedded]` attribute must be applied exactly once to the partial class.
 - **Preview feature dependency** - C# 14 extension members are still in preview (though stable in SDK 10.0.100).
@@ -59,12 +65,14 @@ After further research (see Andrew Lock's article on the `[Embedded]` attribute)
 ### Files Created/Modified
 
 **New polyfill files** in `src/Qwiq.Core/Compatibility/`:
+
 - `EmbeddedAttribute.cs` - Polyfill for `Microsoft.CodeAnalysis.EmbeddedAttribute`
 - `ArgumentNullExceptionPolyfill.cs` - Provides `ThrowIfNull` with `[Embedded]` attribute
 - `ArgumentOutOfRangeExceptionPolyfill.cs` - Provides `ThrowIfZero`, `ThrowIfEqual`, etc.
 - `CallerArgumentExpressionAttribute.cs` - Required for parameter name capture
 
 **Project files updated** with polyfill links:
+
 - `src/Qwiq.Core/Qwiq.Core.csproj` (source files)
 - `src/Qwiq.Linq/Qwiq.Linq.csproj`
 - `src/Qwiq.Identity/Qwiq.Identity.csproj`
@@ -111,20 +119,23 @@ static partial class Polyfill
 ```
 
 ### Build Configuration
+
 - **Build flags**: `Directory.Build.rsp` enforces `/m:1 /nodeReuse:false` for stability on Windows
 - **Defender exclusions** recommended to reduce file-lock noise during builds
 
 ## Alternatives Considered
 
-1) **Traditional null checks** (`if (param == null) throw new ArgumentNullException(nameof(param))`)
+1. **Traditional null checks** (`if (param == null) throw new ArgumentNullException(nameof(param))`)
+
    - Initially adopted as fallback when extension syntax failed
    - Rejected after discovering `[Embedded]` attribute solution
    - More verbose and loses `CallerArgumentExpression` benefits
 
-2) **Ship SimonCropp/Polyfill NuGet** and rely on its source generation/targets.
+2. **Ship SimonCropp/Polyfill NuGet** and rely on its source generation/targets.
+
    - Rejected: risk of conflicts with VSS/TFS client polyfills and existing custom shims.
 
-3) **Namespace-based isolation** (different namespaces per project)
+3. **Namespace-based isolation** (different namespaces per project)
    - Rejected: still requires `using` statements and doesn't prevent `InternalsVisibleTo` leakage.
 
 ## Future Work

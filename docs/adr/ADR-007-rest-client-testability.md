@@ -23,17 +23,20 @@ This issue became apparent during **W2.16 Phase 1** (REST Unit Test Coverage) wh
 ## Decision Drivers
 
 ### Functional Requirements
+
 - Enable fast, isolated unit testing of REST client logic
 - Allow contributors to run tests without Azure DevOps access
 - Support HTTP mocking frameworks (WireMock.Net) for deterministic testing
 - Maintain existing public API compatibility where possible
 
 ### Quality Attributes
+
 - **Testability**: Primary driver - must enable comprehensive unit test coverage
 - **Maintainability**: Solution should be clean and follow established patterns
 - **Backward Compatibility**: Minimize breaking changes to public API
 
 ### Constraints
+
 - Azure DevOps SDK (`Microsoft.VisualStudio.Services.Client`) is a third-party dependency we cannot modify
 - `VssConnection` class is sealed and cannot be mocked with traditional mocking frameworks
 - Existing integration tests must continue to work
@@ -43,13 +46,16 @@ This issue became apparent during **W2.16 Phase 1** (REST Unit Test Coverage) wh
 ## Considered Options
 
 ### Option 1: Mock VssConnection with Moq
+
 **Approach**: Use Moq to create test doubles for `VssConnection` and `WorkItemTrackingHttpClient`.
 
 **Pros**:
+
 - No changes to production code required
 - Standard mocking approach
 
 **Cons**:
+
 - `VssConnection` is sealed - cannot be mocked directly
 - Would require wrapping every SDK class with interfaces
 - Complex due to async methods and internal SDK dependencies
@@ -60,13 +66,16 @@ This issue became apparent during **W2.16 Phase 1** (REST Unit Test Coverage) wh
 ---
 
 ### Option 2: HTTP Proxy with WireMock.Net
+
 **Approach**: Configure `VssConnection.Settings` to route all HTTP traffic through WireMock server acting as a proxy.
 
 **Pros**:
+
 - No changes to factory pattern required
 - Tests actual HTTP layer
 
 **Cons**:
+
 - WireMock.Net proxy mode has limitations with HTTPS and authentication
 - Requires modifying `VssConnectionAdapter` to expose settings
 - Complex setup for each test
@@ -77,9 +86,11 @@ This issue became apparent during **W2.16 Phase 1** (REST Unit Test Coverage) wh
 ---
 
 ### Option 3: Refactor for Dependency Injection (RECOMMENDED)
+
 **Approach**: Introduce internal abstractions and allow constructor injection of dependencies for testing.
 
 #### 3a: Factory Method Pattern with Optional Parameters
+
 ```csharp
 public class WorkItemStoreFactory : Qwiq.WorkItemStoreFactory
 {
@@ -102,6 +113,7 @@ public class WorkItemStoreFactory : Qwiq.WorkItemStoreFactory
 ```
 
 **Test Usage**:
+
 ```csharp
 [TestMethod]
 [TestCategory("RestUnit")]
@@ -125,6 +137,7 @@ public void Should_Query_Work_Items()
 ```
 
 **Pros**:
+
 - ✅ No breaking changes to public API
 - ✅ Clean separation of concerns
 - ✅ Enables true unit testing with mocks
@@ -132,10 +145,12 @@ public void Should_Query_Work_Items()
 - ✅ Test-specific code is internal, not exposed to consumers
 
 **Cons**:
+
 - Requires refactoring existing factory classes
 - Adds one internal overload method
 
 #### 3b: Builder Pattern (Alternative)
+
 ```csharp
 public class WorkItemStoreBuilder
 {
@@ -145,13 +160,13 @@ public class WorkItemStoreBuilder
 
     public WorkItemStoreBuilder WithBaseUri(Uri uri) { _baseUri = uri; return this; }
     public WorkItemStoreBuilder WithCredentials(VssCredentials creds) { _credentials = creds; return this; }
-    internal WorkItemStoreBuilder WithConnectionFactory(ITfsConnectionFactory factory) 
+    internal WorkItemStoreBuilder WithConnectionFactory(ITfsConnectionFactory factory)
     {
-        _connectionFactory = factory; 
-        return this; 
+        _connectionFactory = factory;
+        return this;
     }
 
-    public IWorkItemStore Build() 
+    public IWorkItemStore Build()
     {
         var factory = _connectionFactory ?? TfsConnectionFactory.Default;
         // ... rest of build logic
@@ -160,10 +175,12 @@ public class WorkItemStoreBuilder
 ```
 
 **Pros**:
+
 - Fluent API for test configuration
 - Explicit about what's being configured
 
 **Cons**:
+
 - More code to maintain
 - Different pattern than existing factory approach
 
@@ -172,13 +189,16 @@ public class WorkItemStoreBuilder
 ---
 
 ### Option 4: Integration Tests Only (Current State)
+
 **Approach**: Accept that REST client tests require live Azure DevOps connectivity.
 
 **Pros**:
+
 - No code changes required
 - Tests validate real integration
 
 **Cons**:
+
 - ❌ High barrier to entry for contributors
 - ❌ Slow feedback loops (network latency)
 - ❌ Cannot run in standard CI without credentials
@@ -195,8 +215,9 @@ public class WorkItemStoreBuilder
 ### Implementation Plan
 
 #### Phase 1: Foundation (W2.16 continuation)
-1. ✅ Add WireMock.Net, Moq, and Moq.Analyzers packages *(completed)*
-2. ✅ Create test project structure *(completed)*
+
+1. ✅ Add WireMock.Net, Moq, and Moq.Analyzers packages _(completed)_
+2. ✅ Create test project structure _(completed)_
 3. Refactor `WorkItemStoreFactory`:
    - Add internal `Create` overload accepting `ITfsConnectionFactory`
    - Existing public API calls internal method with `TfsConnectionFactory.Default`
@@ -205,6 +226,7 @@ public class WorkItemStoreBuilder
    - `MockWorkItemTrackingHttpClient` wrapper (if needed)
 
 #### Phase 2: Test Implementation
+
 5. Implement REST unit tests:
    - Query execution (WIQL parsing, result mapping)
    - Work item retrieval by ID
@@ -215,6 +237,7 @@ public class WorkItemStoreBuilder
 7. Update CI to run `TestCategory=RestUnit` on all platforms
 
 #### Phase 3: SOAP Tests (Future)
+
 8. Apply same pattern to `Qwiq.Client.Soap.WorkItemStoreFactory`
 9. Create SOAP unit tests with Moq (Windows-only, `TestCategory=SoapUnit`)
 
@@ -223,6 +246,7 @@ public class WorkItemStoreBuilder
 ## Consequences
 
 ### Positive
+
 - ✅ **Testability**: Enables comprehensive unit test coverage without Azure DevOps dependency
 - ✅ **Contributor Experience**: New contributors can run all unit tests locally
 - ✅ **CI Performance**: Fast, reliable tests in every build
@@ -230,11 +254,13 @@ public class WorkItemStoreBuilder
 - ✅ **Maintainability**: Clean separation between production and test infrastructure
 
 ### Negative
+
 - ⚠️ **Refactoring Effort**: Requires changes to factory classes (estimated 4-8 hours)
 - ⚠️ **Test Infrastructure**: Need to create and maintain mock implementations
 - ⚠️ **Internal API Surface**: Adds internal overloads (acceptable - tests are in same assembly via `InternalsVisibleTo`)
 
 ### Neutral
+
 - Integration tests remain necessary to validate real Azure DevOps connectivity
 - Mock complexity scales with the number of SDK types used (manageable with Moq)
 
@@ -243,6 +269,7 @@ public class WorkItemStoreBuilder
 ## Validation
 
 ### Success Criteria
+
 - [ ] REST client unit tests run without Azure DevOps connectivity
 - [ ] All tests pass in CI (Linux, Windows, macOS)
 - [ ] Test execution time < 5 seconds for REST unit test suite
@@ -250,6 +277,7 @@ public class WorkItemStoreBuilder
 - [ ] Code coverage for REST client > 70%
 
 ### Testing Checklist
+
 - [ ] Existing integration tests continue to pass
 - [ ] New unit tests cover critical paths (query, retrieval, field mapping)
 - [ ] Unit tests are fast (<100ms per test)
