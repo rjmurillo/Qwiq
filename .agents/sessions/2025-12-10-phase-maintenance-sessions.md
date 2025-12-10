@@ -38,6 +38,7 @@
 **Commits**:
 - `3eaeb170` - docs(agents): tidy session logs and links
 - `f4b43291` - docs(agents): record build and test status
+- `b39e73c1` - docs(agents): update handoff metadata
 
 ---
 
