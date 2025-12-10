@@ -853,6 +853,53 @@ public class Given_some_context : ContextSpecification
 - For nullable assertions: use `value.HasValue.ShouldBeFalse()` instead of `ShouldBeNull<T>()` for `int?`
 - SOAP-specific classes are `internal` and require TFS infrastructure for integration testing
 
+## Solutions Repository
+
+Learned patterns from previous problem-solving sessions:
+
+### PublicApiAnalyzers (RS0016/RS0017)
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| RS0016: Symbol not declared in public API | Add symbol to `PublicAPI.Unshipped.txt` OR make type `internal` | 95% |
+| Polyfill types triggering RS0016 | Declare polyfills as `internal sealed class` with `[Embedded]` attribute | 95% |
+| CS0436 type conflicts with InternalsVisibleTo | Add `[Embedded]` attribute to internal polyfill types | 95% |
+
+### Package Test Baselines
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| Package manifest/contents changed | Run `dotnet verify accept -w test/Qwiq.Package.Tests` to update baselines | 95% |
+
+### ArtifactsPath & Package Output
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| Packages not found in project `bin` directories | Check for `ArtifactsPath` in props; packages go to `artifacts/package/{Configuration}/` | 95% |
+| Unknown actual output path for MSBuild property | Run `dotnet msbuild -getProperty:PropertyName` to query actual value | 95% |
+| Recursive search returns duplicates in flat folder | Use `SearchOption.TopDirectoryOnly` for centralized output directories | 92% |
+
+### Build Debugging
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| CI build fails but local succeeds | Reproduce with exact CI flags: `-c Release /p:ContinuousIntegrationBuild=true /m:1` | 95% |
+| Windows file locking during parallel build | Use `/m:1 /nodeReuse:false` flags for single-threaded build | 95% |
+| CS0006 ref assembly missing during multi-TFM build | Run clean+build twice OR add `/p:ProduceReferenceAssembly=false` | 92% |
+| Multi-TFM race despite /m:1 flag | The /m:1 limits solution parallelism, not project-internal TFM parallelism | 90% |
+
+### SDK Version Management
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| TimeZone type forwarding mismatch | Add `using TimeZone = System.TimeZone;` alias in affected files | 88% |
+
+### Constraints (User Preferences)
+
+- **Never suppress RS0016 in .editorconfig** - Fix properly by adding to PublicAPI files or making internal
+- **Never exclude projects from build** - All projects must build always
+- **Local suppressions only** - If suppression needed, use `[SuppressMessage]` on type/member with reason
+
 ## Trust These Instructions
 
 These instructions reflect the modernized state of the repository (PRs #31, #32, #43-#47). The repository has been migrated from:
