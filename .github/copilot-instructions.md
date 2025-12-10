@@ -877,6 +877,16 @@ Learned patterns from previous problem-solving sessions:
 | ------- | -------- | --------- |
 | CI build fails but local succeeds | Reproduce with exact CI flags: `-c Release /p:ContinuousIntegrationBuild=true /m:1` | 95% |
 | Windows file locking during parallel build | Use `/m:1 /nodeReuse:false` flags for single-threaded build | 95% |
+| CS0006 ref assembly missing during multi-TFM build | Run clean+build twice OR add `/p:ProduceReferenceAssembly=false` | 92% |
+| Multi-TFM race despite /m:1 flag | The /m:1 limits solution parallelism, not project-internal TFM parallelism | 90% |
+
+### SDK Version Management
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| Preview SDK causes type forwarding errors (CS7069) | Downgrade global.json to stable LTS SDK until libraries validate | 95% |
+| TFS client libraries fail with .NET 10 SDK | Use .NET 8.0.404 LTS until Microsoft.TeamFoundationServer.* packages update | 92% |
+| TimeZone type forwarding mismatch | Add `using TimeZone = System.TimeZone;` alias in affected files | 88% |
 
 ### Constraints (User Preferences)
 
