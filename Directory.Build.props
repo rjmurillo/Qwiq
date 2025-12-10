@@ -1,4 +1,8 @@
 <Project>
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+  </PropertyGroup>
+
   <!-- Import Artifacts.props early to establish artifact paths before SDK-driven defaults -->
   <Import Project="$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props" Condition="Exists('$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props')" />
 
