@@ -77,6 +77,27 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
+  <!--
+    CI stability guardrail:
+    - CS0006 can occur when multi-targeted inner builds run in parallel and a consumer touches
+      a reference assembly before its producer finishes emitting it. /m:1 limits project-level
+      parallelism but not inner-build parallelism. Disabling BuildInParallel (for inner MSBuild
+      tasks) and reference assembly generation on CI mitigates the race at the cost of slightly
+      longer builds.
+  -->
+  <PropertyGroup>
+    <!-- Stop DispatchToInnerBuilds from parallelizing TFM inner builds -->
+    <BuildInParallel>false</BuildInParallel>
+    <MSBuildBuildInParallel>false</MSBuildBuildInParallel>
+
+    <!-- Avoid ref-assembly emission races (CI rarely benefits from ref assemblies) -->
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+
+    <!-- The defaults are usually fine, but being explicit won't hurt -->
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+
   <!-- Source Link Configuration -->
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
