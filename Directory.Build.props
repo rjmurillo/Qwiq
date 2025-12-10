@@ -130,6 +130,16 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
   </ItemGroup>
 
+  <!--
+    Enable building net472 targets on non-Windows machines (Linux, macOS).
+    Microsoft.NETFramework.ReferenceAssemblies provides the .NET Framework reference assemblies
+    so Mono/.NET SDK can compile net472 without the Windows SDK installed.
+    See: https://github.com/microsoft/dotnet-framework-reference-assemblies
+  -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup>
 
     <!-- InternalsVisibleTo for Castle DynamicProxy (used by Moq) - replaces AssemblyInfo.Common.cs -->

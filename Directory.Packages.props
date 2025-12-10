@@ -9,6 +9,8 @@
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.143" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
+    <!-- Enable building net472 targets on non-Windows (Linux/macOS) without .NET Framework SDK -->
+    <PackageVersion Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
 
     <!-- Azure DevOps / TFS Client Libraries -->
     <!-- Use version 16.153.0 which is the last version with IdentityTypeMapper and compatible constructor signatures -->
@@ -43,10 +45,10 @@
     <PackageVersion Include="NuGet.Versioning" Version="6.12.1" />
     <PackageVersion Include="Verify.Xunit" Version="28.3.1" />
     <PackageVersion Include="Verify.Nupkg" Version="1.1.1" />
-    
+
     <!-- HTTP Mocking for REST client tests -->
     <PackageVersion Include="WireMock.Net" Version="1.5.40" />
-    
+
     <!-- Mocking framework for SOAP client tests -->
     <PackageVersion Include="Moq" Version="4.16.0" />
     <PackageVersion Include="Moq.Analyzers" Version="0.4.0" />
