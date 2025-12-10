@@ -871,6 +871,14 @@ Learned patterns from previous problem-solving sessions:
 | ------- | -------- | --------- |
 | Package manifest/contents changed | Run `dotnet verify accept -w test/Qwiq.Package.Tests` to update baselines | 95% |
 
+### ArtifactsPath & Package Output
+
+| Problem | Solution | Atomicity |
+| ------- | -------- | --------- |
+| Packages not found in project `bin` directories | Check for `ArtifactsPath` in props; packages go to `artifacts/package/{Configuration}/` | 95% |
+| Unknown actual output path for MSBuild property | Run `dotnet msbuild -getProperty:PropertyName` to query actual value | 95% |
+| Recursive search returns duplicates in flat folder | Use `SearchOption.TopDirectoryOnly` for centralized output directories | 92% |
+
 ### Build Debugging
 
 | Problem | Solution | Atomicity |
