@@ -884,8 +884,6 @@ Learned patterns from previous problem-solving sessions:
 
 | Problem | Solution | Atomicity |
 | ------- | -------- | --------- |
-| Preview SDK causes type forwarding errors (CS7069) | Downgrade global.json to stable LTS SDK until libraries validate | 95% |
-| TFS client libraries fail with .NET 10 SDK | Use .NET 8.0.404 LTS until Microsoft.TeamFoundationServer.* packages update | 92% |
 | TimeZone type forwarding mismatch | Add `using TimeZone = System.TimeZone;` alias in affected files | 88% |
 
 ### Constraints (User Preferences)
