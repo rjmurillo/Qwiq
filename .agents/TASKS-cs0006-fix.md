@@ -376,7 +376,7 @@ Only implement changes that:
     - Alternatives considered: /restore, static graph, explicit ordering
 
 - [ ] **5.5: Update session notes**
-  - Create or update `.agents/session-2025-12-10-cs0006-fix.md`
+  - Create or update `.agents/sessions/2025-12-10-cs0006-fix.md`
   - Document:
     - Root cause analysis
     - Fix implementation

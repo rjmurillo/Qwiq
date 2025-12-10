@@ -196,4 +196,4 @@ All projects updated with package validation configuration.
 ### Documentation
 - `.agents/modernize-TODO.md` - Marked W2.15 and W2.18 as complete
 - `.agents/HANDOFF.md` - Updated with current state and completed tasks
-- `.agents/session-2025-12-06-phase-2a-w2.15.md` - This session log
+- `.agents/sessions/session-2025-12-06-phase-2a-w2.15.md` - This session log

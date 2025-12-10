@@ -224,4 +224,4 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 |---------|------|--------|---------|
 | 1.0 | Dec 6, 2025 | Copilot Session 13 | Wave 1 completion handoff |
 
-**Location**: `.agents/session-2025-12-06-wave1-completion.md`
+**Location**: `.agents/sessions/session-2025-12-06-wave1-completion.md`
