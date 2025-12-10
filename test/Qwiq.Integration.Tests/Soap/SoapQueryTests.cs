@@ -45,8 +45,9 @@ namespace Qwiq.Soap
                 .Returns(new WorkItemCollection(new[] { testWorkItem }));
 
             // Setup query factory to return our mock query
+            // Note: IWorkItemStore.Query defaults dayPrecision to false (interface default)
             MockQueryFactory?
-                .Setup(x => x.Create(TestWiql, true))
+                .Setup(x => x.Create(TestWiql, false))
                 .Returns(mockQuery.Object);
         }
 
@@ -130,8 +131,9 @@ namespace Qwiq.Soap
                 .Returns(new WorkItemCollection(new[] { workItem1, workItem2, workItem3 }));
 
             // Setup query factory to return our mock query
+            // Note: IWorkItemStore.Query defaults dayPrecision to false (interface default)
             MockQueryFactory?
-                .Setup(x => x.Create(TestWiql, true))
+                .Setup(x => x.Create(TestWiql, false))
                 .Returns(mockQuery.Object);
         }
 
@@ -243,8 +245,9 @@ namespace Qwiq.Soap
                 .Returns(new WorkItemCollection(System.Array.Empty<IWorkItem>()));
 
             // Setup query factory to return our mock query
+            // Note: IWorkItemStore.Query defaults dayPrecision to false (interface default)
             MockQueryFactory?
-                .Setup(x => x.Create(TestWiql, true))
+                .Setup(x => x.Create(TestWiql, false))
                 .Returns(mockQuery.Object);
         }
 
