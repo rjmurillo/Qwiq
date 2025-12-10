@@ -8,12 +8,12 @@
 
 ## Current State
 
-**Build Status**: ⚠ Not run this session (last known: ✅ 0 errors, 0 warnings)
-**Test Status**: ⚠ Not run this session (last known: ✅ 206 passing, 1 skipped)
-**WireMock Tests**: ⚠ Not run this session (last known: ✅ 9 passing with captured ADO traffic)
-**Package Validation**: ⚠ Not run this session (last known: ✅ All 10 packages produced)
+**Build Status**: ✅ Passing (Release /m:1 /nodeReuse:false on 2025-12-10)
+**Test Status**: ✅ 206/207 passing, 1 skipped (filtered suite per standard categories)
+**WireMock Tests**: ⚠ Not rerun this session (last known: ✅ 9 passing with captured ADO traffic)
+**Package Validation**: ⚠ Not rerun this session (last known: ✅ All 10 packages produced)
 
-**Last Commit**: `fix(test): update package tests to use centralized artifacts directory`
+**Last Commit**: `3eaeb170` - docs(agents): tidy session logs and links
 
 ### Session Summary (Session File Cleanup - 2025-12-10)
 
@@ -25,8 +25,8 @@
 3. ✅ Added session log `2025-12-10-phase-maintenance-sessions.md` and refreshed `modernize-TODO.md` Session Activity + Last Updated metadata.
 
 **Verification**:
-- Build: ⚠ Not run (docs-only session).
-- Tests: ⚠ Not run (docs-only session).
+- Build: ✅ Release /m:1 /nodeReuse:false (2025-12-10).
+- Tests: ✅ Filtered suite passed (206 succeeded, 1 skipped).
 
 **Notes/Next Steps**:
 - Stage and commit `.agents/` changes (`git add .agents/`; force-add session logs if needed).

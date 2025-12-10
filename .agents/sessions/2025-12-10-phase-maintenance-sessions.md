@@ -7,8 +7,8 @@
 - **Starting Commit**: `9b6489c5`
 
 ## Pre-Flight Checks
-- [ ] Build passes (not run, docs-only session)
-- [ ] Tests pass (not run, docs-only session)
+- [x] Build passes (Release, /m:1, /nodeReuse:false)
+- [x] Tests pass (filtered suite: 206 passed, 1 skipped)
 - [x] Read HANDOFF.md
 - [x] Identified tasks: session file relocation and link corrections
 
@@ -36,7 +36,7 @@
 - `.agents/sessions/2025-12-10-phase-maintenance-sessions.md` (this log)
 
 **Commits**:
-- Not committed yet (working tree dirty).
+- `3eaeb170` - docs(agents): tidy session logs and links
 
 ---
 
