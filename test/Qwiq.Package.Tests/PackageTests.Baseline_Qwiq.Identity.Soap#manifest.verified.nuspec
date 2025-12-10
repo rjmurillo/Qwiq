@@ -26,8 +26,12 @@
         <dependency id="Microsoft.Identity.Client" version="4.61.3" exclude="Build,Analyzers" />
         <dependency id="Microsoft.TeamFoundationServer.Client" version="16.153.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.VisualStudio.Services.InteractiveClient" version="16.153.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime" version="4.3.1" exclude="Build,Analyzers" />
         <dependency id="System.Threading.Tasks.Dataflow" version="8.0.1" exclude="Build,Analyzers" />
       </group>
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
   </metadata>
 </package>
