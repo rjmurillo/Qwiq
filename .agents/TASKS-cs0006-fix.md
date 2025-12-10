@@ -123,13 +123,13 @@ The following high-level tasks break down the work needed to complete this fix:
     Fixes intermittent CS0006 errors in CI by:
     - Disabling BuildInParallel for multi-TFM inner builds
     - Disabling reference assembly generation on CI
-    
+
     The /m:1 flag only limits solution-level parallelism, not
     DispatchToInnerBuilds parallelism within projects. This change
     prevents reference assemblies from being accessed before fully written.
-    
+
     Tradeoff: ~10-20% slower CI builds for stability.
-    
+
     Refs: #65
     ```
 
