@@ -92,6 +92,28 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:csharp"
+          output: ${{ runner.temp }}/codeql-results
+          upload: false  # Disabled due to conflict with default setup - will be enabled after default setup is disabled
+
+      - name: Copy CodeQL SARIF to artifacts
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path ./artifacts/CodeQL -Force | Out-Null
+          if (Test-Path "${{ runner.temp }}/codeql-results") {
+            Copy-Item -Path "${{ runner.temp }}/codeql-results/*.sarif" -Destination ./artifacts/CodeQL/ -Force
+            Write-Host "✅ Copied SARIF files to artifacts/CodeQL"
+          } else {
+            Write-Host "⚠️ No SARIF files found in ${{ runner.temp }}/codeql-results"
+          }
+
+      - name: Upload CodeQL SARIF artifacts
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: codeql-sarif-${{ matrix.os }}
+          path: artifacts/CodeQL/*.sarif
+          if-no-files-found: warn
 
       - name: Run tests with coverage (Windows)
         id: test-windows
