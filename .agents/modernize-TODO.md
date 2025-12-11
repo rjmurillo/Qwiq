@@ -9,7 +9,7 @@
 > - [PROMPTS.md](./PROMPTS.md) - Standard prompts for starting/ending sessions
 > - [modernize-explainer.md](./modernize-explainer.md) - Architecture and design decisions
 >
-> **Last Updated**: December 10, 2025 (Session file cleanup and link corrections)
+> **Last Updated**: December 11, 2025 (Coverage.runsettings modernization)
 > **Status**: Active
 
 ---
@@ -123,6 +123,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-11 (Session 23) | **Coverage.runsettings Modernization**: (1) Modernized `coverage.runsettings` with best practices from moq.analyzers reference. (2) Added comprehensive XML documentation, Cobertura format, explicit Qwiq assembly includes. (3) Updated TESTING.md, CONTRIBUTING.md, copilot-instructions.md with coverage documentation. (4) Updated Claude skill documents (qwiq-testing SKILL.md and REFERENCE.md). (5) Validated XPlat Code Coverage workflow - 46.1% line coverage achieved. See: `.agents/sessions/2025-12-11-coverage-runsettings.md` | Build: ✅ Passes. Tests: ✅ Pass with coverage. Coverage: ✅ 46.1% line. Git: ✅ 5 commits (b1fbc83e, 0f2965b2, ca97d2bf, 900c30f8, 889416aa). |
 | 2025-12-10 (Session 22) | **Documentation hygiene**: Relocated all session logs into `.agents/sessions/`, updated internal links (including `session-handoff-test-failures.md` location), and confirmed no remaining stale `.agents/session-` references. | Build: ☐ (not run, docs-only). Tests: ☐ (not run). |
 | 2025-12-09 (Session 21) | **Phase 2C Evaluation**: (1) Created session log `.agents/sessions/2025-12-09-phase-2c-evaluation.md`. (2) Verified W2.4 (Benchmark CI) ✅ COMPLETE - all 3 benchmark projects compile in CI. (3) Verified W2.16 Phase 1 (REST offline) ✅ COMPLETE - 9 WireMock tests, ADR-008, infrastructure documented. (4) Confirmed W2.16 Phase 2 (SOAP offline) NOT STARTED. (5) Confirmed W2.3 (Contract Tests) BLOCKED by W2.16. (6) Documented pre-existing build issues: CS7069 TimeZone type forwarding errors with .NET 10.0.100 SDK affecting net472 builds. See: `.agents/sessions/2025-12-09-phase-2c-evaluation.md` | Build: ⚠️ Unstable (CS7069 errors - pre-existing). Tests: ☐ (not verified - build prerequisite). Phase 2C: W2.4 ✅, W2.16-P1 ✅, W2.16-P2 ⏸️, W2.3 ⏸️. |
 | 2025-12-06 (Session 19) | **SBOM Tool Fix**: Fixed SBOM generation in GitHub Actions. The `microsoft/sbom-tool` GitHub Action is a container action that only works on Linux. (1) Added `microsoft.sbom.dotnettool` v4.1.4 to `.config/dotnet-tools.json`. (2) Updated workflows to use `dotnet sbom-tool generate` CLI. (3) Use nbgv version for SBOM. (4) Run SBOM on both Windows and Linux. (5) DRYed out workflows - release.yml downloads SBOM from main.yml build. (6) Standardized all shells to `pwsh`. See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 196 passed. Git: ✅ 6 commits pushed (0bbc269e, f15b63a8, 66c636aa, 91c04624, e931efd8, 236a2891). |

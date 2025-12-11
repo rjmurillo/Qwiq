@@ -47,6 +47,9 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ```powershell
 # Run tests with category exclusions
 dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+
+# Run tests with code coverage collection
+dotnet test Qwiq.sln --configuration Release --settings coverage.runsettings
 ```
 
 **Test Categories to Exclude:**
@@ -55,6 +58,13 @@ dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=
 - `Benchmark` - Performance tests
 - `SOAP` / `REST` - Integration tests requiring server
 - `IntegrationTests` - Full integration tests
+
+**Code Coverage:**
+
+- Coverage settings are defined in `coverage.runsettings` at the repository root
+- Output format: Cobertura XML (CI-friendly)
+- Only Qwiq.* production assemblies are instrumented
+- Use `reportgenerator` to create HTML reports from coverage results
 
 ## Project Layout
 

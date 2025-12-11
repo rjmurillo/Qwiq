@@ -150,6 +150,34 @@ public static class TestData
 }
 ```
 
+### 8. Code Coverage
+
+Run tests with coverage collection:
+
+```powershell
+# Run tests with XPlat Code Coverage (Coverlet)
+dotnet test Qwiq.sln -c Release --collect:"XPlat Code Coverage" --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+
+# Generate HTML report
+reportgenerator "-reports:artifacts/TestResults/**/coverage.cobertura.xml" "-targetdir:./artifacts/coverage" "-reporttypes:Html;HtmlSummary;Badges"
+
+# Open report
+start ./artifacts/coverage/index.html
+```
+
+**Coverage Configuration:**
+- Settings file: `coverage.runsettings` (repository root)
+- Output format: Cobertura XML
+- Report location: `artifacts/coverage/`
+- Included: Only Qwiq.* production assemblies
+- Excluded: Test projects, mocks, benchmarks, generated code
+
+**Coverage Guidelines:**
+| Metric | Minimum | Target |
+|--------|---------|--------|
+| Line Coverage (new code) | 70% | 80% |
+| Branch Coverage (new code) | 60% | 70% |
+
 ## Examples
 
 ### Example 1: Writing a Unit Test

@@ -301,6 +301,58 @@ public class Given_some_context : ContextSpecification
 }
 ```
 
+### Code Coverage
+
+Code coverage helps ensure new code is properly tested. Coverage is collected in CI and available as artifacts.
+
+#### Running Tests with Coverage
+
+```powershell
+# Run tests with coverage collection using the repository's coverage settings
+dotnet test Qwiq.sln --settings coverage.runsettings
+
+# Or with explicit coverage collection
+dotnet test Qwiq.sln --collect:"Code Coverage" --settings coverage.runsettings
+```
+
+#### Coverage Configuration
+
+Coverage settings are defined in `coverage.runsettings` at the repository root:
+
+- **Format**: Cobertura XML (CI-friendly, integrates with GitHub Actions)
+- **Included assemblies**: Only Qwiq.* production assemblies
+- **Excluded**: Test projects, mocks, benchmarks, third-party dependencies
+- **Excluded attributes**: Generated code, debugger-hidden code, `[ExcludeFromCodeCoverage]`
+
+#### Generating Coverage Reports
+
+```powershell
+# Install ReportGenerator (one-time)
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Generate HTML report from coverage results
+reportgenerator -reports:artifacts/TestResults/**/*.cobertura.xml -targetdir:./artifacts/coverage -reporttypes:Html
+
+# Open the report
+start ./artifacts/coverage/index.html
+```
+
+#### Coverage Guidelines
+
+| Metric                     | Minimum | Target | Notes                    |
+| -------------------------- | ------- | ------ | ------------------------ |
+| Line Coverage (new code)   | 70%     | 80%    | Enforced for new PRs     |
+| Branch Coverage (new code) | 60%     | 70%    | Logical path coverage    |
+| Overall Line Coverage      | —       | —      | Tracked but not blocking |
+
+**Best Practices:**
+
+- Write tests for happy paths AND edge cases
+- Cover error handling and null checks
+- Test public APIs thoroughly
+- Use mocks from `Qwiq.Mocks` for unit tests
+- Mark intentionally untested code with `[ExcludeFromCodeCoverage]`
+
 ## Code Style
 
 ### Nullable Reference Types
