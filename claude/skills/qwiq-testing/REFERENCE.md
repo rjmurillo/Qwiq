@@ -54,6 +54,54 @@ dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj -c Release
 dotnet verify accept -w test/Qwiq.Package.Tests
 ```
 
+## Code Coverage
+
+### Configuration File
+
+The `coverage.runsettings` file at the repository root configures code coverage:
+
+| Setting | Value | Purpose |
+|---------|-------|--------|
+| `Format` | cobertura | CI-friendly XML output |
+| `IncludeTestAssembly` | False | Excludes test assemblies |
+| `SkipAutoProps` | true | Skips trivial auto-properties |
+| `SingleHit` | False | Records hit counts |
+
+### Included Assemblies
+
+Coverage is collected for these production assemblies only:
+- `Qwiq.Core.dll`
+- `Qwiq.Client.Rest.dll`
+- `Qwiq.Client.Soap.dll`
+- `Qwiq.Linq.dll`
+- `Qwiq.Linq.Identity.dll`
+- `Qwiq.Mapper.dll`
+- `Qwiq.Mapper.Identity.dll`
+- `Qwiq.Identity.dll`
+- `Qwiq.Identity.Soap.dll`
+
+### Excluded Patterns
+
+- Test assemblies: `*Tests*`, `*Mocks*`, `*Benchmark*`
+- Generated code: `*.g.cs`, `*.generated.cs`
+- Compatibility shims: `Compatibility\*`
+- Third-party assemblies (by public key token)
+
+### Report Generation
+
+```powershell
+# Install ReportGenerator (one-time)
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Generate report
+reportgenerator "-reports:artifacts/TestResults/**/coverage.cobertura.xml" "-targetdir:./artifacts/coverage" "-reporttypes:Html;HtmlSummary;Badges"
+```
+
+Output includes:
+- `index.html` - Full interactive report
+- `summary.html` - Quick summary
+- `badge_*.svg` - Coverage badges for README
+
 ## Known Limitations
 
 1. **Interactive Authentication**: Integration tests prompt for credentials
