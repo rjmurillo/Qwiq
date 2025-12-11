@@ -1,20 +1,51 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-10 by Copilot Agent (Phase 2C - SOAP Tests)
-> **Current Phase**: Wave 1 ✅ COMPLETE | Wave 2 Phase 2C (IN PROGRESS) | W2.16 Phase 2 Complete
-> **Branch**: `copilot/sub-pr-65`
+> **Last Updated**: 2025-12-11 by Copilot Agent (Coverage.runsettings Modernization)
+> **Current Phase**: Wave 1 ✅ COMPLETE | Wave 2 Phase 2C (IN PROGRESS) | Coverage Documentation Complete
+> **Branch**: `chore/modernize-wave-2`
 
 ---
 
 ## Current State
 
-**Build Status**: ✅ Passing (Release /m:1 /nodeReuse:false on 2025-12-10)
-**Test Status**: ⏳ 186 passing (filtered suite), SOAP tests require Windows
+**Build Status**: ✅ Passing (Release /m:1 /nodeReuse:false)
+**Test Status**: ✅ Passing (filtered suite)
+**Coverage**: ✅ 46.1% line coverage with XPlat Code Coverage (Coverlet)
 **WireMock Tests**: ✅ 9 passing with captured ADO traffic
 **SOAP Unit Tests**: ✅ 13 tests created (4 test classes), require Windows to run
-**Package Validation**: ⚠ Not rerun this session (last known: ✅ All 10 packages produced)
+**Package Validation**: ⚠ Not rerun this session
 
-**Last Commit**: 9b3e75e - test(soap): add SOAP client unit tests with Moq
+**Last Commit**: 889416aa - docs(skills): add code coverage to qwiq-testing skill
+
+### Session Summary (Coverage.runsettings Modernization - 2025-12-11)
+
+**Purpose**: Modernize `coverage.runsettings` with best practices from moq.analyzers reference, document coverage workflow across all documentation files.
+
+**Work Completed**:
+1. ✅ Modernized `coverage.runsettings` with comprehensive documentation
+2. ✅ Configured Cobertura output format for CI compatibility
+3. ✅ Added explicit Qwiq assembly includes (9 production assemblies)
+4. ✅ Updated TESTING.md, CONTRIBUTING.md, copilot-instructions.md
+5. ✅ Updated Claude skill documents (qwiq-testing SKILL.md and REFERENCE.md)
+6. ✅ Validated coverage workflow with XPlat Code Coverage
+
+**Key Finding**: Microsoft Code Coverage with `Format=cobertura` produces empty files. Use XPlat Code Coverage (Coverlet) instead: `--collect:"XPlat Code Coverage"`
+
+**Commits This Session** (5 atomic commits):
+1. `b1fbc83e` - build: modernize coverage.runsettings with best practices
+2. `0f2965b2` - docs(testing): enhance coverage configuration documentation
+3. `ca97d2bf` - docs(contributing): add code coverage section
+4. `900c30f8` - docs: add coverage command to copilot-instructions
+5. `889416aa` - docs(skills): add code coverage to qwiq-testing skill
+
+**Verification**:
+- Build: ✅ Passes
+- Tests: ✅ Pass with coverage collection
+- Coverage: ✅ 46.1% line coverage achieved
+
+See: `.agents/sessions/2025-12-11-coverage-runsettings.md` for full session details
+
+---
 
 ### Session Summary (Phase 2C - SOAP Unit Tests - 2025-12-10)
 
