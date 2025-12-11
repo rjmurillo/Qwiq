@@ -59,6 +59,7 @@ Before this session ends, complete the mandatory finalization checklist from AGE
    - [ ] Force-add session logs if needed: `git add -f .agents/sessions/*.md`
 
 3. VERIFICATION:
+   - [ ] Lint clean: `dotnet pprettier --write . && dotnet format`
    - [ ] Build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
    - [ ] Tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
