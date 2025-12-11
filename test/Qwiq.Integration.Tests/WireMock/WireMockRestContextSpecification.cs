@@ -21,6 +21,10 @@ namespace Qwiq.WireMock
     ///
     /// For integration tests against real Azure DevOps, use <see cref="TimedContextSpecification"/>
     /// with <see cref="IntegrationSettings.CreateRestStore"/>.
+    ///
+    /// Note: WireMock requires HTTPS because VssBasicCredential enforces secure connections.
+    /// On CI runners where HTTPS startup fails (due to SSL certificate binding privileges),
+    /// tests are automatically marked as inconclusive rather than failing.
     /// </remarks>
     [TestCategory("WireMock")]
 #pragma warning disable CA1001 // Disposable field '_context' is disposed in Cleanup() method
@@ -28,6 +32,7 @@ namespace Qwiq.WireMock
 #pragma warning restore CA1001
     {
         private WireMockRestStoreContext? _context;
+        private bool _httpsStartupFailed;
 
         /// <summary>
         /// Gets the WireMock server for configuring mock responses.
@@ -47,9 +52,26 @@ namespace Qwiq.WireMock
         /// <summary>
         /// Initializes the WireMock context using real captured Azure DevOps API responses.
         /// </summary>
+        /// <remarks>
+        /// If WireMock HTTPS startup fails (e.g., on CI runners without SSL certificate binding privileges),
+        /// the test will be marked as inconclusive rather than failing.
+        /// </remarks>
         public override void Given()
         {
-            _context = new WireMockRestStoreContext();
+            try
+            {
+                _context = new WireMockRestStoreContext();
+            }
+            catch (WireMockHttpsStartupException ex)
+            {
+                // Mark that HTTPS startup failed - tests will be skipped in When()
+                _httpsStartupFailed = true;
+                System.Diagnostics.Trace.TraceWarning(
+                    "WireMock HTTPS startup failed. Tests will be marked as inconclusive. " +
+                    "This is expected on CI runners without SSL certificate binding privileges. " +
+                    "Error: {0}", ex.Message);
+                return;
+            }
 
             // Load real Azure DevOps API responses from captured stubs
             // This includes VssConnection handshake, projects, WIQL queries, work items, and work item types
@@ -58,6 +80,21 @@ namespace Qwiq.WireMock
 
             // Create the store after stubs are loaded
             Store = TimedAction(() => _context.CreateWorkItemStore(), "WireMock", "Create WorkItemStore");
+        }
+
+        /// <summary>
+        /// Override When to check for HTTPS startup failure and mark test as inconclusive.
+        /// </summary>
+        public override void When()
+        {
+            if (_httpsStartupFailed)
+            {
+                Assert.Inconclusive(
+                    "WireMock HTTPS server could not start. This test requires HTTPS which needs " +
+                    "elevated privileges for SSL certificate binding. This is expected on CI runners " +
+                    "(e.g., GitHub Actions) where such privileges are restricted. " +
+                    "Run this test locally with administrator privileges.");
+            }
         }
 
         public override void Cleanup()
