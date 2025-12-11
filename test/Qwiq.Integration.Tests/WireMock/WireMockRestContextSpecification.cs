@@ -32,7 +32,6 @@ namespace Qwiq.WireMock
 #pragma warning restore CA1001
     {
         private WireMockRestStoreContext? _context;
-        private bool _httpsStartupFailed;
 
         /// <summary>
         /// Gets the WireMock server for configuring mock responses.
@@ -64,13 +63,19 @@ namespace Qwiq.WireMock
             }
             catch (WireMockHttpsStartupException ex)
             {
-                // Mark that HTTPS startup failed - tests will be skipped in When()
-                _httpsStartupFailed = true;
+                // Mark test as inconclusive when HTTPS startup fails
+                // This is expected on CI runners without SSL certificate binding privileges
                 System.Diagnostics.Trace.TraceWarning(
-                    "WireMock HTTPS startup failed. Tests will be marked as inconclusive. " +
+                    "WireMock HTTPS startup failed. Test will be marked as inconclusive. " +
                     "This is expected on CI runners without SSL certificate binding privileges. " +
                     "Error: {0}", ex.Message);
-                return;
+
+                Assert.Inconclusive(
+                    "WireMock HTTPS server could not start. This test requires HTTPS which needs " +
+                    "elevated privileges for SSL certificate binding. This is expected on CI runners " +
+                    "(e.g., GitHub Actions) where such privileges are restricted. " +
+                    "Run this test locally with administrator privileges. " +
+                    "Inner error: " + ex.InnerException?.Message);
             }
 
             // Load real Azure DevOps API responses from captured stubs
@@ -80,21 +85,6 @@ namespace Qwiq.WireMock
 
             // Create the store after stubs are loaded
             Store = TimedAction(() => _context.CreateWorkItemStore(), "WireMock", "Create WorkItemStore");
-        }
-
-        /// <summary>
-        /// Override When to check for HTTPS startup failure and mark test as inconclusive.
-        /// </summary>
-        public override void When()
-        {
-            if (_httpsStartupFailed)
-            {
-                Assert.Inconclusive(
-                    "WireMock HTTPS server could not start. This test requires HTTPS which needs " +
-                    "elevated privileges for SSL certificate binding. This is expected on CI runners " +
-                    "(e.g., GitHub Actions) where such privileges are restricted. " +
-                    "Run this test locally with administrator privileges.");
-            }
         }
 
         public override void Cleanup()
