@@ -19,6 +19,8 @@
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" />
     <PackageReference Include="JetBrains.DotMemoryUnit" />
     <PackageReference Include="WireMock.Net" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Moq.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>

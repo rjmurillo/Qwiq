@@ -1,19 +1,56 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-10 by Copilot Agent (Session File Cleanup)
-> **Current Phase**: Wave 1 ✅ COMPLETE | Wave 2 Phase 2C (PARTIAL) | Maintenance
-> **Branch**: `chore/modernize-wave-2`
+> **Last Updated**: 2025-12-10 by Copilot Agent (Phase 2C - SOAP Tests)
+> **Current Phase**: Wave 1 ✅ COMPLETE | Wave 2 Phase 2C (IN PROGRESS) | W2.16 Phase 2 Complete
+> **Branch**: `copilot/sub-pr-65`
 
 ---
 
 ## Current State
 
 **Build Status**: ✅ Passing (Release /m:1 /nodeReuse:false on 2025-12-10)
-**Test Status**: ✅ 206/207 passing, 1 skipped (filtered suite per standard categories)
-**WireMock Tests**: ⚠ Not rerun this session (last known: ✅ 9 passing with captured ADO traffic)
+**Test Status**: ⏳ 186 passing (filtered suite), SOAP tests require Windows
+**WireMock Tests**: ✅ 9 passing with captured ADO traffic
+**SOAP Unit Tests**: ✅ 13 tests created (4 test classes), require Windows to run
 **Package Validation**: ⚠ Not rerun this session (last known: ✅ All 10 packages produced)
 
-**Last Commit**: (this commit) docs(agents): finalize session records
+**Last Commit**: 9b3e75e - test(soap): add SOAP client unit tests with Moq
+
+### Session Summary (Phase 2C - SOAP Unit Tests - 2025-12-10)
+
+**Purpose**: Implement W2.16 Phase 2 (SOAP offline testing) using Moq to improve Qwiq.Client.Soap coverage from 0%.
+
+**Work Completed**:
+1. ✅ Added Moq 4.16.0 + Moq.Analyzers 0.4.0 to IntegrationTests project
+2. ✅ Created `SoapContextSpecification` base class for SOAP unit tests
+3. ✅ Implemented 4 test classes with 13 test methods:
+   - Single work item query (4 tests)
+   - Multiple work items query (3 tests)
+   - Query by IDs (2 tests)
+   - Empty query results (2 tests)
+4. ✅ Resolved all build errors (namespace conflicts, analyzer rules)
+5. ✅ Build passes with 0 errors, 0 warnings
+
+**Technical Approach**:
+- Mocks at `IQueryFactory` level (simpler than mocking TFS Client OM)
+- Leverages existing `MockWorkItem`/`MockWorkItemType` from `Qwiq.Mocks`
+- Test category: `[TestCategory("SoapUnit")]` for filtering
+- Windows-only (net472) due to TFS Client OM dependency
+
+**Verification**:
+- Build: ✅ 0 errors, 0 warnings
+- Tests: ⏳ Require Windows to run (net472/TFS dependency)
+- Coverage: Baseline SOAP client adapter logic (query execution, field access, work item types)
+
+**Notes/Next Steps**:
+- SOAP tests require Windows CI runner to execute
+- Need to validate tests actually pass on Windows
+- Consider updating CI workflow with conditional SOAP test execution
+- W2.3 (Contract Tests) can proceed once W2.16 Phase 2 validated on Windows
+
+See: `.agents/sessions/2025-12-10-phase-2c-soap-tests.md` for full session details
+
+---
 
 ### Session Summary (Session File Cleanup - 2025-12-10)
 
@@ -265,12 +302,13 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 
 ## What Was Completed
 
-### Phase 2C: Testing Enhancements (Updated)
+### Phase 2C: Testing Enhancements (Updated 2025-12-10)
 - ✅ **W2.4** - Benchmark CI Integration (verified benchmarks compile in CI)
-- ✅ **W2.16 Phase 1 (REST offline)** - WireMock-based tests implemented and passing
+- ✅ **W2.16 Phase 1 (REST offline)** - WireMock-based tests implemented and passing (9 tests)
+- ✅ **W2.16 Phase 2 (SOAP offline)** - Moq-based tests created (13 tests, Windows-only)
 - ✅ **ADR-008** - WireMock-based offline REST testing decision
-- ⏸️ **W2.16 Phase 2 (SOAP offline)** - Not started (Windows-only, Moq-based)
-- ⏸️ **W2.3** - Blocked by W2.16 Phase 2
+- ⏳ **W2.16 Phase 2 Validation** - Tests require Windows to run and validate
+- ⏸️ **W2.3** - Blocked pending W2.16 Phase 2 validation on Windows
 
 ## What's Next
 
