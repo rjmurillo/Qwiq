@@ -900,6 +900,22 @@ Learned patterns from previous problem-solving sessions:
 - **Never exclude projects from build** - All projects must build always
 - **Local suppressions only** - If suppression needed, use `[SuppressMessage]` on type/member with reason
 
+## Claude Skills
+
+This repository includes Claude Skills in `.claude/skills/` for on-demand capability loading:
+
+| Skill | Purpose |
+|-------|---------|
+| `qwiq-csharp` | C# patterns, nullable types, code style |
+| `qwiq-build` | Build system, MSBuild, packages |
+| `qwiq-testing` | Testing patterns, TDD, mocks |
+| `qwiq-cicd` | GitHub Actions, CI/CD |
+| `nullable-migration` | CS8xxx warning tracking |
+| `sandbox-validation` | Integration test environment |
+| `wiremock-capture` | HTTP traffic recording |
+
+See `.skills/README.md` for the full skill index and usage.
+
 ## Trust These Instructions
 
 These instructions reflect the modernized state of the repository (PRs #31, #32, #43-#47). The repository has been migrated from:
