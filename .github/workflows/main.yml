@@ -93,7 +93,7 @@ jobs:
         with:
           category: "/language:csharp"
           output: ${{ runner.temp }}/codeql-results
-          upload: false  # Disabled due to conflict with default setup - will be enabled after default setup is disabled
+          upload: true  # When set to true the default CodeQL cannot be configured
 
       - name: Copy CodeQL SARIF to artifacts
         if: always()
