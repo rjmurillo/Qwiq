@@ -32,7 +32,9 @@ jobs:
 
     env:
       # Test filter matching AppVeyor configuration
-      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+      # WireMock tests are excluded because they require HTTPS which needs elevated privileges
+      # for SSL certificate binding - this fails on GitHub Actions runners
+      TEST_FILTER: "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests&TestCategory!=WireMock"
 
     steps:
       - name: Checkout
