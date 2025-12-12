@@ -1,8 +1,8 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-12 by Claudette (Session 29 - runSubagent Documentation)
-> **Current Phase**: Wave 2 🔄 IN PROGRESS | Waves 3-5 📋 RE-ACTIVATED
-> **Branch**: `chore/modernize-4`
+> **Last Updated**: 2025-12-12 by Copilot (Session 30 - Wave 4 Baseline Metrics)
+> **Current Phase**: Wave 4 🔄 IN PROGRESS (Code Coverage Excellence)
+> **Branch**: `copilot/sub-pr-97-again`
 > **Target**: Production v11.0.0 Release
 
 ---
@@ -10,9 +10,9 @@
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (208 passed, 1 skipped)
+**Test Status**: ✅ All tests passing (189 passed in filtered run, 208 total with integration tests)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
-**Coverage**: 46.1% line coverage (target: **70%** for production)
+**Coverage**: **51.1% line coverage** (target: **70%** for production) ⬆️ +5% from handoff baseline
 **Security**: ✅ CodeQL and Gitleaks workflows active
 
 **Project Context**:
@@ -22,6 +22,35 @@
 - MCP extension for AI agents integration
 - Kubernetes container deployment required
 - Must pass enterprise security review
+
+### Session Summary (Wave 4 Baseline Metrics - 2025-12-12 Session 30)
+
+**Purpose**: Establish baseline metrics for Wave 4 code coverage improvement initiative. Target: 70% coverage for production deployment.
+
+**Work Completed**:
+
+1. ✅ **W4.1 - Test Execution Baseline** (COMPLETE)
+   - Measured test execution time: 189 tests in 11.58s (target <300s)
+   - Documented per-project timing breakdown
+   - Identified platform constraints (Integration.Tests requires mono/Windows)
+   - Created `docs/metrics/test-baseline.md`
+
+2. ✅ **W4.3 - Code Coverage Assessment** (COMPLETE)
+   - Generated coverage report: **51.1% line, 36.7% branch**
+   - Analyzed 8 assemblies, 219 classes, 5,177 coverable lines
+   - **Critical Finding**: Qwiq.Client.Rest has **0% coverage** (all 23 classes untested)
+   - Coverage by project:
+     - Qwiq.Linq: 90.9% ✅
+     - Qwiq.Identity: 85.8% ✅
+     - Qwiq.Mapper: 73.9% 🟡
+     - Qwiq.Core: 51.2% 🟡
+     - Qwiq.Client.Rest: 0.0% 🔴 **CRITICAL GAP**
+
+**Verification**: Build 0 errors/warnings, Tests 189 passed
+
+**Key Decision**: REST client is highest-impact path to 70% (0% → 60%+ would close ~half the gap)
+
+---
 
 ### Session Summary (runSubagent Documentation - 2025-12-12 Session 29)
 

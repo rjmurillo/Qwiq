@@ -10,12 +10,12 @@
 
 ## Pre-Flight Checks
 
-- [ ] Read AGENT-INSTRUCTIONS.md
-- [ ] Read HANDOFF.md
-- [ ] Read modernize-TODO.md (Wave 4 section)
-- [ ] Read WAVE4-TASKS.md (detailed task list)
-- [ ] Verify build passes
-- [ ] Verify tests pass
+- [x] Read AGENT-INSTRUCTIONS.md
+- [x] Read HANDOFF.md
+- [x] Read modernize-TODO.md (Wave 4 section)
+- [x] Read WAVE4-TASKS.md (detailed task list)
+- [x] Verify build passes (0 errors, 0 warnings)
+- [x] Verify tests pass (189/189 passing)
 
 ## Session Plan
 
@@ -66,34 +66,74 @@ Given the user's specific request to "Increase Test Coverage to 70%", I'll appro
 
 ## Tasks Completed
 
-### W4.1 - Collect Test Execution Baseline Metrics
+### W4.1 - Collect Test Execution Baseline Metrics ✅ COMPLETE
 
-**Status**: 🔄 Starting
+**Status**: ✅ Complete (Commit: 23e6fc4)
 
-**What will be done**:
-- Run test suite with detailed timing metrics
-- Document execution time per test project
-- Create `docs/metrics/test-baseline.md`
-- Add timing capture to GitHub Actions (future work)
+**What was done**:
+- ✅ Ran test suite with detailed timing metrics
+- ✅ Documented execution time per test project in `docs/metrics/test-baseline.md`
+- ✅ Identified platform constraints (Integration.Tests requires mono on Linux)
+- ✅ Captured baseline: 189 tests, 11.58s execution time (well under 300s target)
+- ⏸️ CI timing capture deferred to future work
 
-**Decisions to make**:
-- How to capture timing data (dotnet test built-in, custom script, etc.)
-- What format for baseline document
-- What metrics are most valuable
+**Decisions made**:
+- Used built-in `dotnet test` timing output (simple, no extra tooling needed)
+- Created markdown table format for baseline document (readable, version-controllable)
+- Focused on per-project metrics (enables targeted optimization)
 
-**Files to create**:
-- `docs/metrics/test-baseline.md`
+**Files created**:
+- `docs/metrics/test-baseline.md` - Test execution baseline metrics
+- `docs/metrics/` directory
 
-**Files to modify**:
-- None in this initial phase (CI timing is future work)
+**Files modified**:
+- None
+
+### W4.3 - Assess Current Code Coverage ✅ COMPLETE
+
+**Status**: ✅ Complete (Commit: 23e6fc4)
+
+**What was done**:
+- ✅ Ran tests with XPlat Code Coverage collector
+- ✅ Generated coverage report using reportgenerator tool
+- ✅ Analyzed coverage by project and identified critical gaps
+- ✅ Current coverage: 51.1% line, 36.7% branch (target: 70%)
+
+**Critical Findings**:
+- **Qwiq.Client.Rest: 0% coverage** - All 23 classes untested (CRITICAL GAP)
+- Qwiq.Linq: 90.9% - Excellent, only QueryExtensions at 20%
+- Qwiq.Identity: 85.8% - Good coverage
+- Qwiq.Mapper: 73.9% - Need to cover AttributeMapException, PropertyMap
+- Qwiq.Core: 51.2% - Auth/credentials classes at 0%
+
+**Coverage Data**:
+- Total assemblies: 8
+- Total classes: 219
+- Total files: 221
+- Coverable lines: 5,177
+- Covered lines: 2,650 (51.1%)
+- Uncovered lines: 2,527
+- Branch coverage: 36.7%
+
+**Decision - Highest Impact Path to 70%**:
+REST client has 0% coverage and represents significant LOC. Adding tests here provides maximum ROI toward 70% target.
+
+**Files created**:
+- `artifacts/coverage/Summary.txt` - Generated coverage report
+- `artifacts/TestResults/**/coverage.cobertura.xml` - Raw coverage data (4 files)
+
+**Tools used**:
+- XPlat Code Coverage (Coverlet) - Cross-platform coverage collector
+- reportgenerator v5.5.1 - Coverage report generation
 
 ---
 
 ## Session Summary
 
-**Started**: W4.1 Baseline Metrics Collection
-**Time spent**: ~TBD
-**Next up**: Complete W4.1, proceed to W4.3 coverage assessment, then begin test writing
+**Completed**: W4.1 (Test Execution Baseline) + W4.3 (Coverage Assessment)
+**Time spent**: ~2 hours
+**Commits**: 1 (23e6fc4)
+**Next session**: Begin REST client test additions OR continue Phase 1 with W4.2 (flake rate) and W4.4 (SOAP assessment)
 
 ## Verification Commands
 
@@ -108,9 +148,32 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsettings
 ```
 
-## Notes for Next Session
+## Key Insights for Next Session
 
-- W4.1 establishes baseline - critical for measuring progress
-- User wants 70% coverage for production deployment (100+ team members)
-- LINQ provider is highest priority due to complexity
-- Follow existing test patterns: ContextSpecification, MockWorkItem, Shouldly
+**Coverage Strategy**:
+- REST client (0% → target 60%+) = Biggest single impact toward 70% overall
+- Core auth/credentials (0% → target 50%+) = Second priority
+- Mapper exceptions/PropertyMap (targeted fixes) = Incremental gains
+- LINQ QueryExtensions (20% → 80%+) = Refinement work
+
+**Test Patterns Established**:
+- Use ContextSpecification base class (Given/When/Then)
+- Use MockWorkItem, MockRevision from Qwiq.Mocks
+- Use Shouldly for assertions
+- Follow existing test naming: `Then_expected_behavior()`
+
+**Challenges Encountered**:
+1. ⚠️ Integration.Tests requires mono on Linux (can't run on GitHub Actions Linux runner)
+2. ✅ Solved: Used XPlat Code Coverage instead of Microsoft Code Coverage (works on Linux)
+3. ✅ Solved: Git shallow clone issue with nbgv (ran `git fetch --unshallow`)
+
+**Files to Exclude from Git** (future sessions):
+- `artifacts/TestResults/**/*.cobertura.xml` - Should add to .gitignore
+- `artifacts/coverage/**` - Generated reports, not source
+
+**Recommended Next Steps** (in priority order):
+1. Add .gitignore entry for coverage artifacts (prevents bloat)
+2. W4.2: Measure test flake rate (50+ iterations)
+3. Begin REST client tests (WorkItemStore, Query, WorkItem classes)
+4. W4.4: SOAP usage assessment
+5. W4.5: Create comprehensive test improvement plan
