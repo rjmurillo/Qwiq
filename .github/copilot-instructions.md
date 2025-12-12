@@ -274,13 +274,24 @@ dotnet pprettier --check "**/*.md"
 
 ## Critical Build Notes
 
-### 1. Windows-Only Build for SOAP
+### 1. GitHub Actions Runner Selection
+
+- **Preferred**: `ubuntu-latest` (Linux) - faster startup, lower cost
+- **Use `windows-latest` when**: Building net472 targets (SOAP projects)
+  - Avoids installing mono on Linux runners
+  - Required for `Microsoft.TeamFoundationServer.ExtendedClient`
+- **Examples**:
+  - `main.yml` build job: `windows-latest` (builds net472)
+  - `secrets.yml` scan job: `ubuntu-latest` (no .NET build, gitleaks is Linux tool)
+  - `dependency-review.yml`: `ubuntu-latest` (no .NET build)
+
+### 2. Windows-Only Build for SOAP
 
 - SOAP projects (`Qwiq.Core.Soap`, `Qwiq.Identity.Soap`) require Windows
 - They depend on `Microsoft.TeamFoundationServer.ExtendedClient` which only supports `net472`
-- GitHub Actions workflow uses `windows-latest` runner
+- Main build workflow uses `windows-latest` runner for net472 compatibility
 
-### 2. Multi-Targeting Strategy
+### 3. Multi-Targeting Strategy
 
 - Core libraries: `net472;netstandard2.0;net8.0`
 - SOAP projects: `net472` only (Windows dependency)
