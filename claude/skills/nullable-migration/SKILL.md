@@ -73,7 +73,7 @@ For each project:
 
 ### Choosing the Right Fix for a Warning
 
-```
+```text
 CS8618 (Field not initialized)
 ├─ Should field ever be null?
 │  ├─ YES → Make nullable: `MyType? _field`
@@ -99,7 +99,7 @@ CS8603 (Null return from non-nullable method)
 
 ### Project Migration Priority
 
-```
+```text
 Start Here
     │
     ▼
