@@ -353,6 +353,40 @@ start ./artifacts/coverage/index.html
 - Use mocks from `Qwiq.Mocks` for unit tests
 - Mark intentionally untested code with `[ExcludeFromCodeCoverage]`
 
+#### ⚠️ CRITICAL: Coverage Artifacts Must Never Be Committed
+
+**The `artifacts/` directory is in `.gitignore` and must NEVER contain committed files.**
+
+Coverage files (`.cobertura.xml`, HTML reports) are generated during test runs and are:
+
+- ✅ **Automatically ignored** by `.gitignore` (line 77: `/artifacts/`)
+- ✅ **Generated on-demand** during CI/CD and local test runs
+- ❌ **NEVER committed to git** - they are build artifacts, not source code
+
+**Before committing:**
+
+```powershell
+# Verify no artifacts are staged
+git status | Select-String "artifacts/"
+
+# If any artifacts appear, they should NOT be staged
+# This indicates a git issue - DO NOT force-add them
+```
+
+**Why this matters:**
+
+- Coverage files are **large** (20-23k lines each, 87k total in one test run)
+- Coverage files are **ephemeral** (change every test run)
+- Committing them **bloats the repository** and git history
+- They provide **no value** in version control (regenerated on demand)
+
+**If you accidentally stage artifacts:**
+
+1. **DO NOT commit them**
+2. Unstage: `git restore --staged artifacts/`
+3. Verify: `git status` should show them as untracked
+4. `.gitignore` will prevent them from being staged in future
+
 ## Code Style
 
 ### Formatting and Linting

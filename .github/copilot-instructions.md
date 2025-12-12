@@ -66,6 +66,49 @@ dotnet test Qwiq.sln --configuration Release --settings coverage.runsettings
 - Only Qwiq.\* production assemblies are instrumented
 - Use `reportgenerator` to create HTML reports from coverage results
 
+### ⚠️ CRITICAL: Never Commit Artifacts
+
+**The `artifacts/` directory is in `.gitignore` and must NEVER contain committed files.**
+
+All build outputs, test results, and coverage files go to `artifacts/` and are:
+
+- ✅ **Automatically ignored** by `.gitignore` (line 77: `/artifacts/`)
+- ✅ **Generated on-demand** during builds and test runs
+- ❌ **NEVER committed to git** - they are ephemeral build artifacts
+
+**What goes in artifacts/ (all ignored):**
+
+- `artifacts/bin/` - Build outputs
+- `artifacts/obj/` - Intermediate build files
+- `artifacts/package/` - NuGet packages
+- `artifacts/TestResults/` - Test results and coverage files (.cobertura.xml)
+- `artifacts/coverage/` - HTML coverage reports (from reportgenerator)
+- `artifacts/logs/` - Build logs (.binlog)
+
+**Before committing, ALWAYS verify:**
+
+```powershell
+# Check that no artifacts are staged
+git status | Select-String "artifacts/"
+
+# If any appear, DO NOT commit them - this indicates a git/tool issue
+# The .gitignore rule should prevent them from ever being staged
+```
+
+**Why this matters:**
+
+- Coverage files are large (20-23k lines each)
+- They change every test run (meaningless in version control)
+- Committing them bloats the repository and git history
+- They provide zero value (regenerated on demand)
+
+**If artifacts accidentally get staged:**
+
+1. **STOP - DO NOT COMMIT**
+2. Unstage: `git restore --staged artifacts/`
+3. Verify .gitignore is working: `git check-ignore -v artifacts/test.xml`
+4. Report the issue - artifacts should never be stageable
+
 ## Project Layout
 
 ### Source Projects (`src/`)
