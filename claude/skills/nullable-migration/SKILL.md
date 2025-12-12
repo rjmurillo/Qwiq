@@ -68,6 +68,50 @@ For each project:
 5. **Verify**: Re-run script to confirm reduction
 6. **Commit**: Small, atomic commits per logical fix
 
+## Decision Trees
+
+### Choosing the Right Fix for a Warning
+
+```
+CS8618 (Field not initialized)
+├─ Should field ever be null?
+│  ├─ YES → Make nullable: `MyType? _field`
+│  └─ NO → Can initialize at declaration?
+│          ├─ YES → `private readonly MyType _field = new();`
+│          └─ NO → Initialize in ALL constructors
+
+CS8602 (Dereference of possibly null)
+├─ Is the null state a bug?
+│  ├─ YES → Add null check + throw
+│  └─ NO → Use null-conditional: `obj?.Property`
+
+CS8604 (Null argument to non-nullable parameter)
+├─ Can the value legitimately be null?
+│  ├─ YES → Change parameter to nullable
+│  └─ NO → Add null guard before call
+
+CS8603 (Null return from non-nullable method)
+├─ Can the method legitimately return null?
+│  ├─ YES → Change return type to `T?`
+│  └─ NO → Fix the code path that returns null
+```
+
+### Project Migration Priority
+
+```
+Start Here
+    │
+    ▼
+Is this a core/foundation project?
+├─ YES → HIGH PRIORITY (blocks others)
+│        Examples: Qwiq.Core
+└─ NO → Is it heavily used by other projects?
+        ├─ YES → MEDIUM PRIORITY
+        │        Examples: Qwiq.Core.Rest, Qwiq.Identity
+        └─ NO → LOWER PRIORITY
+                Examples: Qwiq.Core.Soap (legacy), Qwiq.Linq (complex)
+```
+
 ### 5. Custom Report Location
 
 ```powershell
@@ -130,5 +174,6 @@ For each project:
 
 ## Related Resources
 
-- See [../qwiq-csharp/SKILL.md](../qwiq-csharp/SKILL.md) for nullable coding patterns
-- See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for TDD requirements
+- See [../qwiq-csharp/SKILL.md](../qwiq-csharp/SKILL.md) for nullable coding patterns and troubleshooting
+- See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for TDD requirements (mandatory for refactoring)
+- See [../qwiq-build/SKILL.md](../qwiq-build/SKILL.md) for build commands and CI behavior

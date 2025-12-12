@@ -146,7 +146,31 @@ server.ReadStaticMappings("path/to/stubs");
 
 **Expected output:** Tests pass with updated stubs
 
+## Troubleshooting
+
+### No traffic captured
+
+**Causes:**
+1. Proxy not running or wrong port
+2. HTTPS decryption not enabled
+3. Proxy certificate not trusted
+
+**Fix:** Verify proxy is running, enable HTTPS decryption, trust root certificate.
+
+### HAR file empty or missing entries
+
+**Cause:** Filter host doesn't match actual requests
+
+**Fix:** Check `-FilterHost` parameter matches your Azure DevOps URL.
+
+### WireMock stubs don't match requests
+
+**Cause:** Request URLs or headers differ from recording
+
+**Fix:** Check WireMock logs for match failures, adjust stub patterns.
+
 ## Related Resources
 
-- See [../sandbox-validation/SKILL.md](../sandbox-validation/SKILL.md) for sandbox setup
+- See [../sandbox-validation/SKILL.md](../sandbox-validation/SKILL.md) for sandbox environment setup
 - See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for integration test patterns
+- See [../qwiq-cicd/SKILL.md](../qwiq-cicd/SKILL.md) for running tests in CI

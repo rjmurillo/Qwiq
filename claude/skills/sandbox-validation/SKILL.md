@@ -136,5 +136,7 @@ Your Personal Access Token needs:
 
 ## Related Resources
 
+- See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for testing patterns and test categories
 - See [../qwiq-testing/REFERENCE.md](../qwiq-testing/REFERENCE.md) for test data constants
+- See [../wiremock-capture/SKILL.md](../wiremock-capture/SKILL.md) for creating offline test fixtures
 - See `test/Qwiq.Integration.Tests/TestData.cs` for work item IDs

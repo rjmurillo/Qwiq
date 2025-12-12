@@ -12,6 +12,25 @@ using WireMock.Settings;
 namespace Qwiq.WireMock
 {
     /// <summary>
+    /// Exception thrown when WireMock HTTPS server fails to start due to SSL certificate binding issues.
+    /// </summary>
+    /// <remarks>
+    /// This exception is thrown when WireMock cannot start an HTTPS server, typically because:
+    /// - The process lacks elevated privileges to register SSL certificate bindings
+    /// - The SSL certificate cannot be created or bound to the port
+    /// - This commonly occurs on CI runners (e.g., GitHub Actions) where elevated privileges are restricted
+    ///
+    /// Tests should catch this exception and skip/inconclusive the test rather than failing.
+    /// </remarks>
+    public class WireMockHttpsStartupException : Exception
+    {
+        public WireMockHttpsStartupException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+    }
+
+    /// <summary>
     /// Provides a WireMock-based REST store context for testing the REST client implementation
     /// without requiring live Azure DevOps connectivity.
     /// </summary>
@@ -22,8 +41,9 @@ namespace Qwiq.WireMock
     /// The WireMock server intercepts HTTP traffic, allowing full coverage of the REST client
     /// implementation including serialization, HTTP handling, and error scenarios.
     ///
-    /// Note: This context temporarily bypasses SSL certificate validation for the WireMock
-    /// self-signed certificate. This is acceptable for testing purposes only.
+    /// Note: HTTPS is required because VssBasicCredential enforces secure connections.
+    /// On CI runners where HTTPS startup fails (due to SSL certificate binding privileges),
+    /// a <see cref="WireMockHttpsStartupException"/> is thrown so tests can be skipped gracefully.
     /// </remarks>
     public class WireMockRestStoreContext : IDisposable
     {
@@ -63,7 +83,14 @@ namespace Qwiq.WireMock
         /// accessing WorkItemTrackingClient or calling CreateWorkItemStore().
         /// The VssConnection.GetClient&lt;T&gt;() call requires the connection data
         /// endpoint to be mocked first.
+        ///
+        /// Note: HTTPS is required because VssBasicCredential enforces secure connections.
+        /// If HTTPS startup fails (e.g., on CI runners without SSL certificate binding privileges),
+        /// a <see cref="WireMockHttpsStartupException"/> is thrown so tests can be skipped gracefully.
         /// </remarks>
+        /// <exception cref="WireMockHttpsStartupException">
+        /// Thrown when WireMock cannot start an HTTPS server, typically due to SSL certificate binding issues.
+        /// </exception>
         public WireMockRestStoreContext()
         {
             // Save original certificate validation callback
@@ -76,12 +103,28 @@ namespace Qwiq.WireMock
 #pragma warning restore CA5359
 
             // Start WireMock server with HTTPS (required for VssBasicCredential)
+            // VssBasicCredential enforces "Basic authentication requires a secure connection to the server"
             var settings = new WireMockServerSettings
             {
                 UseSSL = true,
                 Port = null // Use random available port
             };
-            Server = WireMockServer.Start(settings);
+
+            try
+            {
+                Server = WireMockServer.Start(settings);
+            }
+            catch (Exception ex) when (IsSslBindingFailure(ex))
+            {
+                // Restore original callback before throwing
+                ServicePointManager.ServerCertificateValidationCallback = _originalCallback;
+
+                throw new WireMockHttpsStartupException(
+                    "WireMock HTTPS server failed to start. This typically occurs on CI runners " +
+                    "(e.g., GitHub Actions) where elevated privileges for SSL certificate binding are restricted. " +
+                    "Tests using WireMock should be skipped in this environment.",
+                    ex);
+            }
 
             // Create VssConnection pointing to WireMock with HTTPS
             // Use basic credentials (empty) - WireMock doesn't validate auth
@@ -95,6 +138,28 @@ namespace Qwiq.WireMock
             // NOTE: Do NOT call Connection.GetClient<T>() here!
             // The VssConnection requires the /_apis/connectionData endpoint to be mocked first.
             // The WorkItemTrackingClient property is lazily initialized when first accessed.
+        }
+
+        /// <summary>
+        /// Determines if an exception indicates an SSL certificate binding failure.
+        /// </summary>
+        private static bool IsSslBindingFailure(Exception ex)
+        {
+            // Check for common SSL binding failure patterns
+            // AggregateException wraps the actual HttpListenerException
+            if (ex is AggregateException aggEx && aggEx.InnerExceptions.Any(IsSslBindingFailure))
+            {
+                return true;
+            }
+
+            // HttpListenerException with error code 5 (Access Denied) or 183 (Cannot create file)
+            // indicates SSL certificate binding issues
+            var message = ex.Message?.ToUpperInvariant() ?? string.Empty;
+            return message.Contains("ACCESS") ||
+                   message.Contains("DENIED") ||
+                   message.Contains("CERTIFICATE") ||
+                   message.Contains("SSL") ||
+                   message.Contains("SERVICE START FAILED");
         }
 
         /// <summary>

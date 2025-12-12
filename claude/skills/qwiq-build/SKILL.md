@@ -5,6 +5,18 @@ description: Build system guidance for QWIQ including MSBuild configuration, Cen
 
 # QWIQ Build System
 
+## Quick Reference
+
+| Task | Command |
+|------|---------|
+| Standard build | `dotnet build Qwiq.sln -c Release` |
+| CI build (strict) | `dotnet build Qwiq.sln -c Release /p:PedanticMode=true` |
+| Fix file locking | `dotnet build /m:1 /nodeReuse:false` |
+| Add new package | Add version to `Directory.Packages.props`, reference without version in `.csproj` |
+| Query output path | `dotnet msbuild -getProperty:PackageOutputPath` |
+
+**Key files:** `Directory.Build.props` (shared props), `Directory.Packages.props` (versions), `.editorconfig` (analyzer rules)
+
 ## Purpose
 
 This skill provides guidance for the QWIQ build system, including SDK-style projects, Central Package Management, multi-targeting strategy, and MSBuild configuration. It helps resolve build errors and maintain consistency across project files.
@@ -121,6 +133,18 @@ dotnet clean; dotnet build; dotnet build
 dotnet build /p:ProduceReferenceAssembly=false
 ```
 
+## Anti-Patterns (What NOT to Do)
+
+| Anti-Pattern | Why It's Bad | Do This Instead |
+|--------------|--------------|-----------------|
+| `Version` on PackageReference | Breaks Central Package Management | Add version to `Directory.Packages.props` only |
+| Editing `Directory.Build.props` | Affects all projects, easy to break | Edit specific `.csproj` or `.editorconfig` |
+| `--warnaserror-` in CI | Hides real issues | Fix warnings in code or `.editorconfig` |
+| Hardcoding SDK version in workflow | Diverges from `global.json` | Use `global-json-file: ./global.json` |
+| Using `ubuntu-latest` runner | SOAP projects need Windows | Use `windows-latest` |
+| `dotnet build` without restore | Can fail on clean checkout | Run `dotnet restore` first or let build restore |
+| Modifying `global.json` casually | Affects all developers | Only change for coordinated SDK upgrades |
+
 ## Examples
 
 ### Example 1: Adding a New Package
@@ -146,7 +170,68 @@ dotnet build /p:ProduceReferenceAssembly=false
 
 **Expected output:** Build succeeds without file locking errors
 
+## Troubleshooting
+
+### Build succeeds locally but fails in CI
+
+**Cause:** CI uses `PedanticMode=true` (warnings as errors)
+
+**Fix:**
+```powershell
+# Reproduce CI locally
+dotnet build -c Release /p:ContinuousIntegrationBuild=true /m:1
+```
+
+Then fix the warning in code or adjust severity in `.editorconfig`.
+
+### "File in use" errors on Windows
+
+**Cause:** MSBuild node reuse holds file handles
+
+**Fix:**
+```powershell
+dotnet build /m:1 /nodeReuse:false
+# If persists:
+taskkill /f /im dotnet.exe
+dotnet clean && dotnet build
+```
+
+### Package version conflict
+
+**Symptom:** `NU1605` or version mismatch errors
+
+**Fix:**
+1. Check `Directory.Packages.props` for the package version
+2. Ensure `.csproj` has `<PackageReference Include="..." />` WITHOUT `Version` attribute
+3. Run `dotnet restore --force`
+
+### Multi-TFM build race condition
+
+**Symptom:** Intermittent build failures with file copy errors
+
+**Fix:**
+```powershell
+# Clean and rebuild twice
+dotnet clean && dotnet build && dotnet build
+# OR disable reference assemblies
+dotnet build /p:ProduceReferenceAssembly=false
+```
+
+### netstandard2.0 vs net472 API differences
+
+**Symptom:** Code compiles for one target but not another
+
+**Fix:** Use `#if` directives for TFM-specific code:
+```csharp
+#if NET472
+    // net472-specific code
+#else
+    // netstandard2.0/net8.0 code
+#endif
+```
+
 ## Related Resources
 
 - See [REFERENCE.md](./REFERENCE.md) for project layout and target frameworks
 - See [../qwiq-cicd/SKILL.md](../qwiq-cicd/SKILL.md) for CI build configuration
+- See [../qwiq-csharp/SKILL.md](../qwiq-csharp/SKILL.md) for C# coding patterns

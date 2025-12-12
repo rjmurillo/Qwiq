@@ -5,6 +5,18 @@ description: C# coding patterns for QWIQ including nullable reference types, nul
 
 # QWIQ C# Coding Patterns
 
+## Quick Reference
+
+| Task | Pattern |
+|------|---------|
+| Null parameter check | `if (param == null) throw new ArgumentNullException(nameof(param));` |
+| Null check in ctor base call | `base(service?.Property ?? throw new ArgumentNullException(nameof(service)))` |
+| Fix CS8618 (field not init) | Initialize in declaration or ALL constructors |
+| Nullable return | `public string? GetValue()` |
+| Null-conditional access | `obj?.Property?.Method()` |
+
+**Never use:** `null!`, `= null!`, JetBrains.Annotations, duplicate validation
+
 ## Purpose
 
 This skill provides guidance for writing and maintaining C# code in the QWIQ repository. It covers nullable reference types (enabled repository-wide), null validation patterns, exception handling, and architectural conventions that ensure consistency across the codebase.
@@ -128,6 +140,19 @@ Follow these established patterns:
 - **Reuse constants**: Use `CoreFieldRefNames`, `TestData.cs`, not literals
 - **Hide variations**: REST vs SOAP behind strategies/providers
 
+## Anti-Patterns (What NOT to Do)
+
+| Anti-Pattern | Why It's Bad | Do This Instead |
+|--------------|--------------|-----------------|
+| `= null!` suppression | Hides null safety issues, defeats NRT purpose | Initialize properly or make nullable |
+| `Contract.Requires` + null check | Duplicate validation, confusing | Choose ONE validation approach |
+| JetBrains.Annotations | Removed from codebase, conflicts with NRT | Use built-in nullable annotations |
+| Magic strings `"System.Id"` | Typo-prone, no compile-time check | Use `CoreFieldRefNames.Id` |
+| Empty catch `{ }` | Swallows errors silently | Log and rethrow or handle explicitly |
+| `public` fields | No encapsulation, breaking changes | Use properties with backing fields |
+| God classes | Too many responsibilities | Split into focused classes |
+| Concrete dependencies | Hard to test, tightly coupled | Depend on interfaces |
+
 ## Examples
 
 ### Example 1: Fixing Nullable Warning
@@ -154,7 +179,57 @@ Follow these established patterns:
 
 **Expected output:** Method throws `ArgumentNullException` for null input
 
+## Troubleshooting
+
+### CS8618: Non-nullable field not initialized
+
+**Symptom:** `Non-nullable field '_field' must contain a non-null value when exiting constructor`
+
+**Decision tree:**
+1. Should the field ever be null? → Yes: Add `?` to make it `MyType? _field`
+2. Can it be initialized at declaration? → Yes: `private readonly MyType _field = new();`
+3. Must it come from constructor? → Initialize in ALL constructors
+
+**Never:** Use `= null!` to suppress the warning
+
+### CS8602: Dereference of possibly null reference
+
+**Symptom:** Warning when accessing `.Property` on potentially null object
+
+**Fixes:**
+```csharp
+// Option 1: Null check first
+if (obj != null) { var x = obj.Property; }
+
+// Option 2: Null-conditional
+var x = obj?.Property;
+
+// Option 3: Null-coalescing with default
+var x = obj?.Property ?? defaultValue;
+```
+
+### CS8604: Possible null argument
+
+**Symptom:** Passing value to non-nullable parameter when compiler thinks it could be null
+
+**Fixes:**
+```csharp
+// Option 1: Add runtime null check before call
+if (value == null) throw new ArgumentNullException(nameof(value));
+DoSomething(value);  // Compiler now knows it's not null
+
+// Option 2: Use null-forgiving only if you KNOW it's not null
+DoSomething(value!);  // Only when logically certain
+```
+
+### Interface nullability mismatch
+
+**Symptom:** CS8619/CS8767 when implementation differs from interface
+
+**Fix:** Align nullability between interface and implementation. Update ALL implementations when changing interface.
+
 ## Related Resources
 
 - See [REFERENCE.md](./REFERENCE.md) for nullable migration status by project
 - See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for TDD requirements when refactoring
+- See [../nullable-migration/SKILL.md](../nullable-migration/SKILL.md) for migration tracking

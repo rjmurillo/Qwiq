@@ -21,6 +21,10 @@ namespace Qwiq.WireMock
     ///
     /// For integration tests against real Azure DevOps, use <see cref="TimedContextSpecification"/>
     /// with <see cref="IntegrationSettings.CreateRestStore"/>.
+    ///
+    /// Note: WireMock requires HTTPS because VssBasicCredential enforces secure connections.
+    /// On CI runners where HTTPS startup fails (due to SSL certificate binding privileges),
+    /// tests are automatically marked as inconclusive rather than failing.
     /// </remarks>
     [TestCategory("WireMock")]
 #pragma warning disable CA1001 // Disposable field '_context' is disposed in Cleanup() method
@@ -47,9 +51,32 @@ namespace Qwiq.WireMock
         /// <summary>
         /// Initializes the WireMock context using real captured Azure DevOps API responses.
         /// </summary>
+        /// <remarks>
+        /// If WireMock HTTPS startup fails (e.g., on CI runners without SSL certificate binding privileges),
+        /// the test will be marked as inconclusive rather than failing.
+        /// </remarks>
         public override void Given()
         {
-            _context = new WireMockRestStoreContext();
+            try
+            {
+                _context = new WireMockRestStoreContext();
+            }
+            catch (WireMockHttpsStartupException ex)
+            {
+                // Mark test as inconclusive when HTTPS startup fails
+                // This is expected on CI runners without SSL certificate binding privileges
+                System.Diagnostics.Trace.TraceWarning(
+                    "WireMock HTTPS startup failed. Test will be marked as inconclusive. " +
+                    "This is expected on CI runners without SSL certificate binding privileges. " +
+                    "Error: {0}", ex.Message);
+
+                Assert.Inconclusive(
+                    "WireMock HTTPS server could not start. This test requires HTTPS which needs " +
+                    "elevated privileges for SSL certificate binding. This is expected on CI runners " +
+                    "(e.g., GitHub Actions) where such privileges are restricted. " +
+                    "Run this test locally with administrator privileges. " +
+                    "Inner error: " + ex.InnerException?.Message);
+            }
 
             // Load real Azure DevOps API responses from captured stubs
             // This includes VssConnection handshake, projects, WIQL queries, work items, and work item types

@@ -16,14 +16,16 @@
 
 ### Test Projects (`test/`)
 
-| Project | Target Frameworks | Description |
-|---------|-------------------|-------------|
-| `Qwiq.Core.Tests` | net472;net8.0 | Core unit tests |
-| `Qwiq.Linq.Tests` | net472;net8.0 | LINQ provider tests |
-| `Qwiq.Mapper.Tests` | net472;net8.0 | Mapper tests |
-| `Qwiq.Identity.Tests` | net472;net8.0 | Identity tests |
-| `Qwiq.IntegrationTests` | net472 | Full integration tests |
-| `Qwiq.Mocks` | net472;net8.0 | Mock implementations |
+| Directory | Project Name | Target Frameworks | Description |
+|-----------|--------------|-------------------|-------------|
+| `Qwiq.Core.Tests` | `Qwiq.Core.UnitTests` | net472;net8.0 | Core unit tests |
+| `Qwiq.Linq.Tests` | `Qwiq.Linq.UnitTests` | net472;net8.0 | LINQ provider tests |
+| `Qwiq.Mapper.Tests` | `Qwiq.Mapper.UnitTests` | net472;net8.0 | Mapper tests |
+| `Qwiq.Identity.Tests` | `Qwiq.Identity.UnitTests` | net472;net8.0 | Identity tests |
+| `Qwiq.Integration.Tests` | `Qwiq.IntegrationTests` | net472 | Full integration tests |
+| `Qwiq.Mocks` | `Qwiq.Mocks` | net472;net8.0 | Mock implementations |
+| `Qwiq.Tests.Common` | `Qwiq.Tests.Common` | net472;net8.0 | Shared test utilities |
+| `Qwiq.Package.Tests` | `Qwiq.Package.Tests` | net8.0 | NuGet package validation |
 
 ## InternalsVisibleTo Configuration
 
