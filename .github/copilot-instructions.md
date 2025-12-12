@@ -1003,47 +1003,52 @@ description: "Syntax review"
 
 Select agent based on task type:
 
-```
-Task Type                          → Recommended Agent
-───────────────────────────────────────────────────────────────
-Code implementation (.NET/C#)      → csharp-expert or csharp-pod
-Code review / architecture review  → csharp-pod
-Technical documentation / PRDs     → create-explainer
-Task decomposition from PRD        → generate-tasks
-Challenge assumptions / feedback   → independent-thinker
-Feature scoping / gap analysis     → feature-request-review
-Strategic / architectural advice   → high-level-advisor
-AI agent development questions     → AIAgentExpert
-Autonomous multi-step work         → claudette-auto
-Push through blockers fast         → Beast Mode
-Build Claude skills                → claude-skill
-Java migration to Azure            → AppModernization
-Multi-agent task coordination      → orchestration
-Research & solution planning       → Plan
-```
+| Task Type                         | Recommended Agent           |
+| --------------------------------- | --------------------------- |
+| Code implementation (.NET/C#)     | csharp-expert or csharp-pod |
+| Code review / architecture review | csharp-pod                  |
+| Technical documentation / PRDs    | create-explainer            |
+| Task decomposition from PRD       | generate-tasks              |
+| Challenge assumptions / feedback  | independent-thinker         |
+| Feature scoping / gap analysis    | feature-request-review      |
+| Strategic / architectural advice  | high-level-advisor          |
+| AI agent development questions    | AIAgentExpert               |
+| Autonomous multi-step work        | claudette-auto              |
+| Push through blockers fast        | Beast Mode                  |
+| Build Claude skills               | claude-skill                |
+| Java migration to Azure           | AppModernization            |
+| Multi-agent task coordination     | orchestration               |
+| Research & solution planning      | Plan                        |
 
 ### Decision Tree
 
-```
-Is this a coding task?
-├─ Yes → Is design/architecture critical?
-│        ├─ Yes → csharp-pod (design-first approach)
-│        └─ No → Is speed critical?
-│                ├─ Yes → Beast Mode (fast iteration)
-│                └─ No → csharp-expert (balanced approach)
-└─ No → Is this documentation?
-        ├─ Yes → Is it a PRD/spec?
-        │        ├─ Yes → create-explainer
-        │        └─ No → Is it task breakdown?
-        │                ├─ Yes → generate-tasks
-        │                └─ No → Manual writing
-        └─ No → Is this review/feedback?
-                ├─ Yes → Is it feature scoping?
-                │        ├─ Yes → feature-request-review
-                │        └─ No → independent-thinker
-                └─ No → Is this strategic advice?
-                        ├─ Yes → high-level-advisor
-                        └─ No → Consider manual approach
+```mermaid
+flowchart TD
+    Start([Is this a coding task?])
+    Start -->|Yes| Design{Is design/architecture critical?}
+    Start -->|No| Doc{Is this documentation?}
+    
+    Design -->|Yes| Pod[csharp-pod<br/>design-first approach]
+    Design -->|No| Speed{Is speed critical?}
+    Speed -->|Yes| Beast[Beast Mode<br/>fast iteration]
+    Speed -->|No| Expert[csharp-expert<br/>balanced approach]
+    
+    Doc -->|Yes| PRD{Is it a PRD/spec?}
+    Doc -->|No| Review{Is this review/feedback?}
+    
+    PRD -->|Yes| Explainer[create-explainer]
+    PRD -->|No| Breakdown{Is it task breakdown?}
+    Breakdown -->|Yes| Tasks[generate-tasks]
+    Breakdown -->|No| Manual1[Manual writing]
+    
+    Review -->|Yes| Scoping{Is it feature scoping?}
+    Review -->|No| Strategic{Is this strategic advice?}
+    
+    Scoping -->|Yes| Feature[feature-request-review]
+    Scoping -->|No| Thinker[independent-thinker]
+    
+    Strategic -->|Yes| Advisor[high-level-advisor]
+    Strategic -->|No| Manual2[Consider manual approach]
 ```
 
 ### Conflict Resolution
