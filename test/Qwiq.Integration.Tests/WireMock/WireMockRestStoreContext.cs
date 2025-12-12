@@ -147,13 +147,9 @@ namespace Qwiq.WireMock
         {
             // Check for common SSL binding failure patterns
             // AggregateException wraps the actual HttpListenerException
-            if (ex is AggregateException aggEx)
+            if (ex is AggregateException aggEx && aggEx.InnerExceptions.Any(IsSslBindingFailure))
             {
-                foreach (var inner in aggEx.InnerExceptions)
-                {
-                    if (IsSslBindingFailure(inner))
-                        return true;
-                }
+                return true;
             }
 
             // HttpListenerException with error code 5 (Access Denied) or 183 (Cannot create file)
