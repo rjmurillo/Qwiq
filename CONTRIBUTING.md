@@ -55,7 +55,7 @@ dotnet test Qwiq.sln -c Release --filter "TestCategory!=localOnly&TestCategory!=
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 <type>(<scope>): <short description>
 
 <optional body with more details>
@@ -89,7 +89,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 
 **Examples:**
 
-```
+```text
 fix(core): add null guard to prevent NullReferenceException
 feat(linq): add support for Contains operator
 docs: update contributing guide with sandbox details
@@ -520,6 +520,7 @@ public class Bug : IIdentifiable<int?>
    ```
 
 2. Reference in your project file (without version):
+
    ```xml
    <PackageReference Include="NewPackage" />
    ```
@@ -547,11 +548,11 @@ If tests need access to internal types, add to the source project's `.csproj`:
 
 ### Common Issues
 
-**"Type is inaccessible due to its protection level"**
+#### "Type is inaccessible due to its protection level"
 
 Add `InternalsVisibleTo` to the source project (see [InternalsVisibleTo Setup](#internalsvisibleto-setup)).
 
-**Build fails with file locking errors**
+#### Build fails with file locking errors
 
 Use single-threaded build:
 
@@ -559,7 +560,7 @@ Use single-threaded build:
 dotnet build /m:1 /nodeReuse:false -v:minimal
 ```
 
-**SOAP tests fail with TF30063 authorization error**
+#### SOAP tests fail with TF30063 authorization error
 
 SOAP tests require Windows integrated authentication. MSA accounts with MFA are not supported. Use:
 
@@ -567,7 +568,7 @@ SOAP tests require Windows integrated authentication. MSA accounts with MFA are 
 dotnet test --filter "TestCategory!=SOAP"
 ```
 
-**Package restore fails**
+#### Package restore fails
 
 Clear NuGet cache:
 
