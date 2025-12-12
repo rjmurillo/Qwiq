@@ -44,9 +44,9 @@ Updated `/memories/orchestration-eval-2025-12-12.md` with Follow-up Work section
 
 ## Files Changed
 
-| File | Change Type | Lines |
-| ---- | ----------- | ----- |
-| `.github/copilot-instructions.md` | Modified | +141 |
+| File                              | Change Type | Lines |
+| --------------------------------- | ----------- | ----- |
+| `.github/copilot-instructions.md` | Modified    | +141  |
 
 ## Verification
 

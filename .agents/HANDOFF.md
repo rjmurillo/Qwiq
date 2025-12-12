@@ -1,17 +1,18 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-12 by Claudette (Session 29 - runSubagent Documentation)
-> **Current Phase**: Wave 2 🔄 IN PROGRESS | Waves 3-5 📋 RE-ACTIVATED
-> **Branch**: `chore/modernize-4`
+> **Last Updated**: 2025-12-12 by Copilot (Session 30 - W3.1 TFM Expansion)
+> **Current Phase**: Wave 3 🔄 IN PROGRESS | Waves 4-5 📋 RE-ACTIVATED
+> **Branch**: `copilot/sub-pr-97` (will merge to `chore/modernize-4`)
 > **Target**: Production v11.0.0 Release
 
 ---
 
 ## Current State
 
-**Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (208 passed, 1 skipped)
+**Build Status**: ✅ Passing - 0 errors, 0 warnings (with /p:NuGetAuditMode=direct)
+**Test Status**: ✅ 186/186 unit tests passing on net8.0
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
+**TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
 **Coverage**: 46.1% line coverage (target: **70%** for production)
 **Security**: ✅ CodeQL and Gitleaks workflows active
 
@@ -23,19 +24,40 @@
 - Kubernetes container deployment required
 - Must pass enterprise security review
 
-### Session Summary (runSubagent Documentation - 2025-12-12 Session 29)
+### Session Summary (W3.1 TFM Expansion - 2025-12-12 Session 30)
 
-**Purpose**: Document runSubagent orchestration capabilities in copilot-instructions.md based on prior orchestration agent evaluation (9 sources analyzed).
+**Purpose**: Expand Target Framework Monikers from 2 to 6 frameworks to support production deployment on modern .NET runtimes and Kubernetes containers.
 
 **Work Completed**:
 
-1. ✅ Added "⚠️ Critical Limitations" subsection (no recursion, context isolation, tool bug, fallback behavior)
-2. ✅ Added "Custom Agent Model Selection" subsection with VS Code settings
-3. ✅ Added `orchestration` and `Plan` agents to Available Agents table
-4. ✅ Updated Routing Heuristics with new task types
-5. ✅ Updated memory file with follow-up work documentation
+1. ✅ Updated 12 project files (.csproj) with expanded TFMs
 
-**Verification**: Build 0 errors, Tests 208 passed
+   - 7 source projects: Core, Core.Rest, Identity, Linq, Mapper, Mapper.Identity, Linq.Identity
+   - 5 test/mock projects: Core.Tests, Linq.Tests, Mapper.Tests, Identity.Tests, Mocks
+   - Changed from `net472;net8.0` to `net472;net48;net481;net8.0;net9.0;net10.0`
+
+2. ✅ Updated `Directory.Build.props` for .NET Framework support
+
+   - Changed condition from `'$(TargetFramework)' == 'net472'` to `$(TargetFramework.StartsWith('net4'))`
+   - Enables `Microsoft.NETFramework.ReferenceAssemblies` for all net4\* targets
+
+3. ✅ Fixed test exclusion condition in Core.Tests
+
+   - Changed from `== 'net8.0'` to `!= 'net472'` for cross-version compatibility
+
+4. ✅ Fixed XML formatting in Identity.Tests and Mapper.Tests
+   - Reformatted from single-line to multi-line XML with proper indentation
+
+**Verification**:
+
+- Build: ✅ 0 errors, 0 warnings
+- Tests: ✅ 186/186 passed on net8.0
+- Packages: ✅ All 6 TFMs confirmed in Qwiq.Core.10.0.44-g90be698915.nupkg
+
+**Commits**:
+
+- `7133898` - feat(tfm): expand target frameworks to net472;net48;net481;net8.0;net9.0;net10.0
+- `dc7791d` - fix(format): reformat Identity and Mapper test project files with proper XML formatting
 
 ---
 

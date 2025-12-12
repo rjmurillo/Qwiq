@@ -1027,26 +1027,26 @@ flowchart TD
     Start([Is this a coding task?])
     Start -->|Yes| Design{Is design/architecture critical?}
     Start -->|No| Doc{Is this documentation?}
-    
+
     Design -->|Yes| Pod[csharp-pod<br/>design-first approach]
     Design -->|No| Speed{Is speed critical?}
     Speed -->|Yes| Beast[Beast Mode<br/>fast iteration]
     Speed -->|No| Expert[csharp-expert<br/>balanced approach]
-    
+
     Doc -->|Yes| PRD{Is it a PRD/spec?}
     Doc -->|No| Review{Is this review/feedback?}
-    
+
     PRD -->|Yes| Explainer[create-explainer]
     PRD -->|No| Breakdown{Is it task breakdown?}
     Breakdown -->|Yes| Tasks[generate-tasks]
     Breakdown -->|No| Manual1[Manual writing]
-    
+
     Review -->|Yes| Scoping{Is it feature scoping?}
     Review -->|No| Strategic{Is this strategic advice?}
-    
+
     Scoping -->|Yes| Feature[feature-request-review]
     Scoping -->|No| Thinker[independent-thinker]
-    
+
     Strategic -->|Yes| Advisor[high-level-advisor]
     Strategic -->|No| Manual2[Consider manual approach]
 ```

@@ -392,6 +392,7 @@ Only implement changes that:
 - [ ] **5.2: Document build time tradeoffs**
 
   - In copilot-instructions.md, add note in "Build Commands" section:
+
     ```markdown
     **CI Build Performance**: CI builds use `/p:ContinuousIntegrationBuild=true` which:
 
