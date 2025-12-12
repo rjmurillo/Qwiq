@@ -22,7 +22,8 @@
 | 6 | Task | Child Task 2 for Hierarchy | Second child of ID 3 |
 
 **Hierarchy Structure:**
-```
+
+```text
 User Story (ID: 3) - "Parent Story for Integration Tests"
 ├── Task (ID: 2) - "Child Task for Integration Tests"
 └── Task (ID: 6) - "Child Task 2 for Hierarchy"
