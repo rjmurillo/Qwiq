@@ -160,10 +160,8 @@ Before submitting changes, verify:
 
 ```markdown
 <!-- ❌ WRONG: No language identifier -->
-```
-
+````text
 dotnet build
-
 ````
 
 <!-- ✅ CORRECT: With language identifier -->
@@ -172,25 +170,22 @@ dotnet build
 ````
 
 <!-- ❌ WRONG: Bold instead of heading -->
-
-**Section Title**
+<!-- **Section Title** -->
 
 <!-- ✅ CORRECT: Proper heading -->
+<!-- ## Section Title -->
 
-## Section Title
+Use proper headings (`##`) instead of bold text (`**...**`) for sections.
 
 <!-- ❌ WRONG: Inconsistent list markers -->
-
-- Item 1
-
-* Item 2
+<!-- - Item 1 -->
+<!-- * Item 2 -->
 
 <!-- ✅ CORRECT: Consistent list markers -->
+<!-- - Item 1 -->
+<!-- - Item 2 -->
 
-- Item 1
-- Item 2
-
-```
+Use consistent list markers (always `-`, never mix with `*`).
 
 ## Decision Trees
 
@@ -210,4 +205,3 @@ dotnet build
 
 - [generic.instructions.md](generic.instructions.md) - For multi-file changes
 - [csharp.instructions.md](csharp.instructions.md) - For code examples in docs
-```
