@@ -115,7 +115,8 @@ results.ShouldHaveSingleItem();
 
 When refactoring, especially for nullable fixes:
 
-**Step 1: Write Tests FIRST**
+#### Step 1: Write Tests FIRST
+
 ```csharp
 [TestMethod]
 public void Parameterless_constructor_should_allow_field_operations()
@@ -127,11 +128,17 @@ public void Parameterless_constructor_should_allow_field_operations()
 }
 ```
 
-**Step 2: Verify Tests Pass** with current implementation
+#### Step 2: Verify Tests Pass
 
-**Step 3: Make Changes** (minimal, behavior-preserving)
+Verify tests pass with current implementation before making changes.
 
-**Step 4: Verify Tests Still Pass**
+#### Step 3: Make Changes
+
+Make minimal, behavior-preserving changes.
+
+#### Step 4: Verify Tests Still Pass
+
+Run tests again to confirm no regressions.
 
 ### 6. Assertion Patterns
 
