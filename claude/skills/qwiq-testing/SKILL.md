@@ -199,6 +199,7 @@ start ./artifacts/coverage/index.html
 - Excluded: Test projects, mocks, benchmarks, generated code
 
 **Coverage Guidelines:**
+
 | Metric | Minimum | Target |
 |--------|---------|--------|
 | Line Coverage (new code) | 70% | 80% |
