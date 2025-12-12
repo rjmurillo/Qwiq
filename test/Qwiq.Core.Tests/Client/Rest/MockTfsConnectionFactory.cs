@@ -1,7 +1,6 @@
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi;
-using Moq;
 using Qwiq.Credentials;
 using System;
 

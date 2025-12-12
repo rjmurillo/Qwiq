@@ -55,7 +55,7 @@ slsa-verifier verify-artifact \
 
 **Expected output:**
 
-```
+```txt
 Verified signature against tlog entry index 123456789 at URL: https://rekor.sigstore.dev/api/v1/log/entries/...
 Verified build using builder "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.0.0" at commit <commit-sha>
 Verifying artifact Qwiq.Core.10.0.0.nupkg: PASSED

@@ -216,7 +216,7 @@ jobs:
           dotnet sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ steps.nbgv.outputs.version }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
 
       - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: success()
         with:
           name: sbom-${{ matrix.os }}

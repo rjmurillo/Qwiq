@@ -20,7 +20,6 @@ namespace Qwiq.Soap
     /// The TFS Client OM (Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore) is NOT mocked.
     /// Instead, we inject mock implementations via factory functions.
     /// </remarks>
-    [TestClass]
     public abstract class SoapContextSpecification : ContextSpecification
     {
         private Mock<IInternalTeamProjectCollection>? _mockTeamProjectCollection;

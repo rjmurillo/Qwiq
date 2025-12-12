@@ -41,7 +41,7 @@ We will use **.NET Central Package Management (CPM)** via `Directory.Packages.pr
 
 #### Directory Structure
 
-```
+```text
 Qwiq/
 ├── Directory.Build.props          # Shared MSBuild properties
 ├── Directory.Build.targets        # Shared MSBuild targets

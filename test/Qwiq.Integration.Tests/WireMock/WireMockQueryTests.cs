@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Linq;
-using WireMock.Server;
 
 namespace Qwiq.WireMock
 {

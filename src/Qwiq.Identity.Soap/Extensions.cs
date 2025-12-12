@@ -18,8 +18,6 @@ namespace Qwiq.Identity.Soap
         /// <exception cref="ArgumentNullException">teamProjectCollection</exception>
         public static IIdentityManagementService GetIdentityManagementService(this ITeamProjectCollection teamProjectCollection)
         {
-            Contract.Requires(teamProjectCollection != null);
-
             ArgumentNullException.ThrowIfNull(teamProjectCollection);
             return ((IInternalTeamProjectCollection)teamProjectCollection).GetService<IIdentityManagementService2>().AsProxy();
         }

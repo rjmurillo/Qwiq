@@ -40,7 +40,7 @@ We will provide **two separate client implementations** (REST and SOAP) that bot
 
 ### Architecture
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │           Consumer Application           │
 └───────────┬─────────────────────────────┘

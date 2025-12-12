@@ -25,6 +25,7 @@ namespace Microsoft.CodeAnalysis
     /// is linked into multiple projects.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    [System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false, Inherited = false)]
     internal sealed class EmbeddedAttribute : System.Attribute
     {
     }
