@@ -21,7 +21,8 @@ This repository uses markdownlint and Prettier for markdown formatting:
 
 - **Configuration**: `.markdownlint-cli2.yaml`, `.prettierrc`
 - **Run linting**: `dotnet pprettier --check "**/*.md"`
-- **Auto-fix**: `dotnet pprettier --write "**/*.md"`
+- **Auto-fix Prettier**: `dotnet pprettier --write .`
+- **Auto-fix Markdown lint**: `npx markdownlint-cli2 --fix "**/*.md"`
 
 ## Context Loading
 

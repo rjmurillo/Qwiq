@@ -260,7 +260,10 @@ results.ShouldHaveSingleItem();
 dotnet format
 
 # Markdown/JSON formatting (via PackedPrettier)
-dotnet pprettier --write "**/*.md"
+dotnet pprettier --write .
+
+# Markdown linting (auto-fix)
+npx markdownlint-cli2 --fix "**/*.md"
 
 # Check formatting without changes
 dotnet pprettier --check "**/*.md"
