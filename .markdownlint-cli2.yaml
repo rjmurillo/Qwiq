@@ -79,3 +79,6 @@ ignores:
   # Verify snapshot files have their own formatting rules
   - "**/*.verified.md"
   - "**/*.received.md"
+  # PROMPTS.md contains nested code blocks (prompts with embedded code samples)
+  # These are intentional and can't be linted correctly
+  - ".agents/PROMPTS.md"
