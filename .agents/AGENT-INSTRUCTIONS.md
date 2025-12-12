@@ -20,13 +20,13 @@ Before starting work, complete these steps IN ORDER:
 
 ## Document Hierarchy
 
-| Document | Purpose | When to Update |
-|----------|---------|----------------|
-| `AGENT-INSTRUCTIONS.md` | How to execute work (this file) | Rarely - only if process changes |
-| `modernize-TODO.md` | Task tracking, checkboxes, progress | After EVERY task completion |
-| `modernize-explainer.md` | Architecture, decisions, rationale | When design decisions are made |
-| `HANDOFF.md` | Session-to-session context transfer | At END of every session |
-| `sessions/*.md` | Detailed session logs | Throughout session |
+| Document                 | Purpose                             | When to Update                   |
+| ------------------------ | ----------------------------------- | -------------------------------- |
+| `AGENT-INSTRUCTIONS.md`  | How to execute work (this file)     | Rarely - only if process changes |
+| `modernize-TODO.md`      | Task tracking, checkboxes, progress | After EVERY task completion      |
+| `modernize-explainer.md` | Architecture, decisions, rationale  | When design decisions are made   |
+| `HANDOFF.md`             | Session-to-session context transfer | At END of every session          |
+| `sessions/*.md`          | Detailed session logs               | Throughout session               |
 
 ---
 
@@ -36,6 +36,7 @@ Before starting work, complete these steps IN ORDER:
 
 ```markdown
 ## Session Start Checklist
+
 - [ ] Created session log: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 - [ ] Read HANDOFF.md from previous session
 - [ ] Identified all tasks in assigned phase
@@ -47,11 +48,13 @@ Before starting work, complete these steps IN ORDER:
 ### 2. Task Execution (FOR EACH TASK)
 
 **Before starting a task:**
+
 1. Read the full task description in `modernize-TODO.md`
 2. Understand acceptance criteria
 3. Plan the implementation approach
 
 **During task execution:**
+
 1. Work incrementally - small, atomic changes
 2. Commit frequently with conventional commit messages
 3. Run `dotnet format` after code changes
@@ -59,6 +62,7 @@ Before starting work, complete these steps IN ORDER:
 5. Run tests after each significant change
 
 **After completing a task:**
+
 1. ✅ Check off the task in `modernize-TODO.md`
 2. Update session log with:
    - What was done
@@ -73,6 +77,7 @@ Before starting work, complete these steps IN ORDER:
 
 ```markdown
 ## Session End Checklist
+
 - [ ] All assigned tasks checked off in modernize-TODO.md
 - [ ] Session log complete with all details
 - [ ] HANDOFF.md updated with:
@@ -101,6 +106,7 @@ Use conventional commits:
 ```
 
 **Types:**
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `docs` - Documentation only
@@ -109,6 +115,7 @@ Use conventional commits:
 - `test` - Adding/fixing tests
 
 **Examples:**
+
 ```
 chore(ci): pin GitHub Actions to SHA
 
@@ -137,16 +144,18 @@ Refs: W2.5
 
 Create this file at session start: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 
-```markdown
+````markdown
 # Session Log: Phase XX - [Date]
 
 ## Session Info
+
 - **Date**: YYYY-MM-DD
 - **Phase**: 2A (or whichever phase)
 - **Branch**: `chore/modernize-wave-2`
 - **Starting Commit**: [SHA]
 
 ## Pre-Flight Checks
+
 - [ ] Build passes
 - [ ] Tests pass (X/X)
 - [ ] Read HANDOFF.md
@@ -155,26 +164,33 @@ Create this file at session start: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 ## Tasks Completed
 
 ### W2.XX - [Task Name]
+
 **Status**: ✅ Complete | 🔄 In Progress | ❌ Blocked
 
 **What was done**:
+
 - [Specific changes made]
 
 **Decisions made**:
+
 - [Decision]: [Rationale]
 
 **Challenges**:
+
 - [Challenge]: [Resolution]
 
 **Files changed**:
+
 - `path/to/file.cs` - [description]
 
 **Commits**:
+
 - `abc1234` - [commit message]
 
 ---
 
 ### W2.YY - [Task Name]
+
 [Same structure]
 
 ---
@@ -186,6 +202,7 @@ Create this file at session start: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 **Next up**: [What the next session should do]
 
 ## Verification Commands
+
 ```powershell
 # Verify build
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
@@ -196,12 +213,15 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 # Verify specific changes
 [any specific verification commands]
 ```
+````
 
 ## Notes for Next Session
+
 - [Important context]
 - [Gotchas discovered]
 - [Recommendations]
-```
+
+````
 
 ---
 
@@ -250,22 +270,24 @@ The next session should:
 git log --oneline -5
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
-```
+````
 
 ## Session History
 
-| Date | Phase | Tasks | Status |
-|------|-------|-------|--------|
-| YYYY-MM-DD | 2A | W2.5, W2.2 | ✅ Complete |
-| YYYY-MM-DD | 2A | W2.15 | 🔄 In Progress |
+| Date       | Phase | Tasks      | Status         |
+| ---------- | ----- | ---------- | -------------- |
+| YYYY-MM-DD | 2A    | W2.5, W2.2 | ✅ Complete    |
+| YYYY-MM-DD | 2A    | W2.15      | 🔄 In Progress |
 
 ## Files to Review
 
 If you need context, read these files in order:
+
 1. `.agents/AGENT-INSTRUCTIONS.md` (this process)
 2. `.agents/modernize-TODO.md` (task details)
 3. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
-```
+
+````
 
 ---
 
@@ -305,9 +327,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 # Format code
 dotnet format Qwiq.sln
-```
+````
 
 ### Git Operations
+
 ```powershell
 # Check status
 git status
@@ -324,6 +347,7 @@ git add -f .agents/sessions/*.md
 ```
 
 ### Verification
+
 ```powershell
 # Count warnings
 dotnet build Qwiq.sln -c Release 2>&1 | Select-String "warning"
@@ -337,6 +361,7 @@ Select-String -Path ".github/workflows/*.yml" -Pattern "uses:"
 ## Critical Reminders
 
 ### DO:
+
 - ✅ Read ALL instructions before starting
 - ✅ Work incrementally with small commits
 - ✅ Update documentation as you go
@@ -347,6 +372,7 @@ Select-String -Path ".github/workflows/*.yml" -Pattern "uses:"
 - ✅ Force-add `.agents/` files if needed
 
 ### DON'T:
+
 - ❌ Skip the pre-flight checklist
 - ❌ Make large commits with multiple unrelated changes
 - ❌ Forget to update modernize-TODO.md checkboxes
@@ -369,6 +395,6 @@ If something goes wrong:
 
 ## Document Control
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2025-12-06 | Initial agent instructions |
+| Version | Date       | Changes                    |
+| ------- | ---------- | -------------------------- |
+| 1.0     | 2025-12-06 | Initial agent instructions |

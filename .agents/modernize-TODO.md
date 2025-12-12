@@ -4,6 +4,7 @@
 > This document serves as the synchronization point for agent coordination.
 >
 > **Companion Documents**:
+>
 > - [AGENT-INSTRUCTIONS.md](./AGENT-INSTRUCTIONS.md) - **READ FIRST** - How Copilot agents execute work
 > - [HANDOFF.md](./HANDOFF.md) - Session-to-session context transfer
 > - [PROMPTS.md](./PROMPTS.md) - Standard prompts for starting/ending sessions
@@ -18,20 +19,22 @@
 >
 > **Session 27 maintenance mode decision REVERSED based on critical user context:**
 >
-> | Factor | Previous Assumption | Actual Reality |
-> |--------|---------------------|----------------|
-> | User base | "Nobody uses this" | 100+ team members planned for production |
-> | Downloads/day | CI pipelines only | Internal enterprise usage |
-> | Target | Maintenance mode | MCP extension for AI agents + Kubernetes |
-> | Version | 2.0.0 sunset | v11.0.0 (fork of LeCantaloop/Qwiq 10.0.1) |
-> | Breaking changes | Avoided | OK - new major version |
+> | Factor           | Previous Assumption | Actual Reality                            |
+> | ---------------- | ------------------- | ----------------------------------------- |
+> | User base        | "Nobody uses this"  | 100+ team members planned for production  |
+> | Downloads/day    | CI pipelines only   | Internal enterprise usage                 |
+> | Target           | Maintenance mode    | MCP extension for AI agents + Kubernetes  |
+> | Version          | 2.0.0 sunset        | v11.0.0 (fork of LeCantaloop/Qwiq 10.0.1) |
+> | Breaking changes | Avoided             | OK - new major version                    |
 >
 > **Multi-agent reconciliation (3 agents):**
+>
 > - ✅ high-level-advisor: Maintenance mode was WRONG - new priority stack defined
 > - ✅ csharp-expert: TFM validated (net472;net8.0;net9.0 - NOT net462-net471)
 > - ✅ feature-request-review: Plan validated, coverage target 70%, W2.25 MEDIUM-HIGH
 >
 > **Production Requirements:**
+>
 > - 🔐 Enterprise security review readiness
 > - 🐳 Kubernetes container deployment (REST client)
 > - 📊 70% code coverage target
@@ -45,6 +48,7 @@
 **Current Branch**: `feat/modernize-3` (commit: 767b30f0)
 
 **Session 28 Key Decision: PRODUCTION v11.0.0 RELEASE**
+
 - ✅ **Wave 1 COMPLETE (25/26)** - W1.18 deferred pending W2.2 (API compat baselines)
 - ✅ **Build is clean** - 0 warnings, 0 errors
 - 🔄 **Wave 3 RE-ACTIVATED** - TFM expansion required for containers
@@ -79,12 +83,14 @@
 | **Tier 3 MEDIUM** | W5.6 | 4-6h | Migration Guide v10→v11 |
 
 **Production Timeline (6-8 weeks)**:
+
 - **Week 1-2**: Security baseline (W2.22, W2.32, W5.1, W3.10)
 - **Week 3-4**: TFM expansion + null! cleanup (W3.1, W2.25)
 - **Week 5-6**: Documentation + container guide (W5.2, W5.6)
 - **Week 7-8**: Final testing + v11.0.0 release (W2.33)
 
 **Build/Test Commands**:
+
 ```powershell
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
@@ -94,18 +100,19 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 ## Quick Reference
 
-| Wave | Status | Tasks | Completed | Notes |
-|------|--------|-------|-----------|-------|
-| Wave 0 | ✅ Complete | 6 | 6/6 | Foundation |
-| Wave 1 | ✅ Complete | 26 | 25/26 | W1.18 deferred |
-| Wave 2 | 🔄 In Progress | 27 | 10/27 | Security baseline |
-| Wave 3 | 📋 Re-Activated | 13 | 0/13 | TFM expansion + signing |
-| Wave 4 | 📋 Re-Activated | 25 | 0/25 | 70% coverage target |
-| **Wave 5** | 🆕 **NEW** | 8 | 0/8 | **Enterprise Production** |
+| Wave       | Status          | Tasks | Completed | Notes                     |
+| ---------- | --------------- | ----- | --------- | ------------------------- |
+| Wave 0     | ✅ Complete     | 6     | 6/6       | Foundation                |
+| Wave 1     | ✅ Complete     | 26    | 25/26     | W1.18 deferred            |
+| Wave 2     | 🔄 In Progress  | 27    | 10/27     | Security baseline         |
+| Wave 3     | 📋 Re-Activated | 13    | 0/13      | TFM expansion + signing   |
+| Wave 4     | 📋 Re-Activated | 25    | 0/25      | 70% coverage target       |
+| **Wave 5** | 🆕 **NEW**      | 8     | 0/8       | **Enterprise Production** |
 
 **Note**: All waves active for production v11.0.0 release. W2.33 (NuGet Publish) renamed to v11.0.0.
 
 **Session 28 Strategic Decision (Multi-Agent Reconciliation)**:
+
 - 🎯 **PRODUCTION v11.0.0** in 6-8 weeks
 - ✅ Wave 1 complete (25/26, W1.18 deferred)
 - ✅ Build clean: 0 warnings, 0 errors
@@ -115,6 +122,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 - 🎯 100+ team members planned for production use
 
 **Wave 2 Changes (Session 12-28)**:
+
 - ➡️ W2.8 (IConfiguration) → Deferred to W3.9 (RE-ACTIVATED)
 - ➡️ W2.9 (ILogger) → Deferred to W3.8 (RE-ACTIVATED)
 - ➡️ W2.1 (OpenTelemetry) → Deferred to W3.8 (RE-ACTIVATED)
@@ -134,11 +142,13 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 - ➕ **W2.33**: NuGet v11.0.0 Publish (CRITICAL)
 
 **Session 28 Priority Adjustments (REVERSE Session 27)**:
+
 - ⬆️ W2.21 (Markdown Linting) restored: LOW → **MEDIUM** (professional production docs)
 - ⬆️ **W2.25 (null! cleanup) elevated: LOW → MEDIUM-HIGH** (20+ in production code!)
 - ✏️ **W2.33** (NuGet Publish) renamed: 2.0.0 → **v11.0.0** (production release)
 
 **Key TFM Decision (Updated December 12, 2025)**:
+
 - ⚠️ net462, net47, net471 **CANNOT** be supported (SDK requires net472+)
 - ✅ net472;net48;net481;net8.0;net9.0;net10.0 for most projects
   - **net48/net481 provide value**: Compiler optimizations, different binding decisions (NOT just binary compat)
@@ -151,16 +161,16 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 > **✅ RESOLVED**: The "~400 suppressed rules" was a measurement artifact from counting all `.editorconfig` entries.
 > **Actual state**: Only **8 active suppressions** remain, all with documented design justifications.
 
-| Rule | Count | Status | Justification |
-|------|-------|--------|---------------|
-| CS1591 | ~4200 | 🟡 Deferred | XML docs - large effort, low ROI for internal library |
-| CS0618 | 1 | 🟡 Deferred | TimeZone obsolete - breaking API change |
-| CA1707 | 868 | ✅ Intentional | Test naming pattern (Given_When_Then) |
-| CA1716 | 78 | ✅ Intentional | Keyword conflicts - intentional API design |
-| CA1822 | 36 | 🟡 Deferred | Static methods - API compatibility |
-| CA1859 | 30 | ✅ Intentional | Concrete types - intentional abstraction |
-| CA1863 | 20 | 🟡 Deferred | CompositeFormat - .NET 8+ only |
-| CA2263 | scoped | ✅ Intentional | Test-specific - appropriate scope |
+| Rule   | Count  | Status         | Justification                                         |
+| ------ | ------ | -------------- | ----------------------------------------------------- |
+| CS1591 | ~4200  | 🟡 Deferred    | XML docs - large effort, low ROI for internal library |
+| CS0618 | 1      | 🟡 Deferred    | TimeZone obsolete - breaking API change               |
+| CA1707 | 868    | ✅ Intentional | Test naming pattern (Given_When_Then)                 |
+| CA1716 | 78     | ✅ Intentional | Keyword conflicts - intentional API design            |
+| CA1822 | 36     | 🟡 Deferred    | Static methods - API compatibility                    |
+| CA1859 | 30     | ✅ Intentional | Concrete types - intentional abstraction              |
+| CA1863 | 20     | 🟡 Deferred    | CompositeFormat - .NET 8+ only                        |
+| CA2263 | scoped | ✅ Intentional | Test-specific - appropriate scope                     |
 
 **Security/Reliability Rules**: ✅ All enabled (65 security + 5 reliability rules) - zero violations
 
@@ -170,29 +180,29 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 ## Session Activity Log
 
-| Date | Activities | Validation |
-|------|------------|------------|
-| 2025-12-12 (Session 28) | **Documentation Reconciliation**: Updated 7 documentation files with critical corrections: (1) .NET 10 is GA (Nov 11, 2025), LTS until Nov 2028 - NOT "defer". (2) net48/net481 provide compiler optimizations, NOT just binary compat. (3) Branch corrected from `chore/modernize-wave-2` to `feat/modernize-3`. (4) Production v11.0.0 context added (100+ team members). (5) Waves 3-4 RE-ACTIVATED, Wave 5 ADDED. Files updated: copilot-instructions.md, modernize-explainer.md, modernize-TODO.md, PROMPTS.md, analyzer-debt-inventory.md, HANDOFF.md, memory file. See: `.agents/sessions/2025-12-12-session-28-documentation-reconciliation.md` | Build: ✅ 0 errors, 0 warnings. Docs: ✅ 7 files updated. TFM: ✅ Corrected to net472;net48;net481;net8.0;net9.0;net10.0. |
-| 2025-12-12 (Session 26) | **Multi-Agent Consensus Analysis**: Invoked 5 subagents (csharp-expert, feature-request-review, independent-thinker, create-explainer, generate-tasks) to audit analyzer debt claims. **Key Findings**: (1) Wave 1 is 25/26 complete - W1.18 deferred pending W2.2 (API compat baselines). (2) "~400 suppressed rules" was a measurement artifact - only 8 active suppressions exist (all design decisions). (3) Build is clean: 0 warnings, 0 errors. (4) Polyfill work complete (ThrowIfNull, ThrowIfNegative, ThrowIfNegativeOrZero, ThrowIfZero, ThrowIfEqual). (5) Original 7+ day remediation plan cancelled - problem doesn't exist. **Actions**: Added W2.32 (CI Warning Gate), updated Quick Reference, documented 8 active suppressions with justifications, updated modernize-explainer.md Gap 1 as RESOLVED. See: `.agents/sessions/2025-12-12-session-26-ca-debt-analysis.md` | Build: ✅ 0 errors, 0 warnings. Docs: ✅ Updated. Consensus: ✅ 5/5 agents agreed. |
-| 2025-12-11 (Session 25) | **Wave 4: Test Quality & Coverage Excellence**: Deep analysis of code coverage gaps using multi-agent consensus (csharp-expert, feature-request-review, independent-thinker). Created comprehensive Wave 4 with 25 tasks across 5 phases: (1) Baseline & Planning - metrics collection, SOAP usage assessment; (2) Mutation Testing Setup - Stryker.NET integration, CI workflow; (3) WireMock Integration - offline test infrastructure, recording capture; (4) Test Quality Improvements - flaky test remediation, 65% mutation score target; (5) Documentation - TESTING.md update, ADRs. Key decisions: mutation testing before coverage expansion, test stabilization before mutation runs, SOAP spike-then-deprecate strategy. Success criteria: 65% mutation score on REST core, <0.1% flake rate, 80% offline tests. Timeline: 18-20 weeks (Q1-Q2 2026). See: Wave 4 section below. | Docs: ✅ 25 tasks added. Multi-agent consensus achieved. |
-| 2025-12-11 (Session 24) | **Wave 2 Task Generation from PR #65 Bot Feedback**: Added 11 new Wave 2 tasks (W2.21-W2.31) addressing code quality, security hardening, and documentation issues identified by bot review. Tasks include: markdown linting config (W2.21), GitHub Actions SHA pinning (W2.22), artifact version standardization (W2.23), PowerShell parameter metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow runner documentation (W2.30), and SLSA verification docs fix (W2.31). Updated Wave 2 task count from 14 to 25. See: New Phase 2F section. | Docs: ✅ 11 tasks added with effort estimates, priorities, and acceptance criteria. |
-| 2025-12-11 (Session 23) | **Coverage.runsettings Modernization**: (1) Modernized `coverage.runsettings` with best practices from moq.analyzers reference. (2) Added comprehensive XML documentation, Cobertura format, explicit Qwiq assembly includes. (3) Updated TESTING.md, CONTRIBUTING.md, copilot-instructions.md with coverage documentation. (4) Updated Claude skill documents (qwiq-testing SKILL.md and REFERENCE.md). (5) Validated XPlat Code Coverage workflow - 46.1% line coverage achieved. See: `.agents/sessions/2025-12-11-coverage-runsettings.md` | Build: ✅ Passes. Tests: ✅ Pass with coverage. Coverage: ✅ 46.1% line. Git: ✅ 5 commits (b1fbc83e, 0f2965b2, ca97d2bf, 900c30f8, 889416aa). |
-| 2025-12-10 (Session 22) | **Documentation hygiene**: Relocated all session logs into `.agents/sessions/`, updated internal links (including `session-handoff-test-failures.md` location), and confirmed no remaining stale `.agents/session-` references. | Build: ☐ (not run, docs-only). Tests: ☐ (not run). |
-| 2025-12-09 (Session 21) | **Phase 2C Evaluation**: (1) Created session log `.agents/sessions/2025-12-09-phase-2c-evaluation.md`. (2) Verified W2.4 (Benchmark CI) ✅ COMPLETE - all 3 benchmark projects compile in CI. (3) Verified W2.16 Phase 1 (REST offline) ✅ COMPLETE - 9 WireMock tests, ADR-008, infrastructure documented. (4) Confirmed W2.16 Phase 2 (SOAP offline) NOT STARTED. (5) Confirmed W2.3 (Contract Tests) BLOCKED by W2.16. (6) Documented pre-existing build issues: CS7069 TimeZone type forwarding errors with .NET 10.0.100 SDK affecting net472 builds. See: `.agents/sessions/2025-12-09-phase-2c-evaluation.md` | Build: ⚠️ Unstable (CS7069 errors - pre-existing). Tests: ☐ (not verified - build prerequisite). Phase 2C: W2.4 ✅, W2.16-P1 ✅, W2.16-P2 ⏸️, W2.3 ⏸️. |
-| 2025-12-06 (Session 19) | **SBOM Tool Fix**: Fixed SBOM generation in GitHub Actions. The `microsoft/sbom-tool` GitHub Action is a container action that only works on Linux. (1) Added `microsoft.sbom.dotnettool` v4.1.4 to `.config/dotnet-tools.json`. (2) Updated workflows to use `dotnet sbom-tool generate` CLI. (3) Use nbgv version for SBOM. (4) Run SBOM on both Windows and Linux. (5) DRYed out workflows - release.yml downloads SBOM from main.yml build. (6) Standardized all shells to `pwsh`. See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 196 passed. Git: ✅ 6 commits pushed (0bbc269e, f15b63a8, 66c636aa, 91c04624, e931efd8, 236a2891). |
-| 2025-12-06 (Session 18) | **Phase 2B: Supply Chain Security COMPLETE**: (1) W2.17 - Added SLSA Level 3 provenance generation to release workflow with hashes job and slsa-framework/slsa-github-generator@v2.0.0. Created docs/SLSA-VERIFICATION.md with verification instructions. (2) W2.13 - Added dual-pipeline SBOM generation (validation in main.yml, authoritative in release.yml) using microsoft/sbom-tool@v2 for SPDX 2.3 format. Created docs/SBOM.md with usage examples and compliance mapping. (3) W2.14 - Enhanced dependency-review.yml with license policy enforcement (deny GPL/AGPL/LGPL, allow MIT/Apache/BSD/0BSD) and moderate+ vulnerability blocking. Documented comprehensive license policy in CONTRIBUTING.md. See: `.agents/sessions/2025-12-06-phase-2b.md` | Build: ✅ 0 errors, 0 warnings. Tests: ☐ (not run). Phase 2B: W2.17 ✅, W2.13 ✅, W2.14 ✅ (3/3 complete). Git: ✅ 3 commits pushed (c4077d5, e569bb5, 5222a66). |
-| 2025-12-06 (Session 12) | **Test Failures Fixed + Phase 1E Build Quality Gates**: (1) Fixed 4 LINQ/Mapper test failures caused by .NET 10 SDK ReadOnlySpan optimization for `array.Contains()`. Modified `PartialEvaluator` to skip ReadOnlySpan `op_Implicit` evaluation and `QueryRewriter` to unwrap ReadOnlySpan conversions. (2) Completed W1.20: Added deterministic builds (`Deterministic=true`, `ContinuousIntegrationBuild`). (3) Completed W1.19: Implemented PedanticMode pattern for flexible warnings-as-errors control. Created `build/targets/codeanalysis/CodeAnalysis.targets` with PedanticMode logic. Updated all documentation (copilot-instructions, project.instructions, CONTRIBUTING). See: `.agents/sessions/session-2025-12-06-test-failures-phase1e.md` | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189/189 passed (LINQ+Mapper fixed). Phase 1E: W1.19 ✅, W1.20 ✅. Git: ✅ 3 commits pushed. |
-| 2025-12-05 (Session 11) | **Phase 1D Targeted Suppressions & Polyfill Enablement**: (1) Converted 5 global suppressions to targeted `[SuppressMessage]` attributes (CA1036, CA1711, CA1715, CA1720, CA1725). (2) Enabled CA1510 and CA1512 using existing polyfills. (3) Added `ThrowIfNegative` and `ThrowIfNegativeOrZero` to `ArgumentOutOfRangeExceptionPolyfill.cs`. (4) Linked polyfill files to `Qwiq.Linq.csproj` and `Qwiq.Identity.csproj`. (5) Renamed `ExecuteImpl` → `ExecuteCore` and `MapImpl` → `MapCore` per CA1711. (6) Fixed parameter name `id` → `relatedWorkItemId` per CA1725. (7) Reduced global suppressions from 15+ to 8. See: `.agents/sessions/session-2025-12-05-phase-1d-targeted-suppressions.md` | Build: ✅ 0 errors, 0 warnings. Tests: 🔴 4 pre-existing failures (Contains clause). Git: ✅ 7 commits pushed. |
-| 2025-12-05 (Session 10) | **Documentation Cleanup & Handoff Preparation**: (1) Verified build succeeds (0 errors, 2 MSB3836 warnings). (2) Verified all 196 tests pass (108+16+34+28+10). (3) Corrected Quick Reference table: Wave 1 is 18/27 (not 20/25), Wave 2 is 14 (not 15). (4) Confirmed working branch is `feat/modernize-2` with clean tree. (5) **IMPORTANT**: Branch `copilot/sub-pr-58` contains Phase 1D work (W1.15A-W1.17) that needs to be merged. Next session should either merge or continue that work. | Build: ✅ 0 errors. Tests: ✅ 196 passed. Docs: ✅ Updated. Git: ✅ Clean. |
-| 2025-12-05 (Session 9) | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition. | Docs: ✅ explainer + TODO updated. |
-| 2025-12-05 (Session 8) | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules. | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated. |
-| 2025-12-05 (Session 7) | **Phase 1D Progress (W1.15-W1.17) on `copilot/sub-pr-58`**: (1) Created analyzer-debt-inventory.md cataloging all suppressed rules. (2) Enabled 65 security rules (CA3xxx-CA5xxx) - zero violations found. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007). (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852). (5) CA1822 deferred (8 violations require code changes). **Note:** This work is on branch `copilot/sub-pr-58`, pending merge to `feat/modernize-2`. | Build: ✅ 0 errors. Tests: ✅ 189 tests. Rules enabled: 72. |
-| 2025-12-05 (Session 6) | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change. | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed. |
-| 2025-12-05 (Session 5) | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date. | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated. |
-| 2025-12-05 (Session 4) | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step. | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed. |
-| 2025-12-05 (Session 3) | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest. | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage. |
-| 2025-12-05 (Session 2) | **W1.1-W1.6 Complete + Package Testing**: (1) Updated .NET SDK 8.0.100→8.0.404. (2) Configured Source Link with .snupkg packages and portable PDBs. (3) Added code coverage collection and Source Link validation to CI. (4) Created CODEOWNERS file. (5) Created SECURITY.md. (6) Added CODE_OF_CONDUCT.md. (7) Modernized package testing with Verify.Nupkg plugin (150+ lines removed). | Build: ✅ Tests: ✅ 186 unit + 10 package tests. Coverage: ✅ CI configured. Source Link: ✅ 10 .snupkg + CI validation. Docs: ✅ CODEOWNERS, SECURITY.md, CODE_OF_CONDUCT.md, package testing documentation. |
-| 2025-12-04 (Session 1) | Maintained modernization documentation, confirmed that no checklist items were completed or regressed in this session. | `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` — all targeted tests passed (integration assembly skipped by filter). |
+| Date                    | Activities                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Validation                                                                                                                                                                                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-12-12 (Session 28) | **Documentation Reconciliation**: Updated 7 documentation files with critical corrections: (1) .NET 10 is GA (Nov 11, 2025), LTS until Nov 2028 - NOT "defer". (2) net48/net481 provide compiler optimizations, NOT just binary compat. (3) Branch corrected from `chore/modernize-wave-2` to `feat/modernize-3`. (4) Production v11.0.0 context added (100+ team members). (5) Waves 3-4 RE-ACTIVATED, Wave 5 ADDED. Files updated: copilot-instructions.md, modernize-explainer.md, modernize-TODO.md, PROMPTS.md, analyzer-debt-inventory.md, HANDOFF.md, memory file. See: `.agents/sessions/2025-12-12-session-28-documentation-reconciliation.md`                                                                                                                                                                                                                                     | Build: ✅ 0 errors, 0 warnings. Docs: ✅ 7 files updated. TFM: ✅ Corrected to net472;net48;net481;net8.0;net9.0;net10.0.                                                                                                                                       |
+| 2025-12-12 (Session 26) | **Multi-Agent Consensus Analysis**: Invoked 5 subagents (csharp-expert, feature-request-review, independent-thinker, create-explainer, generate-tasks) to audit analyzer debt claims. **Key Findings**: (1) Wave 1 is 25/26 complete - W1.18 deferred pending W2.2 (API compat baselines). (2) "~400 suppressed rules" was a measurement artifact - only 8 active suppressions exist (all design decisions). (3) Build is clean: 0 warnings, 0 errors. (4) Polyfill work complete (ThrowIfNull, ThrowIfNegative, ThrowIfNegativeOrZero, ThrowIfZero, ThrowIfEqual). (5) Original 7+ day remediation plan cancelled - problem doesn't exist. **Actions**: Added W2.32 (CI Warning Gate), updated Quick Reference, documented 8 active suppressions with justifications, updated modernize-explainer.md Gap 1 as RESOLVED. See: `.agents/sessions/2025-12-12-session-26-ca-debt-analysis.md`  | Build: ✅ 0 errors, 0 warnings. Docs: ✅ Updated. Consensus: ✅ 5/5 agents agreed.                                                                                                                                                                              |
+| 2025-12-11 (Session 25) | **Wave 4: Test Quality & Coverage Excellence**: Deep analysis of code coverage gaps using multi-agent consensus (csharp-expert, feature-request-review, independent-thinker). Created comprehensive Wave 4 with 25 tasks across 5 phases: (1) Baseline & Planning - metrics collection, SOAP usage assessment; (2) Mutation Testing Setup - Stryker.NET integration, CI workflow; (3) WireMock Integration - offline test infrastructure, recording capture; (4) Test Quality Improvements - flaky test remediation, 65% mutation score target; (5) Documentation - TESTING.md update, ADRs. Key decisions: mutation testing before coverage expansion, test stabilization before mutation runs, SOAP spike-then-deprecate strategy. Success criteria: 65% mutation score on REST core, <0.1% flake rate, 80% offline tests. Timeline: 18-20 weeks (Q1-Q2 2026). See: Wave 4 section below. | Docs: ✅ 25 tasks added. Multi-agent consensus achieved.                                                                                                                                                                                                        |
+| 2025-12-11 (Session 24) | **Wave 2 Task Generation from PR #65 Bot Feedback**: Added 11 new Wave 2 tasks (W2.21-W2.31) addressing code quality, security hardening, and documentation issues identified by bot review. Tasks include: markdown linting config (W2.21), GitHub Actions SHA pinning (W2.22), artifact version standardization (W2.23), PowerShell parameter metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow runner documentation (W2.30), and SLSA verification docs fix (W2.31). Updated Wave 2 task count from 14 to 25. See: New Phase 2F section.                                                                                                                                                                                                              | Docs: ✅ 11 tasks added with effort estimates, priorities, and acceptance criteria.                                                                                                                                                                             |
+| 2025-12-11 (Session 23) | **Coverage.runsettings Modernization**: (1) Modernized `coverage.runsettings` with best practices from moq.analyzers reference. (2) Added comprehensive XML documentation, Cobertura format, explicit Qwiq assembly includes. (3) Updated TESTING.md, CONTRIBUTING.md, copilot-instructions.md with coverage documentation. (4) Updated Claude skill documents (qwiq-testing SKILL.md and REFERENCE.md). (5) Validated XPlat Code Coverage workflow - 46.1% line coverage achieved. See: `.agents/sessions/2025-12-11-coverage-runsettings.md`                                                                                                                                                                                                                                                                                                                                              | Build: ✅ Passes. Tests: ✅ Pass with coverage. Coverage: ✅ 46.1% line. Git: ✅ 5 commits (b1fbc83e, 0f2965b2, ca97d2bf, 900c30f8, 889416aa).                                                                                                                  |
+| 2025-12-10 (Session 22) | **Documentation hygiene**: Relocated all session logs into `.agents/sessions/`, updated internal links (including `session-handoff-test-failures.md` location), and confirmed no remaining stale `.agents/session-` references.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Build: ☐ (not run, docs-only). Tests: ☐ (not run).                                                                                                                                                                                                              |
+| 2025-12-09 (Session 21) | **Phase 2C Evaluation**: (1) Created session log `.agents/sessions/2025-12-09-phase-2c-evaluation.md`. (2) Verified W2.4 (Benchmark CI) ✅ COMPLETE - all 3 benchmark projects compile in CI. (3) Verified W2.16 Phase 1 (REST offline) ✅ COMPLETE - 9 WireMock tests, ADR-008, infrastructure documented. (4) Confirmed W2.16 Phase 2 (SOAP offline) NOT STARTED. (5) Confirmed W2.3 (Contract Tests) BLOCKED by W2.16. (6) Documented pre-existing build issues: CS7069 TimeZone type forwarding errors with .NET 10.0.100 SDK affecting net472 builds. See: `.agents/sessions/2025-12-09-phase-2c-evaluation.md`                                                                                                                                                                                                                                                                        | Build: ⚠️ Unstable (CS7069 errors - pre-existing). Tests: ☐ (not verified - build prerequisite). Phase 2C: W2.4 ✅, W2.16-P1 ✅, W2.16-P2 ⏸️, W2.3 ⏸️.                                                                                                          |
+| 2025-12-06 (Session 19) | **SBOM Tool Fix**: Fixed SBOM generation in GitHub Actions. The `microsoft/sbom-tool` GitHub Action is a container action that only works on Linux. (1) Added `microsoft.sbom.dotnettool` v4.1.4 to `.config/dotnet-tools.json`. (2) Updated workflows to use `dotnet sbom-tool generate` CLI. (3) Use nbgv version for SBOM. (4) Run SBOM on both Windows and Linux. (5) DRYed out workflows - release.yml downloads SBOM from main.yml build. (6) Standardized all shells to `pwsh`. See: `.agents/sessions/2025-12-06-sbom-tool-fix.md`                                                                                                                                                                                                                                                                                                                                                  | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 196 passed. Git: ✅ 6 commits pushed (0bbc269e, f15b63a8, 66c636aa, 91c04624, e931efd8, 236a2891).                                                                                                                    |
+| 2025-12-06 (Session 18) | **Phase 2B: Supply Chain Security COMPLETE**: (1) W2.17 - Added SLSA Level 3 provenance generation to release workflow with hashes job and slsa-framework/slsa-github-generator@v2.0.0. Created docs/SLSA-VERIFICATION.md with verification instructions. (2) W2.13 - Added dual-pipeline SBOM generation (validation in main.yml, authoritative in release.yml) using microsoft/sbom-tool@v2 for SPDX 2.3 format. Created docs/SBOM.md with usage examples and compliance mapping. (3) W2.14 - Enhanced dependency-review.yml with license policy enforcement (deny GPL/AGPL/LGPL, allow MIT/Apache/BSD/0BSD) and moderate+ vulnerability blocking. Documented comprehensive license policy in CONTRIBUTING.md. See: `.agents/sessions/2025-12-06-phase-2b.md`                                                                                                                             | Build: ✅ 0 errors, 0 warnings. Tests: ☐ (not run). Phase 2B: W2.17 ✅, W2.13 ✅, W2.14 ✅ (3/3 complete). Git: ✅ 3 commits pushed (c4077d5, e569bb5, 5222a66).                                                                                                |
+| 2025-12-06 (Session 12) | **Test Failures Fixed + Phase 1E Build Quality Gates**: (1) Fixed 4 LINQ/Mapper test failures caused by .NET 10 SDK ReadOnlySpan optimization for `array.Contains()`. Modified `PartialEvaluator` to skip ReadOnlySpan `op_Implicit` evaluation and `QueryRewriter` to unwrap ReadOnlySpan conversions. (2) Completed W1.20: Added deterministic builds (`Deterministic=true`, `ContinuousIntegrationBuild`). (3) Completed W1.19: Implemented PedanticMode pattern for flexible warnings-as-errors control. Created `build/targets/codeanalysis/CodeAnalysis.targets` with PedanticMode logic. Updated all documentation (copilot-instructions, project.instructions, CONTRIBUTING). See: `.agents/sessions/session-2025-12-06-test-failures-phase1e.md`                                                                                                                                   | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189/189 passed (LINQ+Mapper fixed). Phase 1E: W1.19 ✅, W1.20 ✅. Git: ✅ 3 commits pushed.                                                                                                                           |
+| 2025-12-05 (Session 11) | **Phase 1D Targeted Suppressions & Polyfill Enablement**: (1) Converted 5 global suppressions to targeted `[SuppressMessage]` attributes (CA1036, CA1711, CA1715, CA1720, CA1725). (2) Enabled CA1510 and CA1512 using existing polyfills. (3) Added `ThrowIfNegative` and `ThrowIfNegativeOrZero` to `ArgumentOutOfRangeExceptionPolyfill.cs`. (4) Linked polyfill files to `Qwiq.Linq.csproj` and `Qwiq.Identity.csproj`. (5) Renamed `ExecuteImpl` → `ExecuteCore` and `MapImpl` → `MapCore` per CA1711. (6) Fixed parameter name `id` → `relatedWorkItemId` per CA1725. (7) Reduced global suppressions from 15+ to 8. See: `.agents/sessions/session-2025-12-05-phase-1d-targeted-suppressions.md`                                                                                                                                                                                     | Build: ✅ 0 errors, 0 warnings. Tests: 🔴 4 pre-existing failures (Contains clause). Git: ✅ 7 commits pushed.                                                                                                                                                  |
+| 2025-12-05 (Session 10) | **Documentation Cleanup & Handoff Preparation**: (1) Verified build succeeds (0 errors, 2 MSB3836 warnings). (2) Verified all 196 tests pass (108+16+34+28+10). (3) Corrected Quick Reference table: Wave 1 is 18/27 (not 20/25), Wave 2 is 14 (not 15). (4) Confirmed working branch is `feat/modernize-2` with clean tree. (5) **IMPORTANT**: Branch `copilot/sub-pr-58` contains Phase 1D work (W1.15A-W1.17) that needs to be merged. Next session should either merge or continue that work.                                                                                                                                                                                                                                                                                                                                                                                           | Build: ✅ 0 errors. Tests: ✅ 196 passed. Docs: ✅ Updated. Git: ✅ Clean.                                                                                                                                                                                      |
+| 2025-12-05 (Session 9)  | **Key Decision: Skip .NET 9, adopt .NET 10**: Updated modernization strategy to skip .NET 9 (STS) and go directly to .NET 10 (LTS). Strategy: SDK upgrade first (`global.json` to 10.0.xxx), then add net10.0 TFM. Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM addition.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Docs: ✅ explainer + TODO updated.                                                                                                                                                                                                                              |
+| 2025-12-05 (Session 8)  | **Expert Review & Documentation Update**: (1) Invoked 4 subagents (feature-request-review, generate-tasks, csharp-expert, AppModernization) to audit modernization documents. (2) Updated explainer with actual analyzer count (~400 vs ~150), resolved Gaps 1-4, added new Gaps (Release Automation, Supply Chain Security, Cloud-Native). (3) Added Wave 2 tasks (W2.8-W2.15): IConfiguration, ILogger, release automation, SBOM, package signing. (4) Added Wave 3 tasks (W3.5-W3.7): API compat, SOAP migration guide, performance baselines. (5) Enhanced Phase 1D with priority-ordered security rules.                                                                                                                                                                                                                                                                               | Build: ☐ (documentation only). Tests: ☐. Docs: ✅ explainer + TODO updated.                                                                                                                                                                                     |
+| 2025-12-05 (Session 7)  | **Phase 1D Progress (W1.15-W1.17) on `copilot/sub-pr-58`**: (1) Created analyzer-debt-inventory.md cataloging all suppressed rules. (2) Enabled 65 security rules (CA3xxx-CA5xxx) - zero violations found. (3) Enabled 3 reliability rules (CA1062, CA2000, CA2007). (4) Enabled 4 performance rules (CA1812, CA1826, CA1845, CA1852). (5) CA1822 deferred (8 violations require code changes). **Note:** This work is on branch `copilot/sub-pr-58`, pending merge to `feat/modernize-2`.                                                                                                                                                                                                                                                                                                                                                                                                  | Build: ✅ 0 errors. Tests: ✅ 189 tests. Rules enabled: 72.                                                                                                                                                                                                     |
+| 2025-12-05 (Session 6)  | **W1.21 Cross-Platform `.gitattributes` Complete**: (1) Reconciled repository `.gitattributes` with `dotnet new gitattributes` defaults to ensure consistent CRLF/LF handling for Windows and Linux agents. (2) Preserved Verify snapshot conventions and documented optional Git LFS rules for future enablement. (3) Verified standard filtered test suite after the change.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Build: ☐ (not required this session). Tests: ✅ 196 tests (108 + 28 + 16 + 34 + 10). Files: ✅ `.gitattributes` updated and committed.                                                                                                                          |
+| 2025-12-05 (Session 5)  | **Phase 1C Complete (W1.9-W1.14)**: PR #52 merged from develop with comprehensive CS8xxx nullable cleanup across all projects. (1) Verified 0 CS8xxx warnings across all 9 source projects via `build/scripts/Count-NullableWarnings.ps1`. (2) Marked W1.9-W1.14 complete. (3) Updated Last Updated date.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Build: ✅ (2 MSB3836 binding redirect warnings only). Tests: ✅ 196 tests (108+16+34+28+10). CS8xxx: ✅ 0 warnings. Baseline: ✅ .agents/CS8xxx-baseline.md generated.                                                                                          |
+| 2025-12-05 (Session 4)  | **W1.9 CI Package Validation Complete**: (1) Created `Validate-PackageOutput.ps1` - scans csproj for packable projects, validates .nupkg + .snupkg produced. (2) Refactored `Verify-SourceLink.ps1` to be naive (just verifies PDBs found). (3) Better separation of concerns: package validation runs unconditionally, sourcelink runs on push only. (4) Workflow updated with new validation step.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Build: ✅ Tests: ✅ Package validation: ✅ 10/10 packages detected and validated. Source Link: ✅ 20 PDBs verified. Scripts committed.                                                                                                                          |
+| 2025-12-05 (Session 3)  | **W1.7-W1.8 Complete + Documentation Updates**: (1) Updated README badges (AppVeyor→GitHub Actions). (2) Created 10 comprehensive package README files for NuGet.org display. (3) Configured PackageReadme in all packable projects. (4) Updated 18 package test baselines (manifest + contents for 8 packages). (5) Documented critical PackageTests workflow in copilot-instructions. (6) Added verify.tool to local tool manifest.                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Build: ✅ Tests: ✅ 197 tests (187 unit + 10 package). Package READMEs: ✅ All 10 packages include README.md. Baselines: ✅ All package tests pass. Docs: ✅ copilot-instructions updated with PackageTests workflow and Verify.Terminal usage.                 |
+| 2025-12-05 (Session 2)  | **W1.1-W1.6 Complete + Package Testing**: (1) Updated .NET SDK 8.0.100→8.0.404. (2) Configured Source Link with .snupkg packages and portable PDBs. (3) Added code coverage collection and Source Link validation to CI. (4) Created CODEOWNERS file. (5) Created SECURITY.md. (6) Added CODE_OF_CONDUCT.md. (7) Modernized package testing with Verify.Nupkg plugin (150+ lines removed).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Build: ✅ Tests: ✅ 186 unit + 10 package tests. Coverage: ✅ CI configured. Source Link: ✅ 10 .snupkg + CI validation. Docs: ✅ CODEOWNERS, SECURITY.md, CODE_OF_CONDUCT.md, package testing documentation.                                                   |
+| 2025-12-04 (Session 1)  | Maintained modernization documentation, confirmed that no checklist items were completed or regressed in this session.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `dotnet test Qwiq.sln --configuration Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` — all targeted tests passed (integration assembly skipped by filter). |
 
 > **Note:** The `.agents` versions of this TODO and the companion explainer are the authoritative sources. No additional mirrors are maintained; update these files directly.
 
@@ -219,6 +229,7 @@ All foundation items have been completed in prior modernization efforts.
 ### Phase 1A: Infrastructure Updates (Quick Wins)
 
 #### W1.1 Update .NET SDK Version ✅ COMPLETE
+
 - [x] **Task**: Update `global.json` from 8.0.100 to 8.0.404+
 - **Effort**: S (1-2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: Medium
@@ -241,6 +252,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.2 Configure Source Link ✅ COMPLETE
+
 - [x] **Task**: Enable Source Link for debugging support
 - **Effort**: S (2-4 hours) ⏱️ Actual: ~45 minutes
 - **Priority**: High
@@ -267,6 +279,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.3 Add Code Coverage to CI ✅ COMPLETE
+
 - [x] **Task**: Configure and publish code coverage in CI pipeline
 - **Effort**: M (4-8 hours) ⏱️ Actual: ~1 hour
 - **Priority**: High
@@ -296,6 +309,7 @@ All foundation items have been completed in prior modernization efforts.
 ### Phase 1B: Documentation & Governance
 
 #### W1.4 Create CODEOWNERS ✅ COMPLETE
+
 - [x] **Task**: Create GitHub CODEOWNERS file
 - **Effort**: S (1 hour) ⏱️ Actual: ~15 minutes
 - **Priority**: Medium
@@ -315,6 +329,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.5 Create SECURITY.md ✅ COMPLETE
+
 - [x] **Task**: Create security policy document
 - **Effort**: S (1-2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: High
@@ -326,6 +341,7 @@ All foundation items have been completed in prior modernization efforts.
   - Documented vulnerability reporting process
   - Added security best practices for credential handling
 - **Validation**:
+
   - ✅ SECURITY.md exists in repository root
   - ✅ Clear vulnerability reporting instructions provided
 
@@ -336,6 +352,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.6 Create CODE_OF_CONDUCT.md ✅ COMPLETE
+
 - [x] **Task**: Add code of conduct
 - **Effort**: S (30 min) ⏱️ Actual: ~10 minutes
 - **Priority**: Low
@@ -355,6 +372,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.7 Update README Badges ✅ COMPLETE
+
 - [x] **Task**: Replace AppVeyor badges with GitHub Actions
 - **Effort**: S (30 min) ⏱️ Actual: ~10 minutes
 - **Priority**: Medium
@@ -379,6 +397,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.8 Author PackageReadme Files ✅ COMPLETE
+
 - [x] **Task**: Create README files for NuGet packages
 - **Effort**: M (1-2 days) ⏱️ Actual: ~2 hours
 - **Priority**: Medium
@@ -427,6 +446,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.X Package Testing Modernization ✅ COMPLETE
+
 - [x] **Task**: Modernize package baseline testing with Verify.Nupkg plugin
 - **Effort**: M (4-6 hours) ⏱️ Actual: ~3 hours
 - **Priority**: Medium
@@ -463,6 +483,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.Y CI Package Output Validation ✅ COMPLETE
+
 - [x] **Task**: Add robust CI validation that all packable projects produce packages
 - **Effort**: S (2-3 hours) ⏱️ Actual: ~1.5 hours
 - **Priority**: High
@@ -507,6 +528,7 @@ All foundation items have been completed in prior modernization efforts.
 > Baseline report available at `.agents/CS8xxx-baseline.md`.
 
 #### W1.9 Nullable Phase 1: Qwiq.Core ✅ COMPLETE
+
 - [x] **Task**: Complete nullable annotations for Qwiq.Core
 - **Effort**: M (2-3 days)
 - **Priority**: High (Score: 140)
@@ -523,6 +545,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.10 Nullable Phase 2: Qwiq.Core.Rest ✅ COMPLETE
+
 - [x] **Task**: Complete nullable annotations for REST client
 - **Effort**: M (2-3 days)
 - **Priority**: High (Score: 128)
@@ -537,6 +560,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.11 Nullable Phase 3: Qwiq.Mocks ✅ COMPLETE
+
 - [x] **Task**: Complete nullable annotations for mock implementations
 - **Effort**: S (1 day)
 - **Priority**: Medium
@@ -551,6 +575,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.12 Nullable Phase 4: Qwiq.Linq ✅ COMPLETE
+
 - [x] **Task**: Complete nullable annotations for LINQ provider
 - **Effort**: L (3-5 days)
 - **Priority**: Medium (Score: 96)
@@ -565,6 +590,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.13 Nullable Phase 5: Qwiq.Mapper ✅ COMPLETE
+
 - [x] **Task**: Complete nullable annotations for mapper
 - **Effort**: M (2 days)
 - **Priority**: Medium
@@ -579,12 +605,14 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.14 Nullable Phase 6: Qwiq.Identity + Remaining ✅ COMPLETE
+
 - [x] **Task**: Complete nullable for Identity, Identity.Soap, integration layers
 - **Effort**: M (2-3 days)
 - **Priority**: Low
 - **Dependencies**: W1.9, W1.10
 - **Completed**: 2025-12-05 (PR #52)
 - **Locations**:
+
   - `src/Qwiq.Identity/`
   - `src/Qwiq.Identity.Soap/`
   - `src/Qwiq.Linq.Identity/`
@@ -603,6 +631,7 @@ All foundation items have been completed in prior modernization efforts.
 > **Actual Suppression Count**: ~400 rules (verified Dec 5, 2025)
 
 #### W1.15 Audit Current Analyzer Suppressions ✅ COMPLETE
+
 - [x] **Task**: Document and categorize all suppressed rules
 - **Effort**: S (2-4 hours) ⏱️ Actual: Completed during Session 7 expert review
 - **Priority**: High
@@ -631,6 +660,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.15A Enable P0 Security Analyzer Rules ✅ COMPLETE
+
 - [x] **Task**: Enable and fix critical security rules first
 - **Effort**: M (4-8 hours) ⏱️ Actual: ~2 hours
 - **Priority**: **Critical**
@@ -659,6 +689,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.16 Enable P1 Reliability Analyzer Rules ✅ COMPLETE
+
 - [x] **Task**: Enable CA2xxx reliability rules
 - **Effort**: M (8-16 hours) ⏱️ Actual: ~1 hour
 - **Priority**: High
@@ -686,6 +717,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.17 Enable P2 Performance Analyzer Rules ✅ COMPLETE
+
 - [x] **Task**: Enable CA18xx performance rules
 - **Effort**: M (8-16 hours) ⏱️ Actual: ~1 hour
 - **Priority**: Medium
@@ -694,6 +726,7 @@ All foundation items have been completed in prior modernization efforts.
 - **Completed**: 2025-12-05 (Session 7 on `copilot/sub-pr-58`)
 
 **Performance rules enabled** (4 of 5, zero violations):
+
 - CA1812: Avoid uninstantiated internal classes ✅
 - CA1826: Use property instead of Linq Enumerable method ✅
 - CA1845: Use span-based string.Concat ✅
@@ -718,6 +751,7 @@ All foundation items have been completed in prior modernization efforts.
 ---
 
 #### W1.18 Enable P3 Design Analyzer Rules
+
 - [ ] **Task**: Enable CA1xxx design rules incrementally
 - **Effort**: L (1-2 weeks)
 - **Priority**: Low
@@ -743,6 +777,7 @@ All foundation items have been completed in prior modernization efforts.
 ### Phase 1E: Build Quality Gates
 
 #### W1.19 Verify TreatWarningsAsErrors ✅ COMPLETE
+
 - [x] **Task**: Confirm all projects treat warnings as errors while adding a `PedanticMode` escape hatch for local builds
 - **Effort**: S (1 hour)
 - **Priority**: High
@@ -761,16 +796,19 @@ All foundation items have been completed in prior modernization efforts.
   - No `TreatWarningsAsErrors` in any .csproj files
 
 **Goal**:
+
 - Mirror the [moq.analyzers `PedanticMode` pattern](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/build/targets/codeanalysis/CodeAnalysis.targets#L3-L7) so that `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` track a single property.
 - Default `PedanticMode` to `$(ContinuousIntegrationBuild)` (true on CI) so automated builds stay strict, while allowing `dotnet build /p:PedanticMode=false` when developers need to diagnose noisy analyzers locally.
 - Document the workflow updates in contributor guidance (see [CONTRIBUTING.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/CONTRIBUTING.md?plain=1#L39-L57), [.github/copilot-instructions.md](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/copilot-instructions.md?plain=1#L482-L520), and [project instructions](https://github.com/rjmurillo/moq.analyzers/blob/1eb6b38c51055bdeebd229212edb21f6a0307993/.github/instructions/project.instructions.md?plain=1#L159-L215)) so Qwiq contributors know when to toggle the switch.
 
 **Implementation Notes**:
+
 - Add a Qwiq-specific `build/targets/CodeAnalysis.targets` (or augment an existing shared targets file) that defines `PedanticMode`, assigns it with `ValueOrDefault('$(ContinuousIntegrationBuild)','false')`, and wires both `TreatWarningsAsErrors` and `MSBuildTreatWarningsAsErrors` to that property.
 - Import the target in `Directory.Build.targets` so every project inherits the setting without copying it into individual `.csproj` files.
 - Update `.github/copilot-instructions.md`, `.github/instructions/project.instructions.md`, and `CONTRIBUTING.md` to spell out the strict build command (`dotnet build /p:PedanticMode=true`) and the escape hatch (`/p:PedanticMode=false`).
 
 **Verification**:
+
 ```powershell
 # Should return no results (property is in Directory.Build.props)
 Select-String -Path "**/*.csproj" -Pattern "TreatWarningsAsErrors" -Recurse |
@@ -790,6 +828,7 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ---
 
 #### W1.20 Enable Deterministic Builds ✅ COMPLETE
+
 - [x] **Task**: Ensure deterministic build configuration
 - **Effort**: S (1 hour)
 - **Priority**: Medium
@@ -801,6 +840,7 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
   - Added `<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>`
   - Ensures reproducible builds across environments
 - **Validation**:
+
   - Build: ✅ 0 errors, 0 warnings
   - Tests: ✅ 189/189 passed
 
@@ -811,6 +851,7 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ---
 
 #### W1.21 Configure .gitattributes ✅ COMPLETE
+
 - [x] **Task**: Verify/update `.gitattributes` for consistency
 - **Effort**: S (30 min)
 - **Priority**: Low
@@ -831,6 +872,7 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 ---
 
 #### W1.22 Document Testing Matrix ✅ COMPLETE
+
 - [x] **Task**: Update TESTING.md with coverage gates
 - **Effort**: S (1-2 hours) ⏱️ Actual: Verified already complete
 - **Priority**: Medium
@@ -841,16 +883,17 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 **Status**: Verified TESTING.md already contains comprehensive Code Coverage section (lines 264-330) with coverage gates, local commands, and CI workflow documentation.
 
 **Add section** (already present):
-```markdown
+
+````markdown
 ## Code Coverage
 
 ### Coverage Gates
 
-| Metric | Minimum | Target |
-|--------|---------|--------|
-| Line Coverage (new code) | 70% | 80% |
-| Branch Coverage (new code) | 60% | 70% |
-| Overall Line Coverage | Baseline | Improving |
+| Metric                     | Minimum  | Target    |
+| -------------------------- | -------- | --------- |
+| Line Coverage (new code)   | 70%      | 80%       |
+| Branch Coverage (new code) | 60%      | 70%       |
+| Overall Line Coverage      | Baseline | Improving |
 
 ### Running Coverage Locally
 
@@ -858,7 +901,9 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false
 dotnet test --collect:"XPlat Code Coverage" --settings coverage.runsettings
 reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -reporttypes:Html
 ```
-```
+````
+
+````
 
 - **Acceptance Criteria**:
   - [ ] Coverage expectations documented
@@ -897,12 +942,14 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
        <ArtifactsTestResultsPath>$(ArtifactsPath)/TestResults</ArtifactsTestResultsPath>
      </PropertyGroup>
    </Project>
-   ```
+````
+
 2. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
 3. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
 4. Clean the new `artifacts/` folder in `.gitignore` if not already present.
 
 **Verification**:
+
 ```powershell
 # Build and confirm output lands in artifacts/
 dotnet build Qwiq.sln -c Release
@@ -925,6 +972,7 @@ Get-ChildItem ./artifacts/TestResults -Filter *.trx | Measure-Object | Select-Ob
 ---
 
 #### W1.24 Add Cross-Platform CI Matrix ✅ COMPLETE
+
 - [x] **Task**: Add Linux runner to validate cross-platform support
 - **Effort**: S (2-4 hours) ⏱️ Actual: Verified already complete
 - **Priority**: Medium
@@ -938,6 +986,7 @@ Get-ChildItem ./artifacts/TestResults -Filter *.trx | Measure-Object | Select-Ob
 Validate that REST client works correctly on Linux and that path handling is cross-platform compatible.
 
 **Implementation**:
+
 ```yaml
 jobs:
   build:
@@ -954,6 +1003,7 @@ jobs:
 ```
 
 **Constraints**:
+
 - SOAP projects (`Qwiq.Core.Soap`, `Qwiq.Identity.Soap`) require Windows for net472
 - REST projects should build and test on both platforms
 - Use conditional includes based on OS
@@ -974,6 +1024,7 @@ jobs:
 ### Phase 2A: Release Automation (CRITICAL)
 
 #### W2.11 Create Release Workflow ✅ COMPLETE
+
 - [x] **Task**: Automate NuGet publishing on version tags with DRY workflow_call
 - **Effort**: M (1-2 days) ⏱️ Actual: ~1 hour
 - **Priority**: **CRITICAL**
@@ -986,21 +1037,22 @@ jobs:
 **Reference**: [moq.analyzers release.yml](https://github.com/rjmurillo/moq.analyzers/blob/main/.github/workflows/release.yml)
 
 **Implementation - Composite Action** (`.github/actions/dotnet-build/action.yml`):
+
 ```yaml
-name: 'Build .NET Solution'
-description: 'Setup, restore, build, test, and pack .NET solution'
+name: "Build .NET Solution"
+description: "Setup, restore, build, test, and pack .NET solution"
 inputs:
   configuration:
-    description: 'Build configuration'
-    default: 'Release'
+    description: "Build configuration"
+    default: "Release"
   skip-tests:
-    description: 'Skip test execution'
-    default: 'false'
+    description: "Skip test execution"
+    default: "false"
   pedantic-mode:
-    description: 'Treat warnings as errors'
-    default: 'true'
+    description: "Treat warnings as errors"
+    default: "true"
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -1036,6 +1088,7 @@ runs:
 ```
 
 **Implementation - Release Workflow** (`.github/workflows/release.yml`):
+
 ```yaml
 name: Release
 
@@ -1049,7 +1102,7 @@ on:
       - released
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 permissions:
   contents: write
@@ -1058,11 +1111,11 @@ permissions:
 
 jobs:
   build:
-    uses: ./.github/workflows/main.yml  # Reuse existing workflow via workflow_call
+    uses: ./.github/workflows/main.yml # Reuse existing workflow via workflow_call
 
   publish:
     needs: build
-    runs-on: windows-latest  # Required for net472
+    runs-on: windows-latest # Required for net472
     environment:
       name: production-nuget
       url: https://nuget.org/packages/Qwiq
@@ -1091,6 +1144,7 @@ jobs:
 ```
 
 **C# Tooling Best Practices**:
+
 - Use `--locked-mode` for restore to ensure reproducible builds
 - Set `ContinuousIntegrationBuild=true` and `Deterministic=true`
 - Use `--no-restore` on build/test after restore step
@@ -1106,9 +1160,10 @@ jobs:
   - [x] Environment approval gate for production-nuget
 
 **Implementation Notes**:
+
 - Used `workflow_call` trigger in main.yml instead of composite action (simpler, same DRY benefit)
 - Release workflow reuses entire main.yml build/test/pack pipeline
-- Supports: workflow_dispatch (manual), release events, and v* tags
+- Supports: workflow_dispatch (manual), release events, and v\* tags
 - Environment `production-nuget` requires manual setup in GitHub repo settings
 
 **Commits**: 815354e9 (feat(ci): add release workflow for NuGet publishing)
@@ -1118,6 +1173,7 @@ jobs:
 ### Phase 2B: Supply Chain Security (CRITICAL)
 
 #### W2.13 Generate SBOM (Dual Pipeline) ✅ COMPLETE
+
 - [x] **Task**: Generate Software Bill of Materials in BOTH build and release pipelines
 - **Effort**: S (2-4 hours)
 - **Priority**: **HIGH**
@@ -1127,10 +1183,12 @@ jobs:
 **Rationale**: "We don't release often and want to make sure SBOM is always running"
 
 **Design**:
+
 1. **Build Pipeline**: Generate SBOM for validation (catches issues early)
 2. **Release Pipeline**: Generate authoritative SBOM attached to GitHub Release
 
 **Implementation - Build Pipeline** (`.github/workflows/main.yml`):
+
 ```yaml
 - name: Generate SBOM (validation)
   uses: microsoft/sbom-tool@v4.1.4
@@ -1149,6 +1207,7 @@ jobs:
 ```
 
 **Implementation - Release Pipeline** (`.github/workflows/release.yml`):
+
 ```yaml
 - name: Generate SBOM (release)
   uses: microsoft/sbom-tool@v4.1.4
@@ -1168,6 +1227,7 @@ jobs:
 ```
 
 **Compliance Notes**:
+
 - SPDX 2.2+ format meets NTIA Minimum Elements
 - Executive Order 14028 compliance
 - Include `--component-type library` for correct classification
@@ -1185,6 +1245,7 @@ jobs:
 ---
 
 #### W2.14 Add Dependency Review Action ✅ COMPLETE
+
 - [x] **Task**: Block PRs that introduce vulnerable dependencies
 - **Effort**: S (1-2 hours)
 - **Priority**: **HIGH** (elevated from Medium)
@@ -1193,20 +1254,21 @@ jobs:
 
 **License Policy Rationale**:
 
-| License | Status | Rationale |
-|---------|--------|----------|
-| **Denied Licenses** | | |
-| GPL-2.0 | ❌ Deny | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution. |
-| GPL-3.0 | ❌ Deny | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force Qwiq consumers to GPL-license their code. |
-| AGPL-3.0 | ❌ Deny | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers. |
-| LGPL-3.0 | ❌ Deny | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers. |
-| **Allowed Licenses** | | |
-| MIT | ✅ Allow | Permissive: allows commercial use, modification, distribution with minimal restrictions. Qwiq's own license. |
-| Apache-2.0 | ✅ Allow | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages. |
-| BSD-3-Clause | ✅ Allow | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem. |
-| 0BSD | ✅ Allow | Public domain equivalent. No restrictions whatsoever. |
+| License              | Status   | Rationale                                                                                                               |
+| -------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Denied Licenses**  |          |                                                                                                                         |
+| GPL-2.0              | ❌ Deny  | Copyleft: requires derivative works to be GPL-licensed. Incompatible with MIT-licensed library distribution.            |
+| GPL-3.0              | ❌ Deny  | Stronger copyleft than GPL-2.0 with additional patent provisions. Would force Qwiq consumers to GPL-license their code. |
+| AGPL-3.0             | ❌ Deny  | Network copyleft: even SaaS usage triggers license requirements. Extremely restrictive for library consumers.           |
+| LGPL-3.0             | ❌ Deny  | "Lesser" GPL still requires source disclosure for modifications. Creates compliance burden for consumers.               |
+| **Allowed Licenses** |          |                                                                                                                         |
+| MIT                  | ✅ Allow | Permissive: allows commercial use, modification, distribution with minimal restrictions. Qwiq's own license.            |
+| Apache-2.0           | ✅ Allow | Permissive with explicit patent grant. Compatible with MIT. Used by many Microsoft packages.                            |
+| BSD-3-Clause         | ✅ Allow | Permissive: similar to MIT with non-endorsement clause. Common in .NET ecosystem.                                       |
+| 0BSD                 | ✅ Allow | Public domain equivalent. No restrictions whatsoever.                                                                   |
 
 **Implementation**:
+
 ```yaml
 - name: Dependency Review
   uses: actions/dependency-review-action@v4
@@ -1241,6 +1303,7 @@ jobs:
 ---
 
 #### W2.15 Pin GitHub Actions by SHA ✅ COMPLETE
+
 - [x] **Task**: Use SHA-pinned action versions for supply chain security
 - **Effort**: S (1-2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: **CRITICAL** (elevated from Medium)
@@ -1251,10 +1314,12 @@ jobs:
 **Why Critical**: Supply chain attack vector (tag poisoning), SLSA Level 3 requirement, enterprise security policy requirement.
 
 **Implementation Approach**: Configured automation tools to handle SHA pinning rather than manual pinning.
+
 - **Renovate** will automatically convert action version tags to SHA pins via `helpers:pinGitHubActionDigests` preset
 - **Dependabot** configured as complementary tool for dependency management
 
 **Current Actions Needing SHA Pinning**:
+
 ```
 .github/workflows/main.yml:
   - actions/checkout@v4 → needs SHA
@@ -1269,6 +1334,7 @@ jobs:
 ```
 
 **Pattern**:
+
 ```yaml
 # Before
 - uses: actions/checkout@v4
@@ -1278,6 +1344,7 @@ jobs:
 ```
 
 **Dependabot Configuration** (`.github/dependabot.yml`):
+
 ```yaml
 version: 2
 updates:
@@ -1309,13 +1376,11 @@ updates:
 ```
 
 **Renovate Configuration** (`renovate.json`) - Alternative/Complementary:
+
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "helpers:pinGitHubActionDigests"
-  ],
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
@@ -1346,6 +1411,7 @@ updates:
 ---
 
 #### W2.17 SLSA Provenance Generation (NEW) ✅ COMPLETE
+
 - [x] **Task**: Generate cryptographic build provenance for supply chain security
 - **Effort**: M (1 day)
 - **Priority**: **CRITICAL**
@@ -1355,9 +1421,10 @@ updates:
 **Why Critical**: Supply chain security standard, required for enterprise compliance, SLSA Level 3.
 
 **Implementation**:
+
 ```yaml
 permissions:
-  id-token: write  # Required for SLSA provenance
+  id-token: write # Required for SLSA provenance
   contents: read
   actions: read
 
@@ -1372,6 +1439,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - Cryptographic proof of build integrity
 - Verification of build environment and inputs
 - Non-forgeable build metadata
@@ -1389,6 +1457,7 @@ jobs:
 ### Phase 2C: Testing Enhancements
 
 #### W2.16 REST/SOAP Unit Test Coverage (NEW)
+
 - [x] **Phase 1 (REST Offline)**: WireMock-based REST tests using captured Azure DevOps traffic
 - [x] **Phase 2 (SOAP Offline)**: SOAP unit tests (Windows-only, Moq-based) - **COMPLETED 2025-12-10**
 - **Effort**: L (2-3 weeks total) ⏱️ Actual: Phase 1 (1 week), Phase 2 (1 day)
@@ -1401,6 +1470,7 @@ jobs:
 **Problem Statement**: Prior REST/SOAP tests required live Azure DevOps connectivity, blocking CI and contributors.
 
 **Phase 1 Outcome (REST offline)** ✅ COMPLETE:
+
 - WireMock.Net + captured ADO traffic via Fiddler HAR → `scripts/Convert-HarToWireMock.ps1`
 - Real stubs: `test/Qwiq.Integration.Tests/WireMock/Stubs/azure-devops-stubs.json` (5 mappings, 1 MB)
 - Test suite: `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs` (9 tests, category `WireMock`)
@@ -1410,6 +1480,7 @@ jobs:
 - Execution: `dotnet test --filter "TestCategory=WireMock"` (4.17s)
 
 **Phase 2 Outcome (SOAP offline)** ✅ COMPLETE:
+
 - Windows-only (net472, TFS Client OM)
 - Uses Moq 4.16.0 + Moq.Analyzers 0.4.0
 - Base class: `SoapContextSpecification`
@@ -1420,11 +1491,13 @@ jobs:
 - Session log: `.agents/sessions/2025-12-10-phase-2c-soap-tests.md`
 
 **Test Coverage Added**:
+
 - Phase 1 (REST): 9 tests (single, multiple, empty queries)
 - Phase 2 (SOAP): 13 tests (single, multiple, by IDs, empty queries)
 - **Total**: 22 offline unit tests
 
 **Acceptance Criteria**:
+
 - [x] Phase 1: REST offline tests pass without Azure DevOps (WireMock category) and documented via ADR-008
 - [x] Phase 2: SOAP offline tests created with Moq (category `SoapUnit`)
 - [ ] Phase 2 Validation: SOAP tests verified passing on Windows (pending Windows CI run)
@@ -1434,6 +1507,7 @@ jobs:
 ---
 
 #### W2.18 Enable Package Validation ✅ COMPLETE
+
 - [x] **Task**: Detect breaking API changes automatically
 - **Effort**: S (4 hours) ⏱️ Actual: ~45 minutes
 - **Priority**: **HIGH**
@@ -1442,6 +1516,7 @@ jobs:
 - **Completed**: 2025-12-06 (Session 16)
 
 **Implementation Complete**:
+
 ```xml
 <!-- Added to each packable .csproj -->
 <PropertyGroup>
@@ -1453,6 +1528,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - Detect breaking changes automatically during build
 - Enforce semantic versioning
 - Protect consumers from API breakage
@@ -1471,6 +1547,7 @@ jobs:
 ---
 
 #### W2.2 Create API Compatibility Baselines ✅ COMPLETE
+
 - [x] **Task**: Establish API surface baselines for breaking change detection
 - **Effort**: M (4-8 hours) ⏱️ Actual: ~4 hours (infrastructure + baseline population)
 - **Priority**: **CRITICAL** (elevated - must be done BEFORE any API changes)
@@ -1481,11 +1558,13 @@ jobs:
 **Why Critical**: As we make modernization changes, we DO NOT want APIs to change unintentionally. This must be established early to catch any accidental breaking changes during the modernization process.
 
 **Package additions**:
+
 ```xml
 <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
 ```
 
 **Implementation Complete**:
+
 1. ✅ Added analyzer package to all 9 packable projects
 2. ✅ Created minimal PublicAPI.Shipped.txt and PublicAPI.Unshipped.txt files
 3. ✅ Populated Unshipped.txt files with 1,268 API entries using `dotnet format analyzers`
@@ -1520,6 +1599,7 @@ jobs:
 ---
 
 #### W2.3 Add Contract Tests for REST/SOAP Parity
+
 - [ ] **Task**: Create shared specification tests
 - **Effort**: M (2-3 days)
 - **Priority**: Low
@@ -1532,6 +1612,7 @@ jobs:
 ---
 
 #### W2.4 Benchmark CI Integration ✅ COMPLETE
+
 - [x] **Task**: Run benchmarks in CI (compile-only validation)
 - **Effort**: S (< 1 hour actual)
 - **Priority**: Low
@@ -1539,6 +1620,7 @@ jobs:
 - **Completed**: 2025-12-06 (Session 20 - Phase 2C)
 
 **Implementation**:
+
 - Verified all 3 benchmark projects compile successfully in CI
 - `dotnet build Qwiq.sln` in main.yml already builds all benchmarks
 - Windows build: All frameworks (net472, net8.0) compile
@@ -1554,6 +1636,7 @@ jobs:
 ### Phase 2D: Security Hardening
 
 #### W2.19 CodeQL Advanced Security (NEW) ✅ COMPLETE
+
 - [x] **Task**: Add advanced code scanning with CodeQL integrated into main build
 - **Effort**: S (2 hours) ⏱️ Actual: ~30 minutes
 - **Priority**: Medium
@@ -1562,17 +1645,19 @@ jobs:
 - **Completed**: 2025-12-11 (Session Phase 2D)
 
 **Design Decision**: Integrate CodeQL into the main build workflow to avoid:
+
 - Duplicate repository clones
 - Duplicate builds with potentially different settings
 - Inconsistent build configurations between workflows
 
 **Implementation** (add to `.github/workflows/main.yml`):
+
 ```yaml
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      security-events: write  # Required for CodeQL
+      security-events: write # Required for CodeQL
       actions: read
       contents: read
 
@@ -1620,12 +1705,14 @@ jobs:
 ```
 
 **Benefits of Integration**:
+
 - Single clone, single build
 - Consistent build settings (same `/p:` properties)
 - CodeQL analyzes the exact same binaries that get tested/packaged
 - Faster CI overall (no duplicate work)
 
 **Weekly Scheduled Scan** (optional, add to triggers):
+
 ```yaml
 on:
   push:
@@ -1633,7 +1720,7 @@ on:
   pull_request:
     branches: [develop]
   schedule:
-    - cron: '30 2 * * 1'  # Weekly Monday 2:30 AM for deep scan
+    - cron: "30 2 * * 1" # Weekly Monday 2:30 AM for deep scan
 ```
 
 - **Acceptance Criteria**:
@@ -1648,6 +1735,7 @@ on:
 ---
 
 #### W2.20 Secrets Scanning (NEW) ✅ COMPLETE
+
 - [x] **Task**: Add pre-commit secrets scanning
 - **Effort**: S (1 hour) ⏱️ Actual: ~15 minutes
 - **Priority**: Medium
@@ -1689,6 +1777,7 @@ jobs:
 ### Phase 2F: Code Quality & Security Hardening (PR #65 Bot Feedback)
 
 #### W2.21 Add Markdown Linting Configuration
+
 - [ ] **Task**: Add `.prettierrc` and `.markdownlint-cli2.yaml` to prevent markdown violations
 - **Effort**: S (1-2 hours)
 - **Priority**: **LOW** - Demoted (vanity metric, no active documentation audience)
@@ -1696,6 +1785,7 @@ jobs:
 - **Files**: `.prettierrc`, `.markdownlint-cli2.yaml`, `.github/workflows/main.yml`
 
 **Violations to Prevent**:
+
 - MD031: Blank lines around fenced code blocks
 - MD040: Language identifiers on code blocks
 - MD034: Bare URLs (must use `<url>` or `[text](url)`)
@@ -1704,6 +1794,7 @@ jobs:
 - MD022: Blank lines around headings
 
 **Implementation** (`.prettierrc`):
+
 ```json
 {
   "proseWrap": "always",
@@ -1715,12 +1806,13 @@ jobs:
 ```
 
 **Implementation** (`.markdownlint-cli2.yaml`):
+
 ```yaml
 config:
   default: true
-  MD013: false  # Line length - let prettier handle
-  MD033: false  # Allow inline HTML
-  MD041: false  # First line heading - not always applicable
+  MD013: false # Line length - let prettier handle
+  MD033: false # Allow inline HTML
+  MD041: false # First line heading - not always applicable
 globs:
   - "**/*.md"
   - "!**/node_modules/**"
@@ -1728,6 +1820,7 @@ globs:
 ```
 
 **Add to CI** (`.github/workflows/main.yml`):
+
 ```yaml
 - name: Lint Markdown
   run: |
@@ -1746,6 +1839,7 @@ globs:
 ---
 
 #### W2.22 Pin GitHub Actions to SHA Digests 🔴
+
 - [ ] **Task**: Convert all version tags to commit SHA pins for supply chain security
 - **Effort**: S (2-3 hours) ⚠️ Expert review: allow extra time for digest lookup & validation
 - **Priority**: **CRITICAL** - Supply chain attack prevention (SLSA requirement)
@@ -1755,6 +1849,7 @@ globs:
 **Why Critical**: Tag poisoning attacks, SLSA Level 3 requirement, CISA/NIST recommendations.
 
 **Actions to Pin**:
+
 ```yaml
 # Main workflow
 actions/checkout@v4 → actions/checkout@<sha> # v4.2.0
@@ -1779,6 +1874,7 @@ slsa-framework/slsa-github-generator@v2.0.0 → slsa-framework/slsa-github-gener
 ```
 
 **Pattern** (with version comment for maintainability):
+
 ```yaml
 - uses: actions/checkout@a12b3c4d5e6f7890abcdef1234567890abcdef12 # v4.2.0
 ```
@@ -1788,13 +1884,14 @@ slsa-framework/slsa-github-generator@v2.0.0 → slsa-framework/slsa-github-gener
 - **Acceptance Criteria**:
   - [ ] All third-party actions pinned to full commit SHAs
   - [ ] Version comments added for human readability
-  - [ ] First-party GitHub actions (actions/*, github/*) pinned
+  - [ ] First-party GitHub actions (actions/_, github/_) pinned
   - [ ] All workflows validated with pinned SHAs
   - [ ] Dependabot will manage updates going forward
 
 ---
 
 #### W2.23 Standardize Artifact Upload to v5
+
 - [ ] **Task**: Update all `upload-artifact` and `download-artifact` to v5 for consistency
 - **Effort**: S (30 minutes)
 - **Priority**: Medium
@@ -1804,6 +1901,7 @@ slsa-framework/slsa-github-generator@v2.0.0 → slsa-framework/slsa-github-gener
 **Current State**: Mixed usage of v4 and v5 across workflows
 
 **Changes Required**:
+
 ```yaml
 # Update all instances
 actions/upload-artifact@v4 → actions/upload-artifact@v5
@@ -1811,6 +1909,7 @@ actions/download-artifact@v4 → actions/download-artifact@v5
 ```
 
 **Note**: v5 has breaking changes around artifact immutability. Review:
+
 - Artifact name uniqueness requirements
 - Overwrite behavior changes
 
@@ -1823,6 +1922,7 @@ actions/download-artifact@v4 → actions/download-artifact@v5
 ---
 
 #### W2.24 Add PowerShell Parameter Metadata
+
 - [ ] **Task**: Add `[Parameter()]` attributes to all PowerShell scripts
 - **Effort**: M (6-8 hours) ⚠️ Expert review: metadata ripple effects can be subtle
 - **Priority**: Medium
@@ -1830,6 +1930,7 @@ actions/download-artifact@v4 → actions/download-artifact@v5
 - **Files**: `scripts/*.ps1`, `build/scripts/*.ps1`
 
 **Current Scripts** (7 files):
+
 1. `scripts/Capture-WireMockTraffic.ps1`
 2. `scripts/Convert-HarToWireMock.ps1`
 3. `scripts/Count-NullableWarnings.ps1`
@@ -1839,6 +1940,7 @@ actions/download-artifact@v4 → actions/download-artifact@v5
 7. `build/scripts/Count-NullableWarnings.ps1` (duplicate?)
 
 **Pattern to Apply**:
+
 ```powershell
 # Before
 param(
@@ -1858,6 +1960,7 @@ param(
 ```
 
 **Best Practices**:
+
 - Add `[Parameter()]` attributes with HelpMessage
 - Use `[ValidateNotNullOrEmpty()]` for required strings
 - Use `[ValidateScript()]` for path validation
@@ -1874,6 +1977,7 @@ param(
 ---
 
 #### W2.25 Null-Forgiving Operator Defensive Checks
+
 - [ ] **Task**: Replace `!` null-forgiving operators with defensive null checks
 - **Effort**: M (8-12 hours) ⚠️ Expert review: touches core libs, TDD requirement + multi-target checks
 - **Priority**: **LOW** - Demoted (32 instances in prod, but 0 bug reports = no users hitting it)
@@ -1882,11 +1986,13 @@ param(
 - **Files**: `test/Qwiq.Integration.Tests/WireMock/*.cs`, test projects
 
 **Violations Identified**:
+
 1. `server.Url!` - WireMock server URL may be null if not started
 2. `Path.GetDirectoryName()!` - Can return null for root paths
 3. `_outputPath!` - Test fixture field may not be initialized
 
 **Pattern to Apply**:
+
 ```csharp
 // Before (unsafe)
 var url = server.Url!;
@@ -1901,6 +2007,7 @@ var url = server.Url;
 ```
 
 **Files to Update**:
+
 - `test/Qwiq.Integration.Tests/WireMock/WireMockExtensions.cs`
 - `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs`
 - `test/Qwiq.Integration.Tests/WireMock/RecordingTests.cs`
@@ -1914,6 +2021,7 @@ var url = server.Url;
 ---
 
 #### W2.26 Remove Unused Code (Cleanup)
+
 - [ ] **Task**: Remove unused fields and imports flagged by analyzers
 - **Effort**: S (1-2 hours) ⚠️ Expert review: trace usage across net472/net8.0 TFMs
 - **Priority**: Low - Code hygiene
@@ -1921,6 +2029,7 @@ var url = server.Url;
 - **Files**: `test/Qwiq.Mocks/MockTfsConnectionFactory.cs`, test projects
 
 **Items to Remove**:
+
 1. `_httpClientFactory` field in `MockTfsConnectionFactory` (IDE0052)
 2. `using Moq;` in `MockTfsConnectionFactory` (IDE0005)
 3. `using WireMock.Server;` in `WireMockQueryTests` (IDE0005)
@@ -1934,6 +2043,7 @@ var url = server.Url;
 ---
 
 #### W2.27 Extend JSON Escaping for Control Characters
+
 - [ ] **Task**: Add tab and control character escaping to `EscapeJson` method
 - **Effort**: S (3-4 hours) ⚠️ Expert review: requires audit + fuzzing/unit tests
 - **Priority**: Medium - Serialization safety (elevated from Low)
@@ -1943,6 +2053,7 @@ var url = server.Url;
 **Current Implementation**: Only escapes `\`, `"`, and newlines
 
 **Enhancement**:
+
 ```powershell
 function EscapeJson {
     param([string]$value)
@@ -1969,6 +2080,7 @@ function EscapeJson {
 ---
 
 #### W2.28 Fix Test Proxy Restoration
+
 - [ ] **Task**: Restore original `WebRequest.DefaultWebProxy` instead of setting to null
 - **Effort**: S (15 minutes)
 - **Priority**: Low - Test isolation
@@ -1976,6 +2088,7 @@ function EscapeJson {
 - **File**: `test/Qwiq.Integration.Tests/WireMock/RecordingTests.cs`
 
 **Current Code**:
+
 ```csharp
 public void Dispose()
 {
@@ -1986,6 +2099,7 @@ public void Dispose()
 ```
 
 **Fixed Code**:
+
 ```csharp
 private readonly IWebProxy? _originalProxy;
 
@@ -2012,6 +2126,7 @@ public void Dispose()
 ---
 
 #### W2.29 Service Resolution Null Guards
+
 - [ ] **Task**: Add null checks for `GetService<T>()` calls that can return null
 - **Effort**: S (1-2 hours) ⚠️ Expert review: guard placement affects constructor contracts + tests
 - **Priority**: **HIGH** - Null safety (elevated from Medium)
@@ -2021,6 +2136,7 @@ public void Dispose()
 **Violation**: `GetIdentityManagementService` extension method
 
 **Pattern**:
+
 ```csharp
 // Before (unsafe)
 public static IIdentityManagementService GetIdentityManagementService(
@@ -2048,6 +2164,7 @@ public static IIdentityManagementService GetIdentityManagementService(
 ---
 
 #### W2.30 Secrets Workflow Runner Documentation ✅ RESOLVED
+
 - [x] **Task**: Document runner selection rationale in workflow and instructions
 - **Effort**: S (30 minutes)
 - **Priority**: Low - Documentation
@@ -2058,18 +2175,22 @@ public static IIdentityManagementService GetIdentityManagementService(
 **Current State**: Uses `ubuntu-latest` (Linux) ✅ CORRECT
 
 **Runner Selection Policy** (clarified):
+
 - **Preferred**: `ubuntu-latest` (Linux) - faster startup, lower cost
 - **Use Windows when**: Building net472 targets (avoids mono installation on Linux)
 
 **Why `secrets.yml` uses Linux** (correct choice):
+
 1. Linux runners are faster and cheaper
 2. Gitleaks is a Linux/Docker-based tool
 3. No .NET build required - just scanning
 4. No net472 dependency
 
 **Documentation Update** (copilot-instructions.md):
+
 ```markdown
 ### GitHub Actions Runner Selection
+
 - **Preferred**: `ubuntu-latest` (Linux) - faster startup, lower cost
 - **Use `windows-latest` when**: Building net472 targets (SOAP projects)
   - Avoids installing mono on Linux runners
@@ -2085,6 +2206,7 @@ public static IIdentityManagementService GetIdentityManagementService(
 ---
 
 #### W2.31 Fix SLSA Verification Documentation
+
 - [ ] **Task**: Correct wget/curl commands in SLSA verification instructions
 - **Effort**: S (15 minutes)
 - **Priority**: Low - Documentation accuracy
@@ -2094,6 +2216,7 @@ public static IIdentityManagementService GetIdentityManagementService(
 **Current Issue**: Commands download but don't save with expected filenames
 
 **Fix Required**:
+
 ```bash
 # Before (incorrect - saves as download or wrong name)
 wget https://github.com/rjmurillo/Qwiq/releases/download/v1.0.0/Qwiq.Core.nupkg
@@ -2105,6 +2228,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 ```
 
 **Additional Fixes**:
+
 - Add `-L` to curl to follow redirects
 - Add `-O` to wget for output filename
 - Include PowerShell equivalent commands for Windows users
@@ -2119,6 +2243,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 ---
 
 #### W2.32 Add CI Warning Gate (NEW - Session 13)
+
 - [ ] **Task**: Add CI step to fail build if warnings exceed threshold
 - **Effort**: S (1-2 hours)
 - **Priority**: **CRITICAL** - Prevents regression of clean build state
@@ -2128,6 +2253,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 **Why Critical**: Build is currently clean (0 warnings). A CI gate prevents accidental introduction of new warnings and maintains the clean state achieved through Wave 1 work.
 
 **Implementation**:
+
 ```yaml
 - name: Check for warnings
   shell: pwsh
@@ -2143,6 +2269,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 ```
 
 **Alternative** (simpler, uses existing PedanticMode):
+
 ```yaml
 - name: Build (strict mode)
   run: dotnet build Qwiq.sln -c Release /p:PedanticMode=true /p:TreatWarningsAsErrors=true
@@ -2157,6 +2284,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 ---
 
 #### W2.33 NuGet 2.0.0 Publish (NEW - Session 27) 🔴
+
 - [ ] **Task**: Publish first NuGet release in 7 years, declare maintenance mode
 - **Effort**: S (2-4 hours)
 - **Priority**: **CRITICAL** - Release milestone before maintenance mode
@@ -2166,6 +2294,7 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 **Why Critical**: The last NuGet publish was February 2018. After 7 years of modernization, the packages should be released to NuGet.org before entering maintenance mode.
 
 **Pre-Release Checklist**:
+
 1. [ ] All CRITICAL Wave 2 tasks complete (W2.32, W2.22)
 2. [ ] CI passing on develop branch
 3. [ ] Version set to 2.0.0 via version.json
@@ -2173,16 +2302,19 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 5. [ ] README.md updated with maintenance mode notice
 
 **Release Process**:
+
 1. Merge `feat/modernize-3` branch to develop
 2. Create GitHub Release with tag `v2.0.0`
 3. Automated workflow publishes to NuGet.org
 4. Verify packages on nuget.org
 
 **README.md Maintenance Mode Notice**:
+
 ```markdown
 ## ⚠️ Maintenance Mode
 
 As of December 2025, Qwiq is in **maintenance mode**:
+
 - ✅ Security updates will be applied
 - ✅ Critical bug fixes will be considered
 - ❌ No new features planned
@@ -2193,6 +2325,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 ```
 
 **NuGet.org Expectations**:
+
 - 10 packages published (Core, Rest, Soap, Linq, Mapper, Identity, etc.)
 - Symbol packages (.snupkg) included
 - SLSA provenance attached to GitHub Release
@@ -2212,6 +2345,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 ### Phase 2E: Documentation
 
 #### W2.5 Create Architecture Decision Records ⬆️ ELEVATED ✅ COMPLETE
+
 - [x] **Task**: Document key architectural decisions
 - **Effort**: M (1 day) ⏱️ Actual: ~3 hours
 - **Priority**: **HIGH** (elevated - foundational for maintainability)
@@ -2222,6 +2356,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 **Why High Priority**: ADRs capture the "why" behind architectural choices. Without them, future maintainers may inadvertently break design invariants or repeat past mistakes. This is foundational documentation that should be created early.
 
 **Topics documented**:
+
 - ADR-001: Factory pattern for WorkItemStore (5.5 KB)
 - ADR-002: Interface-first design (6.7 KB)
 - ADR-003: REST vs SOAP client strategy (9.0 KB)
@@ -2239,17 +2374,20 @@ the official Microsoft.TeamFoundationServer.Client packages.
 ---
 
 #### ~~W2.6 Create "Good First Issue" Labels~~ ❌ REMOVED
+
 > **Removed**: This project does not use GitHub Issues for tracking work.
 
 ---
 
 #### W2.7 Update CONTRIBUTING.md
+
 - [ ] **Task**: Modernize contribution guidelines
 - **Effort**: S (2-4 hours)
 - **Priority**: Medium
 - **Dependencies**: W1.4, W1.5, W1.6
 
 **Sections to add/update**:
+
 - Development environment setup
 - Code style (reference .editorconfig)
 - PR process (reference CODEOWNERS)
@@ -2279,6 +2417,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 > **Decision**: Wave 3 is REQUIRED for production v11.0.0 release.
 >
 > **Key Tasks**:
+>
 > - W3.1: TFM expansion (net472;net8.0;net9.0) - CRITICAL for containers
 > - W3.10: Package signing - CRITICAL for security review
 > - W3.8: Observability (ILogger + OpenTelemetry) - HIGH for production
@@ -2294,6 +2433,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 > **Phase 3A tasks RE-ACTIVATED for production v11.0.0 release.**
 
 #### W3.8 Observability Overhaul 📋 RE-ACTIVATED (DEFERRED - Consolidates W2.1 + W2.9)
+
 - [ ] **Task**: Comprehensive observability upgrade (ILogger + OpenTelemetry)
 - **Effort**: L (2-3 weeks)
 - **Priority**: **HIGH** (Tier 2) - Required for production monitoring
@@ -2302,6 +2442,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 - **Files**: All `src/Qwiq.*` projects, `Directory.Packages.props`
 
 **Scope** (consolidates W2.1 OpenTelemetry + W2.9 ILogger migration):
+
 1. Replace `System.Diagnostics.Trace` with `ILogger<T>` (18 Trace calls identified)
 2. Add OpenTelemetry `ActivitySource` for distributed tracing
 3. Create `QwiqDiagnostics` static class for centralized instrumentation
@@ -2309,6 +2450,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 5. Metrics for query performance
 
 **Package additions**:
+
 ```xml
 <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
 <PackageVersion Include="OpenTelemetry" Version="1.7.0" />
@@ -2316,6 +2458,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 ```
 
 **ILogger Pattern** (without forcing DI on consumers):
+
 ```csharp
 public sealed class WorkItemQueryService
 {
@@ -2328,6 +2471,7 @@ public sealed class WorkItemQueryService
 ```
 
 **Source-Generated Logging** (.NET 8 best practice):
+
 ```csharp
 public static partial class WorkItemLoggerExtensions
 {
@@ -2340,6 +2484,7 @@ public static partial class WorkItemLoggerExtensions
 ```
 
 **ActivitySource Pattern**:
+
 ```csharp
 public static class QwiqActivitySource
 {
@@ -2358,6 +2503,7 @@ public IEnumerable<IWorkItem> Query(string wiql)
 ```
 
 **OpenTelemetry Integration** (opt-in for consumers):
+
 ```csharp
 // Consumer registration (optional)
 services.AddOpenTelemetry()
@@ -2377,6 +2523,7 @@ services.AddOpenTelemetry()
 ---
 
 #### W3.9 IConfiguration Support 📋 RE-ACTIVATED (DEFERRED - was W2.8)
+
 - [ ] **Task**: Enable credentials from configuration providers
 - **Effort**: M (1-2 days)
 - **Priority**: MEDIUM (Tier 3) - Nice-to-have for container deployment
@@ -2385,12 +2532,14 @@ services.AddOpenTelemetry()
 - **Files**: `src/Qwiq.Core/`, `Directory.Packages.props`
 
 **Package additions**:
+
 ```xml
 <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
 <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
 ```
 
 **Options Pattern** (best practice for libraries):
+
 ```csharp
 public class QwiqOptions
 {
@@ -2421,6 +2570,7 @@ public sealed class DefaultQwiqClientFactory : IQwiqClientFactory
 ```
 
 **Testing Pattern**:
+
 ```csharp
 // Use QwiqOptionsBuilder for tests (no IOptions dependency)
 var options = new QwiqOptionsBuilder()
@@ -2439,6 +2589,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.10 Package Signing 📋 RE-ACTIVATED (DEFERRED - was W2.12) ⏸️ BLOCKED
+
 - [ ] **Task**: Sign NuGet packages with code signing certificate
 - **Effort**: M (1 day)
 - **Priority**: **CRITICAL** (Tier 1) - Required for enterprise security review
@@ -2447,6 +2598,7 @@ var options = new QwiqOptionsBuilder()
 - **File**: `.github/workflows/release.yml`
 
 **Prerequisites** (must be completed before implementation):
+
 - [ ] Azure subscription with Key Vault
 - [ ] Code signing certificate (EV recommended, ~$200-500/year)
 - [ ] GitHub secrets configured:
@@ -2457,6 +2609,7 @@ var options = new QwiqOptionsBuilder()
   - `AZURE_TENANT_ID`
 
 **Implementation** (after prerequisites):
+
 ```yaml
 - name: Sign Packages
   run: |
@@ -2483,6 +2636,7 @@ var options = new QwiqOptionsBuilder()
 > **All tasks in Phase 3B are RE-ACTIVATED for production v11.0.0 release.**
 >
 > **TFM Strategy Update (Session 28 - December 12, 2025)**:
+>
 > - net462, net47, net471: ❌ CANNOT support (SDK hard constraint - ExtendedClient requires net472+)
 > - net472: ✅ KEEP (minimum for SOAP SDK)
 > - net48: ✅ **ADD** (compiler optimizations, different binding decisions)
@@ -2494,6 +2648,7 @@ var options = new QwiqOptionsBuilder()
 > **Note**: net48/net481 provide **real value** beyond binary compatibility - compiler makes different binding decisions based on available APIs.
 
 #### W3.1 TFM Expansion 📋 RE-ACTIVATED
+
 - [ ] **Task**: Add net48, net481, net9.0, net10.0 TFMs to multi-targeting projects
 - **Effort**: M (2-3 days)
 - **Priority**: **HIGH** (Tier 2) - Required for production deployment
@@ -2511,12 +2666,14 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.1a Add Modern Runtime TFMs 📋 RE-ACTIVATED
+
 - [ ] **Task**: Add net48, net481, net9.0, net10.0 TFMs to multi-targeting projects
 - **Effort**: M (4-8 hours)
 - **Priority**: **HIGH** (Tier 2) - Required for production
 - **Dependencies**: W3.1 (TFM expansion plan complete)
 
 **Projects to update**:
+
 - Qwiq.Core, Qwiq.Core.Rest: `net472;net48;net481;net8.0;net9.0;net10.0`
 - Qwiq.Linq, Qwiq.Mapper, Qwiq.Identity: `net472;net48;net481;net8.0;net9.0;net10.0`
 - Test projects: `net472;net48;net481;net8.0;net9.0;net10.0`
@@ -2532,6 +2689,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.2 ARM64 Validation 📋 RE-ACTIVATED
+
 - [ ] **Task**: Test and document ARM64 support for Kubernetes/container deployment
 - **Effort**: M (4-8 hours)
 - **Priority**: MEDIUM (Tier 3) - Important for container flexibility
@@ -2545,6 +2703,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.3 Remove AppVeyor Configuration 📋 RE-ACTIVATED
+
 - [ ] **Task**: Delete legacy CI configuration
 - **Effort**: S (15 min)
 - **Priority**: LOW (Tier 3)
@@ -2562,6 +2721,7 @@ var options = new QwiqOptionsBuilder()
 > **Phase 3C tasks RE-ACTIVATED for production v11.0.0 release.**
 
 #### W3.4 Deprecate netstandard2.0 (Evaluation) 📋 RE-ACTIVATED
+
 - [ ] **Task**: Evaluate dropping netstandard2.0 target
 - **Effort**: S (research only)
 - **Priority**: LOW (Tier 3) - Keep netstandard2.0 for now per csharp-expert
@@ -2574,6 +2734,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.5 Create API Compatibility Policy Document 📋 RE-ACTIVATED
+
 - [ ] **Task**: Document API stability guarantees and versioning policy
 - **Effort**: S (2-4 hours)
 - **Priority**: MEDIUM (Tier 3) - Important for v11.0.0 release
@@ -2581,6 +2742,7 @@ var options = new QwiqOptionsBuilder()
 - **File**: `docs/API_COMPATIBILITY.md`
 
 **Contents**:
+
 - Semantic versioning policy
 - Breaking change definition
 - Deprecation timeline (e.g., 2 minor versions warning)
@@ -2594,6 +2756,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.6 Create SOAP to REST Migration Guide 📋 RE-ACTIVATED
+
 - [ ] **Task**: Document migration path for SOAP client consumers
 - **Effort**: M (1-2 days)
 - **Priority**: **HIGH** (Tier 2) - Critical since SOAP cannot be deprecated
@@ -2601,6 +2764,7 @@ var options = new QwiqOptionsBuilder()
 - **File**: `docs/SOAP_TO_REST_MIGRATION.md`
 
 **Contents**:
+
 - Feature parity matrix (REST vs SOAP capabilities)
 - Authentication migration (Windows Auth → PAT/OAuth)
 - Code migration examples
@@ -2616,6 +2780,7 @@ var options = new QwiqOptionsBuilder()
 ---
 
 #### W3.7 Establish Performance Baselines 📋 RE-ACTIVATED
+
 - [ ] **Task**: Create performance benchmarks with tracked baselines
 - **Effort**: M (1 day)
 - **Priority**: MEDIUM (Tier 3) - Important for production monitoring
@@ -2623,6 +2788,7 @@ var options = new QwiqOptionsBuilder()
 - **Files**: `test/Qwiq.Benchmark/`, GitHub Actions
 
 **Implementation**:
+
 - Run BenchmarkDotNet on key operations
 - Store baseline results in repository
 - Compare PR results against baseline
@@ -2640,25 +2806,25 @@ var options = new QwiqOptionsBuilder()
 
 ### Metrics Dashboard
 
-| Metric | Current | Target | Status |
-|--------|---------|--------|--------|
-| Build warnings | **0** | 0 | 🟢 |
-| Build errors | **0** | 0 | 🟢 |
-| CS8xxx warnings in source | 0 | 0 | 🟢 |
-| Active suppressions | **8** (design decisions) | 8 | 🟢 |
-| Security rules (CA3xxx-CA5xxx) | ✅ 65 enabled, 0 violations | All enabled | 🟢 |
-| Reliability rules (CA2xxx) | ✅ 5 enabled, 0 violations | All enabled | 🟢 |
-| Performance rules (CA18xx) | ✅ 4 enabled, 0 violations | Key rules enabled | 🟢 |
-| Code coverage | 46.1% | 70% (enterprise requirement) | 🟡 |
-| Documentation files | 8/8 | 8/8 | 🟢 |
-| Package READMEs | 10/10 | 10/10 | 🟢 |
-| ADRs | 9/9 | Documented | 🟢 |
-| Release automation | ✅ Configured | Automated | 🟢 |
-| SBOM generation | ✅ Dual-pipeline | Dual-pipeline | 🟢 |
-| SLSA Provenance | ✅ Level 3 | Level 3 | 🟢 |
-| Actions SHA-pinned | 🟡 Renovate configured | All pinned | 🟡 |
-| CI Warning Gate | ❌ Not implemented | Implemented | 🔴 |
-| **NuGet 2.0.0 Release** | ❌ Not published | Published | 🔴 |
+| Metric                         | Current                     | Target                       | Status |
+| ------------------------------ | --------------------------- | ---------------------------- | ------ |
+| Build warnings                 | **0**                       | 0                            | 🟢     |
+| Build errors                   | **0**                       | 0                            | 🟢     |
+| CS8xxx warnings in source      | 0                           | 0                            | 🟢     |
+| Active suppressions            | **8** (design decisions)    | 8                            | 🟢     |
+| Security rules (CA3xxx-CA5xxx) | ✅ 65 enabled, 0 violations | All enabled                  | 🟢     |
+| Reliability rules (CA2xxx)     | ✅ 5 enabled, 0 violations  | All enabled                  | 🟢     |
+| Performance rules (CA18xx)     | ✅ 4 enabled, 0 violations  | Key rules enabled            | 🟢     |
+| Code coverage                  | 46.1%                       | 70% (enterprise requirement) | 🟡     |
+| Documentation files            | 8/8                         | 8/8                          | 🟢     |
+| Package READMEs                | 10/10                       | 10/10                        | 🟢     |
+| ADRs                           | 9/9                         | Documented                   | 🟢     |
+| Release automation             | ✅ Configured               | Automated                    | 🟢     |
+| SBOM generation                | ✅ Dual-pipeline            | Dual-pipeline                | 🟢     |
+| SLSA Provenance                | ✅ Level 3                  | Level 3                      | 🟢     |
+| Actions SHA-pinned             | 🟡 Renovate configured      | All pinned                   | 🟡     |
+| CI Warning Gate                | ❌ Not implemented          | Implemented                  | 🔴     |
+| **NuGet 2.0.0 Release**        | ❌ Not published            | Published                    | 🔴     |
 
 > **Target Adjustment (Session 28)**: Code coverage target RESTORED to 70% per production v11.0.0 requirements. Session 27 decision was based on wrong metrics (external adoption for internal library). Enterprise security review requires comprehensive test coverage.
 
@@ -2693,38 +2859,33 @@ Future:     ❌ Wave 4 items - CANCELLED
 ### Priority Order for Next Session
 
 **Sprint 1 (Week 1-2): Foundation & API Protection** ✅ COMPLETE
+
 1. ✅ **W2.5** - Create Architecture Decision Records - **COMPLETE** (Session 14)
 2. ✅ **W2.2** - Create API Compatibility Baselines - **COMPLETE** (Session 15)
 3. ✅ **W2.15** - Pin GitHub Actions by SHA + Dependabot/Renovate - **COMPLETE** (Session 16)
 4. ✅ **W2.18** - Enable Package Validation - **COMPLETE** (Session 16)
 
-**Sprint 2 (Week 3-4): Release Automation & Supply Chain** ✅ COMPLETE
-5. ✅ **W2.11** - Create Release Workflow - **COMPLETE** (Session 17)
-6. ✅ **W2.17** - SLSA Provenance Generation - **COMPLETE** (Session 18)
-7. ✅ **W2.13** - SBOM Generation (dual pipeline) - **COMPLETE** (Session 18)
-8. ✅ **W2.14** - Dependency Review Action - **COMPLETE** (Session 18)
+**Sprint 2 (Week 3-4): Release Automation & Supply Chain** ✅ COMPLETE 5. ✅ **W2.11** - Create Release Workflow - **COMPLETE** (Session 17) 6. ✅ **W2.17** - SLSA Provenance Generation - **COMPLETE** (Session 18) 7. ✅ **W2.13** - SBOM Generation (dual pipeline) - **COMPLETE** (Session 18) 8. ✅ **W2.14** - Dependency Review Action - **COMPLETE** (Session 18)
 
-**Sprint 3 (Week 5-6): Testing & Security** ✅ MOSTLY COMPLETE
-9. ✅ **W2.16 Phase 1** - REST Unit Tests (WireMock.Net) - **COMPLETE**
-10. ✅ **W2.19** - CodeQL Advanced Security - **COMPLETE**
-11. ✅ **W2.20** - Secrets Scanning - **COMPLETE**
+**Sprint 3 (Week 5-6): Testing & Security** ✅ MOSTLY COMPLETE 9. ✅ **W2.16 Phase 1** - REST Unit Tests (WireMock.Net) - **COMPLETE** 10. ✅ **W2.19** - CodeQL Advanced Security - **COMPLETE** 11. ✅ **W2.20** - Secrets Scanning - **COMPLETE**
 
 **Sprint 4 (Current): FINAL SPRINT - Ship NuGet 2.0.0** 🔄 IN PROGRESS
 
 > **⚠️ MAINTENANCE MODE DECISION**: This is the FINAL sprint before entering maintenance mode. Focus on critical security + shipping. All other items are LOW priority or DEFERRED.
 
-| Priority | Task | Rationale |
-|----------|------|-----------|
-| 1. CRITICAL | **W2.32** - CI Warning Gate | Trust the build - protect clean state |
-| 2. CRITICAL | **W2.22** - Pin GitHub Actions to SHA | Supply chain security |
-| 3. CRITICAL | **W2.33** - NuGet 2.0.0 Publish | **SHIP IT** - First release in 7 years! |
-| 4. HIGH | **W2.29** - Service Resolution Null Guards | Runtime safety (quick win) |
-| 5. LOW | W2.21 - Markdown Linting | Vanity - no active documentation audience |
-| 6. LOW | W2.25 - Null-Forgiving Operator Cleanup | 32 instances, but 0 bug reports |
-| 7. LOW | W2.23 - Artifact Upload v5 | Low risk, opportunistic |
-| 8. LOW | W2.24 - PowerShell Parameter Metadata | Low ROI |
+| Priority    | Task                                       | Rationale                                 |
+| ----------- | ------------------------------------------ | ----------------------------------------- |
+| 1. CRITICAL | **W2.32** - CI Warning Gate                | Trust the build - protect clean state     |
+| 2. CRITICAL | **W2.22** - Pin GitHub Actions to SHA      | Supply chain security                     |
+| 3. CRITICAL | **W2.33** - NuGet 2.0.0 Publish            | **SHIP IT** - First release in 7 years!   |
+| 4. HIGH     | **W2.29** - Service Resolution Null Guards | Runtime safety (quick win)                |
+| 5. LOW      | W2.21 - Markdown Linting                   | Vanity - no active documentation audience |
+| 6. LOW      | W2.25 - Null-Forgiving Operator Cleanup    | 32 instances, but 0 bug reports           |
+| 7. LOW      | W2.23 - Artifact Upload v5                 | Low risk, opportunistic                   |
+| 8. LOW      | W2.24 - PowerShell Parameter Metadata      | Low ROI                                   |
 
 **DEFERRED to Maintenance Mode** (opportunistic only):
+
 - **W2.16 Phase 2** - SOAP Unit Tests - Medium effort, low value
 - **W2.3** - Contract Tests - Nice-to-have, not required
 - **W2.7** - Update CONTRIBUTING.md - No external contributors
@@ -2732,6 +2893,7 @@ Future:     ❌ Wave 4 items - CANCELLED
 - **W2.30, W2.31** - Documentation fixes - ✅ W2.30 RESOLVED, W2.31 Low
 
 **CANCELLED**:
+
 - ❌ **Wave 3** - Framework Modernization (not justified by usage)
 - ❌ **Wave 4** - Future enhancements (not justified by usage)
 
@@ -2743,27 +2905,28 @@ After shipping NuGet 2.0.0, the project enters **MAINTENANCE MODE**. This sectio
 
 ### Activities INCLUDED in Maintenance Mode
 
-| Activity | Trigger | Response Time |
-|----------|---------|---------------|
-| Security advisories | Dependabot/CVE alert | 7 days |
-| Critical bug fixes | User-reported crash | 14 days |
-| Dependency updates | Automated PR (Renovate) | Merge if CI passes |
-| Build system fixes | CI failure on main | 7 days |
+| Activity            | Trigger                 | Response Time      |
+| ------------------- | ----------------------- | ------------------ |
+| Security advisories | Dependabot/CVE alert    | 7 days             |
+| Critical bug fixes  | User-reported crash     | 14 days            |
+| Dependency updates  | Automated PR (Renovate) | Merge if CI passes |
+| Build system fixes  | CI failure on main      | 7 days             |
 
 ### Activities NOT INCLUDED (Scope Limits)
 
-| Request Type | Response |
-|--------------|----------|
-| New features | "Project is in maintenance mode. PRs welcome." |
-| Performance optimizations | "Not accepting unless critical regression." |
-| Additional framework targets | "❌ net10.0+ will NOT be added." |
-| SOAP client enhancements | "SOAP client is legacy, REST preferred." |
-| Expanded test coverage | "Current coverage is acceptable for usage level." |
-| Documentation expansion | "README and ADRs are sufficient." |
+| Request Type                 | Response                                          |
+| ---------------------------- | ------------------------------------------------- |
+| New features                 | "Project is in maintenance mode. PRs welcome."    |
+| Performance optimizations    | "Not accepting unless critical regression."       |
+| Additional framework targets | "❌ net10.0+ will NOT be added."                  |
+| SOAP client enhancements     | "SOAP client is legacy, REST preferred."          |
+| Expanded test coverage       | "Current coverage is acceptable for usage level." |
+| Documentation expansion      | "README and ADRs are sufficient."                 |
 
 ### Success Criteria for Maintenance Mode
 
 The project is successfully in maintenance mode when:
+
 - [x] NuGet 2.0.0 published (W2.33)
 - [ ] README.md updated with maintenance notice
 - [ ] GitHub repository settings: Archive discussions
@@ -2772,17 +2935,18 @@ The project is successfully in maintenance mode when:
 
 ### Decision Log
 
-| Date | Decision | Rationale |
-|------|----------|-----------|
-| Dec 12, 2025 | Enter maintenance mode | ~22 downloads/day, 0 external contributors since 2023, 0 feature requests, 0 bug reports |
-| Dec 12, 2025 | Cancel Waves 3-4 | Framework modernization not justified by user demand |
-| Dec 12, 2025 | Ship v11.0.0 for production | 70% coverage target, 0 warnings achieved, SLSA Level 3 complete |
+| Date         | Decision                    | Rationale                                                                                |
+| ------------ | --------------------------- | ---------------------------------------------------------------------------------------- |
+| Dec 12, 2025 | Enter maintenance mode      | ~22 downloads/day, 0 external contributors since 2023, 0 feature requests, 0 bug reports |
+| Dec 12, 2025 | Cancel Waves 3-4            | Framework modernization not justified by user demand                                     |
+| Dec 12, 2025 | Ship v11.0.0 for production | 70% coverage target, 0 warnings achieved, SLSA Level 3 complete                          |
 
 ---
 
 ## Appendix: Commands Reference
 
 ### Build Commands
+
 ```powershell
 # Full build
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
@@ -2795,6 +2959,7 @@ dotnet build Qwiq.sln -c Release /bl:./artifacts/logs/build.binlog
 ```
 
 ### Test Commands
+
 ```powershell
 # Unit tests only
 dotnet test Qwiq.sln -c Release --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
@@ -2804,6 +2969,7 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 ```
 
 ### Nullable Analysis
+
 ```powershell
 # Count warnings by rule
 dotnet build src/Qwiq.Core 2>&1 | Select-String "warning CS86" | Group-Object { $_ -replace '.*warning (CS\d+):.*', '$1' }
@@ -2813,6 +2979,7 @@ dotnet build src/Qwiq.Core -warnaserror:CS8618
 ```
 
 ### Analyzer Inventory
+
 ```powershell
 # Count suppressed rules
 Select-String -Path ".editorconfig" -Pattern "severity = none" | Measure-Object
@@ -2831,6 +2998,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 > **Purpose**: Enable production deployment for 100+ team members with enterprise security requirements.
 >
 > **Key Focus Areas**:
+>
 > - Security audit compliance
 > - Container deployment documentation
 > - MCP extension compatibility
@@ -2841,6 +3009,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ### Phase 5A: Security & Compliance
 
 #### W5.1 Security Audit Checklist 📋 PLANNED
+
 - [ ] **Task**: Create comprehensive security audit checklist for enterprise review
 - **Effort**: S-M (2-4 hours)
 - **Priority**: **CRITICAL** (Tier 1)
@@ -2860,6 +3029,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ### Phase 5B: Container & Deployment
 
 #### W5.2 Container Deployment Guide 📋 PLANNED
+
 - [ ] **Task**: Create Kubernetes deployment documentation
 - **Effort**: M (4-6 hours)
 - **Priority**: **HIGH** (Tier 2)
@@ -2878,6 +3048,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ---
 
 #### W5.4 MCP Extension Compatibility 📋 PLANNED
+
 - [ ] **Task**: Document MCP (Model Context Protocol) extension integration patterns
 - **Effort**: M (4-8 hours)
 - **Priority**: **HIGH** (Tier 2)
@@ -2896,6 +3067,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ### Phase 5C: Documentation & Migration
 
 #### W5.3 API Reference Documentation 📋 PLANNED
+
 - [ ] **Task**: Generate comprehensive API documentation
 - **Effort**: L (8-16 hours)
 - **Priority**: **MEDIUM** (Tier 3)
@@ -2912,6 +3084,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ---
 
 #### W5.5 Legacy Support Matrix 📋 PLANNED
+
 - [ ] **Task**: Document TFM compatibility and legacy support
 - **Effort**: S (2-4 hours)
 - **Priority**: **MEDIUM** (Tier 3)
@@ -2927,6 +3100,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ---
 
 #### W5.6 Migration Guide v10→v11 📋 PLANNED
+
 - [ ] **Task**: Create comprehensive migration guide from v10 to v11
 - **Effort**: M (4-6 hours)
 - **Priority**: **HIGH** (Tier 2)
@@ -2946,6 +3120,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ### Phase 5D: Observability & Performance
 
 #### W5.7 Structured Logging 📋 PLANNED
+
 - [ ] **Task**: Add structured logging with ILogger support
 - **Effort**: M (4-8 hours)
 - **Priority**: **MEDIUM** (Tier 3)
@@ -2962,6 +3137,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 ---
 
 #### W5.8 Performance Benchmarks 📋 PLANNED
+
 - [ ] **Task**: Create and document performance benchmarks
 - **Effort**: M (4-8 hours)
 - **Priority**: **LOW** (Tier 3)
@@ -2979,31 +3155,31 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 
 ## Document Control
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | Dec 2024 | Claudette | Initial comprehensive TODO |
-| 2.0 | Dec 5, 2025 | Claudette (Session 7) | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline |
-| 2.1 | Dec 5, 2025 | Claudette (Session 9) | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition. |
-| 2.2 | Dec 5, 2025 | Claudette (Session 10) | Documentation cleanup for handoff. Corrected task counts (Wave 1: 18/27, Wave 2: 14). Added missing Session 7 entry. Fixed session numbering. |
-| 3.0 | Dec 5, 2025 | Claudette (Session 12) | **Major Wave 2/3 restructure**: Deferred W2.8, W2.9, W2.1, W2.12 to Wave 3. Updated W2.11 (DRY composite action), W2.13 (dual-pipeline SBOM). Elevated W2.15 to CRITICAL. Added W2.16 (REST/SOAP Unit Tests), W2.17 (SLSA Provenance), W2.18 (Package Validation), W2.19 (CodeQL), W2.20 (Secrets Scanning). Created W3.8 (Observability Overhaul consolidating W2.1+W2.9), W3.9 (IConfiguration), W3.10 (Package Signing BLOCKED). Updated task counts: Wave 2: 16, Wave 3: 13. |
-| 3.1 | Dec 6, 2025 | Claudette (Session 13) | **Priority & Implementation Updates**: (1) Elevated W2.5 (ADRs) to HIGH, moved to Sprint 1. (2) Elevated W2.2 (API Baselines) to CRITICAL - must be done before any API changes. (3) Removed W2.6 (Good First Issue Labels) - project doesn't use Issues. (4) Updated W2.19 (CodeQL) to integrate with main build instead of separate workflow. (5) Updated W2.16 to use WireMock.Net exclusively. (6) Added Moq 4.16.0 + Moq.Analyzers 0.4.0 for SOAP tests. (7) Updated W2.15 with Dependabot and Renovate configs for SHA pinning. (8) Added license policy rationale table to W2.14. Task count: Wave 2: 15 (was 16). |
-| 3.2 | Dec 11, 2025 | Claudette (Session 24) | **PR #65 Bot Feedback Tasks**: Added 11 new Wave 2 tasks (W2.21-W2.31) based on PR bot review feedback. New Phase 2F: Code Quality & Security Hardening. Tasks address markdown linting (W2.21), GitHub Actions SHA pinning (W2.22), artifact standardization (W2.23), PowerShell metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow documentation (W2.30), SLSA docs fix (W2.31). Wave 2 task count: 14 → 25. |
-| 3.3 | Dec 12, 2025 | Claudette (Session 26 Consensus) | **Multi-Agent Consensus Analysis**: (1) Confirmed Wave 1 25/26 complete (W1.18 deferred pending W2.2). (2) Resolved "~400 suppressed rules" as measurement artifact - only 8 active suppressions exist (all design decisions). (3) Cancelled 7+ day remediation plan - problem doesn't exist. (4) Added W2.32 (CI Warning Gate) - CRITICAL priority. (5) Updated Analyzer Debt Summary with actual state. (6) Updated Metrics Dashboard to reflect clean build. Wave 2 task count: 25 → 26. |
-| 3.4 | Dec 12, 2025 | Claudette (Session 27 - Multi-Agent Final) | **⚠️ STRATEGIC DECISION: MAINTENANCE MODE** - Based on multi-agent consensus (csharp-expert, feature-request-review, independent-thinker, high-level-advisor): (1) **Waves 3-4 CANCELLED** - not justified by ~22 downloads/day, 0 external contributors, 0 feature requests. (2) **Added W2.33** (NuGet 2.0.0 Publish) - CRITICAL - first release in 7 years! (3) **Demoted W2.21** (Markdown) from HIGH to LOW - vanity metric. (4) **Demoted W2.25** (null!) from MEDIUM to LOW - 0 bug reports. (5) **Coverage target reduced** from 70% to 46% - acceptable for usage level. (6) **Final Sprint defined**: W2.32 + W2.22 + W2.29 + W2.33, then maintenance mode. Wave 2 task count: 26 → 27. |
-| 4.0 | Dec 12, 2025 | Claudette (Session 28 - Strategic Pivot) | **🎯 PRODUCTION v11.0.0 RELEASE**: User clarification revealed Session 27 analysis was based on WRONG metrics (external adoption for internal library). (1) **Waves 3-4 RE-ACTIVATED** - Required for 100+ team production deployment. (2) **Wave 5 ADDED** (8 tasks) - Enterprise production requirements (W5.1-W5.8). (3) **W2.33 renamed** 2.0.0 → v11.0.0. (4) **W2.25 elevated** LOW → MEDIUM-HIGH. (5) **Coverage target restored** 46% → 70%. (6) **New Tier 1/2/3 priority structure** with security-first approach. (7) **TFM validated**: net472;net8.0;net9.0 (net462-net471 impossible due to SDK constraint). Timeline: 6-8 weeks. |
+| Version | Date         | Author                                     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------- | ------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | Dec 2024     | Claudette                                  | Initial comprehensive TODO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 2.0     | Dec 5, 2025  | Claudette (Session 7)                      | Expert review updates: corrected analyzer count (~400), added W1.15A (P0 Security), W1.24 (Cross-Platform CI), Wave 2 cloud-native tasks (W2.8-W2.15), Wave 3 long-term tasks (W3.5-W3.7), updated priority order and timeline                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 2.1     | Dec 5, 2025  | Claudette (Session 9)                      | Key decision: Skip .NET 9 (STS), adopt .NET 10 (LTS). Updated W3.1 → .NET 10 SDK, added W3.1a → net10.0 TFM. Strategy: SDK upgrade first, then TFM addition.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 2.2     | Dec 5, 2025  | Claudette (Session 10)                     | Documentation cleanup for handoff. Corrected task counts (Wave 1: 18/27, Wave 2: 14). Added missing Session 7 entry. Fixed session numbering.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 3.0     | Dec 5, 2025  | Claudette (Session 12)                     | **Major Wave 2/3 restructure**: Deferred W2.8, W2.9, W2.1, W2.12 to Wave 3. Updated W2.11 (DRY composite action), W2.13 (dual-pipeline SBOM). Elevated W2.15 to CRITICAL. Added W2.16 (REST/SOAP Unit Tests), W2.17 (SLSA Provenance), W2.18 (Package Validation), W2.19 (CodeQL), W2.20 (Secrets Scanning). Created W3.8 (Observability Overhaul consolidating W2.1+W2.9), W3.9 (IConfiguration), W3.10 (Package Signing BLOCKED). Updated task counts: Wave 2: 16, Wave 3: 13.                                                                                                                                                                                                                  |
+| 3.1     | Dec 6, 2025  | Claudette (Session 13)                     | **Priority & Implementation Updates**: (1) Elevated W2.5 (ADRs) to HIGH, moved to Sprint 1. (2) Elevated W2.2 (API Baselines) to CRITICAL - must be done before any API changes. (3) Removed W2.6 (Good First Issue Labels) - project doesn't use Issues. (4) Updated W2.19 (CodeQL) to integrate with main build instead of separate workflow. (5) Updated W2.16 to use WireMock.Net exclusively. (6) Added Moq 4.16.0 + Moq.Analyzers 0.4.0 for SOAP tests. (7) Updated W2.15 with Dependabot and Renovate configs for SHA pinning. (8) Added license policy rationale table to W2.14. Task count: Wave 2: 15 (was 16).                                                                         |
+| 3.2     | Dec 11, 2025 | Claudette (Session 24)                     | **PR #65 Bot Feedback Tasks**: Added 11 new Wave 2 tasks (W2.21-W2.31) based on PR bot review feedback. New Phase 2F: Code Quality & Security Hardening. Tasks address markdown linting (W2.21), GitHub Actions SHA pinning (W2.22), artifact standardization (W2.23), PowerShell metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow documentation (W2.30), SLSA docs fix (W2.31). Wave 2 task count: 14 → 25.                                                                                                                                                  |
+| 3.3     | Dec 12, 2025 | Claudette (Session 26 Consensus)           | **Multi-Agent Consensus Analysis**: (1) Confirmed Wave 1 25/26 complete (W1.18 deferred pending W2.2). (2) Resolved "~400 suppressed rules" as measurement artifact - only 8 active suppressions exist (all design decisions). (3) Cancelled 7+ day remediation plan - problem doesn't exist. (4) Added W2.32 (CI Warning Gate) - CRITICAL priority. (5) Updated Analyzer Debt Summary with actual state. (6) Updated Metrics Dashboard to reflect clean build. Wave 2 task count: 25 → 26.                                                                                                                                                                                                       |
+| 3.4     | Dec 12, 2025 | Claudette (Session 27 - Multi-Agent Final) | **⚠️ STRATEGIC DECISION: MAINTENANCE MODE** - Based on multi-agent consensus (csharp-expert, feature-request-review, independent-thinker, high-level-advisor): (1) **Waves 3-4 CANCELLED** - not justified by ~22 downloads/day, 0 external contributors, 0 feature requests. (2) **Added W2.33** (NuGet 2.0.0 Publish) - CRITICAL - first release in 7 years! (3) **Demoted W2.21** (Markdown) from HIGH to LOW - vanity metric. (4) **Demoted W2.25** (null!) from MEDIUM to LOW - 0 bug reports. (5) **Coverage target reduced** from 70% to 46% - acceptable for usage level. (6) **Final Sprint defined**: W2.32 + W2.22 + W2.29 + W2.33, then maintenance mode. Wave 2 task count: 26 → 27. |
+| 4.0     | Dec 12, 2025 | Claudette (Session 28 - Strategic Pivot)   | **🎯 PRODUCTION v11.0.0 RELEASE**: User clarification revealed Session 27 analysis was based on WRONG metrics (external adoption for internal library). (1) **Waves 3-4 RE-ACTIVATED** - Required for 100+ team production deployment. (2) **Wave 5 ADDED** (8 tasks) - Enterprise production requirements (W5.1-W5.8). (3) **W2.33 renamed** 2.0.0 → v11.0.0. (4) **W2.25 elevated** LOW → MEDIUM-HIGH. (5) **Coverage target restored** 46% → 70%. (6) **New Tier 1/2/3 priority structure** with security-first approach. (7) **TFM validated**: net472;net8.0;net9.0 (net462-net471 impossible due to SDK constraint). Timeline: 6-8 weeks.                                                   |
 
 ---
 
 ## Legend
 
-| Symbol | Meaning |
-|--------|---------|
-| ✅ | Complete |
-| 🔄 | In Progress |
-| 📋 | Planned |
-| ❌ | Cancelled |
-| 🏁 | Maintenance Mode |
-| 🔴 | Needs Attention / Critical |
-| 🟡 | Partial Progress |
-| 🟢 | On Track |
+| Symbol       | Meaning                                |
+| ------------ | -------------------------------------- |
+| ✅           | Complete                               |
+| 🔄           | In Progress                            |
+| 📋           | Planned                                |
+| ❌           | Cancelled                              |
+| 🏁           | Maintenance Mode                       |
+| 🔴           | Needs Attention / Critical             |
+| 🟡           | Partial Progress                       |
+| 🟢           | On Track                               |
 | **Critical** | Highest priority - address immediately |

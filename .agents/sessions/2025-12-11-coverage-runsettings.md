@@ -13,6 +13,7 @@
 **Work Completed**:
 
 1. ✅ **coverage.runsettings modernization**
+
    - Fetched reference from `https://github.com/rjmurillo/moq.analyzers/blob/main/build/targets/tests/test.runsettings`
    - Added comprehensive XML documentation for all settings
    - Configured Cobertura output format for CI compatibility
@@ -24,6 +25,7 @@
    - Removed legacy `TargetFrameworkVersion` (handled by project TFMs)
 
 2. ✅ **Documentation updates**
+
    - `TESTING.md`: Enhanced "Running Coverage Locally" and "Coverage Configuration" sections
    - `CONTRIBUTING.md`: Added new "Code Coverage" section with guidelines
    - `.github/copilot-instructions.md`: Added coverage command and documentation
@@ -58,14 +60,14 @@
 
 ## Files Changed
 
-| File | Change Type | Description |
-|------|-------------|-------------|
-| `coverage.runsettings` | Modified | Complete rewrite with best practices |
-| `TESTING.md` | Modified | Enhanced coverage configuration section |
-| `CONTRIBUTING.md` | Modified | Added Code Coverage section |
-| `.github/copilot-instructions.md` | Modified | Added coverage command |
-| `claude/skills/qwiq-testing/SKILL.md` | Modified | Added section 8 |
-| `claude/skills/qwiq-testing/REFERENCE.md` | Modified | Added Code Coverage section |
+| File                                      | Change Type | Description                             |
+| ----------------------------------------- | ----------- | --------------------------------------- |
+| `coverage.runsettings`                    | Modified    | Complete rewrite with best practices    |
+| `TESTING.md`                              | Modified    | Enhanced coverage configuration section |
+| `CONTRIBUTING.md`                         | Modified    | Added Code Coverage section             |
+| `.github/copilot-instructions.md`         | Modified    | Added coverage command                  |
+| `claude/skills/qwiq-testing/SKILL.md`     | Modified    | Added section 8                         |
+| `claude/skills/qwiq-testing/REFERENCE.md` | Modified    | Added Code Coverage section             |
 
 ---
 

@@ -219,6 +219,6 @@ Document the issue and resolution in your session log.
 
 ## Document Control
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2025-12-06 | Initial prompts |
+| Version | Date       | Changes         |
+| ------- | ---------- | --------------- |
+| 1.0     | 2025-12-06 | Initial prompts |

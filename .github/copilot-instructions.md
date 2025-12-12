@@ -947,6 +947,151 @@ Learned patterns from previous problem-solving sessions:
 - **Never exclude projects from build** - All projects must build always
 - **Local suppressions only** - If suppression needed, use `[SuppressMessage]` on type/member with reason
 
+## Sub-Agent Routing
+
+Use `runSubagent` to delegate complex or specialized tasks to purpose-built agents. This section provides routing heuristics for selecting the right agent.
+
+### ⚠️ Critical Limitations
+
+Before using sub-agents, understand these important constraints:
+
+| Limitation            | Description                                                                                                  | Workaround                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| **No Recursion**      | Sub-agents cannot spawn other sub-agents. A sub-agent invocation is a single level of delegation only.       | Design workflows where the parent agent handles all sub-agent coordination. |
+| **Context Isolation** | Sub-agents operate in isolated context. Only the final result returns to the parent, not intermediate state. | Include all necessary context in the prompt; don't assume shared state.     |
+| **Tool Disable Bug**  | The `runSubagent` tool may stop appearing mid-session (fixed in VS Code 1.96+).                              | Restart the chat session or VS Code if the tool disappears unexpectedly.    |
+| **Fallback Behavior** | If the specified agent isn't found, falls back to the built-in `agent` without warning.                      | Verify agent names match exactly (case-sensitive).                          |
+
+### Custom Agent Model Selection
+
+Enable custom agents in sub-agent invocations to control which model handles specific tasks:
+
+1. **Enable Setting**: `"chat.customAgentInSubagent.enabled": true` in VS Code settings
+2. **Specify Agent**: Use `agentName` parameter to target a custom agent with a different model
+3. **Tool Restriction**: Custom agents can be configured with limited tool sets for sandboxed workflows
+
+```markdown
+<!-- Using a custom agent configured with Claude Sonnet for fast responses -->
+
+runSubagent(
+agentName: "fast-reviewer",
+prompt: "Quick syntax check on this function",
+description: "Syntax review"
+)
+```
+
+### Available Agents & Capabilities
+
+| Agent                    | Primary Function                 | Best For                                                          | Limitations                                 |
+| ------------------------ | -------------------------------- | ----------------------------------------------------------------- | ------------------------------------------- |
+| `csharp-expert`          | .NET/C# implementation           | Production code, performance optimization, .NET patterns          | Coding only, no docs                        |
+| `csharp-pod`             | Design-first C# development      | Architecture decisions, testable code, design patterns            | Slower due to design phase                  |
+| `claudette-auto`         | Autonomous multi-step execution  | Complex workflows requiring multiple tools                        | May over-engineer simple tasks              |
+| `Beast Mode`             | Fast, aggressive problem-solving | Breaking through blockers, rapid iteration                        | May skip validation steps                   |
+| `create-explainer`       | PRD/requirements generation      | Product specs, feature documentation                              | Not for code implementation                 |
+| `generate-tasks`         | Task decomposition               | Breaking PRDs into actionable task lists                          | Requires PRD input                          |
+| `feature-request-review` | Critical feature analysis        | Reviewing new features, finding gaps                              | Review only, not implementation             |
+| `independent-thinker`    | Assumption challenging           | Getting unfiltered feedback, alternative perspectives             | May be contrarian                           |
+| `high-level-advisor`     | Strategic guidance               | Architecture decisions, technology choices                        | Brutally honest, high-level only            |
+| `AIAgentExpert`          | AI agent development             | Tracing, evaluation, model selection for AI apps                  | AI/agent domain only                        |
+| `AppModernization`       | Java modernization               | Java-to-Azure migrations                                          | **Java only - NOT for .NET**                |
+| `claude-skill`           | Claude Skill creation            | Building reusable skills for AI agents                            | Skill design only                           |
+| `orchestration`          | Task routing & coordination      | Decomposing work into sub-tasks, delegating to specialized agents | Coordination only, no direct implementation |
+| `Plan`                   | Research & multi-step planning   | Researching complex questions, outlining solutions                | Research/planning only                      |
+
+### Routing Heuristics
+
+Select agent based on task type:
+
+```
+Task Type                          → Recommended Agent
+───────────────────────────────────────────────────────────────
+Code implementation (.NET/C#)      → csharp-expert or csharp-pod
+Code review / architecture review  → csharp-pod
+Technical documentation / PRDs     → create-explainer
+Task decomposition from PRD        → generate-tasks
+Challenge assumptions / feedback   → independent-thinker
+Feature scoping / gap analysis     → feature-request-review
+Strategic / architectural advice   → high-level-advisor
+AI agent development questions     → AIAgentExpert
+Autonomous multi-step work         → claudette-auto
+Push through blockers fast         → Beast Mode
+Build Claude skills                → claude-skill
+Java migration to Azure            → AppModernization
+Multi-agent task coordination      → orchestration
+Research & solution planning       → Plan
+```
+
+### Decision Tree
+
+```
+Is this a coding task?
+├─ Yes → Is design/architecture critical?
+│        ├─ Yes → csharp-pod (design-first approach)
+│        └─ No → Is speed critical?
+│                ├─ Yes → Beast Mode (fast iteration)
+│                └─ No → csharp-expert (balanced approach)
+└─ No → Is this documentation?
+        ├─ Yes → Is it a PRD/spec?
+        │        ├─ Yes → create-explainer
+        │        └─ No → Is it task breakdown?
+        │                ├─ Yes → generate-tasks
+        │                └─ No → Manual writing
+        └─ No → Is this review/feedback?
+                ├─ Yes → Is it feature scoping?
+                │        ├─ Yes → feature-request-review
+                │        └─ No → independent-thinker
+                └─ No → Is this strategic advice?
+                        ├─ Yes → high-level-advisor
+                        └─ No → Consider manual approach
+```
+
+### Conflict Resolution
+
+When multiple agents seem appropriate:
+
+1. **csharp-expert vs csharp-pod**: Use `csharp-pod` when design decisions matter; use `csharp-expert` for straightforward implementation
+2. **Beast Mode vs claudette-auto**: Use `Beast Mode` for speed; use `claudette-auto` for thoroughness
+3. **create-explainer vs generate-tasks**: Use `create-explainer` first to create PRD, then `generate-tasks` to decompose it
+4. **feature-request-review vs independent-thinker**: Use `feature-request-review` for structured analysis; use `independent-thinker` for unfiltered pushback
+
+### Error Handling
+
+If an agent fails or produces unexpected results:
+
+1. **Retry with more context**: Add specific constraints or examples to the prompt
+2. **Try alternative agent**: If `csharp-expert` struggles, try `csharp-pod` for design perspective
+3. **Decompose the task**: Break complex requests into smaller sub-tasks
+4. **Fall back to manual**: Some tasks are better handled directly without sub-agents
+
+### Usage Example
+
+```markdown
+<!-- Delegating code implementation -->
+
+runSubagent(
+agentName: "csharp-expert",
+prompt: "Implement null guards for all public constructors in WorkItemCore.cs following the repository's established patterns",
+description: "Add null guards to WorkItemCore"
+)
+
+<!-- Delegating documentation -->
+
+runSubagent(
+agentName: "create-explainer",
+prompt: "Create a PRD for adding batch query support to the LINQ provider",
+description: "Batch query PRD"
+)
+
+<!-- Getting critical feedback -->
+
+runSubagent(
+agentName: "independent-thinker",
+prompt: "Review this proposed architecture change and challenge any assumptions",
+description: "Architecture review"
+)
+```
+
 ## Claude Skills
 
 This repository includes Claude Skills in `.claude/skills/` for on-demand capability loading:
