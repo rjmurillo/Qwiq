@@ -2,8 +2,7 @@
 
 > **Last Updated**: 2025-12-12 by Claudette (Session 29 - runSubagent Documentation)
 > **Current Phase**: Wave 2 🔄 IN PROGRESS | Waves 3-5 📋 RE-ACTIVATED
-> **Branch**: `chore/modernize-4`
-> **Target**: Production v11.0.0 Release
+> **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
 
@@ -331,6 +330,7 @@ See: `.agents/sessions/2025-12-10-package-validation-fix.md` for full details.
 - `.agents/sessions/2025-12-10-cs0006-fix.md` - Session log
 
 **Subagent Consultations**:
+
 | Agent | Purpose | Key Insights |
 |-------|---------|--------------|
 | csharp-expert | Technical MSBuild analysis | Inner-build parallelism explanation |
@@ -524,7 +524,7 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 - Enables breaking change detection in future releases
 - Build verified: 0 warnings, 0 errors
 
-## What Was Completed
+## Wave 2 Progress
 
 ### Phase 2D: Security Hardening ✅ COMPLETE (2/2 tasks - 2025-12-11)
 
@@ -764,7 +764,7 @@ The SBOM tool is now configured as a local .NET tool:
 
 ### Wave 1 Completion Summary (2025-12-08)
 
-**Wave 1: ✅ COMPLETE (27/27 tasks, 100%)**
+Wave 1: ✅ COMPLETE (27/27 tasks, 100%)
 
 All remaining Wave 1 tasks completed in this session:
 
@@ -793,7 +793,7 @@ All remaining Wave 1 tasks completed in this session:
 
 The next Copilot session should:
 
-**Option 1: Wave 2 Phase 2E (Documentation)** - Recommended
+#### Option 1: Wave 2 Phase 2E (Documentation) - Recommended
 
 1. Read `AGENT-INSTRUCTIONS.md` completely
 2. Create session log: `.agents/sessions/2025-12-XX-phase-2e.md`
@@ -803,7 +803,7 @@ The next Copilot session should:
    - Update development environment setup instructions
 4. Update HANDOFF.md before ending
 
-**Option 2: Continue Wave 2 Phase 2C (Testing Enhancements)**
+#### Option 2: Continue Wave 2 Phase 2C (Testing Enhancements)
 
 1. Validate W2.16 Phase 2 (SOAP offline tests) on Windows CI
 2. If passing, proceed with W2.3 (Contract Tests for REST/SOAP parity)

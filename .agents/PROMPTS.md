@@ -12,7 +12,6 @@
 
 ## Quick Reference: Current Sprint Priorities
 
-
 | Tier       | Task ID | Description            | Status                 |
 | ---------- | ------- | ---------------------- | ---------------------- |
 | 1 CRITICAL | W2.32   | CI Warning Gate        | 📋 Planned             |
@@ -24,7 +23,6 @@
 | 2 HIGH     | W5.2    | Container Docs         | 📋 Planned             |
 | 3 MEDIUM   | W2.33   | NuGet v11.0.0 Publish  | 📋 Planned             |
 | 3 MEDIUM   | W5.6    | Migration Guide v10→11 | 📋 Planned             |
-
 
 ---
 
@@ -1079,7 +1077,7 @@ Complete these steps immediately before ending the session:
 - [ ] Check off ALL completed tasks in `.agents/modernize-TODO.md`
 
 ## 2. Complete Session Log
-Update `.agents/sessions/YYYY-MM-DD-session-NN.md` with:
+Update your session log in `.agents/sessions/` (example: `.agents/sessions/2025-12-12-session-01.md`) with:
 - What was done
 - Decisions made and rationale
 - Challenges and resolutions
@@ -1207,3 +1205,4 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 | 1.0     | 2025-12-06 | Initial prompts                                                                   |
 | 2.0     | 2025-12-12 | Complete rewrite: tier-based prompts, zero-context format                         |
 | 3.0     | 2025-12-12 | Self-contained prompts: each task includes full start/end protocol for copy/paste |
+| 3.1     | 2025-12-12 | Added branch/clean checks, baseline build step, and forced add of session logs    |
