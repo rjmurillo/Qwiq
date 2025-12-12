@@ -1003,24 +1003,22 @@ description: "Syntax review"
 
 Select agent based on task type:
 
-```
-Task Type                          → Recommended Agent
-───────────────────────────────────────────────────────────────
-Code implementation (.NET/C#)      → csharp-expert or csharp-pod
-Code review / architecture review  → csharp-pod
-Technical documentation / PRDs     → create-explainer
-Task decomposition from PRD        → generate-tasks
-Challenge assumptions / feedback   → independent-thinker
-Feature scoping / gap analysis     → feature-request-review
-Strategic / architectural advice   → high-level-advisor
-AI agent development questions     → AIAgentExpert
-Autonomous multi-step work         → claudette-auto
-Push through blockers fast         → Beast Mode
-Build Claude skills                → claude-skill
-Java migration to Azure            → AppModernization
-Multi-agent task coordination      → orchestration
-Research & solution planning       → Plan
-```
+| Task Type                         | Recommended Agent           |
+| --------------------------------- | --------------------------- |
+| Code implementation (.NET/C#)     | csharp-expert or csharp-pod |
+| Code review / architecture review | csharp-pod                  |
+| Technical documentation / PRDs    | create-explainer            |
+| Task decomposition from PRD       | generate-tasks              |
+| Challenge assumptions / feedback  | independent-thinker         |
+| Feature scoping / gap analysis    | feature-request-review      |
+| Strategic / architectural advice  | high-level-advisor          |
+| AI agent development questions    | AIAgentExpert               |
+| Autonomous multi-step work        | claudette-auto              |
+| Push through blockers fast        | Beast Mode                  |
+| Build Claude skills               | claude-skill                |
+| Java migration to Azure           | AppModernization            |
+| Multi-agent task coordination     | orchestration               |
+| Research & solution planning      | Plan                        |
 
 ### Decision Tree
 
