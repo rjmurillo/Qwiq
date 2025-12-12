@@ -63,7 +63,8 @@ The converter focuses on these Azure DevOps API endpoints:
 ### 5. Output Location
 
 Captured traffic goes to:
-```
+
+```text
 WireMockRecordings/
 └── {timestamp}/
     └── stubs.json
