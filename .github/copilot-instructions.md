@@ -245,10 +245,32 @@ results.ShouldHaveSingleItem();
 | `Directory.Build.props`     | Shared MSBuild properties, package metadata    |
 | `Directory.Build.targets`   | Shared build targets                           |
 | `Directory.Packages.props`  | Central Package Management                     |
-| `.config/dotnet-tools.json` | Dotnet tool manifest (nbgv)                    |
+| `.config/dotnet-tools.json` | Dotnet tool manifest (nbgv, pprettier, etc.)   |
 | `version.json`              | Nerdbank.GitVersioning configuration           |
 | `.editorconfig`             | Code style AND analyzer severity configuration |
+| `.prettierrc`               | Prettier formatting rules for markdown/JSON    |
+| `.prettierignore`           | Files to exclude from Prettier formatting      |
+| `.markdownlint-cli2.yaml`   | Markdown linting rules (MD031, MD040, etc.)    |
 | `nuget.config`              | NuGet package sources                          |
+
+### Formatting and Linting Tools
+
+```powershell
+# C# formatting (analyzer fixes)
+dotnet format
+
+# Markdown/JSON formatting (via PackedPrettier)
+dotnet pprettier --write "**/*.md"
+
+# Check formatting without changes
+dotnet pprettier --check "**/*.md"
+```
+
+**Key Markdown Rules:**
+- MD031: Blank lines around fenced code blocks
+- MD040: Language identifiers on code blocks
+- MD034: No bare URLs (use `<url>` or `[text](url)`)
+- MD058: Blank lines around tables
 
 ## Critical Build Notes
 

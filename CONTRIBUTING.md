@@ -355,6 +355,46 @@ start ./artifacts/coverage/index.html
 
 ## Code Style
 
+### Formatting and Linting
+
+This repository uses automated formatting and linting tools:
+
+**C# Formatting:**
+
+```powershell
+# Apply C# analyzer fixes
+dotnet format
+
+# Check formatting without applying changes
+dotnet format --verify-no-changes
+```
+
+**Markdown Formatting:**
+
+```powershell
+# Format markdown files with Prettier (via PackedPrettier)
+dotnet pprettier --write "**/*.md"
+
+# Check markdown without applying changes
+dotnet pprettier --check "**/*.md"
+```
+
+**Configuration Files:**
+
+| File                       | Purpose                                    |
+| -------------------------- | ------------------------------------------ |
+| `.editorconfig`            | Code style and analyzer severity           |
+| `.prettierrc`              | Prettier formatting rules                  |
+| `.prettierignore`          | Files to exclude from Prettier             |
+| `.markdownlint-cli2.yaml`  | Markdown linting rules                     |
+
+**Key Markdown Rules Enforced:**
+
+- MD031: Blank lines around fenced code blocks
+- MD040: Language identifiers on code blocks (e.g., ` ```csharp `)
+- MD034: No bare URLs (use `<url>` or `[text](url)`)
+- MD058: Blank lines around tables
+
 ### Nullable Reference Types
 
 - C# nullable reference types are **enabled** (`<Nullable>enable</Nullable>`)
