@@ -9,7 +9,7 @@
 > - [PROMPTS.md](./PROMPTS.md) - Standard prompts for starting/ending sessions
 > - [modernize-explainer.md](./modernize-explainer.md) - Architecture and design decisions
 >
-> **Last Updated**: December 11, 2025 (Coverage.runsettings modernization)
+> **Last Updated**: December 11, 2025 (Wave 2 PR #65 bot feedback tasks added)
 > **Status**: Active
 
 ---
@@ -80,7 +80,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 |------|--------|-------|-----------|
 | Wave 0 | ✅ Complete | 6 | 6/6 |
 | Wave 1 | ✅ Complete | 27 | 27/27 |
-| Wave 2 | 🔄 In Progress | 14 | 9/14 fully complete, 1 partial (W2.16: Phase 1 done, Phase 2 pending) |
+| Wave 2 | 🔄 In Progress | 25 | 9/25 fully complete, 1 partial (W2.16: Phase 1 done, Phase 2 pending) |
 | Wave 3 | 📋 Future | 13 | 0/13 |
 
 **Note**: Task completion counts only fully completed tasks. Multi-phase tasks (e.g., W2.16) are counted as partial until all phases are complete.
@@ -123,6 +123,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 | Date | Activities | Validation |
 |------|------------|------------|
+| 2025-12-11 (Session 24) | **Wave 2 Task Generation from PR #65 Bot Feedback**: Added 11 new Wave 2 tasks (W2.21-W2.31) addressing code quality, security hardening, and documentation issues identified by bot review. Tasks include: markdown linting config (W2.21), GitHub Actions SHA pinning (W2.22), artifact version standardization (W2.23), PowerShell parameter metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow runner documentation (W2.30), and SLSA verification docs fix (W2.31). Updated Wave 2 task count from 14 to 25. See: New Phase 2F section. | Docs: ✅ 11 tasks added with effort estimates, priorities, and acceptance criteria. |
 | 2025-12-11 (Session 23) | **Coverage.runsettings Modernization**: (1) Modernized `coverage.runsettings` with best practices from moq.analyzers reference. (2) Added comprehensive XML documentation, Cobertura format, explicit Qwiq assembly includes. (3) Updated TESTING.md, CONTRIBUTING.md, copilot-instructions.md with coverage documentation. (4) Updated Claude skill documents (qwiq-testing SKILL.md and REFERENCE.md). (5) Validated XPlat Code Coverage workflow - 46.1% line coverage achieved. See: `.agents/sessions/2025-12-11-coverage-runsettings.md` | Build: ✅ Passes. Tests: ✅ Pass with coverage. Coverage: ✅ 46.1% line. Git: ✅ 5 commits (b1fbc83e, 0f2965b2, ca97d2bf, 900c30f8, 889416aa). |
 | 2025-12-10 (Session 22) | **Documentation hygiene**: Relocated all session logs into `.agents/sessions/`, updated internal links (including `session-handoff-test-failures.md` location), and confirmed no remaining stale `.agents/session-` references. | Build: ☐ (not run, docs-only). Tests: ☐ (not run). |
 | 2025-12-09 (Session 21) | **Phase 2C Evaluation**: (1) Created session log `.agents/sessions/2025-12-09-phase-2c-evaluation.md`. (2) Verified W2.4 (Benchmark CI) ✅ COMPLETE - all 3 benchmark projects compile in CI. (3) Verified W2.16 Phase 1 (REST offline) ✅ COMPLETE - 9 WireMock tests, ADR-008, infrastructure documented. (4) Confirmed W2.16 Phase 2 (SOAP offline) NOT STARTED. (5) Confirmed W2.3 (Contract Tests) BLOCKED by W2.16. (6) Documented pre-existing build issues: CS7069 TimeZone type forwarding errors with .NET 10.0.100 SDK affecting net472 builds. See: `.agents/sessions/2025-12-09-phase-2c-evaluation.md` | Build: ⚠️ Unstable (CS7069 errors - pre-existing). Tests: ☐ (not verified - build prerequisite). Phase 2C: W2.4 ✅, W2.16-P1 ✅, W2.16-P2 ⏸️, W2.3 ⏸️. |
@@ -1630,6 +1631,444 @@ jobs:
 
 ---
 
+### Phase 2F: Code Quality & Security Hardening (PR #65 Bot Feedback)
+
+#### W2.21 Add Markdown Linting Configuration ✅
+- [ ] **Task**: Add `.prettierrc` and `.markdownlint-cli2.yaml` to prevent markdown violations
+- **Effort**: S (1-2 hours)
+- **Priority**: **HIGH** - Prevents future CI failures
+- **Dependencies**: None
+- **Files**: `.prettierrc`, `.markdownlint-cli2.yaml`, `.github/workflows/main.yml`
+
+**Violations to Prevent**:
+- MD031: Blank lines around fenced code blocks
+- MD040: Language identifiers on code blocks
+- MD034: Bare URLs (must use `<url>` or `[text](url)`)
+- MD036: Emphasis used instead of headings
+- MD058: Blank lines around tables
+- MD022: Blank lines around headings
+
+**Implementation** (`.prettierrc`):
+```json
+{
+  "proseWrap": "always",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "endOfLine": "lf"
+}
+```
+
+**Implementation** (`.markdownlint-cli2.yaml`):
+```yaml
+config:
+  default: true
+  MD013: false  # Line length - let prettier handle
+  MD033: false  # Allow inline HTML
+  MD041: false  # First line heading - not always applicable
+globs:
+  - "**/*.md"
+  - "!**/node_modules/**"
+  - "!**/artifacts/**"
+```
+
+**Add to CI** (`.github/workflows/main.yml`):
+```yaml
+- name: Lint Markdown
+  run: |
+    npm install -g markdownlint-cli2 prettier
+    markdownlint-cli2 "**/*.md"
+    prettier --check "**/*.md"
+```
+
+- **Acceptance Criteria**:
+  - [ ] `.prettierrc` configured with project standards
+  - [ ] `.markdownlint-cli2.yaml` configured with rule exceptions
+  - [ ] CI workflow includes markdown linting
+  - [ ] All existing markdown files pass linting
+  - [ ] Documentation updated in CONTRIBUTING.md
+
+---
+
+#### W2.22 Pin GitHub Actions to SHA Digests 🔴
+- [ ] **Task**: Convert all version tags to commit SHA pins for supply chain security
+- **Effort**: S (2-3 hours) ⚠️ Expert review: allow extra time for digest lookup & validation
+- **Priority**: **CRITICAL** - Supply chain attack prevention (SLSA requirement)
+- **Dependencies**: W2.15 (Dependabot/Renovate configured)
+- **Files**: `.github/workflows/main.yml`, `.github/workflows/release.yml`, `.github/workflows/devskim.yml`, `.github/workflows/secrets.yml`, `.github/workflows/codeql.yml`
+
+**Why Critical**: Tag poisoning attacks, SLSA Level 3 requirement, CISA/NIST recommendations.
+
+**Actions to Pin**:
+```yaml
+# Main workflow
+actions/checkout@v4 → actions/checkout@<sha> # v4.2.0
+actions/setup-dotnet@v4 → actions/setup-dotnet@<sha> # v4.1.0
+actions/upload-artifact@v4 → actions/upload-artifact@<sha> # v4.6.0
+actions/upload-artifact@v5 → actions/upload-artifact@<sha> # v5.0.0 (standardize to v5)
+actions/download-artifact@v4 → actions/download-artifact@<sha> # v4.3.0
+softprops/action-gh-release@v1 → softprops/action-gh-release@<sha> # v1.0.0
+github/codeql-action/init@v3 → github/codeql-action/init@<sha> # v3.28.0
+github/codeql-action/analyze@v3 → github/codeql-action/analyze@<sha> # v3.28.0
+
+# DevSkim workflow
+actions/checkout@v6 → actions/checkout@<sha> # v6.0.0
+microsoft/DevSkim-Action@v1 → microsoft/DevSkim-Action@<sha> # v1.0.15
+github/codeql-action/upload-sarif@v4 → github/codeql-action/upload-sarif@<sha> # v4.28.0
+
+# Secrets workflow
+gitleaks/gitleaks-action@v2 → gitleaks/gitleaks-action@<sha> # v2.1.0
+
+# SLSA workflow
+slsa-framework/slsa-github-generator@v2.0.0 → slsa-framework/slsa-github-generator@<sha>
+```
+
+**Pattern** (with version comment for maintainability):
+```yaml
+- uses: actions/checkout@a12b3c4d5e6f7890abcdef1234567890abcdef12 # v4.2.0
+```
+
+**Note**: Dependabot (W2.15) will automatically update SHA-pinned actions and preserve version comments.
+
+- **Acceptance Criteria**:
+  - [ ] All third-party actions pinned to full commit SHAs
+  - [ ] Version comments added for human readability
+  - [ ] First-party GitHub actions (actions/*, github/*) pinned
+  - [ ] All workflows validated with pinned SHAs
+  - [ ] Dependabot will manage updates going forward
+
+---
+
+#### W2.23 Standardize Artifact Upload to v5
+- [ ] **Task**: Update all `upload-artifact` and `download-artifact` to v5 for consistency
+- **Effort**: S (30 minutes)
+- **Priority**: Medium
+- **Dependencies**: W2.22 (SHA pinning includes version updates)
+- **Files**: `.github/workflows/main.yml`, `.github/workflows/release.yml`
+
+**Current State**: Mixed usage of v4 and v5 across workflows
+
+**Changes Required**:
+```yaml
+# Update all instances
+actions/upload-artifact@v4 → actions/upload-artifact@v5
+actions/download-artifact@v4 → actions/download-artifact@v5
+```
+
+**Note**: v5 has breaking changes around artifact immutability. Review:
+- Artifact name uniqueness requirements
+- Overwrite behavior changes
+
+- **Acceptance Criteria**:
+  - [ ] All upload-artifact actions use v5
+  - [ ] All download-artifact actions use v5
+  - [ ] No artifact name conflicts
+  - [ ] CI artifacts upload/download successfully
+
+---
+
+#### W2.24 Add PowerShell Parameter Metadata
+- [ ] **Task**: Add `[Parameter()]` attributes to all PowerShell scripts
+- **Effort**: M (6-8 hours) ⚠️ Expert review: metadata ripple effects can be subtle
+- **Priority**: Medium
+- **Dependencies**: None
+- **Files**: `scripts/*.ps1`, `build/scripts/*.ps1`
+
+**Current Scripts** (7 files):
+1. `scripts/Capture-WireMockTraffic.ps1`
+2. `scripts/Convert-HarToWireMock.ps1`
+3. `scripts/Count-NullableWarnings.ps1`
+4. `scripts/Validate-SandboxEnvironment.ps1`
+5. `build/scripts/Verify-SourceLink.ps1`
+6. `build/scripts/Validate-PackageOutput.ps1`
+7. `build/scripts/Count-NullableWarnings.ps1` (duplicate?)
+
+**Pattern to Apply**:
+```powershell
+# Before
+param(
+    [string]$Path,
+    [bool]$Verbose
+)
+
+# After
+param(
+    [Parameter(Mandatory = $true, HelpMessage = "Path to analyze")]
+    [ValidateNotNullOrEmpty()]
+    [string]$Path,
+
+    [Parameter(HelpMessage = "Enable verbose output")]
+    [switch]$Verbose
+)
+```
+
+**Best Practices**:
+- Add `[Parameter()]` attributes with HelpMessage
+- Use `[ValidateNotNullOrEmpty()]` for required strings
+- Use `[ValidateScript()]` for path validation
+- Use `[switch]` type instead of `[bool]` for flags
+- Add `[OutputType()]` attribute to function declarations
+
+- **Acceptance Criteria**:
+  - [ ] All parameters have `[Parameter()]` attributes
+  - [ ] Help messages provided for all parameters
+  - [ ] Appropriate validation attributes added
+  - [ ] `Get-Help` works for all scripts
+  - [ ] Scripts follow PowerShell best practices
+
+---
+
+#### W2.25 Null-Forgiving Operator Defensive Checks
+- [ ] **Task**: Replace `!` null-forgiving operators with defensive null checks
+- **Effort**: M (8-12 hours) ⚠️ Expert review: touches core libs, TDD requirement + multi-target checks
+- **Priority**: Medium - Code safety
+- **Dependencies**: None
+- **Files**: `test/Qwiq.Integration.Tests/WireMock/*.cs`, test projects
+
+**Violations Identified**:
+1. `server.Url!` - WireMock server URL may be null if not started
+2. `Path.GetDirectoryName()!` - Can return null for root paths
+3. `_outputPath!` - Test fixture field may not be initialized
+
+**Pattern to Apply**:
+```csharp
+// Before (unsafe)
+var url = server.Url!;
+
+// After (defensive)
+var url = server.Url ?? throw new InvalidOperationException("WireMock server not started");
+
+// Or with guard
+if (server.Url is null)
+    throw new InvalidOperationException("WireMock server URL is null");
+var url = server.Url;
+```
+
+**Files to Update**:
+- `test/Qwiq.Integration.Tests/WireMock/WireMockExtensions.cs`
+- `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs`
+- `test/Qwiq.Integration.Tests/WireMock/RecordingTests.cs`
+
+- **Acceptance Criteria**:
+  - [ ] All `!` operators replaced with null checks
+  - [ ] Clear exception messages for null violations
+  - [ ] No new nullable warnings introduced
+  - [ ] Tests still pass with defensive checks
+
+---
+
+#### W2.26 Remove Unused Code (Cleanup)
+- [ ] **Task**: Remove unused fields and imports flagged by analyzers
+- **Effort**: S (1-2 hours) ⚠️ Expert review: trace usage across net472/net8.0 TFMs
+- **Priority**: Low - Code hygiene
+- **Dependencies**: None
+- **Files**: `test/Qwiq.Mocks/MockTfsConnectionFactory.cs`, test projects
+
+**Items to Remove**:
+1. `_httpClientFactory` field in `MockTfsConnectionFactory` (IDE0052)
+2. `using Moq;` in `MockTfsConnectionFactory` (IDE0005)
+3. `using WireMock.Server;` in `WireMockQueryTests` (IDE0005)
+
+- **Acceptance Criteria**:
+  - [ ] Unused fields removed
+  - [ ] Unused using directives removed
+  - [ ] No analyzer warnings for removed items
+  - [ ] Tests still pass
+
+---
+
+#### W2.27 Extend JSON Escaping for Control Characters
+- [ ] **Task**: Add tab and control character escaping to `EscapeJson` method
+- **Effort**: S (3-4 hours) ⚠️ Expert review: requires audit + fuzzing/unit tests
+- **Priority**: Medium - Serialization safety (elevated from Low)
+- **Dependencies**: None
+- **File**: `scripts/Convert-HarToWireMock.ps1`
+
+**Current Implementation**: Only escapes `\`, `"`, and newlines
+
+**Enhancement**:
+```powershell
+function EscapeJson {
+    param([string]$value)
+
+    $value = $value -replace '\\', '\\'
+    $value = $value -replace '"', '\"'
+    $value = $value -replace '\r\n', '\n'
+    $value = $value -replace '\r', '\n'
+    $value = $value -replace '\n', '\n'
+    # Add control characters
+    $value = $value -replace '\t', '\t'
+    $value = $value -replace '\b', '\b'
+    $value = $value -replace '\f', '\f'
+    return $value
+}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Tab characters escaped
+  - [ ] Backspace, form feed characters escaped
+  - [ ] JSON output remains valid
+  - [ ] WireMock stub files parse correctly
+
+---
+
+#### W2.28 Fix Test Proxy Restoration
+- [ ] **Task**: Restore original `WebRequest.DefaultWebProxy` instead of setting to null
+- **Effort**: S (15 minutes)
+- **Priority**: Low - Test isolation
+- **Dependencies**: None
+- **File**: `test/Qwiq.Integration.Tests/WireMock/RecordingTests.cs`
+
+**Current Code**:
+```csharp
+public void Dispose()
+{
+    _server?.Stop();
+    _server?.Dispose();
+    WebRequest.DefaultWebProxy = null; // ❌ Sets to null
+}
+```
+
+**Fixed Code**:
+```csharp
+private readonly IWebProxy? _originalProxy;
+
+public RecordingFixture()
+{
+    _originalProxy = WebRequest.DefaultWebProxy; // Save original
+    // ... setup
+}
+
+public void Dispose()
+{
+    _server?.Stop();
+    _server?.Dispose();
+    WebRequest.DefaultWebProxy = _originalProxy; // ✅ Restore original
+}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Original proxy value saved before modification
+  - [ ] Original proxy restored in Dispose
+  - [ ] Tests pass in parallel execution
+  - [ ] No proxy-related side effects
+
+---
+
+#### W2.29 Service Resolution Null Guards
+- [ ] **Task**: Add null checks for `GetService<T>()` calls that can return null
+- **Effort**: S (1-2 hours) ⚠️ Expert review: guard placement affects constructor contracts + tests
+- **Priority**: **HIGH** - Null safety (elevated from Medium)
+- **Dependencies**: None
+- **File**: `src/Qwiq.Core/Extensions.cs`
+
+**Violation**: `GetIdentityManagementService` extension method
+
+**Pattern**:
+```csharp
+// Before (unsafe)
+public static IIdentityManagementService GetIdentityManagementService(
+    this IWorkItemStore store)
+{
+    return store.GetService<IIdentityManagementService>();
+}
+
+// After (defensive)
+public static IIdentityManagementService GetIdentityManagementService(
+    this IWorkItemStore store)
+{
+    return store.GetService<IIdentityManagementService>()
+        ?? throw new InvalidOperationException(
+            "IdentityManagementService not available in this WorkItemStore implementation");
+}
+```
+
+- **Acceptance Criteria**:
+  - [ ] Null guard added with clear exception message
+  - [ ] XML documentation updated with exception documentation
+  - [ ] Tests verify exception behavior
+  - [ ] No nullable warnings
+
+---
+
+#### W2.30 Secrets Workflow Runner Alignment
+- [ ] **Task**: Evaluate and document runner choice for `secrets.yml` workflow
+- **Effort**: S (30 minutes)
+- **Priority**: Low - Consistency evaluation
+- **Dependencies**: W2.20 (Secrets Scanning)
+- **File**: `.github/workflows/secrets.yml`, documentation
+
+**Current State**: Uses `ubuntu-latest` (Linux)
+**Repository Guidance**: Prefers `windows-latest` for consistency
+
+**Decision Factors**:
+1. Gitleaks is Linux/Docker-based tool (works best on ubuntu)
+2. Secrets scanning doesn't build code (no .NET required)
+3. Faster startup on ubuntu-latest
+4. Cost consideration (ubuntu is cheaper)
+
+**Recommendation**: Document exception to windows-latest preference
+
+**Implementation** (add comment to workflow):
+```yaml
+jobs:
+  scan:
+    # Note: Using ubuntu-latest (exception to repo windows-latest preference)
+    # Rationale: gitleaks is Linux/Docker tool, no .NET build required
+    runs-on: ubuntu-latest
+```
+
+**Update Documentation** (copilot-instructions.md):
+```markdown
+### GitHub Actions Runner Selection
+- **Default**: `windows-latest` (required for net472 SOAP projects)
+- **Exceptions**:
+  - Secrets scanning (`secrets.yml`): `ubuntu-latest` - gitleaks Docker tool
+  - Markdown linting: `ubuntu-latest` - Node.js tools
+```
+
+- **Acceptance Criteria**:
+  - [ ] Runner choice evaluated and documented
+  - [ ] Inline comment added to workflow explaining choice
+  - [ ] copilot-instructions.md updated with exception
+  - [ ] Decision rationale clear for future maintainers
+
+---
+
+#### W2.31 Fix SLSA Verification Documentation
+- [ ] **Task**: Correct wget/curl commands in SLSA verification instructions
+- **Effort**: S (15 minutes)
+- **Priority**: Low - Documentation accuracy
+- **Dependencies**: W2.17 (SLSA Provenance)
+- **File**: `docs/SLSA-VERIFICATION.md`
+
+**Current Issue**: Commands download but don't save with expected filenames
+
+**Fix Required**:
+```bash
+# Before (incorrect - saves as download or wrong name)
+wget https://github.com/rjmurillo/Qwiq/releases/download/v1.0.0/Qwiq.Core.nupkg
+curl https://github.com/rjmurillo/Qwiq/releases/download/v1.0.0/attestation.intoto.jsonl
+
+# After (correct - explicit output names)
+wget -O Qwiq.Core.nupkg https://github.com/rjmurillo/Qwiq/releases/download/v1.0.0/Qwiq.Core.nupkg
+curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/download/v1.0.0/attestation.intoto.jsonl
+```
+
+**Additional Fixes**:
+- Add `-L` to curl to follow redirects
+- Add `-O` to wget for output filename
+- Include PowerShell equivalent commands for Windows users
+
+- **Acceptance Criteria**:
+  - [ ] wget commands use `-O` for output filename
+  - [ ] curl commands use `-L -o` for redirects and output
+  - [ ] PowerShell alternatives provided (Invoke-WebRequest)
+  - [ ] Commands tested and verified
+  - [ ] Example output shows correct filenames
+
+---
+
 ### Phase 2E: Documentation
 
 #### W2.5 Create Architecture Decision Records ⬆️ ELEVATED ✅ COMPLETE
@@ -2078,9 +2517,22 @@ Week 28+:   Wave 3 items
 10. **W2.19** - CodeQL Advanced Security (integrated into main build) - Medium
 11. **W2.20** - Secrets Scanning - Medium
 
-**Sprint 4 (Week 7+): Extended Coverage**
-12. **W2.16 Phase 2** - SOAP Unit Tests (Moq 4.16 + Moq.Analyzers 0.4.0) - Medium
-13. **W1.16** - Enable remaining P1 Reliability Rules (CA2213, CA2215)
+**Sprint 4 (Week 7-8): Code Quality & Security Hardening (PR #65 Feedback)**
+12. **W2.21** - Markdown Linting Configuration - **HIGH** (prevents CI failures)
+13. **W2.22** - Pin GitHub Actions to SHA - **CRITICAL** (supply chain security)
+14. **W2.23** - Standardize Artifact Upload to v5 - Medium
+15. **W2.24** - PowerShell Parameter Metadata - Medium
+16. **W2.25** - Null-Forgiving Operator Cleanup - Medium
+17. **W2.29** - Service Resolution Null Guards - Medium
+
+**Sprint 5 (Week 9+): Extended Coverage & Low-Priority Cleanup**
+18. **W2.16 Phase 2** - SOAP Unit Tests (Moq 4.16 + Moq.Analyzers 0.4.0) - Medium
+19. **W1.16** - Enable remaining P1 Reliability Rules (CA2213, CA2215)
+20. **W2.26** - Remove Unused Code - Low
+21. **W2.27** - JSON Escaping Enhancement - Low
+22. **W2.28** - Test Proxy Restoration - Low
+23. **W2.30** - Secrets Workflow Runner Documentation - Low
+24. **W2.31** - SLSA Verification Docs Fix - Low
 
 ---
 
@@ -2138,6 +2590,7 @@ Select-String -Path ".editorconfig" -Pattern "CA18\d{2}" | Measure-Object  # Per
 | 2.2 | Dec 5, 2025 | Claudette (Session 10) | Documentation cleanup for handoff. Corrected task counts (Wave 1: 18/27, Wave 2: 14). Added missing Session 7 entry. Fixed session numbering. |
 | 3.0 | Dec 5, 2025 | Claudette (Session 12) | **Major Wave 2/3 restructure**: Deferred W2.8, W2.9, W2.1, W2.12 to Wave 3. Updated W2.11 (DRY composite action), W2.13 (dual-pipeline SBOM). Elevated W2.15 to CRITICAL. Added W2.16 (REST/SOAP Unit Tests), W2.17 (SLSA Provenance), W2.18 (Package Validation), W2.19 (CodeQL), W2.20 (Secrets Scanning). Created W3.8 (Observability Overhaul consolidating W2.1+W2.9), W3.9 (IConfiguration), W3.10 (Package Signing BLOCKED). Updated task counts: Wave 2: 16, Wave 3: 13. |
 | 3.1 | Dec 6, 2025 | Claudette (Session 13) | **Priority & Implementation Updates**: (1) Elevated W2.5 (ADRs) to HIGH, moved to Sprint 1. (2) Elevated W2.2 (API Baselines) to CRITICAL - must be done before any API changes. (3) Removed W2.6 (Good First Issue Labels) - project doesn't use Issues. (4) Updated W2.19 (CodeQL) to integrate with main build instead of separate workflow. (5) Updated W2.16 to use WireMock.Net exclusively. (6) Added Moq 4.16.0 + Moq.Analyzers 0.4.0 for SOAP tests. (7) Updated W2.15 with Dependabot and Renovate configs for SHA pinning. (8) Added license policy rationale table to W2.14. Task count: Wave 2: 15 (was 16). |
+| 3.2 | Dec 11, 2025 | Claudette (Session 24) | **PR #65 Bot Feedback Tasks**: Added 11 new Wave 2 tasks (W2.21-W2.31) based on PR bot review feedback. New Phase 2F: Code Quality & Security Hardening. Tasks address markdown linting (W2.21), GitHub Actions SHA pinning (W2.22), artifact standardization (W2.23), PowerShell metadata (W2.24), null-forgiving operator cleanup (W2.25), unused code removal (W2.26), JSON escaping (W2.27), test proxy restoration (W2.28), service null guards (W2.29), workflow documentation (W2.30), SLSA docs fix (W2.31). Wave 2 task count: 14 → 25. |
 
 ---
 
