@@ -55,7 +55,7 @@
 
 CI may enforce commit message format:
 
-```
+```text
 <type>(<scope>): <description>
 
 Types: fix, feat, refactor, docs, test, chore, style, build, ci
