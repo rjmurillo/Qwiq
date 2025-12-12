@@ -26,6 +26,7 @@ This session completed W2.2 (API Compatibility Baselines) by populating the Publ
 5. Created migration script `build/scripts/Migrate-PublicApiToShipped.ps1`
 
 **API Entry Counts**:
+
 | Project | API Entries |
 |---------|-------------|
 | Qwiq.Core | 911 |

@@ -123,7 +123,7 @@ New workflow that:
 
 ## How the System Works
 
-```
+```text
 1. Bot (dependabot/renovate) creates PR
    ↓
 2. `dependabot-auto-approve.yml` triggers → Approves PR

@@ -38,7 +38,7 @@ Per user request, consulted multiple agents to develop a consensus solution:
 
 Testing confirmed that `VssBasicCredential` **does** enforce HTTPS - the independent-thinker's hypothesis was incorrect. HTTP-only approach fails with:
 
-```
+```text
 Basic authentication requires a secure connection to the server.
 ```
 

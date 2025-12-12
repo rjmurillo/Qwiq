@@ -28,12 +28,12 @@ Added 4 major improvements to the Sub-Agent Routing section:
 - Tool restriction via custom agents
 - Usage example with `agentName` parameter
 
-**C. Added Agents to Table**
+#### C. Added Agents to Table
 
 - `orchestration` - Task routing & coordination
 - `Plan` - Research & multi-step planning
 
-**D. Updated Routing Heuristics**
+#### D. Updated Routing Heuristics
 
 - Multi-agent task coordination → orchestration
 - Research & solution planning → Plan
@@ -44,9 +44,9 @@ Updated `/memories/orchestration-eval-2025-12-12.md` with Follow-up Work section
 
 ## Files Changed
 
-| File | Change Type | Lines |
-| ---- | ----------- | ----- |
-| `.github/copilot-instructions.md` | Modified | +141 |
+| File                              | Change Type | Lines |
+| --------------------------------- | ----------- | ----- |
+| `.github/copilot-instructions.md` | Modified    | +141  |
 
 ## Verification
 
