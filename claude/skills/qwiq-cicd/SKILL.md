@@ -5,6 +5,19 @@ description: CI/CD workflow guidance for QWIQ including GitHub Actions configura
 
 # QWIQ CI/CD Workflows
 
+## Quick Reference
+
+| Requirement | Value |
+|-------------|-------|
+| Runner | `windows-latest` (required for net472/SOAP) |
+| Checkout depth | `fetch-depth: 0` (for GitVersioning) |
+| SDK setup | Use `global-json-file: ./global.json` |
+| Pre-build | `dotnet tool restore` (for nbgv) |
+| Build flags | `/p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false` |
+| Test filter | `--filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
+
+**Key behavior:** `ContinuousIntegrationBuild=true` auto-enables `PedanticMode=true` (warnings as errors)
+
 ## Purpose
 
 This skill provides guidance for GitHub Actions workflows in the QWIQ repository. It covers workflow configuration, runner requirements, build flags, and troubleshooting CI failures.
@@ -148,7 +161,73 @@ run: dotnet test --timeout 300000  # 5 minutes
 
 **Expected output:** Warning fixed at source, not suppressed in CI
 
+## Troubleshooting
+
+### Workflow fails with "version not found"
+
+**Cause:** `fetch-depth: 0` missing, GitVersioning can't compute version
+
+**Fix:**
+```yaml
+- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0  # Required for nbgv
+```
+
+### Build fails with CS warnings as errors
+
+**Cause:** `PedanticMode=true` treats warnings as errors in CI
+
+**Fixes:**
+1. **Preferred:** Fix the warning in source code
+2. **If necessary:** Adjust severity in `.editorconfig`
+3. **Never:** Use `--warnaserror-` to suppress in workflow
+
+### "Tool 'nbgv' not found"
+
+**Cause:** `dotnet tool restore` not run before build
+
+**Fix:** Add tool restore step:
+```yaml
+- name: Restore tools
+  run: dotnet tool restore
+```
+
+### Tests timeout in CI
+
+**Cause:** Default timeout too short for CI runners
+
+**Fix:**
+```yaml
+- name: Test
+  run: dotnet test --timeout 300000  # 5 minutes
+```
+
+### Artifacts not uploaded on failure
+
+**Cause:** Missing `if: always()` condition
+
+**Fix:**
+```yaml
+- name: Upload logs
+  uses: actions/upload-artifact@v4
+  with:
+    name: build-logs
+    path: ./artifacts/logs/
+  if: always()  # Upload even on failure
+```
+
+### "windows-2019 is deprecated"
+
+**Fix:** Update to `windows-latest`:
+```yaml
+jobs:
+  build:
+    runs-on: windows-latest  # Not windows-2019
+```
+
 ## Related Resources
 
 - See [REFERENCE.md](./REFERENCE.md) for workflow file locations and secrets
 - See [../qwiq-build/SKILL.md](../qwiq-build/SKILL.md) for build configuration
+- See [../qwiq-testing/SKILL.md](../qwiq-testing/SKILL.md) for test configuration

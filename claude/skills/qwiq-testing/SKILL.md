@@ -5,6 +5,18 @@ description: Testing patterns for QWIQ including TDD for refactoring, ContextSpe
 
 # QWIQ Testing Patterns
 
+## Quick Reference
+
+| Task | Command/Pattern |
+|------|-----------------|
+| Run unit tests | `dotnet test Qwiq.sln --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
+| Run specific test | `dotnet test --filter "FullyQualifiedName~MyTestName"` |
+| Run with coverage | `dotnet test --collect:"XPlat Code Coverage"` |
+| Test class naming | `Given_context : ContextSpecification` |
+| Assertion library | Shouldly (`result.ShouldBe(expected)`) |
+
+**TDD for refactoring is MANDATORY:** Write test → Verify passes → Make change → Verify still passes
+
 ## Purpose
 
 This skill provides guidance for writing and maintaining tests in the QWIQ repository. It covers the ContextSpecification pattern, test categories, mock system usage, and mandatory TDD practices for refactoring.
@@ -150,6 +162,20 @@ public static class TestData
 }
 ```
 
+## Anti-Patterns (What NOT to Do)
+
+| Anti-Pattern | Why It's Bad | Do This Instead |
+|--------------|--------------|-----------------|
+| Skipping TDD for "small" refactors | Undetected behavior changes | ALWAYS write test first, verify, then change |
+| Testing implementation details | Brittle tests, break on refactor | Test behavior/outcomes, not internals |
+| Shared mutable state between tests | Test interference, flaky results | Create fresh mocks per test with `using` |
+| Hardcoded test data | Magic numbers, unclear intent | Use `TestData.cs` constants |
+| `Assert.IsTrue(condition)` | Unhelpful failure messages | Use Shouldly: `condition.ShouldBeTrue()` |
+| Multiple asserts per test method | Unclear which assertion failed | One logical assertion per `[TestMethod]` |
+| Missing `[TestClass]` attribute | Tests silently don't run | Always add both `[TestClass]` and `[TestMethod]` |
+| Testing in `Given()` or `When()` | Mixes setup with assertions | Assertions only in `Then_*` methods |
+| `ShouldBeNull()` on `int?` | Doesn't work for nullable value types | Use `value.HasValue.ShouldBeFalse()` |
+
 ### 8. Code Coverage
 
 Run tests with coverage collection:
@@ -206,7 +232,85 @@ start ./artifacts/coverage/index.html
 
 **Expected output:** Field properly initialized, tests prove no behavior change
 
+## Troubleshooting
+
+### Test passes locally but fails in CI
+
+**Causes:**
+1. **Environment differences** - CI excludes integration tests
+2. **Timing issues** - Race conditions in parallel execution
+3. **Path differences** - Hardcoded paths don't exist on runner
+
+**Fix:**
+```powershell
+# Reproduce CI test filter locally
+dotnet test --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+```
+
+### "No test matches the given filter"
+
+**Causes:**
+1. Test method missing `[TestMethod]` attribute
+2. Test class missing `[TestClass]` attribute
+3. Filter pattern doesn't match test name
+
+**Fix:** Verify attributes and check filter pattern:
+```powershell
+# List all tests to verify names
+dotnet test --list-tests
+```
+
+### Given() or When() not called
+
+**Symptom:** Test setup code doesn't run
+
+**Cause:** Class doesn't inherit from `ContextSpecification`
+
+**Fix:** Ensure inheritance:
+```csharp
+[TestClass]
+public class My_test : ContextSpecification  // Must inherit
+{
+    public override void Given() { /* setup */ }
+    public override void When() { /* action */ }
+}
+```
+
+### ShouldBeNull() fails on int?
+
+**Symptom:** `ShouldBeNull<T>()` doesn't work with nullable value types
+
+**Fix:** Use `.HasValue` instead:
+```csharp
+// ❌ Wrong
+nullableInt.ShouldBeNull();
+
+// ✅ Correct
+nullableInt.HasValue.ShouldBeFalse();
+```
+
+### Mock work item store is empty
+
+**Symptom:** Queries return no results
+
+**Cause:** Test data not added to mock store
+
+**Fix:**
+```csharp
+var store = new MockWorkItemStore();
+store.Add(new MockWorkItem("Bug") { Id = 1, Title = "Test" });  // Must add items!
+```
+
+### Integration test prompts for credentials
+
+**Cause:** Tests marked `localOnly`, `SOAP`, or `REST` require interactive authentication
+
+**Fix:** Either:
+1. Exclude with filter: `--filter "TestCategory!=localOnly"`
+2. Set up PAT in environment: `$env:AZURE_DEVOPS_EXT_PAT = "your-pat"`
+
 ## Related Resources
 
 - See [REFERENCE.md](./REFERENCE.md) for test project details and sandbox environment
 - See [../qwiq-csharp/SKILL.md](../qwiq-csharp/SKILL.md) for code patterns being tested
+- See [../sandbox-validation/SKILL.md](../sandbox-validation/SKILL.md) for integration test setup
