@@ -305,11 +305,10 @@ Total suppressions: ~400 rules
 | W2.14 | Add dependency-review-action | **HIGH** | S | 📋 |
 | W2.16 | REST/SOAP Unit Test Coverage | **HIGH** | L | 📋 NEW |
 | W2.18 | Enable Package Validation | **HIGH** | S | 📋 NEW |
-| W2.2 | Create API compatibility baselines | High | M | 📋 |
+| W2.2 | Create API compatibility baselines | **HIGH** | M | 📋 |
 | W2.3 | Add contract tests for REST/SOAP parity | Medium | M | 📋 |
 | W2.4 | Benchmark CI Integration | Low | S | 📋 |
 | W2.5 | Create Architecture Decision Records | Medium | M | 📋 |
-| W2.6 | Create "Good First Issue" Labels | Low | S | 📋 |
 | W2.7 | Update CONTRIBUTING.md | Medium | S | 📋 |
 | W2.19 | CodeQL Advanced Security | Medium | S | 📋 NEW |
 | W2.20 | Secrets Scanning | Medium | S | 📋 NEW |
