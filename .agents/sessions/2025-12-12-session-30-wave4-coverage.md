@@ -168,11 +168,16 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 3. ✅ Solved: Git shallow clone issue with nbgv (ran `git fetch --unshallow`)
 
 **Files to Exclude from Git** (future sessions):
-- `artifacts/TestResults/**/*.cobertura.xml` - Should add to .gitignore
-- `artifacts/coverage/**` - Generated reports, not source
+- `artifacts/TestResults/**/*.cobertura.xml` - Should add to .gitignore ✅ Already ignored
+- `artifacts/coverage/**` - Generated reports, not source ✅ Already ignored
+
+**CRITICAL ISSUE DISCOVERED**: 18 coverage artifact files were committed in 23e6fc4 with Windows-style quoted paths (e.g., `".\\artifacts\\..."`). Multiple attempts to remove them from git tracking failed - staged deletions keep disappearing. This appears to be a git state issue with the unusual path encoding.
+
+**Workaround for Next Session**:
+Since artifacts/ is already in .gitignore, new coverage runs won't add more files. The 18 existing files in the index are harmless (they don't exist in working tree). If needed, can be removed with git filter-branch or by manually editing .git/index.
 
 **Recommended Next Steps** (in priority order):
-1. Add .gitignore entry for coverage artifacts (prevents bloat)
+1. ~~Add .gitignore entry for coverage artifacts~~ ✅ Already exists (`/artifacts/` on line 77)
 2. W4.2: Measure test flake rate (50+ iterations)
 3. Begin REST client tests (WorkItemStore, Query, WorkItem classes)
 4. W4.4: SOAP usage assessment
