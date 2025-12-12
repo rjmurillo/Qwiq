@@ -1198,6 +1198,45 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 
 ---
 
+## Universal Session End Prompt
+
+Use this prompt before ending ANY session:
+
+```text
+# Session Finalization Checklist
+
+Before ending, complete ALL mandatory steps:
+
+## 1. Documentation Updates
+- [ ] All completed tasks checked off in `.agents/modernize-TODO.md`
+- [ ] Session log complete at `.agents/sessions/YYYY-MM-DD-session-NN.md`:
+  - What was done for each task
+  - Decisions made and rationale
+  - Challenges encountered and resolutions
+  - Files changed and commits made
+- [ ] `.agents/HANDOFF.md` updated with:
+  - Current state (build/test status)
+  - What was completed this session
+  - What's next for following session
+  - Any blockers or concerns
+
+## 2. Git Operations
+- [ ] Stage all documentation: `git add .agents/`
+- [ ] Force-add session logs: `git add -f .agents/sessions/*.md`
+- [ ] Commit with conventional message
+
+## 3. Verification
+- [ ] Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+- [ ] Build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+- [ ] Tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+
+## Critical Reminder
+The next session has ZERO context except checked-in documentation.
+Make documentation complete enough for any agent to continue.
+```
+
+---
+
 ## Document Control
 
 | Version | Date       | Changes                                                                           |
@@ -1206,3 +1245,4 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 | 2.0     | 2025-12-12 | Complete rewrite: tier-based prompts, zero-context format                         |
 | 3.0     | 2025-12-12 | Self-contained prompts: each task includes full start/end protocol for copy/paste |
 | 3.1     | 2025-12-12 | Added branch/clean checks, baseline build step, and forced add of session logs    |
+| 3.2     | 2025-12-12 | Restored Universal Session End Prompt for agent handoff continuity                |
