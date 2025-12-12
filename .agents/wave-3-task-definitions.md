@@ -347,8 +347,8 @@ Modernize logging and diagnostics infrastructure. Replace `System.Diagnostics.Tr
 
 ### References
 
-- OpenTelemetry .NET: https://opentelemetry.io/docs/languages/net/
-- ILogger best practices: https://learn.microsoft.com/en-us/dotnet/core/extensions/logging
+- OpenTelemetry .NET: <https://opentelemetry.io/docs/languages/net/>
+- ILogger best practices: <https://learn.microsoft.com/en-us/dotnet/core/extensions/logging>
 
 ---
 
@@ -367,6 +367,7 @@ Enable Qwiq to read connection options and credentials from configuration provid
 
 - Add `Microsoft.Extensions.Configuration.Abstractions` package
 - Create `QwiqOptions` class for DI registration:
+
   ```csharp
   public class QwiqOptions
   {
@@ -376,10 +377,13 @@ Enable Qwiq to read connection options and credentials from configuration provid
       // ... other options
   }
   ```
+
 - Add extension methods for service registration:
+
   ```csharp
   services.AddQwiq(Configuration.GetSection("Qwiq"));
   ```
+
 - Support multiple named configurations (e.g., dev, prod)
 - Integration with existing `AuthenticationOptions` class
 - Ensure secrets (PATs, passwords) are not logged
@@ -449,6 +453,7 @@ Sign NuGet packages with a code signing certificate to provide authenticity and 
   - Timestamp signatures for long-term validity
 
 - **CI/CD Integration:**
+
   ```yaml
   - name: Sign NuGet packages
     run: |
@@ -488,8 +493,8 @@ Sign NuGet packages with a code signing certificate to provide authenticity and 
 
 ### References
 
-- NuGet Package Signing: https://learn.microsoft.com/en-us/nuget/create-packages/sign-a-package
-- AzureSignTool: https://github.com/vcsjones/AzureSignTool
+- NuGet Package Signing: <https://learn.microsoft.com/en-us/nuget/create-packages/sign-a-package>
+- AzureSignTool: <https://github.com/vcsjones/AzureSignTool>
 
 ---
 
@@ -505,7 +510,7 @@ Sign NuGet packages with a code signing certificate to provide authenticity and 
 
 ### Dependency Graph
 
-```
+```text
 W3.1 (.NET 10 SDK) → W3.1a (net10.0 TFM)
 W3.4 (SOAP Deprecation) → W3.6 (Migration Guide)
 Wave 2 Completion → W3.8 (Observability)

@@ -12,7 +12,7 @@
 
 ## Phase 1: Baseline & Planning (Weeks 1-2)
 
-#### W4.1 Collect Test Execution Baseline Metrics 📋 PLANNED
+### W4.1 Collect Test Execution Baseline Metrics 📋 PLANNED
 
 - [ ] **Task**: Measure current test execution time across all test projects
 - **Effort**: S (3 hours)
@@ -29,7 +29,7 @@
 
 ---
 
-#### W4.2 Measure Test Flake Rate 📋 PLANNED
+### W4.2 Measure Test Flake Rate 📋 PLANNED
 
 - [ ] **Task**: Run test suite 50+ times to identify flaky tests
 - **Effort**: M (6 hours)
@@ -47,7 +47,7 @@
 
 ---
 
-#### W4.3 Assess Current Code Coverage 📋 PLANNED
+### W4.3 Assess Current Code Coverage 📋 PLANNED
 
 - [ ] **Task**: Generate code coverage baseline using existing coverage.runsettings
 - **Effort**: S (2 hours)
@@ -66,7 +66,7 @@
 
 ---
 
-#### W4.4 SOAP Client Usage Assessment 📋 PLANNED
+### W4.4 SOAP Client Usage Assessment 📋 PLANNED
 
 - [ ] **Task**: Analyze SOAP client usage to inform migration/deprecation strategy
 - **Effort**: M (5 hours)
@@ -85,7 +85,7 @@
 
 ---
 
-#### W4.5 Create Test Quality Improvement Plan 📋 PLANNED
+### W4.5 Create Test Quality Improvement Plan 📋 PLANNED
 
 - [ ] **Task**: Synthesize baseline metrics into actionable improvement plan
 - **Effort**: S (3 hours)
@@ -104,7 +104,7 @@
 
 ## Phase 2: Mutation Testing Setup (Weeks 3-4)
 
-#### W4.6 Add Stryker.NET to Project 📋 PLANNED
+### W4.6 Add Stryker.NET to Project 📋 PLANNED
 
 - [ ] **Task**: Install Stryker.NET mutation testing framework
 - **Effort**: S (2 hours)
@@ -122,7 +122,7 @@
 
 ---
 
-#### W4.7 Configure Stryker for Qwiq.Core 📋 PLANNED
+### W4.7 Configure Stryker for Qwiq.Core 📋 PLANNED
 
 - [ ] **Task**: Create targeted Stryker configuration for Qwiq.Core mutation testing
 - **Effort**: M (4 hours)
@@ -141,7 +141,7 @@
 
 ---
 
-#### W4.8 Configure Stryker for Qwiq.Core.Rest 📋 PLANNED
+### W4.8 Configure Stryker for Qwiq.Core.Rest 📋 PLANNED
 
 - [ ] **Task**: Create targeted Stryker configuration for REST client mutation testing
 - **Effort**: M (4 hours)
@@ -158,7 +158,7 @@
 
 ---
 
-#### W4.9 Create Mutation Testing GitHub Workflow 📋 PLANNED
+### W4.9 Create Mutation Testing GitHub Workflow 📋 PLANNED
 
 - [ ] **Task**: Add CI workflow for automated mutation testing
 - **Effort**: M (5 hours)
@@ -176,7 +176,7 @@
 
 ---
 
-#### W4.10 Analyze Initial Mutation Testing Results 📋 PLANNED
+### W4.10 Analyze Initial Mutation Testing Results 📋 PLANNED
 
 - [ ] **Task**: Review mutation testing output and identify weak test assertions
 - **Effort**: M (8 hours)
@@ -196,7 +196,7 @@
 
 ## Phase 3: WireMock Integration Tests (Weeks 5-8)
 
-#### W4.11 Add WireMock.Net Dependency 📋 PLANNED
+### W4.11 Add WireMock.Net Dependency 📋 PLANNED
 
 - [ ] **Task**: Install WireMock.Net for HTTP mocking in integration tests
 - **Effort**: S (2 hours)
@@ -213,7 +213,7 @@
 
 ---
 
-#### W4.12 Create WireMockFixture Base Class 📋 PLANNED
+### W4.12 Create WireMockFixture Base Class 📋 PLANNED
 
 - [ ] **Task**: Implement reusable WireMock test fixture for integration tests
 - **Effort**: M (6 hours)
@@ -232,7 +232,7 @@
 
 ---
 
-#### W4.13 Implement WireMock Recording Helper 📋 PLANNED
+### W4.13 Implement WireMock Recording Helper 📋 PLANNED
 
 - [ ] **Task**: Create utility to load and replay WireMock recordings
 - **Effort**: M (5 hours)
@@ -250,7 +250,7 @@
 
 ---
 
-#### W4.14 Capture WireMock Recordings for Common Scenarios 📋 PLANNED
+### W4.14 Capture WireMock Recordings for Common Scenarios 📋 PLANNED
 
 - [ ] **Task**: Record HTTP traffic for standard Azure DevOps operations
 - **Effort**: L (12 hours)
@@ -273,7 +273,7 @@
 
 ---
 
-#### W4.15 Migrate REST Integration Tests to WireMock 📋 PLANNED
+### W4.15 Migrate REST Integration Tests to WireMock 📋 PLANNED
 
 - [ ] **Task**: Convert brittle REST integration tests to use WireMock recordings
 - **Effort**: L (16 hours)
@@ -292,7 +292,7 @@
 
 ---
 
-#### W4.16 Create WireMock Tests for LINQ Provider 📋 PLANNED
+### W4.16 Create WireMock Tests for LINQ Provider 📋 PLANNED
 
 - [ ] **Task**: Add offline integration tests for LINQ-to-WIQL translation
 - **Effort**: M (8 hours)
@@ -311,7 +311,7 @@
 
 ---
 
-#### W4.17 Validate 80% Offline Test Coverage 📋 PLANNED
+### W4.17 Validate 80% Offline Test Coverage 📋 PLANNED
 
 - [ ] **Task**: Verify majority of tests can run without live connections
 - **Effort**: S (3 hours)
@@ -331,7 +331,7 @@
 
 ## Phase 4: Test Quality Improvements (Weeks 9-12)
 
-#### W4.18 Fix Identified Flaky Tests 📋 PLANNED
+### W4.18 Fix Identified Flaky Tests 📋 PLANNED
 
 - [ ] **Task**: Eliminate flaky tests identified in W4.2
 - **Effort**: L (16 hours)
@@ -349,7 +349,7 @@
 
 ---
 
-#### W4.19 Improve Test Assertions Based on Mutation Testing 📋 PLANNED
+### W4.19 Improve Test Assertions Based on Mutation Testing 📋 PLANNED
 
 - [ ] **Task**: Strengthen test assertions to kill more mutants
 - **Effort**: L (20 hours)
@@ -367,7 +367,7 @@
 
 ---
 
-#### W4.20 Achieve 65% Mutation Score on Qwiq.Core.Rest 📋 PLANNED
+### W4.20 Achieve 65% Mutation Score on Qwiq.Core.Rest 📋 PLANNED
 
 - [ ] **Task**: Iterate on test improvements until target mutation score reached
 - **Effort**: L (24 hours)
@@ -385,7 +385,7 @@
 
 ---
 
-#### W4.21 Optimize Test Execution Time 📋 PLANNED
+### W4.21 Optimize Test Execution Time 📋 PLANNED
 
 - [ ] **Task**: Reduce total test execution time to <5 minutes
 - **Effort**: M (8 hours)
@@ -406,7 +406,7 @@
 
 ## Phase 5: Documentation & Knowledge Transfer (Weeks 13-16)
 
-#### W4.22 Update TESTING.md with Comprehensive Guide 📋 PLANNED
+### W4.22 Update TESTING.md with Comprehensive Guide 📋 PLANNED
 
 - [ ] **Task**: Document all test practices, patterns, and tooling
 - **Effort**: M (8 hours)
@@ -425,7 +425,7 @@
 
 ---
 
-#### W4.23 Create ADR for Mutation Testing Strategy 📋 PLANNED
+### W4.23 Create ADR for Mutation Testing Strategy 📋 PLANNED
 
 - [ ] **Task**: Document mutation testing decisions and rationale
 - **Effort**: S (3 hours)
@@ -443,7 +443,7 @@
 
 ---
 
-#### W4.24 Create ADR for WireMock Integration Testing 📋 PLANNED
+### W4.24 Create ADR for WireMock Integration Testing 📋 PLANNED
 
 - [ ] **Task**: Document WireMock decisions and offline testing strategy
 - **Effort**: S (3 hours)
@@ -461,7 +461,7 @@
 
 ---
 
-#### W4.25 Add Definition of Done Checklist for Tests 📋 PLANNED
+### W4.25 Add Definition of Done Checklist for Tests 📋 PLANNED
 
 - [ ] **Task**: Create checklist ensuring all PRs meet test quality standards
 - **Effort**: S (2 hours)
