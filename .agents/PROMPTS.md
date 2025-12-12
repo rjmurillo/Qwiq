@@ -12,6 +12,7 @@
 
 ## Quick Reference: Current Sprint Priorities
 
+
 | Tier       | Task ID | Description            | Status                 |
 | ---------- | ------- | ---------------------- | ---------------------- |
 | 1 CRITICAL | W2.32   | CI Warning Gate        | 📋 Planned             |
@@ -23,6 +24,7 @@
 | 2 HIGH     | W5.2    | Container Docs         | 📋 Planned             |
 | 3 MEDIUM   | W2.33   | NuGet v11.0.0 Publish  | 📋 Planned             |
 | 3 MEDIUM   | W5.6    | Migration Guide v10→11 | 📋 Planned             |
+
 
 ---
 
@@ -43,7 +45,10 @@
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -89,7 +94,7 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false /m:1 /nodeReuse:false
 1. Check off W2.32 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W2.32 CI warning gate verification"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.32 CI warning gate verification"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -113,7 +118,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -161,7 +169,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.22 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W2.22 SHA digest pinning"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.22 SHA digest pinning"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -185,7 +193,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -238,7 +249,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W5.1 security audit checklist"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.1 security audit checklist"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -264,7 +275,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -327,7 +341,7 @@ dotnet test Qwiq.sln -c Release -f net8.0 --no-build --filter "TestCategory!=loc
 1. Check off W3.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "feat: complete W3.1 TFM expansion"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.1 TFM expansion"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -351,7 +365,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -407,7 +424,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.29 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "fix: complete W2.29 service resolution null guards"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "fix: complete W2.29 service resolution null guards"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -431,7 +448,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -480,7 +500,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.2 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W5.2 container deployment guide"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.2 container deployment guide"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -504,7 +524,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -552,7 +575,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.8 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "feat: complete W3.8 observability overhaul"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.8 observability overhaul"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -576,7 +599,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -629,7 +655,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W4.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "test: complete W4.1 code coverage improvements"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W4.1 code coverage improvements"`
 5. Update coverage badge in README
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -656,7 +682,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -712,7 +741,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
 4. Update README.md with new version badge
-5. Stage and commit: `git add .agents/ && git commit -m "chore: complete W2.33 NuGet v11.0.0 publish"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "chore: complete W2.33 NuGet v11.0.0 publish"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -736,7 +765,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -784,7 +816,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.6 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W5.6 migration guide v10 to v11"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.6 migration guide v10 to v11"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -808,7 +840,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -856,7 +891,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.9 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "feat: complete W3.9 IConfiguration support"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.9 IConfiguration support"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -880,7 +915,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -918,7 +956,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.3 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "test: complete W2.3 contract tests"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W2.3 contract tests"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -942,7 +980,10 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
 3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+4. Verify git state is clean: run `git status` (stop if not clean)
+5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
+6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
+7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 
 ## Project Context
 - Repository: Qwiq - .NET library for Azure DevOps work item queries
@@ -979,7 +1020,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.7 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git commit -m "docs: complete W2.7 update CONTRIBUTING.md"`
+4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.7 update CONTRIBUTING.md"`
 5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -1085,7 +1126,7 @@ git revert HEAD --no-edit
 dotnet build Qwiq.sln -c Release /p:PedanticMode=false /m:1 /nodeReuse:false
 
 ## Step 5: Document Issue
-Add findings to session log at `.agents/sessions/YYYY-MM-DD-session-NN.md`
+Add findings to session log at `.agents/sessions/<YYYY-MM-DD>-session-<NN>.md`
 
 ## CRITICAL
 Build must pass with 0 warnings before any commit.
