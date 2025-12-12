@@ -218,7 +218,7 @@ The maintenance mode decision was reached through a **structured multi-agent con
 
 ## Architecture Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         Application Layer                            │
 │                    (Consumer Applications)                           │
@@ -966,7 +966,7 @@ The "~400 suppressed rules" figure was a **measurement artifact** from counting 
 
 ### Build Status
 
-```
+```text
 Build succeeded.
     0 Warning(s)
     0 Error(s)

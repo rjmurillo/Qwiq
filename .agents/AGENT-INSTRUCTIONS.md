@@ -97,7 +97,7 @@ Before starting work, complete these steps IN ORDER:
 
 Use conventional commits:
 
-```
+```text
 <type>(<scope>): <short description>
 
 <optional body with details>
@@ -116,7 +116,7 @@ Use conventional commits:
 
 **Examples:**
 
-```
+```text
 chore(ci): pin GitHub Actions to SHA
 
 - actions/checkout@v4 → @b4ffde65f46336ab88eb53be808477a3936bae11
@@ -126,7 +126,7 @@ chore(ci): pin GitHub Actions to SHA
 Refs: W2.15
 ```
 
-```
+```text
 docs(adr): add ADR-001 for factory pattern
 
 Document the WorkItemStoreFactory design decision including:
@@ -221,7 +221,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 - [Gotchas discovered]
 - [Recommendations]
 
-````
+````markdown
 
 ---
 
@@ -287,7 +287,7 @@ If you need context, read these files in order:
 2. `.agents/modernize-TODO.md` (task details)
 3. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
 
-````
+````markdown
 
 ---
 
@@ -360,7 +360,7 @@ Select-String -Path ".github/workflows/*.yml" -Pattern "uses:"
 
 ## Critical Reminders
 
-### DO:
+### DO
 
 - ✅ Read ALL instructions before starting
 - ✅ Work incrementally with small commits
@@ -371,7 +371,7 @@ Select-String -Path ".github/workflows/*.yml" -Pattern "uses:"
 - ✅ Update HANDOFF.md before session ends
 - ✅ Force-add `.agents/` files if needed
 
-### DON'T:
+### DON'T
 
 - ❌ Skip the pre-flight checklist
 - ❌ Make large commits with multiple unrelated changes

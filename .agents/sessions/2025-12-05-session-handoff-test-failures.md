@@ -31,13 +31,13 @@ PR review identified test failures in LINQ query translation. Investigation reve
 
 ### Mapper Tests (2 failures)
 
-3. **`when_a_where_clause_includes_an_empty_contains_clause.the_query_should_not_be_run`**
+1. **`when_a_where_clause_includes_an_empty_contains_clause.the_query_should_not_be_run`**
 
    - Test: `list.Contains(item.IntField)` where `list` is `int[]`
    - Expected: Query optimization (don't run query for empty array)
    - Error: `Specified method is not supported`
 
-4. **`when_a_where_clause_includes_an_empty_contains_clause.the_query_should_return_the_empty_result_set`**
+2. **`when_a_where_clause_includes_an_empty_contains_clause.the_query_should_return_the_empty_result_set`**
    - Same test as #3, different assertion
 
 ---
@@ -278,7 +278,7 @@ dotnet build src/Qwiq.Linq/Qwiq.Linq.csproj -c Release /m:1 /nodeReuse:false
 
 Tests pass when:
 
-```
+```text
 === LINQ Tests ===
 Passed!  - Failed:     0, Passed:    34, Skipped:     0, Total:    34
 

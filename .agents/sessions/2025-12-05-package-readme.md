@@ -208,7 +208,7 @@ All `.csproj` files updated with identical PackageReadme configuration:
 
 **Contents** (`PackageTests.Baseline_Qwiq.Core#contents.verified.txt`):
 
-```
+```text
 /
 |-- Qwiq.Core.nuspec
 |-- README.md          <!-- ADDED -->
@@ -295,7 +295,7 @@ All `.csproj` files updated with identical PackageReadme configuration:
 
 **Issue**: Initial attempts to configure PackagePath resulted in NU5039 errors:
 
-```
+```text
 NU5039: The readme file 'README.md' does not exist in the package
 ```
 

@@ -87,7 +87,7 @@ These suppressions remain with documented justifications:
 
 ### Build
 
-```
+```text
 Build succeeded.
     0 Warning(s)
     0 Error(s)

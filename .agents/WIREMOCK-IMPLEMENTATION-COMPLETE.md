@@ -50,7 +50,7 @@ Successfully implemented WireMock-based offline testing for the Qwiq REST client
 
 ## Test Results
 
-```
+```text
 Test Run Successful.
 Total tests: 9
      Passed: 9
@@ -91,7 +91,7 @@ All WireMock tests passing with real captured Azure DevOps API responses!
 
 ## Files Created/Modified
 
-### Created:
+### Created
 
 - `scripts/Convert-HarToWireMock.ps1` - HAR to WireMock converter (244 lines)
 - `test/Qwiq.Integration.Tests/WireMock/Stubs/azure-devops-stubs.json` - Real captured stubs (1 MB)
@@ -100,14 +100,14 @@ All WireMock tests passing with real captured Azure DevOps API responses!
 - `test/Qwiq.Integration.Tests/WireMock/WireMockRestContextSpecification.cs` - Base test class
 - `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs` - 9 tests using real stubs
 
-### Modified:
+### Modified
 
 - `test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj` - Added WireMock.Net, configured stub copying
 - `test/Qwiq.Integration.Tests/README.md` - Documented WireMock implementation
 
 ## Usage
 
-### Running WireMock Tests:
+### Running WireMock Tests
 
 ```powershell
 # Run only WireMock tests
@@ -117,7 +117,7 @@ dotnet test --filter "TestCategory=WireMock"
 dotnet test --filter "TestCategory=WireMock" --logger "console;verbosity=detailed"
 ```
 
-### Capturing New Stubs:
+### Capturing New Stubs
 
 ```powershell
 # 1. Capture traffic using Fiddler (save as .har)

@@ -303,7 +303,10 @@ results.ShouldHaveSingleItem();
 dotnet format
 
 # Markdown/JSON formatting (via PackedPrettier)
-dotnet pprettier --write "**/*.md"
+dotnet pprettier --write .
+
+# Markdown linting (auto-fix)
+npx markdownlint-cli2 --fix "**/*.md"
 
 # Check formatting without changes
 dotnet pprettier --check "**/*.md"
@@ -389,6 +392,7 @@ public void SetValue(string value) { } // Cannot be null
 - Use `Contract.Requires` for design-by-contract assertions (optional)
 - **Avoid duplicate validation**: Don't use both `Contract.Requires` AND runtime `ArgumentNullException` for the same parameter
 - **Logging exceptions**: When catching exceptions that will be rethrown or handled, log them:
+
   ```csharp
   catch (Exception ex)
   {
@@ -396,6 +400,7 @@ public void SetValue(string value) { } // Cannot be null
       throw; // or return appropriate value
   }
   ```
+
 - **Never swallow exceptions silently**: Empty `catch { }` blocks hide bugs; at minimum log the error
 
 ### Known Patterns
@@ -556,7 +561,7 @@ When adding or updating .NET workflows in this repo, follow these guidelines:
 
 Use the [Conventional Commits](https://www.conventionalcommits.org/) format:
 
-```
+```text
 <type>(<scope>): <short description>
 
 <optional body with more details>
@@ -749,9 +754,9 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 - Compare package manifests and contents against verified baselines
 - Will fail if run without first creating packages
 
-**⚠️ CRITICAL: When NuGet Package Contents Change**
-
-Whenever ANY change is made that affects NuGet package contents (adding/removing files, changing metadata, etc.), you MUST:
+> **⚠️ CRITICAL: When NuGet Package Contents Change**
+>
+> Whenever ANY change is made that affects NuGet package contents (adding/removing files, changing metadata, etc.), you MUST:
 
 1. **Run PackageTests first** to identify baseline mismatches:
 
@@ -1070,26 +1075,26 @@ flowchart TD
     Start([Is this a coding task?])
     Start -->|Yes| Design{Is design/architecture critical?}
     Start -->|No| Doc{Is this documentation?}
-    
+
     Design -->|Yes| Pod[csharp-pod<br/>design-first approach]
     Design -->|No| Speed{Is speed critical?}
     Speed -->|Yes| Beast[Beast Mode<br/>fast iteration]
     Speed -->|No| Expert[csharp-expert<br/>balanced approach]
-    
+
     Doc -->|Yes| PRD{Is it a PRD/spec?}
     Doc -->|No| Review{Is this review/feedback?}
-    
+
     PRD -->|Yes| Explainer[create-explainer]
     PRD -->|No| Breakdown{Is it task breakdown?}
     Breakdown -->|Yes| Tasks[generate-tasks]
     Breakdown -->|No| Manual1[Manual writing]
-    
+
     Review -->|Yes| Scoping{Is it feature scoping?}
     Review -->|No| Strategic{Is this strategic advice?}
-    
+
     Scoping -->|Yes| Feature[feature-request-review]
     Scoping -->|No| Thinker[independent-thinker]
-    
+
     Strategic -->|Yes| Advisor[high-level-advisor]
     Strategic -->|No| Manual2[Consider manual approach]
 ```

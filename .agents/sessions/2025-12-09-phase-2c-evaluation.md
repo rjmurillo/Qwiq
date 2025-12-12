@@ -105,9 +105,11 @@ The `global.json` was updated to .NET 10.0.100 SDK, which has type forwarding ch
 
 1. **Option A**: Downgrade `global.json` to .NET 8.0.404 (stable LTS)
 2. **Option B**: Add explicit type aliases to resolve forwarding:
+
    ```csharp
    using TimeZone = System.TimeZone;
    ```
+
 3. **Option C**: Wait for TFS Client OM update that resolves .NET 10 compatibility
 
 ---
@@ -115,6 +117,7 @@ The `global.json` was updated to .NET 10.0.100 SDK, which has type forwarding ch
 ## Session Summary
 
 **Evaluation Results**:
+
 | Task | Status | Notes |
 |------|--------|-------|
 | W2.4 | ✅ COMPLETE | Benchmarks compile in CI |

@@ -21,7 +21,7 @@ This session focused on improving CI build validation by separating package outp
 
 **Output example**:
 
-```
+```text
 Found 10 packable project(s):
   - Qwiq.Core
   - Qwiq.Client.Rest
@@ -39,7 +39,7 @@ Package Validation Summary:
 
 **Failure case** (when package missing):
 
-```
+```text
   Qwiq.Core: PARTIAL (missing .nupkg)
 
 ERROR: Package validation failed!

@@ -47,7 +47,7 @@
 
 **Current Branch**: `feat/modernize-3` (commit: 767b30f0)
 
-**Session 28 Key Decision: PRODUCTION v11.0.0 RELEASE**
+### Session 28 Key Decision: PRODUCTION v11.0.0 RELEASE
 
 - ✅ **Wave 1 COMPLETE (25/26)** - W1.18 deferred pending W2.2 (API compat baselines)
 - ✅ **Build is clean** - 0 warnings, 0 errors
@@ -57,6 +57,7 @@
 - 🎯 **Goal**: Ship NuGet v11.0.0 in 6-8 weeks
 
 **The 8 Active Suppressions (Design Decisions)**:
+
 | Rule | Count | Justification |
 |------|-------|---------------|
 | CS1591 | ~4200 | XML docs - large effort, low ROI |
@@ -69,6 +70,7 @@
 | CA2263 | scoped | Test-specific - appropriate scope |
 
 **Sprint Priorities (Production v11.0.0)**:
+
 | Tier | Task | Effort | Description |
 |------|------|--------|-------------|
 | **Tier 1 CRITICAL** | W2.32 | 1-2h | CI Warning Gate |
@@ -644,6 +646,7 @@ All foundation items have been completed in prior modernization efforts.
   - Updated Quick Reference with category breakdown
 
 **Verified Counts (Session 7)**:
+
 | Category | Count | Priority |
 |----------|-------|----------|
 | CA1xxx (Design) | ~135 | P3 (Low) |
@@ -670,6 +673,7 @@ All foundation items have been completed in prior modernization efforts.
 - **Completed**: 2025-12-05 (Session 7 on `copilot/sub-pr-58`)
 
 **P0 Security Rules Enabled** (ALL 65 rules):
+
 | Rule | Description | Risk |
 |------|-------------|------|
 | CA2100 | Review SQL queries for security vulnerabilities | SQL Injection |
@@ -699,6 +703,7 @@ All foundation items have been completed in prior modernization efforts.
 - **Completed**: 2025-12-08 (Wave 1 completion)
 
 **P1 Reliability Rules Enabled** (5 of 5):
+
 | Rule | Description | Impact |
 |------|-------------|--------|
 | CA1062 | Validate arguments of public methods | ✅ Zero violations |
@@ -735,6 +740,7 @@ All foundation items have been completed in prior modernization efforts.
 - CA1822: Mark members as static ❌ (8 violations - deferred to Wave 2)
 
 **P2 Performance Rules** (ordered by allocation impact):
+
 | Rule | Description | Benefit |
 |------|-------------|---------|
 | CA1822 | Mark members as static | Avoid this pointer |
@@ -762,6 +768,7 @@ All foundation items have been completed in prior modernization efforts.
 **Note**: Enable these AFTER API compatibility baselines are established (W2.2) to avoid accidental breaking changes.
 
 **P3 Design Rules** (phased):
+
 | Phase | Rules | Description |
 |-------|-------|-------------|
 | 3a | CA1000-CA1020 | Static members, type design |
@@ -904,7 +911,7 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
 ```
 ````
 
-````
+````text
 
 - **Acceptance Criteria**:
   - [ ] Coverage expectations documented
@@ -945,9 +952,9 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
    </Project>
 ````
 
-2. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
-3. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
-4. Clean the new `artifacts/` folder in `.gitignore` if not already present.
+1. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
+2. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
+3. Clean the new `artifacts/` folder in `.gitignore` if not already present.
 
 **Verification**:
 
@@ -1321,7 +1328,7 @@ jobs:
 
 **Current Actions Needing SHA Pinning**:
 
-```
+```text
 .github/workflows/main.yml:
   - actions/checkout@v4 → needs SHA
   - actions/setup-dotnet@v4 → needs SHA
@@ -1576,6 +1583,7 @@ jobs:
 8. ✅ Build passes with 0 RS00xx warnings
 
 **API Entry Summary**:
+
 | Project | API Entries |
 |---------|-------------|
 | Qwiq.Core | 911 |
@@ -2408,6 +2416,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 > **Status**: 📋 **RE-ACTIVATED** (December 12, 2025 - Session 28 Strategic Pivot)
 >
 > **Session 28 Re-Activation Rationale**:
+>
 > | Factor | Session 27 Assumption | Session 28 Reality |
 > |--------|----------------------|-------------------|
 > | User base | "Nobody uses this" | 100+ team members planned |
@@ -2831,7 +2840,7 @@ var options = new QwiqOptionsBuilder()
 
 ### Timeline (Updated Dec 12, 2025 - MAINTENANCE MODE DECISION)
 
-```
+```text
 Week 1-2:   W1.1, W1.2, W1.3 (Infrastructure - parallel) ✅ DONE
 Week 2-3:   W1.4, W1.5, W1.6, W1.7 (Documentation - parallel) ✅ DONE
 Week 3-4:   W1.8 (PackageReadme) ✅ DONE

@@ -11,7 +11,7 @@
 
 1. [W2.11 Release Automation](#w211-release-automation-critical)
 2. [W2.13 SBOM Generation](#w213-sbom-generation-high)
-3. [W2.16 REST/SOAP Unit Test Coverage](#w216-restsoapunit-test-coverage-high)
+3. [W2.16 REST/SOAP Unit Test Coverage](#w216-restsoap-unit-test-coverage-high)
 4. [Task Dependencies](#task-dependencies)
 5. [Implementation Sequence](#implementation-sequence)
 
@@ -844,7 +844,7 @@ When testing thin adapters:
 4. Test error handling and edge cases
 5. Validate output state, not mock call counts
 
-````
+````text
 
 ### Validation & Testing
 
@@ -859,19 +859,19 @@ When testing thin adapters:
    dotnet test --filter "TestCategory=SoapUnit"
 ````
 
-2. **Code Coverage Validation**:
+1. **Code Coverage Validation**:
 
    ```powershell
    dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory=RestUnit"
    # Verify coverage >80% for REST adapter code
    ```
 
-3. **CI Validation**:
+2. **CI Validation**:
 
    - Push feature branch and verify all CI platforms pass
    - Check test execution logs for cross-platform success
 
-4. **Integration Test Compatibility**:
+3. **Integration Test Compatibility**:
    - Ensure unit tests don't conflict with existing integration tests
    - Verify `TestCategory` filtering works correctly
 
@@ -898,7 +898,7 @@ When testing thin adapters:
 
 ### Dependency Graph
 
-```
+```text
 W2.11 (Release Automation)
   └─> W2.13 (SBOM Generation)
 

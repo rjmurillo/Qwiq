@@ -11,7 +11,7 @@
 
 GitHub Actions run 19983820834 failed on both Windows and Ubuntu runners with the error:
 
-```
+```text
 The file '/home/runner/work/Qwiq/Qwiq/src/Qwiq.Core/bin/Release/net472/Qwiq.Core.dll' to be packed was not found on disk.
 ```
 
@@ -76,7 +76,7 @@ run: dotnet test Qwiq.sln -c Release --no-build --filter "${{ env.TEST_FILTER }}
 
 ### Commit 1: Simplify cross-platform build
 
-```
+```text
 fix(ci): simplify cross-platform build by skipping pack on Linux
 
 Root cause: /t:Build,Pack forces outer-build Pack step that expects
@@ -93,7 +93,7 @@ Fixes: GitHub Actions run 19983820834
 
 ### Commit 2: Fix MSBuild syntax for bash
 
-```
+```text
 fix(ci): use dash syntax for MSBuild args in bash
 
 The forward slash syntax (/t:, /p:, /m:, /bl:) can be misinterpreted
