@@ -7,13 +7,13 @@ description: Testing patterns for QWIQ including TDD for refactoring, ContextSpe
 
 ## Quick Reference
 
-| Task | Command/Pattern |
-|------|-----------------|
-| Run unit tests | `dotnet test Qwiq.sln --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
-| Run specific test | `dotnet test --filter "FullyQualifiedName~MyTestName"` |
-| Run with coverage | `dotnet test --collect:"XPlat Code Coverage"` |
-| Test class naming | `Given_context : ContextSpecification` |
-| Assertion library | Shouldly (`result.ShouldBe(expected)`) |
+| Task              | Command/Pattern                                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Run unit tests    | `dotnet test Qwiq.sln --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
+| Run specific test | `dotnet test --filter "FullyQualifiedName~MyTestName"`                                                           |
+| Run with coverage | `dotnet test --collect:"XPlat Code Coverage"`                                                                    |
+| Test class naming | `Given_context : ContextSpecification`                                                                           |
+| Assertion library | Shouldly (`result.ShouldBe(expected)`)                                                                           |
 
 **TDD for refactoring is MANDATORY:** Write test → Verify passes → Make change → Verify still passes
 
@@ -46,14 +46,14 @@ dotnet test --filter "FullyQualifiedName~WorkItemCore"
 
 ### 2. Test Categories
 
-| Category | Description | When to Run |
-|----------|-------------|-------------|
-| (default) | Unit tests | Always (CI) |
-| `localOnly` | Requires local TFS | Manual only |
-| `Benchmark` | Performance tests | Manual only |
-| `SOAP` | SOAP integration | Manual (interactive auth) |
-| `REST` | REST integration | Manual (interactive auth) |
-| `IntegrationTests` | Full integration | Manual (interactive auth) |
+| Category           | Description        | When to Run               |
+| ------------------ | ------------------ | ------------------------- |
+| (default)          | Unit tests         | Always (CI)               |
+| `localOnly`        | Requires local TFS | Manual only               |
+| `Benchmark`        | Performance tests  | Manual only               |
+| `SOAP`             | SOAP integration   | Manual (interactive auth) |
+| `REST`             | REST integration   | Manual (interactive auth) |
+| `IntegrationTests` | Full integration   | Manual (interactive auth) |
 
 ### 3. ContextSpecification Pattern
 
@@ -105,6 +105,7 @@ results.ShouldHaveSingleItem();
 ```
 
 **Available Mocks:**
+
 - `MockWorkItemStore` - In-memory work item storage
 - `MockWorkItem` - Work item with field storage
 - `MockRevision` - Revision data
@@ -171,17 +172,17 @@ public static class TestData
 
 ## Anti-Patterns (What NOT to Do)
 
-| Anti-Pattern | Why It's Bad | Do This Instead |
-|--------------|--------------|-----------------|
-| Skipping TDD for "small" refactors | Undetected behavior changes | ALWAYS write test first, verify, then change |
-| Testing implementation details | Brittle tests, break on refactor | Test behavior/outcomes, not internals |
-| Shared mutable state between tests | Test interference, flaky results | Create fresh mocks per test with `using` |
-| Hardcoded test data | Magic numbers, unclear intent | Use `TestData.cs` constants |
-| `Assert.IsTrue(condition)` | Unhelpful failure messages | Use Shouldly: `condition.ShouldBeTrue()` |
-| Multiple asserts per test method | Unclear which assertion failed | One logical assertion per `[TestMethod]` |
-| Missing `[TestClass]` attribute | Tests silently don't run | Always add both `[TestClass]` and `[TestMethod]` |
-| Testing in `Given()` or `When()` | Mixes setup with assertions | Assertions only in `Then_*` methods |
-| `ShouldBeNull()` on `int?` | Doesn't work for nullable value types | Use `value.HasValue.ShouldBeFalse()` |
+| Anti-Pattern                       | Why It's Bad                          | Do This Instead                                  |
+| ---------------------------------- | ------------------------------------- | ------------------------------------------------ |
+| Skipping TDD for "small" refactors | Undetected behavior changes           | ALWAYS write test first, verify, then change     |
+| Testing implementation details     | Brittle tests, break on refactor      | Test behavior/outcomes, not internals            |
+| Shared mutable state between tests | Test interference, flaky results      | Create fresh mocks per test with `using`         |
+| Hardcoded test data                | Magic numbers, unclear intent         | Use `TestData.cs` constants                      |
+| `Assert.IsTrue(condition)`         | Unhelpful failure messages            | Use Shouldly: `condition.ShouldBeTrue()`         |
+| Multiple asserts per test method   | Unclear which assertion failed        | One logical assertion per `[TestMethod]`         |
+| Missing `[TestClass]` attribute    | Tests silently don't run              | Always add both `[TestClass]` and `[TestMethod]` |
+| Testing in `Given()` or `When()`   | Mixes setup with assertions           | Assertions only in `Then_*` methods              |
+| `ShouldBeNull()` on `int?`         | Doesn't work for nullable value types | Use `value.HasValue.ShouldBeFalse()`             |
 
 ### 8. Code Coverage
 
@@ -199,18 +200,19 @@ start ./artifacts/coverage/index.html
 ```
 
 **Coverage Configuration:**
+
 - Settings file: `coverage.runsettings` (repository root)
 - Output format: Cobertura XML
 - Report location: `artifacts/coverage/`
-- Included: Only Qwiq.* production assemblies
+- Included: Only Qwiq.\* production assemblies
 - Excluded: Test projects, mocks, benchmarks, generated code
 
 **Coverage Guidelines:**
 
-| Metric | Minimum | Target |
-|--------|---------|--------|
-| Line Coverage (new code) | 70% | 80% |
-| Branch Coverage (new code) | 60% | 70% |
+| Metric                     | Minimum | Target |
+| -------------------------- | ------- | ------ |
+| Line Coverage (new code)   | 70%     | 80%    |
+| Branch Coverage (new code) | 60%     | 70%    |
 
 ## Examples
 
@@ -219,6 +221,7 @@ start ./artifacts/coverage/index.html
 **User goal:** Test a new method on WorkItemStore
 
 **Process:**
+
 1. Create test class inheriting `ContextSpecification`
 2. In `Given()`, set up `MockWorkItemStore` with test data
 3. In `When()`, call the method under test
@@ -232,6 +235,7 @@ start ./artifacts/coverage/index.html
 **User goal:** Fix CS8618 on a field without breaking behavior
 
 **Process:**
+
 1. Write test documenting current behavior
 2. Run test - must pass
 3. Fix the field initialization
@@ -245,11 +249,13 @@ start ./artifacts/coverage/index.html
 ### Test passes locally but fails in CI
 
 **Causes:**
+
 1. **Environment differences** - CI excludes integration tests
 2. **Timing issues** - Race conditions in parallel execution
 3. **Path differences** - Hardcoded paths don't exist on runner
 
 **Fix:**
+
 ```powershell
 # Reproduce CI test filter locally
 dotnet test --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
@@ -258,11 +264,13 @@ dotnet test --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCatego
 ### "No test matches the given filter"
 
 **Causes:**
+
 1. Test method missing `[TestMethod]` attribute
 2. Test class missing `[TestClass]` attribute
 3. Filter pattern doesn't match test name
 
 **Fix:** Verify attributes and check filter pattern:
+
 ```powershell
 # List all tests to verify names
 dotnet test --list-tests
@@ -275,6 +283,7 @@ dotnet test --list-tests
 **Cause:** Class doesn't inherit from `ContextSpecification`
 
 **Fix:** Ensure inheritance:
+
 ```csharp
 [TestClass]
 public class My_test : ContextSpecification  // Must inherit
@@ -289,6 +298,7 @@ public class My_test : ContextSpecification  // Must inherit
 **Symptom:** `ShouldBeNull<T>()` doesn't work with nullable value types
 
 **Fix:** Use `.HasValue` instead:
+
 ```csharp
 // ❌ Wrong
 nullableInt.ShouldBeNull();
@@ -304,6 +314,7 @@ nullableInt.HasValue.ShouldBeFalse();
 **Cause:** Test data not added to mock store
 
 **Fix:**
+
 ```csharp
 var store = new MockWorkItemStore();
 store.Add(new MockWorkItem("Bug") { Id = 1, Title = "Test" });  // Must add items!
@@ -314,6 +325,7 @@ store.Add(new MockWorkItem("Bug") { Id = 1, Title = "Test" });  // Must add item
 **Cause:** Tests marked `localOnly`, `SOAP`, or `REST` require interactive authentication
 
 **Fix:** Either:
+
 1. Exclude with filter: `--filter "TestCategory!=localOnly"`
 2. Set up PAT in environment: `$env:AZURE_DEVOPS_EXT_PAT = "your-pat"`
 

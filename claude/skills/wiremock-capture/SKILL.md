@@ -34,6 +34,7 @@ This skill helps capture HTTP traffic from Azure DevOps API calls and convert th
 ### 2. Prerequisites for Capture
 
 You need one of:
+
 - **Fiddler**: Enable "Decrypt HTTPS traffic" in Tools > Options > HTTPS
 - **Charles Proxy**: Enable SSL proxying
 - **WireMock**: Start in proxy mode
@@ -51,6 +52,7 @@ After capturing traffic, export as HAR and convert:
 ### 4. Key Endpoints Captured
 
 The converter focuses on these Azure DevOps API endpoints:
+
 - `/_apis/connectionData` - Connection info
 - `/_apis/resourceAreas` - API discovery
 - `/_apis/wit/wiql` - WIQL queries
@@ -86,15 +88,18 @@ server.ReadStaticMappings("path/to/stubs");
 **Purpose:** Run integration tests while capturing HTTP traffic
 
 **Input:**
+
 - `-ProxyPort`: Proxy port (default: 8888)
 - `-OutputPath`: Output directory (default: `./WireMockRecordings`)
 - `-UseFiddler`: Use Fiddler default port (8866)
 
 **Output:**
+
 - Timestamped folder with captured traffic
 - Sets `HTTP_PROXY` and `HTTPS_PROXY` environment variables
 
 **Prerequisites:**
+
 - Proxy server running (Fiddler, Charles, or WireMock)
 - HTTPS decryption enabled
 - Proxy certificate trusted
@@ -104,16 +109,19 @@ server.ReadStaticMappings("path/to/stubs");
 **Purpose:** Convert HAR file to WireMock stub mappings
 
 **Input:**
+
 - `-HarFile`: Path to HAR file (required)
 - `-OutputFile`: Output JSON path (default: `./wiremock-stubs.json`)
 - `-FilterHost`: Host to filter (default: `qwiq-sandbox.visualstudio.com`)
 
 **Output:**
+
 - JSON file with WireMock stub mappings
 - Deduplicates requests by method + path
 - Filters to key Azure DevOps endpoints
 
 **Usage:**
+
 ```powershell
 ./scripts/Convert-HarToWireMock.ps1 -HarFile "./capture.har" -OutputFile "./stubs.json"
 ```
@@ -125,6 +133,7 @@ server.ReadStaticMappings("path/to/stubs");
 **User goal:** Create offline stubs for a new query type
 
 **Process:**
+
 1. Start Fiddler with HTTPS decryption
 2. Run `./scripts/Capture-WireMockTraffic.ps1 -UseFiddler`
 3. Execute the integration test that makes the API calls
@@ -139,6 +148,7 @@ server.ReadStaticMappings("path/to/stubs");
 **User goal:** Update stubs after API response format changed
 
 **Process:**
+
 1. Delete old stubs
 2. Re-capture traffic with current API
 3. Convert to WireMock format
@@ -152,6 +162,7 @@ server.ReadStaticMappings("path/to/stubs");
 ### No traffic captured
 
 **Causes:**
+
 1. Proxy not running or wrong port
 2. HTTPS decryption not enabled
 3. Proxy certificate not trusted

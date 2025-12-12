@@ -32,6 +32,7 @@ $env:AZURE_DEVOPS_PAT = "your-pat-here"
 ### 2. What Gets Validated
 
 The script checks:
+
 - ✅ Connection to Azure DevOps organization
 - ✅ Existence of WIT project
 - ✅ Required work items (IDs 1-7)
@@ -42,43 +43,47 @@ The script checks:
 ### 3. Required PAT Scopes
 
 Your Personal Access Token needs:
+
 - Work Items (Read & Write)
 - Project and Team (Read)
 - Identity (Read)
 
 ### 4. Sandbox Environment Details
 
-| Setting | Value |
-|---------|-------|
+| Setting      | Value                                    |
+| ------------ | ---------------------------------------- |
 | Organization | `https://qwiq-sandbox.visualstudio.com/` |
-| Project | `WIT` |
-| Project ID | `0a4c0240-1a67-45de-93db-fc1de9f54ffb` |
-| Test User | `rjmurillo@msn.com` |
+| Project      | `WIT`                                    |
+| Project ID   | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| Test User    | `rjmurillo@msn.com`                      |
 
 ### 5. Test Work Items
 
-| ID | Type | Purpose |
-|----|------|---------|
-| 1 | Bug | Basic work item tests |
-| 2 | Task | Child of ID 3 (hierarchy) |
-| 3 | User Story | Parent for hierarchy tests |
-| 4 | Bug | Mapper tests |
-| 5 | Bug | Work item with links |
-| 6 | Task | Second child of ID 3 |
+| ID  | Type       | Purpose                    |
+| --- | ---------- | -------------------------- |
+| 1   | Bug        | Basic work item tests      |
+| 2   | Task       | Child of ID 3 (hierarchy)  |
+| 3   | User Story | Parent for hierarchy tests |
+| 4   | Bug        | Mapper tests               |
+| 5   | Bug        | Work item with links       |
+| 6   | Task       | Second child of ID 3       |
 
 ### 6. Troubleshooting Failures
 
 **Connection failed:**
+
 - Verify PAT is valid and not expired
 - Check network connectivity to visualstudio.com
 - Ensure PAT has required scopes
 
 **Work item not found:**
+
 - Work item may have been deleted
 - Check if ID matches `TestData.cs` constants
 - May need to recreate work item in sandbox
 
 **Assignment check failed:**
+
 - Work Item 1 must be assigned to test user
 - Update assignment in Azure DevOps UI
 
@@ -89,15 +94,18 @@ Your Personal Access Token needs:
 **Purpose:** Validate qwiq-sandbox environment for integration tests
 
 **Input:**
+
 - `-PersonalAccessToken`: PAT with required scopes (or `$env:AZURE_DEVOPS_PAT`)
 - `-Organization`: Override URL (default: `https://qwiq-sandbox.visualstudio.com`)
 - `-Project`: Override project (default: `WIT`)
 
 **Output:**
+
 - Console: Pass/fail status for each check
 - Exit code: 0 = all passed, 1 = failures, 2 = script error
 
 **Usage:**
+
 ```powershell
 # Basic validation
 ./scripts/Validate-SandboxEnvironment.ps1 -PersonalAccessToken $pat
@@ -113,6 +121,7 @@ Your Personal Access Token needs:
 **User goal:** Verify sandbox is ready for integration tests
 
 **Process:**
+
 1. Create PAT in Azure DevOps with required scopes
 2. Set `$env:AZURE_DEVOPS_PAT = "your-pat"`
 3. Run `./scripts/Validate-SandboxEnvironment.ps1`
@@ -126,6 +135,7 @@ Your Personal Access Token needs:
 **User goal:** Integration test fails with "work item not found"
 
 **Process:**
+
 1. Run validation script to check work item exists
 2. If missing, check `TestData.cs` for expected ID
 3. Either recreate work item or update `TestData.cs`

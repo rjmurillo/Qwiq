@@ -7,14 +7,14 @@ description: CI/CD workflow guidance for QWIQ including GitHub Actions configura
 
 ## Quick Reference
 
-| Requirement | Value |
-|-------------|-------|
-| Runner | `windows-latest` (required for net472/SOAP) |
-| Checkout depth | `fetch-depth: 0` (for GitVersioning) |
-| SDK setup | Use `global-json-file: ./global.json` |
-| Pre-build | `dotnet tool restore` (for nbgv) |
-| Build flags | `/p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false` |
-| Test filter | `--filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
+| Requirement    | Value                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Runner         | `windows-latest` (required for net472/SOAP)                                                 |
+| Checkout depth | `fetch-depth: 0` (for GitVersioning)                                                        |
+| SDK setup      | Use `global-json-file: ./global.json`                                                       |
+| Pre-build      | `dotnet tool restore` (for nbgv)                                                            |
+| Build flags    | `/p:Deterministic=true /p:UseSharedCompilation=false /nodeReuse:false`                      |
+| Test filter    | `--filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=IntegrationTests"` |
 
 **Key behavior:** `ContinuousIntegrationBuild=true` auto-enables `PedanticMode=true` (warnings as errors)
 
@@ -44,20 +44,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # Required for net472/SOAP
+    runs-on: windows-latest # Required for net472/SOAP
 
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for GitVersioning
+          fetch-depth: 0 # Required for GitVersioning
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: ./global.json  # Use pinned SDK
+          global-json-file: ./global.json # Use pinned SDK
 
       - name: Restore tools
-        run: dotnet tool restore  # For nbgv
+        run: dotnet tool restore # For nbgv
 
       - name: Restore packages
         run: dotnet restore Qwiq.sln
@@ -71,12 +71,12 @@ jobs:
 
 ### 2. Key Requirements
 
-| Requirement | Reason |
-|-------------|--------|
-| `windows-latest` | SOAP projects require Windows for net472 |
-| `fetch-depth: 0` | Nerdbank.GitVersioning needs full history |
-| `dotnet tool restore` | Restores nbgv from tool manifest |
-| `global-json-file` | Uses pinned SDK version |
+| Requirement           | Reason                                    |
+| --------------------- | ----------------------------------------- |
+| `windows-latest`      | SOAP projects require Windows for net472  |
+| `fetch-depth: 0`      | Nerdbank.GitVersioning needs full history |
+| `dotnet tool restore` | Restores nbgv from tool manifest          |
+| `global-json-file`    | Uses pinned SDK version                   |
 
 ### 3. Deterministic Build Flags
 
@@ -113,6 +113,7 @@ For complex filters, use `.runsettings` files instead of inline strings.
 ### 6. CI-Specific Behavior
 
 When `ContinuousIntegrationBuild=true` (set automatically):
+
 - `PedanticMode=true` (warnings as errors)
 - Deterministic output enabled
 - Source link enabled
@@ -120,19 +121,22 @@ When `ContinuousIntegrationBuild=true` (set automatically):
 ### 7. Common CI Failures
 
 **Build succeeds locally but fails in CI:**
+
 ```powershell
 # Reproduce CI environment locally
 dotnet build -c Release /p:ContinuousIntegrationBuild=true /m:1
 ```
 
 **File locking errors:**
+
 ```yaml
 run: dotnet build /m:1 /nodeReuse:false
 ```
 
 **Test timeout:**
+
 ```yaml
-run: dotnet test --timeout 300000  # 5 minutes
+run: dotnet test --timeout 300000 # 5 minutes
 ```
 
 ## Examples
@@ -142,6 +146,7 @@ run: dotnet test --timeout 300000  # 5 minutes
 **User goal:** Add code coverage reporting
 
 **Process:**
+
 1. Add new job after `build` job
 2. Use `needs: build` for dependency
 3. Use same runner (`windows-latest`)
@@ -154,6 +159,7 @@ run: dotnet test --timeout 300000  # 5 minutes
 **User goal:** Fix "warnings treated as errors" failure
 
 **Process:**
+
 1. Check which warning code is failing
 2. Either fix the warning in code, OR
 3. Adjust severity in `.editorconfig` (not workflow)
@@ -168,10 +174,11 @@ run: dotnet test --timeout 300000  # 5 minutes
 **Cause:** `fetch-depth: 0` missing, GitVersioning can't compute version
 
 **Fix:**
+
 ```yaml
 - uses: actions/checkout@v4
   with:
-    fetch-depth: 0  # Required for nbgv
+    fetch-depth: 0 # Required for nbgv
 ```
 
 ### Build fails with CS warnings as errors
@@ -179,6 +186,7 @@ run: dotnet test --timeout 300000  # 5 minutes
 **Cause:** `PedanticMode=true` treats warnings as errors in CI
 
 **Fixes:**
+
 1. **Preferred:** Fix the warning in source code
 2. **If necessary:** Adjust severity in `.editorconfig`
 3. **Never:** Use `--warnaserror-` to suppress in workflow
@@ -188,6 +196,7 @@ run: dotnet test --timeout 300000  # 5 minutes
 **Cause:** `dotnet tool restore` not run before build
 
 **Fix:** Add tool restore step:
+
 ```yaml
 - name: Restore tools
   run: dotnet tool restore
@@ -198,9 +207,10 @@ run: dotnet test --timeout 300000  # 5 minutes
 **Cause:** Default timeout too short for CI runners
 
 **Fix:**
+
 ```yaml
 - name: Test
-  run: dotnet test --timeout 300000  # 5 minutes
+  run: dotnet test --timeout 300000 # 5 minutes
 ```
 
 ### Artifacts not uploaded on failure
@@ -208,22 +218,24 @@ run: dotnet test --timeout 300000  # 5 minutes
 **Cause:** Missing `if: always()` condition
 
 **Fix:**
+
 ```yaml
 - name: Upload logs
   uses: actions/upload-artifact@v4
   with:
     name: build-logs
     path: ./artifacts/logs/
-  if: always()  # Upload even on failure
+  if: always() # Upload even on failure
 ```
 
 ### "windows-2019 is deprecated"
 
 **Fix:** Update to `windows-latest`:
+
 ```yaml
 jobs:
   build:
-    runs-on: windows-latest  # Not windows-2019
+    runs-on: windows-latest # Not windows-2019
 ```
 
 ## Related Resources

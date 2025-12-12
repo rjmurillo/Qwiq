@@ -305,20 +305,22 @@ xdg-open ./artifacts/coverage/index.html  # Linux
 
 Coverage settings are defined in `coverage.runsettings` at the repository root. Key settings:
 
-| Setting                | Value     | Purpose                                          |
-| ---------------------- | --------- | ------------------------------------------------ |
-| `Format`               | cobertura | CI-friendly XML output for GitHub Actions        |
-| `IncludeTestAssembly`  | False     | Excludes test assemblies from coverage metrics   |
-| `SkipAutoProps`        | true      | Skips trivial auto-properties for cleaner metrics|
-| `TargetPlatform`       | x64       | Matches CI environment                           |
+| Setting               | Value     | Purpose                                           |
+| --------------------- | --------- | ------------------------------------------------- |
+| `Format`              | cobertura | CI-friendly XML output for GitHub Actions         |
+| `IncludeTestAssembly` | False     | Excludes test assemblies from coverage metrics    |
+| `SkipAutoProps`       | true      | Skips trivial auto-properties for cleaner metrics |
+| `TargetPlatform`      | x64       | Matches CI environment                            |
 
 **Included Assemblies** (explicit list):
+
 - `Qwiq.Core.dll`, `Qwiq.Client.Rest.dll`, `Qwiq.Client.Soap.dll`
 - `Qwiq.Linq.dll`, `Qwiq.Linq.Identity.dll`
 - `Qwiq.Mapper.dll`, `Qwiq.Mapper.Identity.dll`
 - `Qwiq.Identity.dll`, `Qwiq.Identity.Soap.dll`
 
 **Excluded by Pattern**:
+
 - Test projects (`*Tests*`, `*Mocks*`, `*Benchmark*`)
 - Generated code (`*.g.cs`, `*.generated.cs`)
 - Compatibility shims (`Compatibility\*`)

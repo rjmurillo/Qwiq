@@ -28,34 +28,35 @@ Run the warning counter script:
 ```
 
 This will:
+
 - Build each source project with CS8xxx warnings enabled
 - Count warnings by type (CS8600, CS8601, etc.)
 - Generate a markdown report at `.agents/CS8xxx-baseline.md`
 
 ### 2. Interpret Warning Types
 
-| Warning | Meaning | Fix Strategy |
-|---------|---------|--------------|
-| CS8600 | Converting null literal to non-nullable | Add `?` or ensure non-null |
-| CS8601 | Possible null reference assignment | Add null check or `?` |
-| CS8602 | Dereference of possibly null reference | Add null check before use |
-| CS8603 | Possible null reference return | Return `T?` or ensure non-null |
-| CS8604 | Possible null argument | Add null check or `?` parameter |
-| CS8618 | Non-nullable field not initialized | Initialize in constructor |
-| CS8619 | Nullability mismatch in type | Align interface and implementation |
-| CS8625 | Cannot convert null to non-nullable | Add `?` or ensure non-null |
+| Warning | Meaning                                 | Fix Strategy                       |
+| ------- | --------------------------------------- | ---------------------------------- |
+| CS8600  | Converting null literal to non-nullable | Add `?` or ensure non-null         |
+| CS8601  | Possible null reference assignment      | Add null check or `?`              |
+| CS8602  | Dereference of possibly null reference  | Add null check before use          |
+| CS8603  | Possible null reference return          | Return `T?` or ensure non-null     |
+| CS8604  | Possible null argument                  | Add null check or `?` parameter    |
+| CS8618  | Non-nullable field not initialized      | Initialize in constructor          |
+| CS8619  | Nullability mismatch in type            | Align interface and implementation |
+| CS8625  | Cannot convert null to non-nullable     | Add `?` or ensure non-null         |
 
 ### 3. Prioritize Projects
 
 Current migration status (run script for latest):
 
-| Project | Priority | Reason |
-|---------|----------|--------|
-| Qwiq.Core | ✅ Done | Foundation for all others |
-| Qwiq.Core.Rest | High | Most used client |
-| Qwiq.Identity | Medium | Identity resolution |
-| Qwiq.Linq | Lower | Complex expression trees |
-| Qwiq.Core.Soap | Lower | Legacy, Windows-only |
+| Project        | Priority | Reason                    |
+| -------------- | -------- | ------------------------- |
+| Qwiq.Core      | ✅ Done  | Foundation for all others |
+| Qwiq.Core.Rest | High     | Most used client          |
+| Qwiq.Identity  | Medium   | Identity resolution       |
+| Qwiq.Linq      | Lower    | Complex expression trees  |
+| Qwiq.Core.Soap | Lower    | Legacy, Windows-only      |
 
 ### 4. Migration Workflow
 
@@ -127,10 +128,12 @@ Is this a core/foundation project?
 **Input:** None (scans `src/` directory)
 
 **Output:**
+
 - Console: Warning counts per project with breakdown by code
 - File: Markdown report at specified path (default: `.agents/CS8xxx-baseline.md`)
 
 **Usage:**
+
 ```powershell
 # Default output
 ./scripts/Count-NullableWarnings.ps1
@@ -140,6 +143,7 @@ Is this a core/foundation project?
 ```
 
 **Interpretation:**
+
 - ✅ 0 warnings = Project fully migrated
 - ⚠️ >0 warnings = Work remaining
 - Group by CS8xxx code to identify patterns
@@ -151,6 +155,7 @@ Is this a core/foundation project?
 **User goal:** Begin nullable migration on Qwiq.Identity
 
 **Process:**
+
 1. Run `./scripts/Count-NullableWarnings.ps1`
 2. Note current count for Qwiq.Identity
 3. Open project, find highest-count warning type
@@ -165,6 +170,7 @@ Is this a core/foundation project?
 **User goal:** Show migration progress to stakeholders
 
 **Process:**
+
 1. Run script weekly, save reports with dates
 2. Compare warning counts across reports
 3. Calculate percentage reduction per project

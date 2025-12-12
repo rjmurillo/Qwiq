@@ -2,20 +2,20 @@
 
 ## Nullable Reference Types Migration Status
 
-| Project | Status | Warnings | Notes |
-|---------|--------|----------|-------|
-| Qwiq.Core | ✅ Complete | 0 | Fully annotated |
-| Qwiq.Core.Rest | ⚠️ Partial | ~42 | In progress |
-| Qwiq.Core.Soap | ⚠️ Needs work | TBD | Windows-only |
-| Qwiq.Linq | ⚠️ Needs work | ~128 | Complex expression trees |
-| Qwiq.Identity | ⚠️ Needs work | ~28 | Identity resolution |
-| Qwiq.Mapper | ⚠️ Needs work | TBD | Attribute mapping |
+| Project        | Status        | Warnings | Notes                    |
+| -------------- | ------------- | -------- | ------------------------ |
+| Qwiq.Core      | ✅ Complete   | 0        | Fully annotated          |
+| Qwiq.Core.Rest | ⚠️ Partial    | ~42      | In progress              |
+| Qwiq.Core.Soap | ⚠️ Needs work | TBD      | Windows-only             |
+| Qwiq.Linq      | ⚠️ Needs work | ~128     | Complex expression trees |
+| Qwiq.Identity  | ⚠️ Needs work | ~28      | Identity resolution      |
+| Qwiq.Mapper    | ⚠️ Needs work | TBD      | Attribute mapping        |
 
 Run `scripts/Count-NullableWarnings.ps1` for current counts.
 
 ## Common Nullable Patterns
 
-### Try* Methods with Out Parameters
+### Try\* Methods with Out Parameters
 
 ```csharp
 public bool TryGetValue(string key, [MaybeNullWhen(false)] out TValue value)
@@ -40,6 +40,7 @@ value.ShouldBeNull();
 ### Interface and Implementation Alignment
 
 When changing nullability on an interface:
+
 1. Update the interface signature
 2. Update ALL implementations
 3. Update all callers that depend on the nullability
@@ -58,14 +59,14 @@ field.ReferenceName == "System.Id"
 
 ## Exception Types Reference
 
-| Exception | When to Use |
-|-----------|-------------|
-| `ArgumentNullException` | Parameter is null |
-| `ArgumentException` | Parameter is invalid (but not null) |
-| `InvalidOperationException` | Operation invalid for current state |
-| `NotSupportedException` | Operation not supported (e.g., unsupported LINQ) |
-| `PageSizeRangeException` | PageSize outside 50-200 range |
-| `AttributeMapException` | Mapper field/type conversion failure |
+| Exception                   | When to Use                                      |
+| --------------------------- | ------------------------------------------------ |
+| `ArgumentNullException`     | Parameter is null                                |
+| `ArgumentException`         | Parameter is invalid (but not null)              |
+| `InvalidOperationException` | Operation invalid for current state              |
+| `NotSupportedException`     | Operation not supported (e.g., unsupported LINQ) |
+| `PageSizeRangeException`    | PageSize outside 50-200 range                    |
+| `AttributeMapException`     | Mapper field/type conversion failure             |
 
 ## Compatibility Shims
 
@@ -74,6 +75,7 @@ field.ReferenceName == "System.Id"
 Location: `src/Qwiq.Core/Compatibility/NullableAttributes.cs`
 
 Provides nullable attributes for `net472` and `netstandard2.0`:
+
 - `MaybeNullWhenAttribute`
 - `AllowNullAttribute`
 - `NotNullAttribute`

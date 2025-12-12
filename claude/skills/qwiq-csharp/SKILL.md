@@ -7,13 +7,13 @@ description: C# coding patterns for QWIQ including nullable reference types, nul
 
 ## Quick Reference
 
-| Task | Pattern |
-|------|---------|
-| Null parameter check | `if (param == null) throw new ArgumentNullException(nameof(param));` |
+| Task                         | Pattern                                                                       |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| Null parameter check         | `if (param == null) throw new ArgumentNullException(nameof(param));`          |
 | Null check in ctor base call | `base(service?.Property ?? throw new ArgumentNullException(nameof(service)))` |
-| Fix CS8618 (field not init) | Initialize in declaration or ALL constructors |
-| Nullable return | `public string? GetValue()` |
-| Null-conditional access | `obj?.Property?.Method()` |
+| Fix CS8618 (field not init)  | Initialize in declaration or ALL constructors                                 |
+| Nullable return              | `public string? GetValue()`                                                   |
+| Null-conditional access      | `obj?.Property?.Method()`                                                     |
 
 **Never use:** `null!`, `= null!`, JetBrains.Annotations, duplicate validation
 
@@ -107,6 +107,7 @@ if (string.IsNullOrEmpty(value)) throw new ArgumentException("Value cannot be em
 ### 4. Known Class Patterns
 
 **Revision Dual-Constructor Pattern:**
+
 ```csharp
 // Constructor 1: Revision accessed via WorkItem.Revisions collection
 public Revision(IWorkItem workItem, int index) { }
@@ -117,6 +118,7 @@ public Revision(IFieldDefinitionCollection fieldDefinitions, int index) { }
 ```
 
 **Null-Conditional for Link Types:**
+
 ```csharp
 // LinkTypeEnd.ImmutableName may be null - always use ?.
 string.Equals(rl.LinkTypeEnd?.ImmutableName, linkTypeEndName, StringComparison.OrdinalIgnoreCase)
@@ -126,12 +128,12 @@ string.Equals(rl.LinkTypeEnd?.ImmutableName, linkTypeEndName, StringComparison.O
 
 Follow these established patterns:
 
-| Pattern | Usage | Example |
-|---------|-------|---------|
-| Factory | Object creation | `WorkItemStoreFactory.Default.Create(options)` |
-| Strategy | Varying behavior | `AttributeMapperStrategy`, `WorkItemLinksMapperStrategy` |
-| Interface-first | All public types | `IWorkItem`, `IWorkItemStore`, `IFieldDefinition` |
-| Lazy initialization | Expensive operations | Field definition collections |
+| Pattern             | Usage                | Example                                                  |
+| ------------------- | -------------------- | -------------------------------------------------------- |
+| Factory             | Object creation      | `WorkItemStoreFactory.Default.Create(options)`           |
+| Strategy            | Varying behavior     | `AttributeMapperStrategy`, `WorkItemLinksMapperStrategy` |
+| Interface-first     | All public types     | `IWorkItem`, `IWorkItemStore`, `IFieldDefinition`        |
+| Lazy initialization | Expensive operations | Field definition collections                             |
 
 ### 6. Quality Attributes
 
@@ -142,16 +144,16 @@ Follow these established patterns:
 
 ## Anti-Patterns (What NOT to Do)
 
-| Anti-Pattern | Why It's Bad | Do This Instead |
-|--------------|--------------|-----------------|
-| `= null!` suppression | Hides null safety issues, defeats NRT purpose | Initialize properly or make nullable |
-| `Contract.Requires` + null check | Duplicate validation, confusing | Choose ONE validation approach |
-| JetBrains.Annotations | Removed from codebase, conflicts with NRT | Use built-in nullable annotations |
-| Magic strings `"System.Id"` | Typo-prone, no compile-time check | Use `CoreFieldRefNames.Id` |
-| Empty catch `{ }` | Swallows errors silently | Log and rethrow or handle explicitly |
-| `public` fields | No encapsulation, breaking changes | Use properties with backing fields |
-| God classes | Too many responsibilities | Split into focused classes |
-| Concrete dependencies | Hard to test, tightly coupled | Depend on interfaces |
+| Anti-Pattern                     | Why It's Bad                                  | Do This Instead                      |
+| -------------------------------- | --------------------------------------------- | ------------------------------------ |
+| `= null!` suppression            | Hides null safety issues, defeats NRT purpose | Initialize properly or make nullable |
+| `Contract.Requires` + null check | Duplicate validation, confusing               | Choose ONE validation approach       |
+| JetBrains.Annotations            | Removed from codebase, conflicts with NRT     | Use built-in nullable annotations    |
+| Magic strings `"System.Id"`      | Typo-prone, no compile-time check             | Use `CoreFieldRefNames.Id`           |
+| Empty catch `{ }`                | Swallows errors silently                      | Log and rethrow or handle explicitly |
+| `public` fields                  | No encapsulation, breaking changes            | Use properties with backing fields   |
+| God classes                      | Too many responsibilities                     | Split into focused classes           |
+| Concrete dependencies            | Hard to test, tightly coupled                 | Depend on interfaces                 |
 
 ## Examples
 
@@ -160,6 +162,7 @@ Follow these established patterns:
 **User goal:** Fix CS8618 warning on a field
 
 **Process:**
+
 1. Identify if field should be nullable or always initialized
 2. If always initialized: add initialization in declaration or all constructors
 3. If nullable: add `?` suffix and update all usages
@@ -172,6 +175,7 @@ Follow these established patterns:
 **User goal:** Add parameter validation to a public method
 
 **Process:**
+
 1. Check if parameter is used before any null check
 2. Add `if (param == null) throw new ArgumentNullException(nameof(param));`
 3. For constructor base calls, use `param?.Property ?? throw new ArgumentNullException(nameof(param))`
@@ -186,6 +190,7 @@ Follow these established patterns:
 **Symptom:** `Non-nullable field '_field' must contain a non-null value when exiting constructor`
 
 **Decision tree:**
+
 1. Should the field ever be null? → Yes: Add `?` to make it `MyType? _field`
 2. Can it be initialized at declaration? → Yes: `private readonly MyType _field = new();`
 3. Must it come from constructor? → Initialize in ALL constructors
@@ -197,6 +202,7 @@ Follow these established patterns:
 **Symptom:** Warning when accessing `.Property` on potentially null object
 
 **Fixes:**
+
 ```csharp
 // Option 1: Null check first
 if (obj != null) { var x = obj.Property; }
@@ -213,6 +219,7 @@ var x = obj?.Property ?? defaultValue;
 **Symptom:** Passing value to non-nullable parameter when compiler thinks it could be null
 
 **Fixes:**
+
 ```csharp
 // Option 1: Add runtime null check before call
 if (value == null) throw new ArgumentNullException(nameof(value));

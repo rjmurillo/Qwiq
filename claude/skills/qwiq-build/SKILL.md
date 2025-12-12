@@ -7,13 +7,13 @@ description: Build system guidance for QWIQ including MSBuild configuration, Cen
 
 ## Quick Reference
 
-| Task | Command |
-|------|---------|
-| Standard build | `dotnet build Qwiq.sln -c Release` |
-| CI build (strict) | `dotnet build Qwiq.sln -c Release /p:PedanticMode=true` |
-| Fix file locking | `dotnet build /m:1 /nodeReuse:false` |
-| Add new package | Add version to `Directory.Packages.props`, reference without version in `.csproj` |
-| Query output path | `dotnet msbuild -getProperty:PackageOutputPath` |
+| Task              | Command                                                                           |
+| ----------------- | --------------------------------------------------------------------------------- |
+| Standard build    | `dotnet build Qwiq.sln -c Release`                                                |
+| CI build (strict) | `dotnet build Qwiq.sln -c Release /p:PedanticMode=true`                           |
+| Fix file locking  | `dotnet build /m:1 /nodeReuse:false`                                              |
+| Add new package   | Add version to `Directory.Packages.props`, reference without version in `.csproj` |
+| Query output path | `dotnet msbuild -getProperty:PackageOutputPath`                                   |
 
 **Key files:** `Directory.Build.props` (shared props), `Directory.Packages.props` (versions), `.editorconfig` (analyzer rules)
 
@@ -52,12 +52,12 @@ dotnet tool restore
 
 ### 2. Multi-Targeting Strategy
 
-| Project Type | Target Frameworks | Notes |
-|--------------|-------------------|-------|
-| Core libraries | `net472;netstandard2.0;net8.0` | Full multi-targeting |
-| SOAP projects | `net472` only | Windows-only, TFS Client OM |
-| REST projects | `net472;netstandard2.0;net8.0` | Cross-platform |
-| Test projects | `net472;net8.0` | Skip netstandard |
+| Project Type   | Target Frameworks              | Notes                       |
+| -------------- | ------------------------------ | --------------------------- |
+| Core libraries | `net472;netstandard2.0;net8.0` | Full multi-targeting        |
+| SOAP projects  | `net472` only                  | Windows-only, TFS Client OM |
+| REST projects  | `net472;netstandard2.0;net8.0` | Cross-platform              |
+| Test projects  | `net472;net8.0`                | Skip netstandard            |
 
 **Windows Required:** SOAP projects require Windows for `net472` targets.
 
@@ -74,6 +74,7 @@ All package versions are defined in `Directory.Packages.props`:
 ```
 
 **To add a new package:**
+
 1. Add version to `Directory.Packages.props`
 2. Reference without version in consuming `.csproj`
 
@@ -81,13 +82,13 @@ All package versions are defined in `Directory.Packages.props`:
 
 ### 4. Key Configuration Files
 
-| File | Purpose | Modify? |
-|------|---------|---------|
-| `Directory.Build.props` | Shared MSBuild properties | ⚠️ Rarely |
-| `Directory.Build.targets` | Shared build targets | ⚠️ Rarely |
-| `Directory.Packages.props` | Package versions | ✅ For dependencies |
-| `global.json` | SDK version pin | ⚠️ SDK upgrades only |
-| `.editorconfig` | Analyzer severities | ✅ For rule changes |
+| File                       | Purpose                   | Modify?              |
+| -------------------------- | ------------------------- | -------------------- |
+| `Directory.Build.props`    | Shared MSBuild properties | ⚠️ Rarely            |
+| `Directory.Build.targets`  | Shared build targets      | ⚠️ Rarely            |
+| `Directory.Packages.props` | Package versions          | ✅ For dependencies  |
+| `global.json`              | SDK version pin           | ⚠️ SDK upgrades only |
+| `.editorconfig`            | Analyzer severities       | ✅ For rule changes  |
 
 ### 5. Analyzer Configuration
 
@@ -114,6 +115,7 @@ Defined in `.csproj` files (not AssemblyInfo.cs):
 ### 7. Common Build Issues
 
 **Windows File Locking:**
+
 ```powershell
 # Use single-threaded build
 dotnet build /m:1 /nodeReuse:false -v:minimal
@@ -126,6 +128,7 @@ dotnet build /m:1 /nodeReuse:false -v:minimal
 | `Should` | Conflicts with modern frameworks | Use `Shouldly` |
 
 **Multi-TFM Race Conditions:**
+
 ```powershell
 # Clean and rebuild twice
 dotnet clean; dotnet build; dotnet build
@@ -135,15 +138,15 @@ dotnet build /p:ProduceReferenceAssembly=false
 
 ## Anti-Patterns (What NOT to Do)
 
-| Anti-Pattern | Why It's Bad | Do This Instead |
-|--------------|--------------|-----------------|
-| `Version` on PackageReference | Breaks Central Package Management | Add version to `Directory.Packages.props` only |
-| Editing `Directory.Build.props` | Affects all projects, easy to break | Edit specific `.csproj` or `.editorconfig` |
-| `--warnaserror-` in CI | Hides real issues | Fix warnings in code or `.editorconfig` |
-| Hardcoding SDK version in workflow | Diverges from `global.json` | Use `global-json-file: ./global.json` |
-| Using `ubuntu-latest` runner | SOAP projects need Windows | Use `windows-latest` |
-| `dotnet build` without restore | Can fail on clean checkout | Run `dotnet restore` first or let build restore |
-| Modifying `global.json` casually | Affects all developers | Only change for coordinated SDK upgrades |
+| Anti-Pattern                       | Why It's Bad                        | Do This Instead                                 |
+| ---------------------------------- | ----------------------------------- | ----------------------------------------------- |
+| `Version` on PackageReference      | Breaks Central Package Management   | Add version to `Directory.Packages.props` only  |
+| Editing `Directory.Build.props`    | Affects all projects, easy to break | Edit specific `.csproj` or `.editorconfig`      |
+| `--warnaserror-` in CI             | Hides real issues                   | Fix warnings in code or `.editorconfig`         |
+| Hardcoding SDK version in workflow | Diverges from `global.json`         | Use `global-json-file: ./global.json`           |
+| Using `ubuntu-latest` runner       | SOAP projects need Windows          | Use `windows-latest`                            |
+| `dotnet build` without restore     | Can fail on clean checkout          | Run `dotnet restore` first or let build restore |
+| Modifying `global.json` casually   | Affects all developers              | Only change for coordinated SDK upgrades        |
 
 ## Examples
 
@@ -152,6 +155,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 **User goal:** Add `Moq` package to test project
 
 **Process:**
+
 1. Check if `Moq` exists in `Directory.Packages.props`
 2. If not, add: `<PackageVersion Include="Moq" Version="4.20.70" />`
 3. In test `.csproj`, add: `<PackageReference Include="Moq" />`
@@ -164,6 +168,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 **User goal:** Resolve "file in use" error on Windows
 
 **Process:**
+
 1. Stop any running `dotnet` processes
 2. Run `dotnet build /m:1 /nodeReuse:false`
 3. If persists, run `dotnet clean` first
@@ -177,6 +182,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 **Cause:** CI uses `PedanticMode=true` (warnings as errors)
 
 **Fix:**
+
 ```powershell
 # Reproduce CI locally
 dotnet build -c Release /p:ContinuousIntegrationBuild=true /m:1
@@ -189,6 +195,7 @@ Then fix the warning in code or adjust severity in `.editorconfig`.
 **Cause:** MSBuild node reuse holds file handles
 
 **Fix:**
+
 ```powershell
 dotnet build /m:1 /nodeReuse:false
 # If persists:
@@ -201,6 +208,7 @@ dotnet clean && dotnet build
 **Symptom:** `NU1605` or version mismatch errors
 
 **Fix:**
+
 1. Check `Directory.Packages.props` for the package version
 2. Ensure `.csproj` has `<PackageReference Include="..." />` WITHOUT `Version` attribute
 3. Run `dotnet restore --force`
@@ -210,6 +218,7 @@ dotnet clean && dotnet build
 **Symptom:** Intermittent build failures with file copy errors
 
 **Fix:**
+
 ```powershell
 # Clean and rebuild twice
 dotnet clean && dotnet build && dotnet build
@@ -222,6 +231,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 **Symptom:** Code compiles for one target but not another
 
 **Fix:** Use `#if` directives for TFM-specific code:
+
 ```csharp
 #if NET472
     // net472-specific code

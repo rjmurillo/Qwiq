@@ -2,24 +2,24 @@
 
 ## Integration Test Sandbox Environment
 
-| Setting | Value |
-|---------|-------|
+| Setting          | Value                                    |
+| ---------------- | ---------------------------------------- |
 | Organization URL | `https://qwiq-sandbox.visualstudio.com/` |
-| Project Name | `WIT` |
-| Project ID | `0a4c0240-1a67-45de-93db-fc1de9f54ffb` |
-| Process Template | `WIT_TEST` |
-| Test User | Richard Murillo (`rjmurillo@msn.com`) |
+| Project Name     | `WIT`                                    |
+| Project ID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| Process Template | `WIT_TEST`                               |
+| Test User        | Richard Murillo (`rjmurillo@msn.com`)    |
 
 ## Test Work Items
 
-| ID | Type | Title | Purpose |
-|----|------|-------|---------|
-| 1 | Bug | Integration Test | Basic work item tests |
-| 2 | Task | Child Task for Integration Tests | Child of ID 3 (hierarchy) |
-| 3 | User Story | Parent Story for Integration Tests | Parent for hierarchy tests |
-| 4 | Bug | Bug for Mapper Integration Tests | Mapper tests |
-| 5 | Bug | Work Item with Links for Integration Tests | Work item with links |
-| 6 | Task | Child Task 2 for Hierarchy | Second child of ID 3 |
+| ID  | Type       | Title                                      | Purpose                    |
+| --- | ---------- | ------------------------------------------ | -------------------------- |
+| 1   | Bug        | Integration Test                           | Basic work item tests      |
+| 2   | Task       | Child Task for Integration Tests           | Child of ID 3 (hierarchy)  |
+| 3   | User Story | Parent Story for Integration Tests         | Parent for hierarchy tests |
+| 4   | Bug        | Bug for Mapper Integration Tests           | Mapper tests               |
+| 5   | Bug        | Work Item with Links for Integration Tests | Work item with links       |
+| 6   | Task       | Child Task 2 for Hierarchy                 | Second child of ID 3       |
 
 **Hierarchy Structure:**
 
@@ -31,13 +31,14 @@ User Story (ID: 3) - "Parent Story for Integration Tests"
 
 ## Environment Variables for CI/CD
 
-| Variable | Purpose | Default |
-|----------|---------|---------|
-| `QWIQ_TEST_URL` | Override sandbox URL | `https://qwiq-sandbox.visualstudio.com/` |
-| `QWIQ_PROJECT_GUID` | Override project GUID | `0a4c0240-1a67-45de-93db-fc1de9f54ffb` |
-| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication | (Windows auth) |
+| Variable               | Purpose                | Default                                  |
+| ---------------------- | ---------------------- | ---------------------------------------- |
+| `QWIQ_TEST_URL`        | Override sandbox URL   | `https://qwiq-sandbox.visualstudio.com/` |
+| `QWIQ_PROJECT_GUID`    | Override project GUID  | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication | (Windows auth)                           |
 
 **PAT Scopes Required:**
+
 - Work Items (Read & Write)
 - Project and Team (Read)
 - Identity (Read)
@@ -61,16 +62,17 @@ dotnet verify accept -w test/Qwiq.Package.Tests
 
 The `coverage.runsettings` file at the repository root configures code coverage:
 
-| Setting | Value | Purpose |
-|---------|-------|--------|
-| `Format` | cobertura | CI-friendly XML output |
-| `IncludeTestAssembly` | False | Excludes test assemblies |
-| `SkipAutoProps` | true | Skips trivial auto-properties |
-| `SingleHit` | False | Records hit counts |
+| Setting               | Value     | Purpose                       |
+| --------------------- | --------- | ----------------------------- |
+| `Format`              | cobertura | CI-friendly XML output        |
+| `IncludeTestAssembly` | False     | Excludes test assemblies      |
+| `SkipAutoProps`       | true      | Skips trivial auto-properties |
+| `SingleHit`           | False     | Records hit counts            |
 
 ### Included Assemblies
 
 Coverage is collected for these production assemblies only:
+
 - `Qwiq.Core.dll`
 - `Qwiq.Client.Rest.dll`
 - `Qwiq.Client.Soap.dll`
@@ -99,6 +101,7 @@ reportgenerator "-reports:artifacts/TestResults/**/coverage.cobertura.xml" "-tar
 ```
 
 Output includes:
+
 - `index.html` - Full interactive report
 - `summary.html` - Quick summary
 - `badge_*.svg` - Coverage badges for README

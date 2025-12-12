@@ -13,12 +13,12 @@ on:
     # This enables DRY reuse of the build/test/pack logic
   schedule:
     # Weekly CodeQL deep scan on Monday at 2:30 AM UTC
-    - cron: '30 2 * * 1'
+    - cron: "30 2 * * 1"
 
 permissions:
   contents: read
   actions: read
-  security-events: write  # Required for CodeQL
+  security-events: write # Required for CodeQL
 
 jobs:
   build:
@@ -95,7 +95,7 @@ jobs:
         with:
           category: "/language:csharp"
           output: ${{ runner.temp }}/codeql-results
-          upload: true  # When set to true the default CodeQL cannot be configured
+          upload: true # When set to true the default CodeQL cannot be configured
 
       - name: Copy CodeQL SARIF to artifacts
         if: always()

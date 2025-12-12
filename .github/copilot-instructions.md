@@ -63,7 +63,7 @@ dotnet test Qwiq.sln --configuration Release --settings coverage.runsettings
 
 - Coverage settings are defined in `coverage.runsettings` at the repository root
 - Output format: Cobertura XML (CI-friendly)
-- Only Qwiq.* production assemblies are instrumented
+- Only Qwiq.\* production assemblies are instrumented
 - Use `reportgenerator` to create HTML reports from coverage results
 
 ## Project Layout
@@ -914,15 +914,15 @@ Learned patterns from previous problem-solving sessions:
 
 This repository includes Claude Skills in `.claude/skills/` for on-demand capability loading:
 
-| Skill | Purpose |
-|-------|---------|
-| `qwiq-csharp` | C# patterns, nullable types, code style |
-| `qwiq-build` | Build system, MSBuild, packages |
-| `qwiq-testing` | Testing patterns, TDD, mocks |
-| `qwiq-cicd` | GitHub Actions, CI/CD |
-| `nullable-migration` | CS8xxx warning tracking |
-| `sandbox-validation` | Integration test environment |
-| `wiremock-capture` | HTTP traffic recording |
+| Skill                | Purpose                                 |
+| -------------------- | --------------------------------------- |
+| `qwiq-csharp`        | C# patterns, nullable types, code style |
+| `qwiq-build`         | Build system, MSBuild, packages         |
+| `qwiq-testing`       | Testing patterns, TDD, mocks            |
+| `qwiq-cicd`          | GitHub Actions, CI/CD                   |
+| `nullable-migration` | CS8xxx warning tracking                 |
+| `sandbox-validation` | Integration test environment            |
+| `wiremock-capture`   | HTTP traffic recording                  |
 
 See `.skills/README.md` for the full skill index and usage.
 

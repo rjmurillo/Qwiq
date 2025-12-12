@@ -320,7 +320,7 @@ dotnet test Qwiq.sln --collect:"Code Coverage" --settings coverage.runsettings
 Coverage settings are defined in `coverage.runsettings` at the repository root:
 
 - **Format**: Cobertura XML (CI-friendly, integrates with GitHub Actions)
-- **Included assemblies**: Only Qwiq.* production assemblies
+- **Included assemblies**: Only Qwiq.\* production assemblies
 - **Excluded**: Test projects, mocks, benchmarks, third-party dependencies
 - **Excluded attributes**: Generated code, debugger-hidden code, `[ExcludeFromCodeCoverage]`
 
