@@ -116,38 +116,47 @@ Make documentation complete enough for any agent to continue.
 ### W2.32 - CI Warning Gate
 
 ````text
-# Task: W2.32 - Enforce CI Warning Gate
+# Task: W2.32 - Verify CI Warning Gate (PedanticMode)
 
 ## Context
-Qwiq modernization achieved 0 warnings. This task protects that state by
-failing CI builds that introduce new warnings.
+Qwiq uses PedanticMode to enforce warnings-as-errors. This is already configured
+in `build/targets/codeanalysis/CodeAnalysis.targets` and activates automatically
+on CI builds (via ContinuousIntegrationBuild property).
 
 ## Task Details
 - **ID**: W2.32
 - **Priority**: CRITICAL (Tier 1)
-- **Effort**: S (1-2 hours)
+- **Effort**: XS (30 min - verification only)
 - **Branch**: `chore/modernize-4`
 
-## Requirements
-1. Add `/warnaserror` flag to CI build command in `.github/workflows/main.yml`
-2. Ensure all target frameworks are covered (net472;net48;net481;net8.0;net9.0;net10.0)
-3. Test locally before pushing
+## How PedanticMode Works
+- Defined in: `build/targets/codeanalysis/CodeAnalysis.targets`
+- Sets `TreatWarningsAsErrors=true` when `PedanticMode=true`
+- On CI: `PedanticMode` defaults to `$(ContinuousIntegrationBuild)` which is `true`
+- Local: Developers can use `/p:PedanticMode=false` to diagnose analyzer issues
 
-## Files to Modify
-- `.github/workflows/main.yml` - Add warning-as-error flag to build step
+## Requirements
+1. Verify PedanticMode is active in CI workflow
+2. Confirm ContinuousIntegrationBuild is set in workflow
+3. Test that warnings fail the build on CI
+
+## Files to Review
+- `build/targets/codeanalysis/CodeAnalysis.targets` - PedanticMode definition
+- `.github/workflows/main.yml` - Verify CI sets ContinuousIntegrationBuild
 
 ## Acceptance Criteria
+- [ ] PedanticMode activates on CI builds
 - [ ] CI build fails on any warning
 - [ ] Build passes with current codebase (0 warnings)
-- [ ] All TFMs tested
+- [ ] Documented in copilot-instructions.md (already done)
 
 ## Build Commands
 ```powershell
-# Test locally with warnings as errors
-dotnet build Qwiq.sln -c Release -warnaserror /m:1 /nodeReuse:false
+# Test locally simulating CI (warnings as errors)
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
 
-# Verify test pass
-dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+# Test locally with warnings allowed (for debugging)
+dotnet build Qwiq.sln -c Release /p:PedanticMode=false /m:1 /nodeReuse:false
 ````
 
 ## Documentation
