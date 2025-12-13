@@ -1008,7 +1008,7 @@ Before using sub-agents, understand these important constraints:
 | **No Recursion**      | Sub-agents cannot spawn other sub-agents. A sub-agent invocation is a single level of delegation only.       | Design workflows where the parent agent handles all sub-agent coordination. |
 | **Context Isolation** | Sub-agents operate in isolated context. Only the final result returns to the parent, not intermediate state. | Include all necessary context in the prompt; don't assume shared state.     |
 | **Tool Disable Bug**  | The `runSubagent` tool may stop appearing mid-session (fixed in VS Code 1.96+).                              | Restart the chat session or VS Code if the tool disappears unexpectedly.    |
-| **Fallback Behavior** | If the specified agent isn't found, falls back to the built-in `agent` without warning.                      | Verify agent names match exactly (case-sensitive).                          |
+| **Fallback Behavior** | If the specified agent isn't found, it silently falls back to the built-in `agent`.                          | Verify agent names match exactly (case-sensitive).                          |
 
 ### Custom Agent Model Selection
 

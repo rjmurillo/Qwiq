@@ -120,7 +120,7 @@ The recommended approach uses **parameterized test fixtures** with a common base
 
 ### 3.2 Test Categories
 
-1. **Contract Tests** (run always): Test behavioral contracts without real services
+1. **Contract Tests** (always run): Test behavioral contracts without real services
 2. **Fidelity Tests** (run with services): Compare mock behavior to actual REST/SOAP
 3. **Exception Contract Tests**: Verify exception types and conditions match
 

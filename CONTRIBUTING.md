@@ -397,7 +397,7 @@ start ./artifacts/coverage/index.html
 
 Coverage files (`.cobertura.xml`, HTML reports) are generated during test runs and are:
 
-- ✅ **Automatically ignored** by `.gitignore` (line 77: `/artifacts/`)
+- ✅ **Automatically ignored** by `.gitignore` (`/artifacts/`)
 - ✅ **Generated on-demand** during CI/CD and local test runs
 - ❌ **NEVER committed to git** - they are build artifacts, not source code
 
