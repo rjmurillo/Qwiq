@@ -109,7 +109,7 @@
 - **Dependencies**: W4.1, W4.2, W4.3, W4.4
 - **Completed**: 2025-12-12 (Session 30)
 - **File(s)**:
-  - `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md` (created)
+  - `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md` (created)
 - **Acceptance Criteria**:
   - [x] Plan prioritizes specific tests for mutation testing (LINQ WiqlTranslator, Core TypeParser)
   - [x] Plan identifies specific flaky tests to fix: **None** (0% flake rate)

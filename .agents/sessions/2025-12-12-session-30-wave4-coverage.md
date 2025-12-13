@@ -296,7 +296,7 @@ Exceptional test suite stability with zero flaky tests across 10 iterations. No 
 
 **Files created**:
 
-- `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md`
+- `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md`
 
 ---
 

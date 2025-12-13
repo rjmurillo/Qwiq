@@ -539,7 +539,7 @@ The maintenance mode decision was reached through a **structured multi-agent con
 
 ### Session 30 Phase 1 Completion
 
-**Phase 1: Baseline & Planning ✅ COMPLETE (Weeks 1-2)**
+#### Phase 1: Baseline & Planning ✅ COMPLETE (Weeks 1-2)
 
 | Task                            | Status | Key Finding                                            |
 | ------------------------------- | ------ | ------------------------------------------------------ |
@@ -551,7 +551,7 @@ The maintenance mode decision was reached through a **structured multi-agent con
 
 **Key Artifacts Created**:
 
-- `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md` - Comprehensive 16-week improvement roadmap
+- `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md` - Comprehensive 16-week improvement roadmap
 - `docs/metrics/test-baseline.md` - Test execution baseline metrics
 - `docs/metrics/test-flakiness-report.md` - Flakiness analysis (0% flake rate)
 - `docs/adr/ADR-010-soap-client-deprecation-strategy.md` - SOAP deprecation decision
@@ -625,7 +625,7 @@ See `docs/adr/ADR-010-soap-client-deprecation-strategy.md` for complete details.
 
 ### Wave 4 Tasks (25 Total)
 
-**Phase 1: Baseline & Planning ✅ COMPLETE**
+#### Phase 1: Baseline & Planning ✅ COMPLETE
 
 - [x] W4.1 - Test Execution Baseline (11.58s, exceeds target)
 - [x] W4.2 - Test Flake Rate (0.00%, exceeds target)
@@ -633,7 +633,7 @@ See `docs/adr/ADR-010-soap-client-deprecation-strategy.md` for complete details.
 - [x] W4.4 - SOAP Usage Assessment (deprecation recommended)
 - [x] W4.5 - Test Improvement Plan (16-week roadmap)
 
-**Phase 2: Coverage Expansion - REST Client (Weeks 3-6)**
+#### Phase 2: Coverage Expansion - REST Client (Weeks 3-6)
 
 - [ ] W4.6 - REST Client WorkItemStore Tests (0% → 80%)
 - [ ] W4.7 - REST Client Query Classes Tests (0% → 70%)
@@ -641,20 +641,20 @@ See `docs/adr/ADR-010-soap-client-deprecation-strategy.md` for complete details.
 - [ ] W4.9 - Core Auth & Credentials Tests (0% → 50%)
 - **Milestone 1**: 65% overall coverage
 
-**Phase 3: Coverage Expansion - Remaining Gaps (Weeks 7-8)**
+#### Phase 3: Coverage Expansion - Remaining Gaps (Weeks 7-8)
 
 - [ ] W4.10 - Mapper Exceptions & Edge Cases (0% → 80%)
 - [ ] W4.11 - LINQ QueryExtensions Coverage (20% → 80%)
 - **Milestone 2**: 70% overall coverage ✅ TARGET ACHIEVED
 
-**Phase 4: Mutation Testing (Weeks 9-12)**
+#### Phase 4: Mutation Testing (Weeks 9-12)
 
 - [ ] W4.12 - Stryker.NET Setup
 - [ ] W4.13 - Targeted Mutation Testing
 - [ ] W4.14 - Mutation Testing Report
 - **Target**: 65% mutation score on critical paths
 
-**Phase 5: Offline Testing (Weeks 13-16)**
+#### Phase 5: Offline Testing (Weeks 13-16)
 
 - [ ] W4.15 - WireMock.NET Integration
 - [ ] W4.16 - Capture REST API Fixtures
@@ -664,7 +664,7 @@ See `docs/adr/ADR-010-soap-client-deprecation-strategy.md` for complete details.
 **For full task details**, see:
 
 - `.agents/WAVE4-TASKS.md` - Detailed task list with acceptance criteria
-- `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md` - Complete 16-week improvement plan
+- `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md` - Complete 16-week improvement plan
 
 ---
 

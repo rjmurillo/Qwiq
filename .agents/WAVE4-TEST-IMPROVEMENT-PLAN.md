@@ -44,7 +44,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 - `docs/metrics/test-baseline.md` - Test execution baseline
 - `docs/metrics/test-flakiness-report.md` - Flakiness analysis (0% flake rate)
 - `docs/adr/ADR-010-soap-client-deprecation-strategy.md` - SOAP deprecation decision
-- `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md` - This plan
+- `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md` - This plan
 - `scripts/Measure-TestFlakiness.ps1` - Automated flakiness measurement
 
 ---

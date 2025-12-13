@@ -148,7 +148,7 @@ As part of Wave 4 test quality improvements and the transition to production v11
 
 ## Decision
 
-**Adopt Option 1: Deprecate SOAP Client**
+Adopt Option 1: Deprecate SOAP Client.
 
 ### Implementation Plan
 
@@ -281,4 +281,4 @@ var store = Qwiq.Client.Rest.WorkItemStoreFactory.Default.Create(options);
 - [Microsoft REST API Documentation](https://learn.microsoft.com/en-us/rest/api/azure/devops/)
 - [Azure DevOps SOAP API (Legacy)](https://learn.microsoft.com/en-us/previous-versions/azure/devops/integrate/overview)
 - [Qwiq GitHub Issues - SOAP Client](https://github.com/rjmurillo/Qwiq/labels/soap-client)
-- [Wave 4 Test Quality Plan](../WAVE4-TEST-IMPROVEMENT-PLAN.md)
+- [Wave 4 Test Quality Plan](../../.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md)

@@ -352,7 +352,7 @@ This CRAP reduction plan integrates with the existing Wave 4 phases:
 
 - [CRAP Metric - Google Testing Blog](https://testing.googleblog.com/2011/02/this-code-is-crap.html)
 - [Wave 4 Task List](WAVE4-TASKS.md)
-- [Wave 4 Test Improvement Plan](../docs/WAVE4-TEST-IMPROVEMENT-PLAN.md)
+- [Wave 4 Test Improvement Plan](WAVE4-TEST-IMPROVEMENT-PLAN.md)
 - [ADR-010: SOAP Deprecation](../docs/adr/ADR-010-soap-client-deprecation-strategy.md)
 
 ---

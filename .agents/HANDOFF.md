@@ -477,7 +477,7 @@ See: `.agents/sessions/2025-12-12-wiremock-fix.md` for full details
    - Created comprehensive 16-week roadmap to 70% coverage
    - Defined 5 phases with specific milestones
    - Prioritized work by ROI (REST client = highest impact: 0% → 60%)
-   - Created `docs/WAVE4-TEST-IMPROVEMENT-PLAN.md`
+   - Created `.agents/WAVE4-TEST-IMPROVEMENT-PLAN.md`
 
 6. ✅ **Documentation Enhancements** (COMPLETE)
    - Added critical warnings to prevent artifacts from being committed
