@@ -4,10 +4,8 @@ namespace Qwiq.Tests.Common
 {
     public interface IContextSpecification
     {
-        [TestInitialize]
         void TestInitialize();
 
-        [TestCleanup]
         void TestCleanup();
 
         void Given();

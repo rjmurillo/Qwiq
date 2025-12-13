@@ -35,10 +35,10 @@ namespace Qwiq.Exceptions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MockException))]
         public void the_expected_exception_type_is_rethrown()
         {
-            ProxiedInstance.ThrowException();
+            Assert.ThrowsException<MockException>(() =>
+                ProxiedInstance.ThrowException());
         }
     }
 
@@ -52,10 +52,10 @@ namespace Qwiq.Exceptions
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void the_thrown_exception_is_untouched()
         {
-            ProxiedInstance.ThrowException();
+            Assert.ThrowsException<ArgumentException>(() =>
+                ProxiedInstance.ThrowException());
         }
     }
 }

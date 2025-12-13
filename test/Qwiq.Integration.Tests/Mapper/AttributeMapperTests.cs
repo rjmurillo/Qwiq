@@ -36,7 +36,7 @@ namespace Qwiq.Mapper
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("REST")]
-        public new void The_work_items_are_mapped_to_their_model()
+        public void The_work_items_are_mapped_to_their_model_with_eager_loading()
         {
             Bugs.ToList().Count.ShouldEqual(1);
         }
@@ -79,7 +79,7 @@ namespace Qwiq.Mapper
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("REST")]
-        public new void The_work_items_are_mapped_to_their_model()
+        public void The_work_items_are_mapped_to_their_model_with_eager_loading_and_no_workitemtype()
         {
             Bugs.ToList().Count.ShouldEqual(1);
         }

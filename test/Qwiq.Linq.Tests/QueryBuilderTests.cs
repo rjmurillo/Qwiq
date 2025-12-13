@@ -235,10 +235,10 @@ namespace Qwiq.Linq
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void it_is_not_supported()
         {
-            Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!;
+            Assert.ThrowsException<NotSupportedException>(() => 
+                Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!);
         }
     }
 
@@ -259,10 +259,10 @@ namespace Qwiq.Linq
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void it_is_not_supported()
         {
-            Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!;
+            Assert.ThrowsException<NotSupportedException>(() => 
+                Actual = Query.Where(item => _values.Contains(item.Tags!)).ToString()!);
         }
     }
 
@@ -412,12 +412,12 @@ namespace Qwiq.Linq
     public class when_a_where_clause_contains_a_ToUpper_call_on_a_string : WiqlQueryBuilderContextSpecification
     {
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
 #pragma warning disable CA1862 // Use string.Equals instead of comparing ToUpperInvariant() - intentionally testing unsupported pattern
         public void a_NotSupportedException_is_thrown_to_notify_the_developer_that_text_matches_are_case_insensitive()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Actual = Query.Where(item => item.Title!.ToUpperInvariant() == "TEST").ToString()!;
+            Assert.ThrowsException<NotSupportedException>(() => 
+                Actual = Query.Where(item => item.Title!.ToUpperInvariant() == "TEST").ToString()!);
         }
 #pragma warning restore CA1862
     }
@@ -699,10 +699,10 @@ namespace Qwiq.Linq
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ShouldAssertException))]
         public void the_column_written_to_WIQL_in_SELECT_is_the_projected_property()
         {
-            Actual.ShouldEqual(Expected);
+            Assert.ThrowsException<ShouldAssertException>(() => 
+                Actual.ShouldEqual(Expected));
         }
     }
 

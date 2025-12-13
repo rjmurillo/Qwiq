@@ -45,7 +45,7 @@ namespace Qwiq.Mapper.Identity
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("SOAP")]
-        public new void Converted_value_contains_a_expected_number_of_results()
+        public void Converted_value_with_duplicates_contains_expected_number_of_results()
         {
             // Duplicate display names resolve to one unique result
             var kvp = (Dictionary<string, object>)ConvertedValue;
@@ -72,7 +72,7 @@ namespace Qwiq.Mapper.Identity
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("SOAP")]
-        public new void Converted_value_contains_a_expected_number_of_results()
+        public void Converted_value_with_duplicate_combostrings_contains_expected_number_of_results()
         {
             // Duplicate combo strings resolve to one unique result
             var kvp = (Dictionary<string, object>)ConvertedValue;
@@ -188,7 +188,7 @@ namespace Qwiq.Mapper.Identity
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("SOAP")]
-        public new void Converted_value_contains_a_single_result()
+        public void Converted_value_from_display_name_with_multiple_identities_contains_a_single_result()
         {
             var result = (string)ConvertedValue;
             result.ShouldNotBeNull();
@@ -219,7 +219,7 @@ namespace Qwiq.Mapper.Identity
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("SOAP")]
-        public new void Converted_value_contains_a_single_result()
+        public void Converted_value_from_combostring_with_multiple_identities_contains_a_single_result()
         {
             var result = (string)ConvertedValue;
             result.ShouldNotBeNull();
@@ -228,7 +228,7 @@ namespace Qwiq.Mapper.Identity
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("SOAP")]
-        public new void Converted_value_result_is_expected_value()
+        public void Converted_value_from_combostring_result_is_expected_value()
         {
             ((string)ConvertedValue).ShouldBe(TestData.TestUserAlias, Comparer.OrdinalIgnoreCase);
         }

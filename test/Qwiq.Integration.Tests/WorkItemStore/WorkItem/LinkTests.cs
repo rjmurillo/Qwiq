@@ -20,11 +20,18 @@ namespace Qwiq.WorkItemStore.WorkItem
         [TestCategory("localOnly")]
         [TestCategory("REST")]
         [TestCategory("SOAP")]
-        [ExpectedException(typeof(NotSupportedException))]
         public void AttachedFileCount_is_equal()
         {
-            AssertWorkItemExpandConfiguration();
-            RestResult.WorkItem!.AttachedFileCount.ShouldEqual(SoapResult.WorkItem!.AttachedFileCount);
+            try
+            {
+                AssertWorkItemExpandConfiguration();
+                RestResult.WorkItem!.AttachedFileCount.ShouldEqual(SoapResult.WorkItem!.AttachedFileCount);
+                Assert.Fail("Expected NotSupportedException was not thrown");
+            }
+            catch (NotSupportedException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]
@@ -140,12 +147,19 @@ namespace Qwiq.WorkItemStore.WorkItem
         [TestMethod]
         [TestCategory("localOnly")]
         [TestCategory("REST")]
-        [ExpectedException(typeof(NotSupportedException))]
         public void REST_WorkItem_has_Attached_files()
         {
-            AssertWorkItemExpandConfiguration();
+            try
+            {
+                AssertWorkItemExpandConfiguration();
 
-            RestResult.WorkItem!.AttachedFileCount.ShouldBeGreaterThan(0);
+                RestResult.WorkItem!.AttachedFileCount.ShouldBeGreaterThan(0);
+                Assert.Fail("Expected NotSupportedException was not thrown");
+            }
+            catch (NotSupportedException)
+            {
+                // Expected exception
+            }
         }
 
         [TestMethod]

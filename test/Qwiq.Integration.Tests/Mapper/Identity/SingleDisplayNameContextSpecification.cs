@@ -4,6 +4,7 @@ using Should;
 
 namespace Qwiq.Mapper.Identity
 {
+    [TestClass]
     public class SingleDisplayNameContextSpecification : DisplayNameToAliasConverterContextSpecification
     {
         protected internal string DisplayName { get; set; } = null!;

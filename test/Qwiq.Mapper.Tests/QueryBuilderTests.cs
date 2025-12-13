@@ -31,11 +31,11 @@ namespace Qwiq.Mapper
     public class when_a_where_clause_filters_on_a_field_with_no_field_definition_attribute : GenericQueryBuilderContextSpecification<MockModel>
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void an_argument_exception_is_thrown()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            Actual = Query.Where(item => item.UnmappedProperty != null).ToString()!;
+            Assert.ThrowsException<ArgumentException>(() => 
+                Actual = Query.Where(item => item.UnmappedProperty != null).ToString()!);
         }
     }
 

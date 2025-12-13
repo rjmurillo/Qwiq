@@ -61,10 +61,10 @@ namespace Qwiq
     public class when_parsing_an_enum_value_null_defaultValue_null : TypeParserTestsContext
     {
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void enum_value_is_returned()
         {
-            Parser.Parse(typeof(Formatting), null, null);
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                Parser.Parse(typeof(Formatting), null, null));
         }
     }
 
@@ -480,10 +480,10 @@ namespace Qwiq
     public class when_parsing_a_valid_nonnullable_double_with_nuill_for_value_and_defaultvalue : TypeParserTestsContext
     {
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void value_is_parsed_as_double()
         {
-            Parser.Parse(typeof(double), null, null);
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                Parser.Parse(typeof(double), null, null));
         }
     }
 

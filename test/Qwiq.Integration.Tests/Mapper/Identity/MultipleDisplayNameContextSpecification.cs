@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Qwiq.Mapper.Identity
 {
+    [TestClass]
     public class MultipleDisplayNameContextSpecification : DisplayNameToAliasConverterContextSpecification
     {
         protected internal string[] DisplayNames { get; set; } = null!;
