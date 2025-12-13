@@ -14,15 +14,18 @@
 
 | Tier       | Task ID | Description            | Status                 |
 | ---------- | ------- | ---------------------- | ---------------------- |
-| 1 CRITICAL | W2.32   | CI Warning Gate        | ✅ COMPLETE            |
 | 1 CRITICAL | W2.22   | SHA Digest Pinning     | 📋 Planned             |
 | 1 CRITICAL | W3.10   | Package Signing        | ⏸️ BLOCKED (Key Vault) |
 | 1 CRITICAL | W5.1    | Security Audit         | 📋 Planned             |
-| 2 HIGH     | W3.1    | TFM Expansion          | ✅ COMPLETE            |
 | 2 HIGH     | W2.29   | Null Guards            | 📋 Planned             |
 | 2 HIGH     | W5.2    | Container Docs         | 📋 Planned             |
 | 3 MEDIUM   | W2.33   | NuGet v11.0.0 Publish  | 📋 Planned             |
 | 3 MEDIUM   | W5.6    | Migration Guide v10→11 | 📋 Planned             |
+
+### Recently Completed (prompts removed)
+
+- ✅ **W2.32** - CI Warning Gate (Session 32, 2025-12-12)
+- ✅ **W3.1** - TFM Expansion (Session 30, 2025-12-12)
 
 ## Documentation File Structure
 
@@ -39,82 +42,6 @@ The modernization TODO was split into multiple files for AI agent readability:
 ---
 
 ## Tier 1 CRITICAL Tasks
-
-### W2.32 - CI Warning Gate
-
-- **Priority**: CRITICAL (Tier 1)
-- **Effort**: XS (30 min - verification only)
-- **Description**: Verify PedanticMode enforces warnings-as-errors on CI builds.
-
-**Copy/paste prompt:**
-
-```text
-# QWIQ Modernization Session - Task W2.32: CI Warning Gate
-
-**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
-
-## Session Setup (MANDATORY - Do First)
-1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
-2. Read `.agents/HANDOFF.md` - previous session context
-3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Verify git state is clean: run `git status` (stop if not clean)
-5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
-6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
-7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-
-## Project Context
-- Repository: Qwiq - .NET library for Azure DevOps work item queries
-- Branch: `chore/modernize-4`
-- Target: Production v11.0.0 for 100+ team members
-- Build Status: 0 errors, 0 warnings (MUST maintain)
-- Test Status: 208 passed, 1 skipped
-
-## Task: W2.32 - Verify CI Warning Gate (PedanticMode)
-Qwiq uses PedanticMode to enforce warnings-as-errors. This is already configured
-in `build/targets/codeanalysis/CodeAnalysis.targets` and activates automatically
-on CI builds (via ContinuousIntegrationBuild property).
-
-### How PedanticMode Works
-- Defined in: `build/targets/codeanalysis/CodeAnalysis.targets`
-- Sets `TreatWarningsAsErrors=true` when `PedanticMode=true`
-- On CI: `PedanticMode` defaults to `$(ContinuousIntegrationBuild)` which is `true`
-- Local: Developers can use `/p:PedanticMode=false` to diagnose analyzer issues
-
-### Requirements
-1. Verify PedanticMode is active in CI workflow
-2. Confirm ContinuousIntegrationBuild is set in workflow
-3. Test that warnings fail the build on CI
-
-### Files to Review
-- `build/targets/codeanalysis/CodeAnalysis.targets` - PedanticMode definition
-- `.github/workflows/main.yml` - Verify CI sets ContinuousIntegrationBuild
-
-### Acceptance Criteria
-- [ ] PedanticMode activates on CI builds
-- [ ] CI build fails on any warning
-- [ ] Build passes with current codebase (0 warnings)
-- [ ] Documented in copilot-instructions.md (already done)
-
-### Build Commands
-# Test locally simulating CI (warnings as errors)
-dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false
-
-# Test locally with warnings allowed (for debugging)
-dotnet build Qwiq.sln -c Release /p:PedanticMode=false /m:1 /nodeReuse:false
-
-## Session Finalization (MANDATORY - Before Ending)
-1. Check off W2.32 in `.agents/modernize-TODO.md`
-2. Complete session log with: what was done, decisions made, challenges, files changed
-3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
-5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.32 CI warning gate verification"`
-6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
-
-CRITICAL: The next session has ZERO context except checked-in documentation.
-```
-
----
 
 ### W2.22 - SHA Digest Pinning
 
@@ -278,99 +205,6 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 ---
 
 ## Tier 2 HIGH Tasks
-
-### W3.1 - TFM Expansion
-
-- **Priority**: HIGH (Tier 2)
-- **Effort**: M (4-8 hours)
-- **Description**: Expand target frameworks to support modern .NET and Kubernetes containers.
-
-**Copy/paste prompt:**
-
-```text
-# QWIQ Modernization Session - Task W3.1: TFM Expansion
-
-**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
-
-## Session Setup (MANDATORY - Do First)
-1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
-2. Read `.agents/HANDOFF.md` - previous session context
-3. Read `.agents/modernize-TODO.md` - task details and current state
-4. Verify git state is clean: run `git status` (stop if not clean)
-5. Verify branch: run `git branch --show-current` (expected: `chore/modernize-4`; switch/create if needed)
-6. Create session log in `.agents/sessions/` using today's date and next number (example: `.agents/sessions/2025-12-12-session-01.md`)
-7. Baseline verification build (required before changes): `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-
-## Project Context
-- Repository: Qwiq - .NET library for Azure DevOps work item queries
-- Branch: `chore/modernize-4`
-- Target: Production v11.0.0 for 100+ team members
-- Build Status: 0 errors, 0 warnings (MUST maintain)
-- Test Status: 208 passed, 1 skipped
-
-## Task: W3.1 - Expand Target Framework Monikers
-Production deployment requires running in Kubernetes containers on modern .NET.
-Expand TFM coverage while maintaining backward compatibility.
-
-### Current TFMs
-- Core/REST/Identity/Linq/Mapper: `net472;net8.0`
-- SOAP projects: `net472` only (Windows SDK constraint)
-
-### Target TFMs
-- Core/REST/Identity/Linq/Mapper: `net472;net48;net481;net8.0;net9.0;net10.0`
-- SOAP projects: `net472` only (cannot change - SDK hard constraint)
-- netstandard2.0: Evaluate if still needed with expanded coverage
-
-### Why These TFMs
-| TFM     | Reason                                         |
-|---------|------------------------------------------------|
-| net472  | Minimum for SOAP SDK (Microsoft.TFS.ExtClient) |
-| net48   | Compiler optimizations, runtime improvements   |
-| net481  | Compiler optimizations, latest .NET Framework  |
-| net8.0  | LTS until Nov 2026, container support          |
-| net9.0  | STS until Nov 2026, current stable             |
-| net10.0 | LTS until Nov 2028, just released Nov 2025     |
-
-### CANNOT Support
-- net462, net47, net471: SDK requires net472+ minimum
-
-### Files to Modify
-- `src/Qwiq.Core/Qwiq.Core.csproj`
-- `src/Qwiq.Core.Rest/Qwiq.Core.Rest.csproj`
-- `src/Qwiq.Identity/Qwiq.Identity.csproj`
-- `src/Qwiq.Linq/Qwiq.Linq.csproj`
-- `src/Qwiq.Mapper/Qwiq.Mapper.csproj`
-- `src/Qwiq.Mapper.Identity/Qwiq.Mapper.Identity.csproj`
-- `src/Qwiq.Linq.Identity/Qwiq.Linq.Identity.csproj`
-- Test project files (match source TFMs)
-
-### Acceptance Criteria
-- [ ] All non-SOAP projects target: net472;net48;net481;net8.0;net9.0;net10.0
-- [ ] SOAP projects remain net472 only
-- [ ] Build succeeds for all TFMs with 0 warnings
-- [ ] Tests pass on all TFMs
-- [ ] NuGet packages include all TFMs
-
-### Build Commands
-# Build all TFMs
-dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
-
-# Test specific TFM
-dotnet test Qwiq.sln -c Release -f net8.0 --no-build --filter "TestCategory!=localOnly"
-
-## Session Finalization (MANDATORY - Before Ending)
-1. Check off W3.1 in `.agents/modernize-TODO.md`
-2. Complete session log with: what was done, decisions made, challenges, files changed
-3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
-5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.1 TFM expansion"`
-6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
-
-CRITICAL: The next session has ZERO context except checked-in documentation.
-```
-
----
 
 ### W2.29 - Service Resolution Null Guards
 
@@ -1309,3 +1143,4 @@ Make documentation complete enough for any agent to continue.
 | 3.1     | 2025-12-12 | Added branch/clean checks, baseline build step, and forced add of session logs    |
 | 3.2     | 2025-12-12 | Restored Universal Session End Prompt for agent handoff continuity                |
 | 3.3     | 2025-12-12 | Updated for split TODO files: added file structure table, updated all references  |
+| 3.4     | 2025-12-13 | Removed completed task prompts: W2.32 (CI Warning Gate), W3.1 (TFM Expansion)     |
