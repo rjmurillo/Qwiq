@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (Session 35 - Mutation Testing Setup)
+> **Last Updated**: 2025-12-13 by Claude (Session 37 - CI Workflow Refactoring)
 > **Current Phase**: Wave 4 Phase 2 - Mutation Testing Infrastructure Complete
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
@@ -29,6 +29,44 @@
 - Must pass enterprise security review
 - **Git Hooks**: ✅ Pre-commit hooks enabled for linting enforcement
 - **Mutation Testing**: ✅ Stryker.NET configured, weekly CI runs scheduled
+
+### Session Summary (Session 37 - CI Workflow Refactoring - 2025-12-13)
+
+**Purpose**: Refactor GitHub Actions workflows to use reusable composite actions, following the moq.analyzers pattern. Separate CodeQL and mutation testing into dedicated workflows.
+
+**Work Completed**:
+
+1. **Created Composite Actions**:
+
+   - `.github/actions/setup-dotnet/action.yml` - .NET SDK setup
+   - `.github/actions/restore-build/action.yml` - Configurable restore/build with pack, binlog options
+
+2. **Created Separate Workflows**:
+
+   - `.github/workflows/codeql.yml` - Dedicated CodeQL security analysis
+   - `.github/workflows/mutation-testing.yml` - Dedicated Stryker mutation testing
+
+3. **Simplified main.yml**:
+   - Removed CodeQL steps (now in dedicated workflow)
+   - Removed mutation-testing job (now in dedicated workflow)
+   - Uses composite actions for setup and build
+   - Focuses on: build, test, pack, SBOM generation
+
+**Design Decision**: Two composite actions instead of one because CodeQL must initialize BETWEEN checkout and build. The single-action pattern from moq.analyzers wouldn't allow inserting CodeQL init at the right place.
+
+**Code Review Improvements**:
+
+- Added `$ErrorActionPreference = 'Stop'` for proper error handling
+- Used environment variables for inputs (security best practice)
+- Added binlog directory creation
+
+**Commit**: `b22afa7c` - refactor(ci): extract reusable composite actions and separate workflows
+
+**Verification**: Main build ✅ SUCCESS, CodeQL ✅ Running, All other checks ✅ SUCCESS
+
+See: `.agents/sessions/2025-12-13-session-37-ci-workflow-refactor.md` for full details
+
+---
 
 ### Session Summary (Session 35 - Mutation Testing Setup - 2025-12-13)
 
