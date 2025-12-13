@@ -1,7 +1,6 @@
 # Qwiq Modernization - Wave 0 & Wave 1: Foundation & Code Quality
 
-> **Parent Document**: [modernize-TODO-index.md](modernize-TODO-index.md)
-> **Scope**: Infrastructure setup and code quality improvements
+> **Parent Document**: [modernize-TODO-index.md](modernize-TODO-index.md) > **Scope**: Infrastructure setup and code quality improvements
 > **Status**: ✅ 96% COMPLETE (25/26 tasks - W1.18 deferred)
 > **Last Updated**: December 12, 2025
 
@@ -9,14 +8,14 @@
 
 ## Quick Navigation
 
-| Wave | Phase | Tasks | Status |
-|------|-------|-------|--------|
-| [Wave 0](#wave-0-foundation--complete) | Foundation | 6 | ✅ COMPLETE |
-| [Wave 1](#wave-1-code-quality--cicd--complete) | Phase 1A: Infrastructure | 3 | ✅ COMPLETE |
-| [Wave 1](#phase-1b-documentation--governance) | Phase 1B: Documentation | 6 | ✅ COMPLETE |
-| [Wave 1](#phase-1c-nullable-reference-types-cleanup--complete) | Phase 1C: Nullable | 6 | ✅ COMPLETE |
-| [Wave 1](#phase-1d-analyzer-debt-reduction) | Phase 1D: Analyzers | 5 | 4/5 ✅ |
-| [Wave 1](#phase-1e-build-quality-gates) | Phase 1E: Build Quality | 6 | ✅ COMPLETE |
+| Wave                                                           | Phase                    | Tasks | Status      |
+| -------------------------------------------------------------- | ------------------------ | ----- | ----------- |
+| [Wave 0](#wave-0-foundation--complete)                         | Foundation               | 6     | ✅ COMPLETE |
+| [Wave 1](#wave-1-code-quality--cicd--complete)                 | Phase 1A: Infrastructure | 3     | ✅ COMPLETE |
+| [Wave 1](#phase-1b-documentation--governance)                  | Phase 1B: Documentation  | 6     | ✅ COMPLETE |
+| [Wave 1](#phase-1c-nullable-reference-types-cleanup--complete) | Phase 1C: Nullable       | 6     | ✅ COMPLETE |
+| [Wave 1](#phase-1d-analyzer-debt-reduction)                    | Phase 1D: Analyzers      | 5     | 4/5 ✅      |
+| [Wave 1](#phase-1e-build-quality-gates)                        | Phase 1E: Build Quality  | 6     | ✅ COMPLETE |
 
 ---
 
@@ -426,8 +425,8 @@
 
 **P1 Reliability Rules Enabled** (5 of 5):
 
-| Rule   | Description                                    | Status          |
-| ------ | ---------------------------------------------- | --------------- |
+| Rule   | Description                                    | Status             |
+| ------ | ---------------------------------------------- | ------------------ |
 | CA1062 | Validate arguments of public methods           | ✅ Zero violations |
 | CA2000 | Dispose objects before losing scope            | ✅ Zero violations |
 | CA2007 | Consider calling ConfigureAwait                | ✅ Zero violations |
@@ -588,5 +587,5 @@
 ## Document Control
 
 | Version | Date       | Author       | Changes             |
-|---------|------------|--------------|---------------------|
+| ------- | ---------- | ------------ | ------------------- |
 | 1.0     | 2025-12-13 | AI Assistant | Split from monolith |

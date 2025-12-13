@@ -83,12 +83,12 @@ All 9 WireMock tests pass on .NET 8.0.
 
 ## Decisions Made
 
-| Decision | Rationale |
-|----------|-----------|
-| Create separate project instead of multi-targeting | Integration.Tests requires net472 for TFS Extended Client; WireMock requires net8.0+ to work |
-| Use System.Text.Json | Modern .NET projects should use built-in JSON; Newtonsoft.Json still available via dependencies |
-| Keep captured stubs from real traffic | The extracted stubs contain complete API responses including service definitions |
-| Remove WireMock from Integration.Tests | Cleaning up non-functional code; tests can only pass in the new project |
+| Decision                                           | Rationale                                                                                       |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Create separate project instead of multi-targeting | Integration.Tests requires net472 for TFS Extended Client; WireMock requires net8.0+ to work    |
+| Use System.Text.Json                               | Modern .NET projects should use built-in JSON; Newtonsoft.Json still available via dependencies |
+| Keep captured stubs from real traffic              | The extracted stubs contain complete API responses including service definitions                |
+| Remove WireMock from Integration.Tests             | Cleaning up non-functional code; tests can only pass in the new project                         |
 
 ## Files Changed Summary
 

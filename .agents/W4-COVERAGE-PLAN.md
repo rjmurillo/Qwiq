@@ -16,25 +16,25 @@ This plan increases Qwiq test coverage from **51.1% to 70%** with a focus on **b
 
 ## Key Consensus Points
 
-| Topic | Consensus |
-|-------|-----------|
-| Primary focus | Qwiq.Core (50.9% → 70%) |
-| Test pattern | Keep ContextSpecification (BDD style) |
-| REST/SOAP testing | Defer (requires WireMock infrastructure) |
-| Mutation testing | Add after coverage baseline |
+| Topic             | Consensus                                    |
+| ----------------- | -------------------------------------------- |
+| Primary focus     | Qwiq.Core (50.9% → 70%)                      |
+| Test pattern      | Keep ContextSpecification (BDD style)        |
+| REST/SOAP testing | Defer (requires WireMock infrastructure)     |
+| Mutation testing  | Add after coverage baseline                  |
 | Exception testing | Test behavior, NOT constructors for coverage |
 
 ## Coverage Targets by Project
 
-| Project | Current | Target | Gap | Priority |
-|---------|---------|--------|-----|----------|
-| Qwiq.Linq | 87.1% | 90% | +2.9% | Maintain |
-| Qwiq.Core | 50.9% | 70% | +19.1% | **CRITICAL** |
-| Qwiq.Mapper | 69.5% | 75% | +5.5% | Medium |
-| Qwiq.Identity | 70.1% | 70% | 0% | Maintain |
-| Qwiq.Mapper.Identity | 66% | 70% | +4% | Low |
+| Project              | Current | Target | Gap    | Priority     |
+| -------------------- | ------- | ------ | ------ | ------------ |
+| Qwiq.Linq            | 87.1%   | 90%    | +2.9%  | Maintain     |
+| Qwiq.Core            | 50.9%   | 70%    | +19.1% | **CRITICAL** |
+| Qwiq.Mapper          | 69.5%   | 75%    | +5.5%  | Medium       |
+| Qwiq.Identity        | 70.1%   | 70%    | 0%     | Maintain     |
+| Qwiq.Mapper.Identity | 66%     | 70%    | +4%    | Low          |
 
-*Note: REST/SOAP clients deferred to W4.2 (WireMock infrastructure required)*
+_Note: REST/SOAP clients deferred to W4.2 (WireMock infrastructure required)_
 
 ---
 
@@ -235,24 +235,24 @@ public class When_creating_external_link_with_null_uri : ContextSpecification
 
 ## Risk Mitigations (from reviews)
 
-| Risk | Mitigation |
-|------|------------|
-| Timeline slip | Start with quick wins, build momentum |
-| Coverage gaming | Add mutation testing in Phase 4 |
-| REST client complexity | Defer to W4.2 with WireMock |
-| Fixture maintenance | Not applicable until W4.2 |
+| Risk                      | Mitigation                                 |
+| ------------------------- | ------------------------------------------ |
+| Timeline slip             | Start with quick wins, build momentum      |
+| Coverage gaming           | Add mutation testing in Phase 4            |
+| REST client complexity    | Defer to W4.2 with WireMock                |
+| Fixture maintenance       | Not applicable until W4.2                  |
 | ContextSpecification debt | Acknowledge; defer refactoring post-Wave 4 |
 
 ---
 
 ## Success Metrics
 
-| Metric | Current | Target |
-|--------|---------|--------|
-| Line Coverage | 51.1% | 70% |
-| Branch Coverage | 36.7% | 60% |
-| Flaky Tests | 0% | 0% |
-| Mutation Score (Phase 4) | N/A | 60% |
+| Metric                   | Current | Target |
+| ------------------------ | ------- | ------ |
+| Line Coverage            | 51.1%   | 70%    |
+| Branch Coverage          | 36.7%   | 60%    |
+| Flaky Tests              | 0%      | 0%     |
+| Mutation Score (Phase 4) | N/A     | 60%    |
 
 ---
 

@@ -24,16 +24,16 @@ Before starting work, complete these steps IN ORDER:
 
 ## Document Hierarchy
 
-| Document                   | Purpose                             | When to Update                   |
-| -------------------------- | ----------------------------------- | -------------------------------- |
-| `AGENT-INSTRUCTIONS.md`    | How to execute work (this file)     | Rarely - only if process changes |
-| `modernize-TODO-index.md`  | Overview, metrics, session log      | After EVERY session              |
-| `modernize-wave1.md`       | Wave 0-1 task tracking              | After Wave 0-1 task completion   |
-| `modernize-wave2.md`       | Wave 2 task tracking                | After Wave 2 task completion     |
-| `modernize-wave3-5.md`     | Waves 3-5 task tracking             | After Wave 3-5 task completion   |
-| `modernize-explainer.md`   | Architecture, decisions, rationale  | When design decisions are made   |
-| `HANDOFF.md`               | Session-to-session context transfer | At END of every session          |
-| `sessions/*.md`            | Detailed session logs               | Throughout session               |
+| Document                  | Purpose                             | When to Update                   |
+| ------------------------- | ----------------------------------- | -------------------------------- |
+| `AGENT-INSTRUCTIONS.md`   | How to execute work (this file)     | Rarely - only if process changes |
+| `modernize-TODO-index.md` | Overview, metrics, session log      | After EVERY session              |
+| `modernize-wave1.md`      | Wave 0-1 task tracking              | After Wave 0-1 task completion   |
+| `modernize-wave2.md`      | Wave 2 task tracking                | After Wave 2 task completion     |
+| `modernize-wave3-5.md`    | Waves 3-5 task tracking             | After Wave 3-5 task completion   |
+| `modernize-explainer.md`  | Architecture, decisions, rationale  | When design decisions are made   |
+| `HANDOFF.md`              | Session-to-session context transfer | At END of every session          |
+| `sessions/*.md`           | Detailed session logs               | Throughout session               |
 
 ---
 
@@ -235,7 +235,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 - [Gotchas discovered]
 - [Recommendations]
 
-````markdown
+`````markdown
 ---
 
 ## HANDOFF.md Template
@@ -312,22 +312,27 @@ If you need context, read these files in order:
 ## Phase Definitions
 
 ### Phase 2A: Release Automation (CRITICAL)
+
 **Tasks**: W2.5, W2.2, W2.15, W2.18, W2.11
 **Goal**: Establish foundational documentation and release infrastructure
 
 ### Phase 2B: Supply Chain Security (CRITICAL)
+
 **Tasks**: W2.17, W2.13, W2.14
 **Goal**: Implement supply chain security measures
 
 ### Phase 2C: Testing Enhancements
+
 **Tasks**: W2.16, W2.3, W2.4
 **Goal**: Add unit test coverage for REST/SOAP clients
 
 ### Phase 2D: Security Hardening
+
 **Tasks**: W2.19, W2.20
 **Goal**: Add security scanning to CI
 
 ### Phase 2E: Documentation
+
 **Tasks**: W2.7
 **Goal**: Update contribution guidelines
 
@@ -347,7 +352,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 # Format code
 dotnet format Qwiq.sln
 ```
-````
+`````
 
 ### Git Operations
 

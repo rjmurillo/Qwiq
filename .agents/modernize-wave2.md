@@ -10,14 +10,14 @@
 
 ## Quick Reference
 
-| Phase | Focus | Tasks | Status |
-|-------|-------|-------|--------|
-| 2A | Release Automation | W2.11 | ✅ Complete |
-| 2B | Supply Chain Security | W2.13-W2.17 | ✅ Complete |
-| 2C | Testing Enhancements | W2.16, W2.18, W2.2-W2.4 | ✅ Mostly Complete |
-| 2D | Security Hardening | W2.19-W2.20 | ✅ Complete |
-| 2E | Documentation | W2.5, W2.7 | 🟡 Partial |
-| 2F | Code Quality (PR #65) | W2.21-W2.33 | 🔄 In Progress |
+| Phase | Focus                 | Tasks                   | Status             |
+| ----- | --------------------- | ----------------------- | ------------------ |
+| 2A    | Release Automation    | W2.11                   | ✅ Complete        |
+| 2B    | Supply Chain Security | W2.13-W2.17             | ✅ Complete        |
+| 2C    | Testing Enhancements  | W2.16, W2.18, W2.2-W2.4 | ✅ Mostly Complete |
+| 2D    | Security Hardening    | W2.19-W2.20             | ✅ Complete        |
+| 2E    | Documentation         | W2.5, W2.7              | 🟡 Partial         |
+| 2F    | Code Quality (PR #65) | W2.21-W2.33             | 🔄 In Progress     |
 
 ---
 
@@ -162,16 +162,16 @@ jobs:
 
 **License Policy Rationale**:
 
-| License | Status | Rationale |
-|---------|--------|-----------|
-| GPL-2.0 | ❌ Deny | Copyleft: requires derivative works to be GPL-licensed |
-| GPL-3.0 | ❌ Deny | Stronger copyleft with patent provisions |
-| AGPL-3.0 | ❌ Deny | Network copyleft: even SaaS usage triggers requirements |
-| LGPL-3.0 | ❌ Deny | "Lesser" GPL still requires source disclosure |
-| MIT | ✅ Allow | Permissive: Qwiq's own license |
-| Apache-2.0 | ✅ Allow | Permissive with patent grant |
-| BSD-3-Clause | ✅ Allow | Permissive with non-endorsement clause |
-| 0BSD | ✅ Allow | Public domain equivalent |
+| License      | Status   | Rationale                                               |
+| ------------ | -------- | ------------------------------------------------------- |
+| GPL-2.0      | ❌ Deny  | Copyleft: requires derivative works to be GPL-licensed  |
+| GPL-3.0      | ❌ Deny  | Stronger copyleft with patent provisions                |
+| AGPL-3.0     | ❌ Deny  | Network copyleft: even SaaS usage triggers requirements |
+| LGPL-3.0     | ❌ Deny  | "Lesser" GPL still requires source disclosure           |
+| MIT          | ✅ Allow | Permissive: Qwiq's own license                          |
+| Apache-2.0   | ✅ Allow | Permissive with patent grant                            |
+| BSD-3-Clause | ✅ Allow | Permissive with non-endorsement clause                  |
+| 0BSD         | ✅ Allow | Public domain equivalent                                |
 
 - **Acceptance Criteria**:
   - [x] Dependency review runs on all PRs

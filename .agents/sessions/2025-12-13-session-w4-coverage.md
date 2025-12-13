@@ -18,14 +18,14 @@
 
 ## Current Coverage Baseline (from Session 30)
 
-| Project | Line Coverage | Status |
-|---------|---------------|--------|
-| Qwiq.Linq | 90.9% | ✅ |
-| Qwiq.Identity | 85.8% | ✅ |
-| Qwiq.Mapper | 73.9% | 🟡 |
-| Qwiq.Core | 51.2% | 🟡 |
-| Qwiq.Client.Rest | **0.0%** | 🔴 CRITICAL GAP |
-| **Overall** | **51.1%** | 🔴 Target: 70% |
+| Project          | Line Coverage | Status          |
+| ---------------- | ------------- | --------------- |
+| Qwiq.Linq        | 90.9%         | ✅              |
+| Qwiq.Identity    | 85.8%         | ✅              |
+| Qwiq.Mapper      | 73.9%         | 🟡              |
+| Qwiq.Core        | 51.2%         | 🟡              |
+| Qwiq.Client.Rest | **0.0%**      | 🔴 CRITICAL GAP |
+| **Overall**      | **51.1%**     | 🔴 Target: 70%  |
 
 ## Priority Areas for Coverage
 
