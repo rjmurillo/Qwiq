@@ -28,15 +28,15 @@ You have direct access to:
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="architecture [topic] patterns"
-```text
+```
 
 **Store Decisions:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities for new architectural decisions
-```text
+```
 
 ## Software Hierarchy of Needs
 
@@ -153,7 +153,7 @@ Provide design analysis as:
 
 ## Testability Assessment
 [How to verify this design is testable]
-```text
+```
 
 ## References
 

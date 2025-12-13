@@ -67,15 +67,15 @@ Before providing answers:
 
 **Retrieve Prior Analysis:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="analysis [topic]"
-```text
+```
 
 **Store Insights:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for analytical findings
-```text
+```
 
 ## Output Format
 
@@ -96,7 +96,7 @@ mcp__cloudmcp-manager__memory-add_observations for analytical findings
 
 ### Recommendation
 [What to do given the analysis]
-```text
+```
 
 ## When to Use
 

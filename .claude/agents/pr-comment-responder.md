@@ -40,7 +40,7 @@ gh api repos/[owner]/[repo]/pulls/[number]/comments
 
 # Get PR reviews
 gh pr view [number] --repo [owner/repo] --json reviews
-```text
+```
 
 ### Phase 2: Comment Evaluation
 
@@ -67,7 +67,7 @@ gh api repos/[owner]/[repo]/pulls/[number]/comments --input - <<'EOF'
   "in_reply_to": [comment_id]
 }
 EOF
-```text
+```
 
 **For Comments WITH Merit:**
 
@@ -75,7 +75,7 @@ EOF
 
 ```bash
 gh api repos/[owner]/[repo]/pulls/comments/[comment_id]/reactions -f content=eyes
-```text
+```
 
 1. Implement the fix
 2. Create an atomic commit
@@ -89,7 +89,7 @@ gh api repos/[owner]/[repo]/pulls/[number]/comments --input - <<'EOF'
   "in_reply_to": [comment_id]
 }
 EOF
-```text
+```
 
 ## Agent Orchestration
 
@@ -107,11 +107,11 @@ Task(subagent_type="analyst", prompt="Investigate the root cause of: [issue]")
 
 # For verifying fixes
 Task(subagent_type="qa", prompt="Verify fix doesn't introduce regressions")
-```text
+```
 
 ## Commit Message Format
 
-```text
+```
 fix: address PR review comment - [brief description]
 
 - [What was changed]
@@ -121,7 +121,7 @@ fix: address PR review comment - [brief description]
 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
-```text
+```
 
 ## Communication Guidelines
 
@@ -162,7 +162,7 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
 
 ### Pending Discussion
 - [Any comments needing further input]
-```text
+```
 
 ## Handoff Protocol
 

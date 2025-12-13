@@ -25,23 +25,23 @@ Retrieve context at turn start, maintain notes during work, store progress summa
 
 ### Search (Find Context)
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes
 Query: "[topic] [context keywords]"
 Returns: Matching entities with observations
-```text
+```
 
 ### Open (Get Specific Entities)
 
-```text
+```
 mcp__cloudmcp-manager__memory-open_nodes
 Names: ["entity1", "entity2"]
 Returns: Full entity details
-```text
+```
 
 ### Create (Store New Knowledge)
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities
 {
   "entities": [{
@@ -50,11 +50,11 @@ mcp__cloudmcp-manager__memory-create_entities
     "observations": ["Observation 1", "Observation 2"]
   }]
 }
-```text
+```
 
 ### Update (Add to Existing)
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations
 {
   "observations": [{
@@ -62,11 +62,11 @@ mcp__cloudmcp-manager__memory-add_observations
     "contents": ["New observation"]
   }]
 }
-```text
+```
 
 ### Link (Create Relations)
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_relations
 {
   "relations": [{
@@ -75,14 +75,14 @@ mcp__cloudmcp-manager__memory-create_relations
     "relationType": "implemented_in"
   }]
 }
-```text
+```
 
 ### Read All (Inspect Graph)
 
-```text
+```
 mcp__cloudmcp-manager__memory-read_graph
 Use sparingly - returns entire graph
-```text
+```
 
 ## Entity Naming Conventions
 
@@ -152,7 +152,7 @@ When agents apply learned strategies:
 **Applying**: [Skill-ID]
 **Strategy**: [Brief description]
 **Expected Outcome**: [What should happen]
-```text
+```
 
 **After Execution:**
 
@@ -160,7 +160,7 @@ When agents apply learned strategies:
 **Result**: [Actual outcome]
 **Skill Validated**: Yes | No | Partial
 **Feedback**: [Note for retrospective]
-```text
+```
 
 ## Conflict Resolution
 

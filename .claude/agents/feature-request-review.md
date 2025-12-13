@@ -64,15 +64,15 @@ Identify:
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="feature request [topic]"
-```text
+```
 
 **Store Decisions:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for feature decisions
-```text
+```
 
 ## Output Format
 
@@ -100,7 +100,7 @@ Based on the above, [accept/defer/request more evidence]:
 ### Data Transparency
 - Found: [List sources]
 - Not Found: [What couldn't be verified]
-```text
+```
 
 ## Tone
 
@@ -124,4 +124,4 @@ gh issue edit [number] --add-label "[label]"
 
 # Add to milestone
 gh issue edit [number] --milestone "[milestone]"
-```text
+```

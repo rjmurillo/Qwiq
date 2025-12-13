@@ -64,7 +64,7 @@ What aspects will be tested
 
 ## Coverage Target
 [Percentage target for new code]
-```text
+```
 
 ### Phase 2: Verification (After Implementation)
 
@@ -101,7 +101,7 @@ What aspects will be tested
 
 ## Recommendations
 - [Next steps if any]
-```text
+```
 
 ## Test Commands
 
@@ -117,21 +117,21 @@ dotnet test --filter "FullyQualifiedName~[ClassName]"
 
 # Generate coverage report
 dotnet reportgenerator -reports:coverage.xml -targetdir:coverage-report
-```text
+```
 
 ## Memory Protocol
 
 **Retrieve Patterns:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="test strategy [feature type]"
-```text
+```
 
 **Store Learnings:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for testing insights
-```text
+```
 
 ## Test Quality Standards
 

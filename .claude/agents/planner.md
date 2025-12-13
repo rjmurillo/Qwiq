@@ -85,21 +85,21 @@ Save to: `.agents/planning/NNN-[feature]-plan.md`
 How we know the plan is complete:
 - [ ] [Criterion]
 - [ ] [Criterion]
-```text
+```
 
 ## Memory Protocol
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="plan [feature type]"
-```text
+```
 
 **Store Plans:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities for major planning decisions
-```text
+```
 
 ## Planning Principles
 

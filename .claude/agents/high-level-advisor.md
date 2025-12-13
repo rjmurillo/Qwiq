@@ -66,15 +66,15 @@ Then provide:
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="strategic decisions [project]"
-```text
+```
 
 **Store Insights:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for strategic learnings
-```text
+```
 
 ## When to Use
 
@@ -104,4 +104,4 @@ mcp__cloudmcp-manager__memory-add_observations for strategic learnings
 
 ## Warning
 [What happens if you ignore this]
-```text
+```

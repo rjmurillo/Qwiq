@@ -70,7 +70,7 @@ How success will be measured
 
 ## Open Questions
 Remaining questions or assumptions
-```text
+```
 
 ## INVEST Validation
 
@@ -87,9 +87,9 @@ Validate each user story follows INVEST:
 
 **Store Feature Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities for new feature definitions
-```text
+```
 
 ## Target Audience
 

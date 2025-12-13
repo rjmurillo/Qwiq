@@ -51,7 +51,7 @@ What needs to be done in 1-2 sentences.
 
 **Files Affected**
 - `path/to/file.cs`: What changes
-```text
+```
 
 ## Complexity Guidelines
 
@@ -98,21 +98,21 @@ TASK-001 → TASK-002 → TASK-003
 | Risk | Impact | Mitigation |
 |------|--------|------------|
 | [Risk] | [Impact] | [How to handle] |
-```text
+```
 
 ## Memory Protocol
 
 **Retrieve Patterns:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="task breakdown [feature type]"
-```text
+```
 
 **Store Learnings:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for estimation learnings
-```text
+```
 
 ## Handoff
 

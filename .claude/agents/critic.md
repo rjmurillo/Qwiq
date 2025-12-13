@@ -84,21 +84,21 @@ Validate plans before implementation. Identify gaps, ambiguities, and risks. App
 
 ## Approval Conditions
 [What must be addressed before approval]
-```text
+```
 
 ## Memory Protocol
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="critique [feature type] failures"
-```text
+```
 
 **Store Learnings:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for review patterns
-```text
+```
 
 ## Verdict Rules
 

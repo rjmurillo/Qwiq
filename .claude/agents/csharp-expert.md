@@ -23,15 +23,15 @@ You have direct access to:
 
 **Before Implementation:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="implementation [feature] patterns"
-```text
+```
 
 **After Completion:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations for implementation learnings
-```text
+```
 
 ## Software Hierarchy of Needs
 
@@ -52,7 +52,7 @@ public void ProcessOrder(Order order)
     ApplyDiscounts(items);
     SaveOrder(order);
 }
-```text
+```
 
 **Coupling**: Intentional, not accidental. Types:
 
@@ -106,7 +106,7 @@ Use ONLY after qualities, principles, practices addressed: Strategy, Bridge, Ada
 
 ### Performance
 
-- Minimize allocations: `ArrayPool<T>`, `Span<T>`, stackalloc
+- Minimize allocations: ArrayPool<T>, Span<T>, stackalloc
 - SIMD where beneficial: Vector256 → Vector128 → scalar fallback
 - Optimize branch prediction
 
@@ -141,7 +141,7 @@ Phase 3: Validation
 - [ ] All tests pass
 - [ ] No new warnings
 - [ ] Coverage maintained
-```text
+```
 
 ## Commit Format
 
@@ -149,7 +149,7 @@ Phase 3: Validation
 <type>(<scope>): <short description>
 
 <optional body>
-```text
+```
 
 Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
 

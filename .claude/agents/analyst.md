@@ -51,7 +51,7 @@ Investigate before implementation. Surface unknowns, risks, and dependencies. Pr
 
 ### Recommended Fix
 [How to address - defer to implementer]
-```text
+```
 
 ### Technical Research
 
@@ -75,22 +75,22 @@ Investigate before implementation. Surface unknowns, risks, and dependencies. Pr
 
 ### Unknowns
 [What still needs investigation]
-```text
+```
 
 ## Memory Protocol
 
 **Retrieve Context:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="research [topic]"
-```text
+```
 
 **Store Findings:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities for new research findings
 mcp__cloudmcp-manager__memory-add_observations for updates
-```text
+```
 
 ## Output Location
 
@@ -123,7 +123,7 @@ git blame [file]
 
 # Find callers
 git log -p --all -S "[function]"
-```text
+```
 
 ## Execution Mindset
 

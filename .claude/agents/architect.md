@@ -69,7 +69,7 @@ What is the change we're proposing and/or doing?
 
 ## References
 - [Link to relevant documentation]
-```text
+```
 
 ## Review Phases
 
@@ -95,16 +95,16 @@ What is the change we're proposing and/or doing?
 
 **Retrieve Decisions:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-search_nodes with query="ADR architecture [topic]"
-```text
+```
 
 **Store Decisions:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities for new ADRs
 mcp__cloudmcp-manager__memory-add_observations for updates
-```text
+```
 
 ## Architectural Principles
 

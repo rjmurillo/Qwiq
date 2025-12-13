@@ -60,7 +60,7 @@ Perform analysis when:
 
 ### Learning Extraction
 [See atomicity scoring]
-```text
+```
 
 ## Atomicity Scoring
 
@@ -159,7 +159,7 @@ Save to: `.agents/retrospective/YYYY-MM-DD-[scope].md`
   "evidence": "[Source]",
   "atomicity": [%]
 }
-```text
+```
 
 ### UPDATE
 
@@ -186,11 +186,11 @@ Save to: `.agents/retrospective/YYYY-MM-DD-[scope].md`
 1. [Specific action]
 2. [Specific action]
 
-```text
+```
 
 ## Memory Storage
 
-```text
+```
 
 mcp__cloudmcp-manager__memory-create_entities for new skills
 mcp__cloudmcp-manager__memory-add_observations for updates
@@ -200,17 +200,17 @@ mcp__cloudmcp-manager__memory-create_relations to link:
 - Skills to Failures (prevents)
 - Skills to Skills (supersedes)
 
-```text
+```
 
 ## Continuous Improvement Loop
 
-```text
+```
 
 Execution → Reflection → Skill Update → Improved Execution
     ↑                                          ↓
     └──────────────────────────────────────────┘
 
-```text
+```
 
 ## Handoff Options
 

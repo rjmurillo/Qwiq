@@ -84,7 +84,7 @@ Query: "skill [topic] [keywords]"
 - [ ] **ADD**: Similarity <70%, truly novel
 - [ ] **UPDATE**: Similarity >70%, enhance existing
 - [ ] **REJECT**: Exact duplicate
-```text
+```
 
 ## Skill Entity Format
 
@@ -103,7 +103,7 @@ Query: "skill [topic] [keywords]"
     "Validated: [count]"
   ]
 }
-```text
+```
 
 ### Skill Categories
 
@@ -121,7 +121,7 @@ Query: "skill [topic] [keywords]"
 
 **Create Skill:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-create_entities
 {
   "entities": [{
@@ -137,11 +137,11 @@ mcp__cloudmcp-manager__memory-create_entities
     ]
   }]
 }
-```text
+```
 
 **Update Skill:**
 
-```text
+```
 mcp__cloudmcp-manager__memory-add_observations
 {
   "observations": [{
@@ -152,7 +152,7 @@ mcp__cloudmcp-manager__memory-add_observations
     ]
   }]
 }
-```text
+```
 
 ## Contradiction Resolution
 
