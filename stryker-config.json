@@ -20,7 +20,6 @@
       "low": 50,
       "break": 0
     },
-    "output": "./artifacts/StrykerOutput",
     "reporters": ["html", "progress", "json", "markdown"],
     "report-file-name": "mutation-report",
     "verbosity": "info",

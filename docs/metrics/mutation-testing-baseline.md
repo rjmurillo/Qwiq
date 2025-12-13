@@ -33,9 +33,10 @@ Based on multi-agent analysis (Plan, C# Expert, Architecture, Independent Thinke
 
 ## Baseline Data
 
-| Date       | Score      | Killed | Survived | Timeout | No Coverage | Run Time |
-| ---------- | ---------- | ------ | -------- | ------- | ----------- | -------- |
-| 2025-12-13 | **43.96%** | 656    | 354      | 17      | 504         | 11 min   |
+| Date       | Score      | Killed | Survived | Timeout | No Coverage | Run Time | Notes |
+| ---------- | ---------- | ------ | -------- | ------- | ----------- | -------- | ----- |
+| 2025-12-13 | **48.79%** | 747    | 366      | 0       | 418         | 8.6 min  | +93 tests (Session 38) |
+| 2025-12-13 | 43.96%     | 656    | 354      | 17      | 504         | 11 min   | Initial baseline (Session 35) |
 
 ### High Performers (≥75%)
 
@@ -51,14 +52,14 @@ Based on multi-agent analysis (Plan, C# Expert, Architecture, Independent Thinke
 
 ### Priority Improvements (Low scores, high impact)
 
-| File                        | Score  | Survived | No Coverage | Priority |
-| --------------------------- | ------ | -------- | ----------- | -------- |
-| IWorkItem.Extensions.cs     | 0%     | 0        | 47          | HIGH     |
-| CredentialsFactory.cs       | 0%     | 0        | 32          | HIGH     |
-| GenericComparer.cs          | 31.91% | 14       | 18          | HIGH     |
-| IdentityFieldValue.cs       | 49%    | 26       | 25          | MEDIUM   |
-| TypeParser.cs               | 57.75% | 21       | 9           | MEDIUM   |
-| WorkItemLinkTypeComparer.cs | 18.75% | 23       | 3           | MEDIUM   |
+| File                        | Before | After    | Status      | Notes                          |
+| --------------------------- | ------ | -------- | ----------- | ------------------------------ |
+| IWorkItem.Extensions.cs     | 0%     | Improved | ✅ ADDRESSED | +33 tests (Session 38)         |
+| CredentialsFactory.cs       | 0%     | Improved | ✅ ADDRESSED | +25 tests (Session 38)         |
+| GenericComparer.cs          | 31.91% | Improved | ✅ ADDRESSED | +35 tests (Session 38)         |
+| IdentityFieldValue.cs       | 49%    | -        | MEDIUM      | Next priority                  |
+| TypeParser.cs               | 57.75% | -        | MEDIUM      | Good existing coverage         |
+| WorkItemLinkTypeComparer.cs | 18.75% | -        | MEDIUM      | Few no-coverage mutants remain |
 
 ## Threshold Progression Plan
 
@@ -75,10 +76,10 @@ Based on multi-agent analysis (Plan, C# Expert, Architecture, Independent Thinke
 dotnet tool restore
 
 # Run mutation testing (full)
-dotnet stryker --config-file stryker-config.json
+dotnet stryker --config-file stryker-config.json --output ./artifacts/StrykerOutput
 
 # Run on specific files (faster)
-dotnet stryker --config-file stryker-config.json --mutate "src/Qwiq.Core/Comparers/**/*.cs"
+dotnet stryker --config-file stryker-config.json --output ./artifacts/StrykerOutput --mutate "src/Qwiq.Core/Comparers/**/*.cs"
 
 # View report
 Start-Process "artifacts/StrykerOutput/reports/mutation-report.html"
@@ -105,4 +106,5 @@ When reviewing mutation reports:
 
 ## Document History
 
+- 2025-12-13: Updated with Session 38 results (+93 tests, 43.96% → 48.79%)
 - 2025-12-13: Initial creation (Session 35)

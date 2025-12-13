@@ -44,7 +44,7 @@ jobs:
         id: stryker
         shell: pwsh
         run: |
-          dotnet stryker --config-file stryker-config.json
+          dotnet stryker --config-file stryker-config.json --output ./artifacts/StrykerOutput
         continue-on-error: true
 
       - name: Upload mutation report (HTML)
