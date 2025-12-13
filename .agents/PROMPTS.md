@@ -1104,6 +1104,7 @@ Read the contents of the `.agents` directory before starting work:
 3. **THIRD**: Read `.agents/modernize-TODO-index.md` - task details and current state
 
 ## Project Context
+
 - **Repository**: Qwiq - .NET library for Azure DevOps work item queries
 - **Branch**: `chore/modernize-4`
 - **Target**: Production v11.0.0 for 100+ team members
@@ -1113,13 +1114,15 @@ Read the contents of the `.agents` directory before starting work:
 - **Code Coverage**: 46.1% (target: 70% for enterprise)
 
 ## Session Protocol
+
 1. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
 2. Complete pre-flight checklist from AGENT-INSTRUCTIONS.md
 3. Work incrementally with small, conventional commits
-4. Check off tasks in modernize-TODO-index.md and related modernize-wave*.md files as completed
+4. Check off tasks in modernize-TODO-index.md and related modernize-wave\*.md files as completed
 5. Update session log with decisions and challenges
 
 ## Build Commands
+
 ```powershell
 # Build
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false

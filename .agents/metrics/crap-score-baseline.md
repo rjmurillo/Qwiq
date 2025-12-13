@@ -49,7 +49,7 @@ Where:
 | IdentityFieldValue    | src/Qwiq.Core/IdentityFieldValue.cs                | 80         | 73.8%    | **195**    |
 | WorkItemLinkType      | src/Qwiq.Core/WorkItemLinkType.cs                  | 36         | 51.4%    | **185**    |
 | TypeParser            | src/Qwiq.Core/TypeParser.cs                        | 95         | 85.3%    | **124**    |
-| `GenericComparer<T>`    | src/Qwiq.Core/GenericComparer.cs                   | 53         | 71.8%    | **116**    |
+| `GenericComparer<T>`  | src/Qwiq.Core/GenericComparer.cs                   | 53         | 71.8%    | **116**    |
 
 ### Low Priority (CRAP 30-100)
 
@@ -57,7 +57,7 @@ Where:
 | ---------------------------------------- | -------------------------------------------------------------------- | ---------- | -------- | ---------- |
 | QueryRewriter                            | src/Qwiq.Linq/Visitors/QueryRewriter.cs                              | 84         | 94.5%    | **85**     |
 | BulkIdentityAwareAttributeMapperStrategy | src/Qwiq.Mapper.Identity/BulkIdentityAwareAttributeMapperStrategy.cs | 59         | 82.2%    | **79**     |
-| `ReadOnlyObjectCollection<T>`              | src/Qwiq.Core/ReadOnlyObjectCollection.cs                            | 37         | 74.1%    | **61**     |
+| `ReadOnlyObjectCollection<T>`            | src/Qwiq.Core/ReadOnlyObjectCollection.cs                            | 37         | 74.1%    | **61**     |
 | FieldCollection                          | src/Qwiq.Core/FieldCollection.cs                                     | 42         | 87.0%    | **46**     |
 
 ### Acceptable (CRAP ≤ 30 or 100% coverage)
@@ -86,18 +86,18 @@ Where:
 
 ## Comparison: Original Estimates vs Validated
 
-| Class                       | Original CRAP  | Validated CRAP        | Difference |
-| --------------------------- | -------------- | --------------------- | ---------- |
-| IdentityFieldValue          | 6,480 (0% cov) | **195** (73.8% cov)   | -97%       |
-| WorkItemStore (REST)        | 5,256 (0% cov) | **2,514** (22.2% cov) | -52%       |
-| Query (REST)                | 3,540 (0% cov) | **1,661** (40.3% cov) | -53%       |
+| Class                         | Original CRAP  | Validated CRAP        | Difference |
+| ----------------------------- | -------------- | --------------------- | ---------- |
+| IdentityFieldValue            | 6,480 (0% cov) | **195** (73.8% cov)   | -97%       |
+| WorkItemStore (REST)          | 5,256 (0% cov) | **2,514** (22.2% cov) | -52%       |
+| Query (REST)                  | 3,540 (0% cov) | **1,661** (40.3% cov) | -53%       |
 | `GenericComparer<T>`          | 2,862 (0% cov) | **116** (71.8% cov)   | -96%       |
-| IFieldDefinition.Extensions | 2,162 (0% cov) | **2,162** (0% cov)    | 0%         |
-| FieldCollection             | 1,806 (0% cov) | **46** (87.0% cov)    | -97%       |
-| WorkItem (REST)             | 1,482 (0% cov) | **891** (16.1% cov)   | -40%       |
+| IFieldDefinition.Extensions   | 2,162 (0% cov) | **2,162** (0% cov)    | 0%         |
+| FieldCollection               | 1,806 (0% cov) | **46** (87.0% cov)    | -97%       |
+| WorkItem (REST)               | 1,482 (0% cov) | **891** (16.1% cov)   | -40%       |
 | `ReadOnlyObjectCollection<T>` | 1,406 (0% cov) | **61** (74.1% cov)    | -96%       |
-| IdentityDescriptor          | 1,056 (0% cov) | **32** (100% cov)     | -97%       |
-| LinkCollection (REST)       | 1,056 (0% cov) | **1,056** (0% cov)    | 0%         |
+| IdentityDescriptor            | 1,056 (0% cov) | **32** (100% cov)     | -97%       |
+| LinkCollection (REST)         | 1,056 (0% cov) | **1,056** (0% cov)    | 0%         |
 
 **Key Finding**: The independent review was correct. Many classes already have significant coverage. The original estimates assumed 0% coverage but actual coverage is much higher for most classes.
 

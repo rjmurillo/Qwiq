@@ -46,12 +46,12 @@
 
 **Critical Finding**: Independent review was correct - original estimates were wrong!
 
-| Class              | Original CRAP | Validated CRAP | Coverage |
-| ------------------ | ------------- | -------------- | -------- |
-| IdentityFieldValue | 6,480         | **195**        | 73.8%    |
+| Class                | Original CRAP | Validated CRAP | Coverage |
+| -------------------- | ------------- | -------------- | -------- |
+| IdentityFieldValue   | 6,480         | **195**        | 73.8%    |
 | `GenericComparer<T>` | 2,862         | **116**        | 71.8%    |
-| IdentityDescriptor | 1,056         | **32**         | 100%     |
-| FieldCollection    | 1,806         | **46**         | 87.0%    |
+| IdentityDescriptor   | 1,056         | **32**         | 100%     |
+| FieldCollection      | 1,806         | **46**         | 87.0%    |
 
 **Actual critical classes** (0% or very low coverage):
 

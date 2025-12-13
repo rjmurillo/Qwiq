@@ -84,7 +84,7 @@ For most high-CRAP classes, adding tests is more efficient than refactoring:
 | Class                       | Current Coverage | Target Coverage | CRAP Before | CRAP After | Reduction |
 | --------------------------- | ---------------- | --------------- | ----------- | ---------- | --------- |
 | IdentityFieldValue          | 0%               | 80%             | 6,480       | 533        | 92%       |
-| GenericComparer\<T\>          | 0%               | 85%             | 2,862       | 362        | 87%       |
+| GenericComparer\<T\>        | 0%               | 85%             | 2,862       | 362        | 87%       |
 | IFieldDefinition.Extensions | 0%               | 100%            | 2,162       | 46         | 98%       |
 | IdentityDescriptor          | 0%               | 90%             | 1,056       | 96         | 91%       |
 
@@ -276,7 +276,7 @@ The REST client layer (0% coverage, 401 total complexity) requires both:
 | IFieldDefinition.Extensions | 12           | 2,116          | **176**              |
 | IdentityFieldValue          | 17           | 5,947          | **350**              |
 | WorkItemStore (REST)        | 22           | 3,522          | **160**              |
-| GenericComparer\<T\>          | 22           | 2,500          | 114                  |
+| GenericComparer\<T\>        | 22           | 2,500          | 114                  |
 | IdentityDescriptor          | 14           | 960            | 69                   |
 
 ### Effort vs Impact Matrix

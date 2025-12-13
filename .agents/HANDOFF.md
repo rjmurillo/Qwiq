@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (Session 31 - CRAP Score Baseline Validation)
+> **Last Updated**: 2025-12-13 by Claude (Session 36 - Git Hooks for Linting)
 > **Current Phase**: Wave 4 - CRAP Score Reduction Planning
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
@@ -26,6 +26,43 @@
 - MCP extension for AI agents integration
 - Kubernetes container deployment required
 - Must pass enterprise security review
+- **Git Hooks**: ✅ Pre-commit hooks enabled for linting enforcement
+
+### Session Summary (Session 36 - Git Hooks for Linting - 2025-12-13)
+
+**Purpose**: Set up git hooks to prevent committing files that don't pass documented linters.
+
+**Work Completed**:
+
+1. ✅ **Planning & Agent Review**: Created implementation plan, reviewed with csharp-pod and csharp-expert agents
+2. ✅ **Pre-commit Hook**: Created `.githooks/pre-commit` bash script
+3. ✅ **Documentation**: Added "Git Hooks" section to `CONTRIBUTING.md`
+
+**Hook Features**:
+
+- Checks staged `.md` files with `markdownlint-cli2 --no-globs`
+- Checks staged `.cs` files with `dotnet format --verify-no-changes --no-restore`
+- Checks staged `.json`/`.yaml` files with `pprettier --check`
+- Colored output with actionable error messages
+- Tool availability checks
+
+**Files Created**:
+
+- `.githooks/pre-commit` - 176-line bash script
+- `.agents/plans/git-hooks-plan.md` - Implementation plan
+- `.agents/sessions/2025-12-13-session-36-git-hooks.md` - Session log
+
+**Files Modified**:
+
+- `CONTRIBUTING.md` - Added Git Hooks section
+
+**Commit**: `ccef65a5` - chore: add pre-commit hooks for linting enforcement
+
+**Setup**: Run once after cloning: `git config core.hooksPath .githooks`
+
+See: `.agents/sessions/2025-12-13-session-36-git-hooks.md` for full details
+
+---
 
 ### Session Summary (W4.CRAP.0 - CRAP Score Baseline Validation - 2025-12-13)
 
@@ -41,12 +78,12 @@
 
 **Key Corrections** (Original → Validated):
 
-| Class              | Original CRAP | Validated CRAP | Coverage |
-| ------------------ | ------------- | -------------- | -------- |
-| IdentityFieldValue | 6,480         | **195**        | 73.8%    |
+| Class                | Original CRAP | Validated CRAP | Coverage |
+| -------------------- | ------------- | -------------- | -------- |
+| IdentityFieldValue   | 6,480         | **195**        | 73.8%    |
 | `GenericComparer<T>` | 2,862         | **116**        | 71.8%    |
-| IdentityDescriptor | 1,056         | **32**         | 100%     |
-| FieldCollection    | 1,806         | **46**         | 87.0%    |
+| IdentityDescriptor   | 1,056         | **32**         | 100%     |
+| FieldCollection      | 1,806         | **46**         | 87.0%    |
 
 **Actual Critical Classes** (0% or low coverage):
 
