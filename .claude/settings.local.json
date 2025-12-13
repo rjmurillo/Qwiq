@@ -51,7 +51,9 @@
       "Bash(Select-String -Pattern \"error|warning|Build\")",
       "Bash(Select-Object -First 20)",
       "Bash(pwsh:*)",
-      "Bash(Select-String -Pattern \"error|warning|Build succeeded\")"
+      "Bash(Select-String -Pattern \"error|warning|Build succeeded\")",
+      "WebFetch(domain:stryker-mutator.io)",
+      "mcp__deepwiki__ask_question"
     ]
   }
 }
