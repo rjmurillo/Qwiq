@@ -1092,6 +1092,48 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 
 ---
 
+## Universal Session Start Prompt
+
+````markdown
+# QWIQ Modernization Session
+
+Read the contents of the `.agents` directory before starting work:
+
+1. **FIRST**: Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
+2. **SECOND**: Read `.agents/HANDOFF.md` - previous session context
+3. **THIRD**: Read `.agents/modernize-TODO.md` - task details and current state
+
+## Project Context
+- **Repository**: Qwiq - .NET library for Azure DevOps work item queries
+- **Branch**: `chore/modernize-4`
+- **Target**: Production v11.0.0 for 100+ team members
+- **Timeline**: 6-8 weeks
+- **Build Status**: 0 errors, 0 warnings (MUST maintain)
+- **Test Status**: 208 passed, 1 skipped
+- **Code Coverage**: 46.1% (target: 70% for enterprise)
+
+## Session Protocol
+1. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
+2. Complete pre-flight checklist from AGENT-INSTRUCTIONS.md
+3. Work incrementally with small, conventional commits
+4. Check off tasks in modernize-TODO.md as completed
+5. Update session log with decisions and challenges
+
+## Build Commands
+```powershell
+# Build
+dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+
+# Test
+dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+
+# Lint
+dotnet pprettier --write . && dotnet format
+```
+
+Continue with tasks from modernize-TODO.md based on current sprint priorities.
+````
+
 ## Universal Session End Prompt
 
 Use this prompt before ending ANY session:
