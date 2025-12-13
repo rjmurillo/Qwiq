@@ -57,9 +57,9 @@ dotnet pprettier --write .
 
 Both implement `IWorkItemStore` via factory pattern (`WorkItemStoreFactory.Default.Create(options)`):
 
-| Client | Project | Use Case | Platform |
-|--------|---------|----------|----------|
-| **REST** | `Qwiq.Core.Rest` | Modern Azure DevOps | Cross-platform |
+| Client   | Project          | Use Case               | Platform              |
+| -------- | ---------------- | ---------------------- | --------------------- |
+| **REST** | `Qwiq.Core.Rest` | Modern Azure DevOps    | Cross-platform        |
 | **SOAP** | `Qwiq.Core.Soap` | Legacy TFS on-premises | Windows-only (net472) |
 
 ### LINQ Provider
@@ -127,24 +127,24 @@ public class Given_context : ContextSpecification
 
 ## Project Structure
 
-| Directory | Contents |
-|-----------|----------|
-| `src/Qwiq.Core` | Core interfaces and abstractions |
-| `src/Qwiq.Core.Rest` | REST API client (cross-platform) |
+| Directory            | Contents                          |
+| -------------------- | --------------------------------- |
+| `src/Qwiq.Core`      | Core interfaces and abstractions  |
+| `src/Qwiq.Core.Rest` | REST API client (cross-platform)  |
 | `src/Qwiq.Core.Soap` | SOAP client (Windows/net472 only) |
-| `src/Qwiq.Linq` | LINQ-to-WIQL query provider |
-| `src/Qwiq.Mapper` | Object mapping layer |
-| `src/Qwiq.Identity` | Identity management |
-| `test/Qwiq.Mocks` | Mock implementations for testing |
+| `src/Qwiq.Linq`      | LINQ-to-WIQL query provider       |
+| `src/Qwiq.Mapper`    | Object mapping layer              |
+| `src/Qwiq.Identity`  | Identity management               |
+| `test/Qwiq.Mocks`    | Mock implementations for testing  |
 
 ## Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `Directory.Build.props` | Shared MSBuild properties, package metadata |
+| File                       | Purpose                                        |
+| -------------------------- | ---------------------------------------------- |
+| `Directory.Build.props`    | Shared MSBuild properties, package metadata    |
 | `Directory.Packages.props` | Central Package Management (all versions here) |
-| `global.json` | Pins .NET SDK version |
-| `.editorconfig` | Code style AND analyzer severity configuration |
+| `global.json`              | Pins .NET SDK version                          |
+| `.editorconfig`            | Code style AND analyzer severity configuration |
 
 ## Critical Notes
 
