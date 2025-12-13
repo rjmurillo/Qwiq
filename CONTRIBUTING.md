@@ -5,6 +5,7 @@ Thank you for your interest in contributing to QWIQ! This guide will help you ge
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Git Hooks](#git-hooks)
 - [Development Workflow](#development-workflow)
 - [Build Commands](#build-commands)
 - [Testing Guide](#testing-guide)
@@ -42,6 +43,43 @@ dotnet build Qwiq.sln -c Release
 # Run unit tests only (excludes integration tests)
 dotnet test Qwiq.sln -c Release --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 ```
+
+## Git Hooks
+
+This repository uses pre-commit hooks to enforce code quality before commits. The hooks check:
+
+- **Markdown files** - Linted with `markdownlint-cli2`
+- **C# files** - Formatted with `dotnet format`
+- **JSON/YAML files** - Formatted with `pprettier`
+
+### Enable Git Hooks
+
+After cloning, run this command once to enable the pre-commit hooks:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+### How It Works
+
+The pre-commit hook runs automatically when you `git commit`. It only checks **staged files**, so commits remain fast.
+
+If any linter fails, the commit is blocked with actionable error messages:
+
+```text
+ERROR: Markdown linting failed.
+  Fix with: npx markdownlint-cli2 --fix "**/*.md"
+```
+
+### Bypassing Hooks (Use Sparingly)
+
+If you need to bypass the hooks temporarily:
+
+```bash
+git commit --no-verify
+```
+
+Only use this for legitimate reasons (e.g., work-in-progress commits to a feature branch).
 
 ## Development Workflow
 
