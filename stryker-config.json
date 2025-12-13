@@ -7,14 +7,13 @@
     "target-framework": "net8.0",
     "mutation-level": "Standard",
     "mutate": [
-      "src/Qwiq.Core/**/*.cs",
-      "!src/Qwiq.Core/**/obj/**",
-      "!src/Qwiq.Core/**/bin/**",
-      "!src/Qwiq.Core/**/*.Designer.cs",
-      "!src/Qwiq.Core/**/*.Generated.cs",
-      "!src/Qwiq.Core/**/AssemblyInfo.cs",
-      "!src/Qwiq.Core/**/GlobalUsings.cs",
-      "!src/Qwiq.Core/Compatibility/**"
+      "!**/obj/**",
+      "!**/bin/**",
+      "!**/*.Designer.cs",
+      "!**/*.Generated.cs",
+      "!**/AssemblyInfo.cs",
+      "!**/GlobalUsings.cs",
+      "!**/Compatibility/**"
     ],
     "thresholds": {
       "high": 70,
