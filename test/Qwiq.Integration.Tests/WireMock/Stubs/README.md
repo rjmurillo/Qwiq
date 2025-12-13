@@ -58,7 +58,7 @@ If you need to capture new traffic (e.g., for additional endpoints):
 
 3. **Export as HAR**:
    - In Fiddler: File > Export Sessions > All Sessions > HTTPArchive v1.2
-   - Save to `.agents/qwiq.har`
+   - Save to `artifacts/qwiq.har`
 
 ### Step 2: Convert HAR to WireMock
 
@@ -66,7 +66,7 @@ Run the conversion script:
 
 ```powershell
 .\scripts\Convert-HarToWireMock.ps1 `
-    -HarFile ".agents\qwiq.har" `
+    -HarFile "artifacts\qwiq.har" `
     -OutputFile "test\Qwiq.Integration.Tests\WireMock\Stubs\azure-devops-stubs.json"
 ```
 
