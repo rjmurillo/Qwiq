@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage Tests - Continuation)
+> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage - 70% ACHIEVED)
 > **Current Phase**: Wave 4 - Code Coverage Expansion
 > **Branch**: `chore/modernize-4`
 > **Target**: Production v11.0.0 Release
@@ -10,10 +10,10 @@
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (461 tests - Core: 408, Mapper: 53)
+**Test Status**: ✅ All tests passing (608 tests - Core: 485, Identity: 25, Mapper: 53, Linq: 45)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
-**Coverage**: 3/5 NuGet libraries meet 70% target (Qwiq.Linq, Qwiq.Identity, Qwiq.Mapper ✅)
+**Coverage**: **6/6 NuGet libraries meet 70% target** ✅ **(W4.1 COMPLETE)**
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
 **Test Execution**: **~200ms** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
@@ -58,52 +58,55 @@ See: `.agents/sessions/2025-12-13-session-33-w3.3-appveyor-removal.md` for full 
 
 ---
 
-### Session Summary (W4.1 Code Coverage Tests - 2025-12-13 Continuation)
+### Session Summary (W4.1 Code Coverage - 70% ACHIEVED ✅ - 2025-12-13 Final)
 
-**Purpose**: Increase code coverage for NuGet-packable libraries to 70% target.
+**Purpose**: Increase code coverage for NuGet-packable libraries to 70% target. **ACHIEVED!**
 
-**Work Completed This Session**:
+**Work Completed This Session** (Final Context Refresh):
 
-1. ✅ **LinkTypeExtensionsTests.cs** - Tests for link type extension methods
-   - IWorkItemLinkTypeEndExtensions, IWorkItemLinkTypeExtensions, IWorkItemLinkInfoExtensions
-   - Null handling returns 0
-   - MockWorkItemLinkType with explicit Id values
+1. ✅ **CollectionComparerTests.cs** - Tests for collection comparers (WorkItemCollection, WorkItemType, Project)
+   - Null handling, same reference, equal/unequal collections
+   - GetHashCode consistency
+   - Pushed WorkItemCollectionComparer 23% → 100%
 
-2. ✅ **TeamFoundationIdentityTests.cs** - Tests for identity infrastructure
-   - DisplayName, UniqueName, IsActive properties
-   - TeamFoundationIdentityComparer (uses UniqueName and Descriptor)
-   - Null handling and object equality
+2. ✅ **WorkItemTypeCollectionTests.cs** - Tests for WorkItemTypeCollection
+   - Equals and GetHashCode
+   - Pushed WorkItemTypeCollection 28.5% → 71.4%
 
-3. ✅ **AttributeMapExceptionTests.cs** - Tests for mapper exception formatting
-   - PropertyMap and TypePair structs
-   - Message formatting with type and property info
-   - InnerException preservation
+3. ✅ **WorkItemLinkTypeCollectionTests.cs** - Tests for WorkItemLinkTypeCollection
+   - Equals, GetHashCode, LinkTypeEnds
+   - Directional vs non-directional link types
+   - Pushed WorkItemLinkTypeCollection 33.3% → 100%
 
-4. ✅ **NoExceptionAttributeMapperStrategyTests.cs** - Tests for exception suppression
-   - Mapping missing fields doesn't throw
-   - Default values for null-to-non-nullable mappings
+4. ✅ **FieldCollectionTests.cs** - Tests for FieldCollection
+   - Indexers, Contains, TryGetByName, SetField
+   - Pushed FieldCollection 38.8% → 87%
 
-**Mock Infrastructure Gap Identified**:
-- Qwiq mocks never throw exceptions, preventing exception handling code path testing
-- Created Wave 5 tasks (W5.1-W5.8) for MockBehaviorMode (Lenient/Strict like Moq)
-- Documented in `.agents/WAVE4-TASKS.md` and feature specs
+5. ✅ **IdentityFieldAttributeVisitorTests.cs** - Tests for Qwiq.Mapper.Identity
+   - Constructor validation, expression visitors
+   - Pushed IdentityFieldAttributeVisitor 0% → 82.6%
 
-**Coverage Status**:
+**Final Coverage Status - ALL TARGETS MET ✅**:
 
-| Project              | Coverage | Target | Status |
-| -------------------- | -------- | ------ | ------ |
-| Qwiq.Linq            | 90.9%    | 70%    | ✅ Met |
-| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met |
-| Qwiq.Mapper          | 75.7%    | 70%    | ✅ Met |
-| Qwiq.Core            | 65.7%    | 70%    | 🟡 -4.3% |
-| Qwiq.Mapper.Identity | 66%      | 70%    | 🟡 -4% |
+| Project              | Coverage | Target | Status    |
+| -------------------- | -------- | ------ | --------- |
+| **Qwiq.Linq.Identity** | **100%** | 70%  | ✅ **Met** |
+| Qwiq.Linq            | 91%      | 70%    | ✅ Met    |
+| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met    |
+| Qwiq.Mapper.Identity | 82.6%    | 70%    | ✅ Met    |
+| Qwiq.Mapper          | 80.5%    | 70%    | ✅ Met    |
+| Qwiq.Core            | 71.4%    | 70%    | ✅ Met    |
 
-**Test Count**: 461 tests (Core: 408, Mapper: 53)
+**Test Count**: 608 tests (Core: 485, Identity: 25, Mapper: 53, Linq: 45)
+**Overall Line Coverage**: 60.4%
 
-**Next Steps**:
-- Continue Qwiq.Core coverage (+4.3% needed)
-- Add Qwiq.Mapper.Identity tests (+4% needed)
-- Implement Wave 5 MockBehaviorMode for exception testing
+**Key Achievement**: All 6 NuGet-packable libraries now exceed 70% code coverage target!
+
+**Remaining Work** (deferred to future sessions):
+
+- Qwiq.Client.Rest: 19% - requires WireMock tests (integration)
+- Qwiq.Client.Soap: 5.5% - Windows-only, deprecated
+- Qwiq.Identity.Soap: 0% - Windows-only, deprecated
 
 See: `.agents/sessions/2025-12-13-session-w4-coverage.md` for full details
 
@@ -196,7 +199,7 @@ Created new dedicated test project `Qwiq.WireMock.Tests` targeting `net8.0;net9.
 
 **Verification**:
 
-```
+```text
 Test Run Successful.
 Total tests: 9
      Passed: 9
@@ -809,7 +812,7 @@ See: `.agents/sessions/2025-12-06-sbom-tool-fix.md` for full details.
 - Enables breaking change detection in future releases
 - Build verified: 0 warnings, 0 errors
 
-## What Was Completed
+## Additional Phase Completions
 
 ### Phase 2D: Security Hardening ✅ COMPLETE (2/2 tasks - 2025-12-11)
 
@@ -1053,7 +1056,7 @@ The SBOM tool is now configured as a local .NET tool:
 
 ### Wave 1 Completion Summary (2025-12-08)
 
-**Wave 1: ✅ COMPLETE (27/27 tasks, 100%)**
+Wave 1: ✅ COMPLETE (27/27 tasks, 100%)
 
 All remaining Wave 1 tasks completed in this session:
 
@@ -1092,7 +1095,7 @@ The next Copilot session should:
    - Update development environment setup instructions
 4. Update HANDOFF.md before ending
 
-**Option 2: Continue Wave 2 Phase 2C (Testing Enhancements)**
+#### Option 2: Continue Wave 2 Phase 2C (Testing Enhancements)
 
 1. Validate W2.16 Phase 2 (SOAP offline tests) on Windows CI
 2. If passing, proceed with W2.3 (Contract Tests for REST/SOAP parity)

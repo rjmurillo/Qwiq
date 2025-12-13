@@ -197,6 +197,36 @@ namespace Qwiq.Exceptions
     }
 
     [TestClass]
+    public class Given_DeniedOrNotExistException_with_message_and_inner : ContextSpecification
+    {
+        private DeniedOrNotExistException _exception = null!;
+        private InvalidOperationException _innerException = null!;
+        private const string TestMessage = "Access denied with inner";
+
+        public override void Given()
+        {
+            _innerException = new InvalidOperationException("Inner error");
+        }
+
+        public override void When()
+        {
+            _exception = new DeniedOrNotExistException(TestMessage, _innerException);
+        }
+
+        [TestMethod]
+        public void Then_message_is_set()
+        {
+            _exception.Message.ShouldBe(TestMessage);
+        }
+
+        [TestMethod]
+        public void Then_inner_exception_is_set()
+        {
+            _exception.InnerException.ShouldBe(_innerException);
+        }
+    }
+
+    [TestClass]
     public class Given_DeniedOrNotExistException_with_project_guid : ContextSpecification
     {
         private DeniedOrNotExistException _exception = null!;
