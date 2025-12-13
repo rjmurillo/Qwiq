@@ -55,7 +55,21 @@
       "WebFetch(domain:stryker-mutator.io)",
       "mcp__deepwiki__ask_question",
       "Bash(dotnet stryker:*)",
-      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq status)"
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq status)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq diff --stat)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq diff --stat --cached)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq diff .config/dotnet-tools.json .gitignore)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq log --oneline -5)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq show --name-only --oneline HEAD~2)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq show:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(Select-Object -First 30)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq diff stryker-config.json)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq add .github/actions/ .github/workflows/main.yml .github/workflows/codeql.yml .github/workflows/mutation-testing.yml)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq commit -m \"$(cat <<''EOF''\nrefactor(ci): extract reusable composite actions and separate workflows\n\n- Create .github/actions/setup-dotnet composite action for .NET SDK setup\n- Create .github/actions/restore-build composite action with configurable\n  inputs for pack, binlog, and additional build args\n- Separate CodeQL analysis into dedicated codeql.yml workflow\n- Separate mutation testing into dedicated mutation-testing.yml workflow\n- Simplify main.yml to focus on build/test/pack only\n- Add proper error handling with $ErrorActionPreference = ''Stop''\n- Use environment variables instead of direct input interpolation\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq add:*)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq push)",
+      "Bash(gh pr view:*)"
     ]
   }
 }
