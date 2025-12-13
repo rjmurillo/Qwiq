@@ -159,13 +159,13 @@ Before submitting changes, verify:
 
 ## Common Mistakes to AVOID
 
-`````markdown
+````markdown
 <!-- ❌ WRONG: No language identifier -->
 
 ```text
 dotnet build
 ```
-`````
+````
 
 <!-- ✅ CORRECT: With language identifier -->
 
