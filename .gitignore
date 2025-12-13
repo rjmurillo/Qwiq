@@ -333,6 +333,9 @@ __pycache__/
 # Verify snapshot testing artifacts
 *.received.*
 
+# Stryker.NET mutation testing output
+StrykerOutput/
+
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
