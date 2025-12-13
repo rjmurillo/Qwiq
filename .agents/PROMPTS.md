@@ -110,7 +110,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.22 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.22 SHA digest pinning"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -193,7 +193,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.1 security audit checklist"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -281,7 +281,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.29 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "fix: complete W2.29 service resolution null guards"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -360,7 +360,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.2 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.2 container deployment guide"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -438,7 +438,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.8 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.8 observability overhaul"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -521,7 +521,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W4.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W4.1 code coverage improvements"`
 6. Update coverage badge in README
 7. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
@@ -687,7 +687,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.6 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.6 migration guide v10 to v11"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -765,7 +765,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.9 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.9 IConfiguration support"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -833,7 +833,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.3 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W2.3 contract tests"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -900,7 +900,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.7 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+4. Lint: `npx markdownlint-cli2 --fix "**/*.md"` and `dotnet format` (if C# changed)
 5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.7 update CONTRIBUTING.md"`
 6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
@@ -1115,13 +1115,16 @@ Before ending, complete ALL mandatory steps:
   - What's next for following session
   - Any blockers or concerns
 
-## 2. Git Operations
+## 2. Linting (run BEFORE committing)
+- [ ] Fix markdown: `npx markdownlint-cli2 --fix "**/*.md"`
+- [ ] Fix C# formatting: `dotnet format`
+
+## 3. Git Operations
 - [ ] Stage all documentation: `git add .agents/`
 - [ ] Force-add session logs: `git add -f .agents/sessions/*.md`
 - [ ] Commit with conventional message
 
-## 3. Verification
-- [ ] Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+## 4. Verification
 - [ ] Build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
 - [ ] Tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
@@ -1143,3 +1146,4 @@ Make documentation complete enough for any agent to continue.
 | 3.2     | 2025-12-12 | Restored Universal Session End Prompt for agent handoff continuity                |
 | 3.3     | 2025-12-12 | Updated for split TODO files: added file structure table, updated all references  |
 | 3.4     | 2025-12-13 | Removed completed task prompts: W2.32 (CI Warning Gate), W3.1 (TFM Expansion)     |
+| 3.5     | 2025-12-13 | Updated linting commands: use `npx markdownlint-cli2 --fix` and `dotnet format`   |

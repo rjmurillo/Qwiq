@@ -95,6 +95,9 @@ Before starting work, complete these steps IN ORDER:
   - [ ] What's next
   - [ ] Any blockers or concerns
   - [ ] Commands to verify state
+- [ ] Linting passes (run autofix before committing):
+  - [ ] `npx markdownlint-cli2 --fix "**/*.md"` - Fix markdown issues
+  - [ ] `dotnet format` - Fix C# formatting
 - [ ] All files committed (including .agents/ files)
 - [ ] Build passes
 - [ ] Tests pass
@@ -281,9 +284,8 @@ git log --oneline -5
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 ```
-````
 
-````
+---
 
 ## Session History
 
@@ -304,7 +306,6 @@ If you need context, read these files in order:
    - `.agents/modernize-wave3-5.md` - Waves 3-5 tasks
 4. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
 
-````markdown
 ---
 
 ## Phase Definitions
