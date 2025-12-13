@@ -14,16 +14,10 @@ namespace Qwiq.WireMock
     /// - Query execution pipeline
     /// - Work item materialization
     ///
-    /// Unlike integration tests, these run without Azure DevOps connectivity
-    /// and provide fast, deterministic results.
-    ///
     /// Tests use real captured Azure DevOps API responses for offline testing.
-    /// The stubs include VssConnection handshake, project info, WIQL queries,
-    /// work items, and work item type definitions from qwiq-sandbox.
     /// </remarks>
     [TestClass]
     [TestCategory("WireMock")]
-    [Ignore("WireMock.Net OWIN hosting deadlocks in MSTest runner on .NET Framework. See base class for details.")]
     public class Given_WireMock_WorkItemStore_When_Querying_Single_Bug : WireMockRestContextSpecification
     {
         private IWorkItemCollection? _result;
@@ -71,12 +65,9 @@ namespace Qwiq.WireMock
 
     /// <summary>
     /// Tests for REST client querying multiple work items using real captured responses.
-    /// NOTE: Captured stub only contains work item ID 1, so this tests the same ID.
-    /// For testing multiple work items, capture additional stubs with different IDs.
     /// </summary>
     [TestClass]
     [TestCategory("WireMock")]
-    [Ignore("WireMock.Net OWIN hosting deadlocks in MSTest runner on .NET Framework. See base class for details.")]
     public class Given_WireMock_WorkItemStore_When_Querying_Multiple_Bugs : WireMockRestContextSpecification
     {
         private IWorkItemCollection? _result;
@@ -117,13 +108,9 @@ namespace Qwiq.WireMock
 
     /// <summary>
     /// Tests for REST client handling queries for non-existent work items.
-    /// NOTE: Captured stubs don't include empty query responses.
-    /// This test will return the same results as the stub data (ID 1).
-    /// For true empty result testing, capture a stub with empty WIQL results.
     /// </summary>
     [TestClass]
     [TestCategory("WireMock")]
-    [Ignore("WireMock.Net OWIN hosting deadlocks in MSTest runner on .NET Framework. See base class for details.")]
     public class Given_WireMock_WorkItemStore_When_Query_Returns_Empty : WireMockRestContextSpecification
     {
         private IWorkItemCollection? _result;
@@ -137,16 +124,12 @@ namespace Qwiq.WireMock
         [TestMethod]
         public void Should_Execute_Without_Error()
         {
-            // Test that WireMock is properly handling the query
-            // NOTE: Since captured stubs don't match ID=-1, this may return no results
-            // or fall through to default WireMock behavior
             _result.ShouldNotBeNull();
         }
 
         [TestMethod]
         public void Should_Return_Collection()
         {
-            // Verify we get a collection back (even if empty)
             _result.ShouldNotBeNull();
 #pragma warning disable CA1829, CA1826
             _result.Count().ShouldBeGreaterThanOrEqualTo(0);

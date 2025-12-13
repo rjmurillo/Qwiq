@@ -32,6 +32,7 @@
     <InternalsVisibleTo Include="Qwiq.Mapper" />
     <InternalsVisibleTo Include="Qwiq.Mapper.Identity" />
     <InternalsVisibleTo Include="Qwiq.Identity.UnitTests" />
+    <InternalsVisibleTo Include="Qwiq.WireMock.Tests" />
   </ItemGroup>
 
   <ItemGroup>

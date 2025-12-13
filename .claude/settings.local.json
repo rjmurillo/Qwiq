@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(dotnet restore:*)"
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet:*)",
+      "Bash(pwsh -Command:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(git add:*)"
     ]
   }
 }

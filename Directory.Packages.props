@@ -56,7 +56,7 @@
     <PackageVersion Include="Verify.Nupkg" Version="1.1.1" />
 
     <!-- HTTP Mocking for REST client tests -->
-    <PackageVersion Include="WireMock.Net" Version="1.5.40" />
+    <PackageVersion Include="WireMock.Net" Version="1.17.0" />
 
     <!-- Mocking framework for SOAP client tests -->
     <PackageVersion Include="Moq" Version="4.16.0" />

@@ -122,7 +122,7 @@ dotnet test --filter "TestCategory=WireMock" --logger "console;verbosity=detaile
 ```powershell
 # 1. Capture traffic using Fiddler (save as .har)
 # 2. Run conversion script
-.\scripts\Convert-HarToWireMock.ps1 -HarFilePath ".agents\qwiq.har" -OutputPath "test\Qwiq.Integration.Tests\WireMock\Stubs\azure-devops-stubs.json"
+.\scripts\Convert-HarToWireMock.ps1 -HarFilePath "artifacts\qwiq.har" -OutputPath "test\Qwiq.Integration.Tests\WireMock\Stubs\azure-devops-stubs.json"
 
 # 3. Rebuild and test
 dotnet build test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj

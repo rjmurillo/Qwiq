@@ -24,6 +24,7 @@
     <InternalsVisibleTo Include="Qwiq.IntegrationTests" />
     <InternalsVisibleTo Include="Qwiq.Integration.Tests" />
     <InternalsVisibleTo Include="Qwiq.Core.UnitTests" />
+    <InternalsVisibleTo Include="Qwiq.WireMock.Tests" />
   </ItemGroup>
 
   <ItemGroup>
