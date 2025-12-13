@@ -13,10 +13,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Qwiq.Core.UnitTests" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Include="..\..\docs\package-readme\Qwiq.Mocks.md" Pack="true" PackagePath="README.md" />
 	</ItemGroup>
 
