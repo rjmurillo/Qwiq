@@ -14,15 +14,27 @@
 
 | Tier       | Task ID | Description            | Status                 |
 | ---------- | ------- | ---------------------- | ---------------------- |
-| 1 CRITICAL | W2.32   | CI Warning Gate        | 📋 Planned             |
+| 1 CRITICAL | W2.32   | CI Warning Gate        | ✅ COMPLETE            |
 | 1 CRITICAL | W2.22   | SHA Digest Pinning     | 📋 Planned             |
 | 1 CRITICAL | W3.10   | Package Signing        | ⏸️ BLOCKED (Key Vault) |
 | 1 CRITICAL | W5.1    | Security Audit         | 📋 Planned             |
-| 2 HIGH     | W3.1    | TFM Expansion          | 📋 Planned             |
+| 2 HIGH     | W3.1    | TFM Expansion          | ✅ COMPLETE            |
 | 2 HIGH     | W2.29   | Null Guards            | 📋 Planned             |
 | 2 HIGH     | W5.2    | Container Docs         | 📋 Planned             |
 | 3 MEDIUM   | W2.33   | NuGet v11.0.0 Publish  | 📋 Planned             |
 | 3 MEDIUM   | W5.6    | Migration Guide v10→11 | 📋 Planned             |
+
+## Documentation File Structure
+
+The modernization TODO was split into multiple files for AI agent readability:
+
+| File | Content |
+| ---- | ------- |
+| [modernize-TODO-index.md](modernize-TODO-index.md) | Index, metrics, session log |
+| [modernize-wave1.md](modernize-wave1.md) | Wave 0 + Wave 1 tasks |
+| [modernize-wave2.md](modernize-wave2.md) | Wave 2 tasks |
+| [modernize-wave3-5.md](modernize-wave3-5.md) | Wave 3-5 tasks |
+| [modernize-TODO.md](modernize-TODO.md) | Original full file (archived) |
 
 ---
 
@@ -1081,7 +1093,11 @@ You have lost context. Follow these steps to recover:
 ## Step 1: Read Core Documentation (in this order)
 1. `.agents/AGENT-INSTRUCTIONS.md` - Process instructions
 2. `.agents/HANDOFF.md` - Previous session context
-3. `.agents/modernize-TODO.md` - Task details and current state
+3. `.agents/modernize-TODO-index.md` - Overview and navigation
+4. Then read the appropriate wave file based on your task:
+   - `.agents/modernize-wave1.md` - Wave 0-1 tasks
+   - `.agents/modernize-wave2.md` - Wave 2 tasks
+   - `.agents/modernize-wave3-5.md` - Wave 3-5 tasks
 
 ## Step 2: Review Recent Session Logs
 Check `.agents/sessions/` for recent logs (most recent first).
@@ -1091,7 +1107,7 @@ git status
 git log --oneline -5
 
 ## Step 4: Resume Work
-Continue with current sprint priorities from modernize-TODO.md.
+Continue with current sprint priorities from modernize-TODO-index.md.
 
 ## Build Commands for Verification
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
@@ -1112,7 +1128,11 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 Complete these steps immediately before ending the session:
 
 ## 1. Update Task Tracking
-- [ ] Check off ALL completed tasks in `.agents/modernize-TODO.md`
+- [ ] Check off ALL completed tasks in the appropriate wave file:
+  - `.agents/modernize-wave1.md` - Wave 0-1 tasks
+  - `.agents/modernize-wave2.md` - Wave 2 tasks
+  - `.agents/modernize-wave3-5.md` - Wave 3-5 tasks
+- [ ] Update metrics in `.agents/modernize-TODO-index.md`
 
 ## 2. Complete Session Log
 Update your session log in `.agents/sessions/` (example: `.agents/sessions/2025-12-12-session-01.md`) with:
@@ -1246,7 +1266,11 @@ Use this prompt before ending ANY session:
 Before ending, complete ALL mandatory steps:
 
 ## 1. Documentation Updates
-- [ ] All completed tasks checked off in `.agents/modernize-TODO.md`
+- [ ] All completed tasks checked off in the appropriate wave file:
+  - `.agents/modernize-wave1.md` - Wave 0-1 tasks
+  - `.agents/modernize-wave2.md` - Wave 2 tasks
+  - `.agents/modernize-wave3-5.md` - Wave 3-5 tasks
+- [ ] Update metrics in `.agents/modernize-TODO-index.md`
 - [ ] Session log complete at `.agents/sessions/YYYY-MM-DD-session-NN.md`:
   - What was done for each task
   - Decisions made and rationale
@@ -1284,3 +1308,4 @@ Make documentation complete enough for any agent to continue.
 | 3.0     | 2025-12-12 | Self-contained prompts: each task includes full start/end protocol for copy/paste |
 | 3.1     | 2025-12-12 | Added branch/clean checks, baseline build step, and forced add of session logs    |
 | 3.2     | 2025-12-12 | Restored Universal Session End Prompt for agent handoff continuity                |
+| 3.3     | 2025-12-12 | Updated for split TODO files: added file structure table, updated all references  |
