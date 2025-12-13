@@ -222,18 +222,16 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 - [Recommendations]
 
 ````markdown
-
 ---
 
 ## HANDOFF.md Template
 
 Update this file at session end:
 
-```markdown
+````markdown
 # Handoff Document
 
-> **Last Updated**: YYYY-MM-DD by [Agent/Session ID]
-> **Current Phase**: 2A (or current)
+> **Last Updated**: YYYY-MM-DD by [Agent/Session ID] > **Current Phase**: 2A (or current)
 > **Branch**: `chore/modernize-wave-2`
 
 ## Current State
@@ -246,6 +244,7 @@ Update this file at session end:
 ## What Was Completed
 
 ### Phase 2A (or current phase)
+
 - [x] W2.XX - [Brief description of what was done]
 - [x] W2.YY - [Brief description]
 - [ ] W2.ZZ - [Not started / In progress]
@@ -253,14 +252,15 @@ Update this file at session end:
 ## What's Next
 
 The next session should:
+
 1. [Specific first action]
 2. [Specific second action]
 3. [etc.]
 
 ## Blockers & Concerns
 
-| Issue | Impact | Mitigation |
-|-------|--------|------------|
+| Issue   | Impact   | Mitigation   |
+| ------- | -------- | ------------ |
 | [Issue] | [Impact] | [What to do] |
 
 ## Quick Verification
@@ -270,6 +270,9 @@ The next session should:
 git log --oneline -5
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+```
+````
+
 ````
 
 ## Session History
@@ -288,7 +291,6 @@ If you need context, read these files in order:
 3. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
 
 ````markdown
-
 ---
 
 ## Phase Definitions
@@ -318,6 +320,7 @@ If you need context, read these files in order:
 ## Tools & Commands Reference
 
 ### Build & Test
+
 ```powershell
 # Full build (single-threaded to avoid file locking)
 dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
@@ -327,6 +330,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 # Format code
 dotnet format Qwiq.sln
+```
 ````
 
 ### Git Operations

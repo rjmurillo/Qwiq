@@ -14,16 +14,16 @@
 
 ## Test Project Breakdown
 
-| Project                        | Tests | Time (seconds) | Framework    | Status        |
-| ------------------------------ | ----- | -------------- | ------------ | ------------- |
-| Qwiq.Core.Tests                | 108   | 3.18           | .NET 8.0     | ✅ Passed     |
-| Qwiq.Linq.Tests                | 34    | 3.08           | .NET 8.0     | ✅ Passed     |
-| Qwiq.Mapper.Tests              | 28    | 2.80           | .NET 8.0     | ✅ Passed     |
-| Qwiq.Identity.Tests            | 16    | 3.17           | .NET 8.0     | ✅ Passed     |
-| Qwiq.Package.Tests             | 3     | 2.41           | .NET 8.0     | ✅ Passed     |
-| Qwiq.Integration.Tests         | 0     | N/A            | .NET 4.7.2   | ⏸️ Filtered   |
-| Qwiq.Identity.Benchmark.Tests  | 0     | N/A            | .NET 8.0     | ⏸️ Filtered   |
-| Qwiq.Mapper.Benchmark.Tests    | 0     | N/A            | .NET 8.0     | ⏸️ Filtered   |
+| Project                       | Tests | Time (seconds) | Framework  | Status      |
+| ----------------------------- | ----- | -------------- | ---------- | ----------- |
+| Qwiq.Core.Tests               | 108   | 3.18           | .NET 8.0   | ✅ Passed   |
+| Qwiq.Linq.Tests               | 34    | 3.08           | .NET 8.0   | ✅ Passed   |
+| Qwiq.Mapper.Tests             | 28    | 2.80           | .NET 8.0   | ✅ Passed   |
+| Qwiq.Identity.Tests           | 16    | 3.17           | .NET 8.0   | ✅ Passed   |
+| Qwiq.Package.Tests            | 3     | 2.41           | .NET 8.0   | ✅ Passed   |
+| Qwiq.Integration.Tests        | 0     | N/A            | .NET 4.7.2 | ⏸️ Filtered |
+| Qwiq.Identity.Benchmark.Tests | 0     | N/A            | .NET 8.0   | ⏸️ Filtered |
+| Qwiq.Mapper.Benchmark.Tests   | 0     | N/A            | .NET 8.0   | ⏸️ Filtered |
 
 ## Performance Analysis
 

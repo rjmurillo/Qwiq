@@ -12,6 +12,7 @@
 This plan outlines the path to production-grade test quality for Qwiq v11.0.0, addressing code coverage, test reliability, and testing infrastructure improvements.
 
 **Current State** (2025-12-12 Baseline):
+
 - **Code Coverage**: 51.1% line, 36.7% branch (Target: 70%)
 - **Test Flake Rate**: 0.00% (Target: <0.1%) ✅ **Exceeds target**
 - **Test Execution Time**: 11.58s for 189 tests (Target: <300s) ✅ **Exceeds target**
@@ -30,13 +31,13 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 
 ### Completed Tasks
 
-| Task | Status | Key Finding |
-|------|--------|-------------|
-| **W4.1** - Test Execution Baseline | ✅ | 189 tests, 11.58s execution (well under target) |
-| **W4.2** - Test Flake Rate | ✅ | 0.00% flake rate (10/10 iterations passed) |
-| **W4.3** - Code Coverage Assessment | ✅ | 51.1% coverage, REST client at 0% (critical gap) |
-| **W4.4** - SOAP Usage Assessment | ✅ | Recommend deprecation (ADR-010) |
-| **W4.5** - Test Improvement Plan | ✅ | This document |
+| Task                                | Status | Key Finding                                      |
+| ----------------------------------- | ------ | ------------------------------------------------ |
+| **W4.1** - Test Execution Baseline  | ✅     | 189 tests, 11.58s execution (well under target)  |
+| **W4.2** - Test Flake Rate          | ✅     | 0.00% flake rate (10/10 iterations passed)       |
+| **W4.3** - Code Coverage Assessment | ✅     | 51.1% coverage, REST client at 0% (critical gap) |
+| **W4.4** - SOAP Usage Assessment    | ✅     | Recommend deprecation (ADR-010)                  |
+| **W4.5** - Test Improvement Plan    | ✅     | This document                                    |
 
 ### Key Artifacts Created
 
@@ -59,6 +60,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 **Target Coverage**: WorkItemStore.cs (0% → 80%)
 
 **Tests to Add**:
+
 - [ ] `Given_WorkItemStore_created_with_valid_options`
   - Then_can_query_work_items
   - Then_can_get_work_item_by_id
@@ -80,6 +82,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 **Target Coverage**: Query.cs, QueryDefinition.cs, QueryFolder.cs (0% → 70%)
 
 **Tests to Add**:
+
 - [ ] `Given_Query_with_WIQL_string`
   - Then_executes_query_and_returns_work_items
 - [ ] `Given_QueryDefinition_from_server`
@@ -99,6 +102,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 **Target Coverage**: WorkItem.cs, Field.cs, FieldCollection.cs (0% → 70%)
 
 **Tests to Add**:
+
 - [ ] `Given_WorkItem_loaded_from_REST`
   - Then_fields_are_accessible
   - Then_revisions_are_enumerable
@@ -117,6 +121,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 **Target Coverage**: AuthenticationOptions.cs, CredentialsFactory.cs (0% → 50%)
 
 **Tests to Add**:
+
 - [ ] `Given_AuthenticationOptions_with_PAT`
   - Then_creates_network_credential
 - [ ] `Given_AuthenticationOptions_with_Windows_auth`
@@ -134,6 +139,7 @@ This plan outlines the path to production-grade test quality for Qwiq v11.0.0, a
 **Verification**: Run `dotnet test --settings coverage.runsettings` and check `artifacts/coverage/Summary.txt`
 
 Expected breakdown:
+
 - Qwiq.Client.Rest: 0% → 60%
 - Qwiq.Core: 51.2% → 60%
 - Overall: 51.1% → 65%
@@ -150,6 +156,7 @@ Expected breakdown:
 **Target Coverage**: AttributeMapException.cs, PropertyMap.cs (0% → 80%)
 
 **Tests to Add**:
+
 - [ ] `Given_AttributeMapper_with_invalid_field_name`
   - Then_throws_AttributeMapException_with_details
 - [ ] `Given_PropertyMap_with_null_work_item`
@@ -163,6 +170,7 @@ Expected breakdown:
 **Target Coverage**: QueryExtensions.cs (20% → 80%)
 
 **Tests to Add**:
+
 - [ ] `Given_Query_with_AsOf_expression`
   - Then_generates_correct_WIQL
 - [ ] `Given_Query_with_WasEver_expression`
@@ -178,6 +186,7 @@ Expected breakdown:
 **Verification**: Final coverage report
 
 Expected breakdown:
+
 - Qwiq.Client.Rest: 60%
 - Qwiq.Linq: 90.9% → 95%
 - Qwiq.Mapper: 73.9% → 85%
@@ -206,11 +215,13 @@ Expected breakdown:
 **Effort**: M (6 hours per project)
 
 Focus areas (in priority order):
+
 1. **Qwiq.Linq.WiqlTranslator** (CRITICAL - query translation logic)
 2. **Qwiq.Core.TypeParser** (HIGH - type conversion)
 3. **Qwiq.Mapper.AttributeMapperStrategy** (MEDIUM - object mapping)
 
 **Per Project**:
+
 - [ ] Run Stryker mutation testing
 - [ ] Analyze surviving mutants
 - [ ] Add tests to kill high-value mutants
@@ -251,6 +262,7 @@ Focus areas (in priority order):
 **Effort**: L (8 hours)
 
 **Common Scenarios to Record**:
+
 - [ ] Get work item by ID (various types: Bug, Task, User Story)
 - [ ] Query work items by WIQL
 - [ ] Get work item revisions
@@ -259,6 +271,7 @@ Focus areas (in priority order):
 - [ ] Get projects
 
 **Process**:
+
 1. Run integration tests with WireMock in recording mode
 2. Authenticate with Azure DevOps sandbox
 3. Capture HTTP traffic to JSON files
@@ -287,17 +300,20 @@ Focus areas (in priority order):
 ### Actions Required
 
 **v11.0.0** (Current Release):
+
 - [ ] Add `<PackageDeprecated>true</PackageDeprecated>` to SOAP NuGet metadata
 - [ ] Add `[Obsolete]` attributes to SOAP public APIs
 - [ ] Create `docs/SOAP-TO-REST-MIGRATION.md` guide
 - [ ] Update README.md to recommend REST client
 
 **v11.x** (6-month support window):
+
 - [ ] Monitor SOAP package downloads
 - [ ] Provide migration support
 - [ ] Critical bug fixes only
 
 **v12.0.0** (Breaking change release):
+
 - [ ] Remove `Qwiq.Client.Soap` project
 - [ ] Remove `Qwiq.Identity.Soap` project
 - [ ] Update migration documentation
@@ -310,14 +326,14 @@ Focus areas (in priority order):
 
 ### Primary Metrics
 
-| Metric | Baseline | Target | Current | Status |
-|--------|----------|--------|---------|--------|
-| **Line Coverage** | 51.1% | 70% | 51.1% | 🔴 In Progress |
-| **Branch Coverage** | 36.7% | 60% | 36.7% | 🔴 In Progress |
-| **Flake Rate** | 0.00% | <0.1% | 0.00% | ✅ Exceeds Target |
-| **Test Execution Time** | 11.58s | <300s | 11.58s | ✅ Exceeds Target |
-| **Mutation Score** | TBD | 65% | TBD | 📋 Pending |
-| **Offline Tests** | ~10% | 80% | ~10% | 📋 Pending |
+| Metric                  | Baseline | Target | Current | Status            |
+| ----------------------- | -------- | ------ | ------- | ----------------- |
+| **Line Coverage**       | 51.1%    | 70%    | 51.1%   | 🔴 In Progress    |
+| **Branch Coverage**     | 36.7%    | 60%    | 36.7%   | 🔴 In Progress    |
+| **Flake Rate**          | 0.00%    | <0.1%  | 0.00%   | ✅ Exceeds Target |
+| **Test Execution Time** | 11.58s   | <300s  | 11.58s  | ✅ Exceeds Target |
+| **Mutation Score**      | TBD      | 65%    | TBD     | 📋 Pending        |
+| **Offline Tests**       | ~10%     | 80%    | ~10%    | 📋 Pending        |
 
 ### Secondary Metrics
 
@@ -332,18 +348,19 @@ Focus areas (in priority order):
 ### Established Patterns (Keep Using)
 
 ✅ **ContextSpecification Pattern**:
+
 ```csharp
 [TestClass]
 public class Given_WorkItemStore_with_valid_options : ContextSpecification
 {
     private IWorkItemStore _sut;
-    
+
     public override void Given()
     {
         var options = new AuthenticationOptions(/* ... */);
         _sut = WorkItemStoreFactory.Default.Create(options);
     }
-    
+
     [TestMethod]
     public void Then_can_query_work_items()
     {
@@ -354,10 +371,12 @@ public class Given_WorkItemStore_with_valid_options : ContextSpecification
 ```
 
 ✅ **Mock Usage**:
+
 - Use `MockWorkItemStore`, `MockWorkItem`, `MockRevision` from `Qwiq.Mocks`
 - Use `MockIdentityManagementService` for identity resolution tests
 
 ✅ **Shouldly Assertions**:
+
 - `result.ShouldBe(expected)`
 - `collection.ShouldNotBeEmpty()`
 - `value.ShouldBeNull()`
@@ -365,11 +384,12 @@ public class Given_WorkItemStore_with_valid_options : ContextSpecification
 ### New Patterns (Add for Coverage)
 
 🆕 **WireMock for REST Testing** (Phase 5):
+
 ```csharp
 public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 {
     protected override string FixtureName => "work-item-123.json";
-    
+
     [TestMethod]
     public void Then_loads_fields_correctly()
     {
@@ -380,6 +400,7 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 ```
 
 🆕 **Mutation Testing Focus**:
+
 - Add boundary condition tests (off-by-one errors)
 - Test null handling explicitly
 - Test arithmetic edge cases
@@ -391,24 +412,25 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 
 ### High Risks
 
-| Risk | Impact | Mitigation |
-|------|--------|-----------|
-| **REST coverage takes longer than estimated** | 🔴 HIGH | Start with highest-value tests (WorkItemStore), defer nice-to-have tests |
-| **WireMock fixtures are brittle** | 🟡 MEDIUM | Keep fixtures minimal, focus on common scenarios only |
-| **Mutation testing reveals deeper issues** | 🟡 MEDIUM | Budget extra time for mutation test fixes, prioritize critical paths |
+| Risk                                          | Impact    | Mitigation                                                               |
+| --------------------------------------------- | --------- | ------------------------------------------------------------------------ |
+| **REST coverage takes longer than estimated** | 🔴 HIGH   | Start with highest-value tests (WorkItemStore), defer nice-to-have tests |
+| **WireMock fixtures are brittle**             | 🟡 MEDIUM | Keep fixtures minimal, focus on common scenarios only                    |
+| **Mutation testing reveals deeper issues**    | 🟡 MEDIUM | Budget extra time for mutation test fixes, prioritize critical paths     |
 
 ### Medium Risks
 
-| Risk | Impact | Mitigation |
-|------|--------|-----------|
-| **SOAP users resist deprecation** | 🟡 MEDIUM | Provide clear migration guide, 6-month support window |
-| **Integration tests still needed for SOAP** | 🟡 MEDIUM | Accept SOAP tests as manual/excluded from CI |
+| Risk                                        | Impact    | Mitigation                                            |
+| ------------------------------------------- | --------- | ----------------------------------------------------- |
+| **SOAP users resist deprecation**           | 🟡 MEDIUM | Provide clear migration guide, 6-month support window |
+| **Integration tests still needed for SOAP** | 🟡 MEDIUM | Accept SOAP tests as manual/excluded from CI          |
 
 ---
 
 ## Timeline & Milestones
 
 ### Week 1-2: ✅ Baseline (COMPLETE)
+
 - W4.1: Test execution baseline
 - W4.2: Flake rate measurement
 - W4.3: Coverage assessment
@@ -416,6 +438,7 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 - W4.5: This improvement plan
 
 ### Week 3-6: Coverage Expansion - REST
+
 - W4.6: WorkItemStore tests → 65% coverage milestone
 - W4.7: Query classes tests
 - W4.8: WorkItem & Field tests
@@ -424,12 +447,14 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 **Milestone**: 65% overall coverage
 
 ### Week 7-8: Coverage Expansion - Final Push
+
 - W4.10: Mapper exceptions
 - W4.11: LINQ QueryExtensions
 
 **Milestone**: 70% overall coverage ✅ **Production Target Achieved**
 
 ### Week 9-12: Mutation Testing
+
 - W4.12: Stryker.NET setup
 - W4.13: Targeted mutation testing
 - W4.14: Mutation reports
@@ -437,6 +462,7 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 **Milestone**: 65% mutation score
 
 ### Week 13-16: Offline Testing
+
 - W4.15: WireMock integration
 - W4.16: Capture fixtures
 - W4.17: Migrate integration tests
@@ -448,6 +474,7 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 ## Deliverables
 
 ### Documentation
+
 - [x] Test execution baseline report
 - [x] Flakiness measurement report
 - [x] SOAP deprecation ADR
@@ -457,12 +484,14 @@ public class Given_REST_WorkItem_from_fixture : WireMockContextSpecification
 - [ ] Mutation testing guidelines
 
 ### Code
+
 - [ ] 161+ new tests (189 → 350+)
 - [ ] WireMock fixtures for REST API
 - [ ] Stryker.NET configuration
 - [ ] SOAP deprecation annotations
 
 ### Metrics
+
 - [ ] 70% line coverage
 - [ ] 65% mutation score
 - [ ] 80% offline test capability

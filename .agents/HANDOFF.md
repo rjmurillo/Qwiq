@@ -1,9 +1,8 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-12 by Copilot (Session 30 - Wave 4 Phase 1 Complete)
-> **Current Phase**: Wave 4 ✅ PHASE 1 COMPLETE (Test Quality & Coverage Baseline)
-> **Branch**: `copilot/sub-pr-97-again`
-> **Target**: Production v11.0.0 Release
+> **Last Updated**: 2025-12-12 by Claudette (Merge reconciliation - PR #100)
+> **Current Phase**: Wave 4 ✅ PHASE 1 COMPLETE (Test Quality & Coverage Baseline) + W3.1 TFM Expansion
+> **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
 
@@ -12,6 +11,7 @@
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
 **Test Status**: ✅ All tests passing (189 passed in filtered run, 208 total with integration tests)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
+**TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
 **Coverage**: **51.1% line coverage** (target: **70%** for production)
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
 **Test Execution**: **11.58 seconds** (target: <300s) ✅ **Exceeds target**
@@ -32,18 +32,21 @@
 **Work Completed**:
 
 1. ✅ **W4.1 - Test Execution Baseline** (COMPLETE)
+
    - Measured test execution time: 189 tests in 11.58s (target <300s) ✅
    - Documented per-project timing breakdown
    - Identified platform constraints (Integration.Tests requires mono/Windows)
    - Created `docs/metrics/test-baseline.md`
 
 2. ✅ **W4.2 - Test Flake Rate Measurement** (COMPLETE)
+
    - Created automated measurement tool: `scripts/Measure-TestFlakiness.ps1`
    - Ran 10 iterations (all 189 tests passed consistently)
    - **Flake Rate: 0.00%** (target: <0.1%) ✅ **EXCEEDS TARGET**
    - Created `docs/metrics/test-flakiness-report.md`
 
 3. ✅ **W4.3 - Code Coverage Assessment** (COMPLETE)
+
    - Generated coverage report: **51.1% line, 36.7% branch**
    - Analyzed 8 assemblies, 219 classes, 5,177 coverable lines
    - **Critical Finding**: Qwiq.Client.Rest has **0% coverage** (all 23 classes untested)
@@ -55,12 +58,14 @@
      - Qwiq.Client.Rest: 0.0% 🔴 **CRITICAL GAP**
 
 4. ✅ **W4.4 - SOAP Client Usage Assessment** (COMPLETE)
+
    - Analyzed SOAP codebase: 47 files, ~2,296 LOC
    - Identified constraints: Windows-only, 0% test coverage, cannot deploy in Kubernetes
    - **Decision**: Deprecate SOAP client (v11.0.0 → v12.0.0)
    - Created `docs/adr/ADR-010-soap-client-deprecation-strategy.md`
 
 5. ✅ **W4.5 - Test Quality Improvement Plan** (COMPLETE)
+
    - Created comprehensive 16-week roadmap to 70% coverage
    - Defined 5 phases with specific milestones
    - Prioritized work by ROI (REST client = highest impact: 0% → 60%)
@@ -74,11 +79,13 @@
 **Verification**: Build 0 errors/warnings, Tests 189 passed, Flake rate 0%
 
 **Key Decisions**:
+
 - REST client testing is highest ROI path to 70% coverage (0% → 60% closes 31% of gap)
 - SOAP client will be deprecated (cannot deploy in Kubernetes, 0% coverage)
 - Test suite is exceptionally stable (0% flake rate, no remediation needed)
 
 **Phase 1 Deliverables**:
+
 - Test execution baseline report
 - Flakiness measurement tool + report
 - Code coverage baseline analysis
@@ -89,19 +96,40 @@
 
 ---
 
-### Session Summary (runSubagent Documentation - 2025-12-12 Session 29)
+### Session Summary (W3.1 TFM Expansion - 2025-12-12 Session 30a)
 
-**Purpose**: Document runSubagent orchestration capabilities in copilot-instructions.md based on prior orchestration agent evaluation (9 sources analyzed).
+**Purpose**: Expand Target Framework Monikers from 2 to 6 frameworks to support production deployment on modern .NET runtimes and Kubernetes containers.
 
 **Work Completed**:
 
-1. ✅ Added "⚠️ Critical Limitations" subsection (no recursion, context isolation, tool bug, fallback behavior)
-2. ✅ Added "Custom Agent Model Selection" subsection with VS Code settings
-3. ✅ Added `orchestration` and `Plan` agents to Available Agents table
-4. ✅ Updated Routing Heuristics with new task types
-5. ✅ Updated memory file with follow-up work documentation
+1. ✅ Updated 12 project files (.csproj) with expanded TFMs
 
-**Verification**: Build 0 errors, Tests 208 passed
+   - 7 source projects: Core, Core.Rest, Identity, Linq, Mapper, Mapper.Identity, Linq.Identity
+   - 5 test/mock projects: Core.Tests, Linq.Tests, Mapper.Tests, Identity.Tests, Mocks
+   - Changed from `net472;net8.0` to `net472;net48;net481;net8.0;net9.0;net10.0`
+
+2. ✅ Updated `Directory.Build.props` for .NET Framework support
+
+   - Changed condition from `'$(TargetFramework)' == 'net472'` to `$(TargetFramework.StartsWith('net4'))`
+   - Enables `Microsoft.NETFramework.ReferenceAssemblies` for all net4\* targets
+
+3. ✅ Fixed test exclusion condition in Core.Tests
+
+   - Changed from `== 'net8.0'` to `!= 'net472'` for cross-version compatibility
+
+4. ✅ Fixed XML formatting in Identity.Tests and Mapper.Tests
+   - Reformatted from single-line to multi-line XML with proper indentation
+
+**Verification**:
+
+- Build: ✅ 0 errors, 0 warnings
+- Tests: ✅ 186/186 passed on net8.0
+- Packages: ✅ All 6 TFMs confirmed in Qwiq.Core.10.0.44-g90be698915.nupkg
+
+**Commits**:
+
+- `7133898` - feat(tfm): expand target frameworks to net472;net48;net481;net8.0;net9.0;net10.0
+- `dc7791d` - fix(format): reformat Identity and Mapper test project files with proper XML formatting
 
 ---
 
@@ -397,6 +425,7 @@ See: `.agents/sessions/2025-12-10-package-validation-fix.md` for full details.
 - `.agents/sessions/2025-12-10-cs0006-fix.md` - Session log
 
 **Subagent Consultations**:
+
 | Agent | Purpose | Key Insights |
 |-------|---------|--------------|
 | csharp-expert | Technical MSBuild analysis | Inner-build parallelism explanation |
