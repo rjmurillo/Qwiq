@@ -8,6 +8,8 @@
 		<IsPackable>true</IsPackable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<!-- SCS0005: System.Random is acceptable for test data generation in mocks -->
+		<NoWarn>$(NoWarn);SCS0005</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
