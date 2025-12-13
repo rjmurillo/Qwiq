@@ -1,7 +1,7 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (Session 37 - CI Workflow Refactoring)
-> **Current Phase**: Wave 4 Phase 2 - Mutation Testing Infrastructure Complete
+> **Last Updated**: 2025-12-13 by Claude (Session 38 - Mutation Testing Priority Improvements)
+> **Current Phase**: Wave 4 Phase 2 - Mutation Testing Priority Improvements
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
@@ -9,7 +9,7 @@
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (608 tests - Core: 485, Identity: 25, Mapper: 53, Linq: 45)
+**Test Status**: ✅ All tests passing (701 tests - Core: 578, Identity: 25, Mapper: 53, Linq: 45)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
 **Coverage**: **6/6 NuGet libraries meet 70% target** ✅ **(W4.1 COMPLETE)**
@@ -29,6 +29,46 @@
 - Must pass enterprise security review
 - **Git Hooks**: ✅ Pre-commit hooks enabled for linting enforcement
 - **Mutation Testing**: ✅ Stryker.NET configured, weekly CI runs scheduled
+
+### Session Summary (Session 38 - Mutation Testing Priority Improvements - 2025-12-13)
+
+**Purpose**: Improve mutation testing scores for the 3 highest-priority files identified in Session 35 baseline.
+
+**Work Completed**:
+
+1. ✅ **IWorkItem.Extensions** (0% → target 60%+)
+   - Added 33 tests covering all 6 extension methods
+   - Tests for null checks, zero/empty argument validation, successful operations
+   - Committed: `ed85fef3` (from prior context)
+
+2. ✅ **CredentialsFactory** (0% → target 60%+)
+   - Added 25 tests covering all 4 credential methods
+   - GetBasicCredentials, GetOAuthCredentials, GetServiceIdentityCredentials, GetServiceIdentityPatCredentials
+   - Tests for null/empty parameters and valid credential generation
+
+3. ✅ **GenericComparer** (31.91% → target 60%+)
+   - Added 35 new tests covering multiple branches
+   - IEnumerable comparison (arrays, lists), nullable value types, IComparable/IEquatable
+   - Content-based hash code for IEnumerable types
+
+**Test Count Growth**: 485 → 578 (+93 tests)
+
+**Commit**: `eb23b3da` - test(core): add tests for CredentialsFactory and GenericComparer mutation coverage
+
+**Files Created**:
+
+- `test/Qwiq.Core.Tests/Credentials/CredentialsFactoryTests.cs` - 25 tests
+
+**Files Modified**:
+
+- `test/Qwiq.Core.Tests/Comparers/ComparerTests.cs` - 35 new tests (+310 lines)
+
+**Next Steps**:
+
+1. Run Stryker to capture new mutation scores
+2. Update baseline documentation with improved scores
+
+---
 
 ### Session Summary (Session 37 - CI Workflow Refactoring - 2025-12-13)
 
