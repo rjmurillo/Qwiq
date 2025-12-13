@@ -81,7 +81,7 @@ dotnet stryker --config-file stryker-config.json
 dotnet stryker --config-file stryker-config.json --mutate "src/Qwiq.Core/Comparers/**/*.cs"
 
 # View report
-Start-Process "StrykerOutput/reports/mutation-report.html"
+Start-Process "artifacts/StrykerOutput/reports/mutation-report.html"
 ```
 
 ## How to Trigger CI Run

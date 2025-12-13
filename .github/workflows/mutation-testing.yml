@@ -44,7 +44,7 @@ jobs:
         id: stryker
         shell: pwsh
         run: |
-          dotnet stryker --config-file stryker-config.json --output ./StrykerOutput
+          dotnet stryker --config-file stryker-config.json
         continue-on-error: true
 
       - name: Upload mutation report (HTML)
@@ -52,7 +52,7 @@ jobs:
         if: always()
         with:
           name: mutation-report-html
-          path: StrykerOutput/**/reports/**/*.html
+          path: artifacts/StrykerOutput/**/reports/**/*.html
           if-no-files-found: warn
           retention-days: 30
 
@@ -61,7 +61,7 @@ jobs:
         if: always()
         with:
           name: mutation-report-json
-          path: StrykerOutput/**/reports/**/*.json
+          path: artifacts/StrykerOutput/**/reports/**/*.json
           if-no-files-found: warn
           retention-days: 90
 
@@ -69,7 +69,7 @@ jobs:
         if: always()
         shell: pwsh
         run: |
-          $jsonReport = Get-ChildItem -Path "StrykerOutput" -Filter "*.json" -Recurse -ErrorAction SilentlyContinue |
+          $jsonReport = Get-ChildItem -Path "artifacts/StrykerOutput" -Filter "*.json" -Recurse -ErrorAction SilentlyContinue |
             Where-Object { $_.Name -like "*mutation*" } |
             Select-Object -First 1
 
