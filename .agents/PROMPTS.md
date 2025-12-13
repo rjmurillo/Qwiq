@@ -1101,7 +1101,7 @@ Read the contents of the `.agents` directory before starting work:
 
 1. **FIRST**: Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. **SECOND**: Read `.agents/HANDOFF.md` - previous session context
-3. **THIRD**: Read `.agents/modernize-TODO.md` - task details and current state
+3. **THIRD**: Read `.agents/modernize-TODO-index.md` - task details and current state
 
 ## Project Context
 - **Repository**: Qwiq - .NET library for Azure DevOps work item queries
@@ -1116,7 +1116,7 @@ Read the contents of the `.agents` directory before starting work:
 1. Create session log: `.agents/sessions/YYYY-MM-DD-session-NN.md`
 2. Complete pre-flight checklist from AGENT-INSTRUCTIONS.md
 3. Work incrementally with small, conventional commits
-4. Check off tasks in modernize-TODO.md as completed
+4. Check off tasks in modernize-TODO-index.md and related modernize-wave*.md files as completed
 5. Update session log with decisions and challenges
 
 ## Build Commands
