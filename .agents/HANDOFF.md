@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-12 by Claude (WireMock Test Fix - moved to .NET 8+ project)
+> **Last Updated**: 2025-12-12 by Claude (W2.32 CI Warning Gate Verification)
 > **Current Phase**: Wave 4 ✅ PHASE 1 COMPLETE (Test Quality & Coverage Baseline) + W3.1 TFM Expansion
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
@@ -16,6 +16,7 @@
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
 **Test Execution**: **11.58 seconds** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
+**CI Warning Gate**: ✅ PedanticMode enforces warnings-as-errors on CI (W2.32 verified)
 
 **Project Context**:
 
@@ -24,6 +25,44 @@
 - MCP extension for AI agents integration
 - Kubernetes container deployment required
 - Must pass enterprise security review
+
+### Session Summary (W2.32 CI Warning Gate Verification - 2025-12-12)
+
+**Purpose**: Verify that CI builds enforce warnings-as-errors via PedanticMode.
+
+**Work Completed**:
+
+1. ✅ **Reviewed PedanticMode Configuration**
+   - `build/targets/codeanalysis/CodeAnalysis.targets` sets `TreatWarningsAsErrors=$(PedanticMode)`
+   - PedanticMode defaults to `$(ContinuousIntegrationBuild)`
+   - `MSBuildTreatWarningsAsErrors` also wired to PedanticMode
+
+2. ✅ **Verified CI Workflow Settings**
+   - `main.yml` Windows build (line 68): `/p:ContinuousIntegrationBuild=true`
+   - `main.yml` Linux build (line 80): `/p:ContinuousIntegrationBuild=true`
+
+3. ✅ **Tested Effective Properties**
+   - CI build: PedanticMode=true, TreatWarningsAsErrors=true, MSBuildTreatWarningsAsErrors=true
+   - Local build: All properties empty (warnings allowed for developer flexibility)
+
+4. ✅ **Verified Documentation**
+   - PedanticMode documented in copilot-instructions.md (lines 37-43)
+
+**Files Modified**:
+- `.agents/modernize-TODO.md` - Marked W2.32 complete with verification details
+- `.agents/sessions/2025-12-12-session-01-w2.32.md` - Session log
+
+**Acceptance Criteria Met**:
+- ✅ PedanticMode activates on CI builds
+- ✅ CI build fails on any warning
+- ✅ Build passes with current codebase (0 warnings)
+- ✅ Documented in copilot-instructions.md
+
+**Next Recommended**: W2.22 (SHA Pinning) or W2.33 (NuGet v11.0.0 Publish)
+
+See: `.agents/sessions/2025-12-12-session-01-w2.32.md` for full details
+
+---
 
 ### Session Summary (WireMock Test Fix - 2025-12-12)
 

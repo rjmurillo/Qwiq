@@ -2252,44 +2252,47 @@ curl -L -o attestation.intoto.jsonl https://github.com/rjmurillo/Qwiq/releases/d
 
 ---
 
-#### W2.32 Add CI Warning Gate (NEW - Session 13)
+#### W2.32 Add CI Warning Gate (NEW - Session 13) ✅ COMPLETE
 
-- [ ] **Task**: Add CI step to fail build if warnings exceed threshold
+- [x] **Task**: Add CI step to fail build if warnings exceed threshold
 - **Effort**: S (1-2 hours)
 - **Priority**: **CRITICAL** - Prevents regression of clean build state
 - **Dependencies**: W1.19 (PedanticMode)
-- **File**: `.github/workflows/main.yml`
+- **File**: `.github/workflows/main.yml`, `build/targets/codeanalysis/CodeAnalysis.targets`
 
 **Why Critical**: Build is currently clean (0 warnings). A CI gate prevents accidental introduction of new warnings and maintains the clean state achieved through Wave 1 work.
 
-**Implementation**:
+**Implementation**: Uses PedanticMode (the simpler approach):
 
-```yaml
-- name: Check for warnings
-  shell: pwsh
-  run: |
-    $output = dotnet build Qwiq.sln -c Release --no-restore 2>&1
-    $warnings = $output | Select-String -Pattern "warning (CS|CA|IDE)\d+" | Measure-Object
-    if ($warnings.Count -gt 0) {
-      Write-Error "Build produced $($warnings.Count) warnings. Build must be warning-free."
-      $output | Select-String -Pattern "warning (CS|CA|IDE)\d+" | ForEach-Object { Write-Host $_.Line }
-      exit 1
-    }
-    Write-Host "✅ Build is warning-free"
+The CI warning gate is implemented via PedanticMode in `build/targets/codeanalysis/CodeAnalysis.targets`:
+
+```xml
+<PropertyGroup>
+  <!-- Default PedanticMode to true on CI, false locally for flexibility -->
+  <PedanticMode Condition="'$(PedanticMode)' == ''">$(ContinuousIntegrationBuild)</PedanticMode>
+
+  <!-- Wire TreatWarningsAsErrors and MSBuildTreatWarningsAsErrors to PedanticMode -->
+  <TreatWarningsAsErrors>$(PedanticMode)</TreatWarningsAsErrors>
+  <MSBuildTreatWarningsAsErrors>$(PedanticMode)</MSBuildTreatWarningsAsErrors>
+</PropertyGroup>
 ```
 
-**Alternative** (simpler, uses existing PedanticMode):
+Both Windows and Linux builds in `main.yml` set `/p:ContinuousIntegrationBuild=true`, which activates PedanticMode automatically.
 
-```yaml
-- name: Build (strict mode)
-  run: dotnet build Qwiq.sln -c Release /p:PedanticMode=true /p:TreatWarningsAsErrors=true
-```
+**Verification (Session 2025-12-12)**:
+
+- PedanticMode=true on CI: ✅ Confirmed via `dotnet msbuild -getProperty:PedanticMode`
+- TreatWarningsAsErrors=true on CI: ✅ Confirmed
+- MSBuildTreatWarningsAsErrors=true on CI: ✅ Confirmed
+- Build passes with 0 warnings: ✅ Confirmed
+- Local builds (without CI flag) allow warnings: ✅ Confirmed
+- Documented in copilot-instructions.md: ✅ Confirmed (lines 37-43)
 
 - **Acceptance Criteria**:
-  - [ ] CI fails if any warnings are introduced
-  - [ ] Clear error message shows which warnings caused failure
-  - [ ] Existing clean build state is protected
-  - [ ] PedanticMode integration verified
+  - [x] CI fails if any warnings are introduced
+  - [x] Clear error message shows which warnings caused failure (MSBuild standard output)
+  - [x] Existing clean build state is protected (0 warnings verified)
+  - [x] PedanticMode integration verified
 
 ---
 
