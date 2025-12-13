@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-net/master/src/Stryker.CLI/stryker-config.schema.json",
+  "stryker-config": {
+    "solution": "Qwiq.sln",
+    "project": "Qwiq.Core.csproj",
+    "test-projects": ["./test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj"],
+    "target-framework": "net8.0",
+    "mutation-level": "Standard",
+    "mutate": [
+      "src/Qwiq.Core/**/*.cs",
+      "!src/Qwiq.Core/**/obj/**",
+      "!src/Qwiq.Core/**/bin/**",
+      "!src/Qwiq.Core/**/*.Designer.cs",
+      "!src/Qwiq.Core/**/*.Generated.cs",
+      "!src/Qwiq.Core/**/AssemblyInfo.cs",
+      "!src/Qwiq.Core/**/GlobalUsings.cs",
+      "!src/Qwiq.Core/Compatibility/**"
+    ],
+    "thresholds": {
+      "high": 70,
+      "low": 50,
+      "break": 0
+    },
+    "reporters": ["html", "progress", "json", "markdown"],
+    "report-file-name": "mutation-report",
+    "verbosity": "info",
+    "concurrency": 4,
+    "additional-timeout": 10000,
+    "coverage-analysis": "perTest",
+    "disable-bail": false,
+    "ignore-mutations": ["regex"],
+    "ignore-methods": ["*.ToString", "*.GetHashCode", "*Log*", "Debug.*", "Trace.*"],
+    "project-info": {
+      "name": "github.com/rjmurillo/Qwiq",
+      "version": "main"
+    }
+  }
+}
