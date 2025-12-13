@@ -47,7 +47,7 @@ Before starting work, complete these steps IN ORDER:
 - [ ] Created session log: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 - [ ] Read HANDOFF.md from previous session
 - [ ] Identified all tasks in assigned phase
-- [ ] Verified build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+- [ ] Verified CI build passes: `dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false`
 - [ ] Verified tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 - [ ] Noted starting git state: `git status`
 ```
@@ -218,8 +218,8 @@ Create this file at session start: `.agents/sessions/YYYY-MM-DD-phase-XX.md`
 ## Verification Commands
 
 ```powershell
-# Verify build
-dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+# Verify CI build (ALWAYS use CI flags before pushing)
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
 
 # Verify tests
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
@@ -282,7 +282,8 @@ The next session should:
 ```powershell
 # Run these commands to verify state
 git log --oneline -5
-dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+# IMPORTANT: Use CI build flags to catch analyzer errors early
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 ```
 
@@ -343,8 +344,8 @@ If you need context, read these files in order:
 ### Build & Test
 
 ```powershell
-# Full build (single-threaded to avoid file locking)
-dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+# CI build - ALWAYS USE THIS BEFORE PUSHING (matches CI pipeline)
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
 
 # Run tests with standard filters
 dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
@@ -380,6 +381,47 @@ dotnet build Qwiq.sln -c Release 2>&1 | Select-String "warning"
 # Check for specific patterns
 Select-String -Path ".github/workflows/*.yml" -Pattern "uses:"
 ```
+
+---
+
+## Lessons Learned
+
+> **Note**: This section captures real issues discovered during modernization work.
+> Read these carefully to avoid repeating past mistakes.
+
+### Session 39: CI Build Command Mismatch (2025-12-13)
+
+**Issue**: Session 38 introduced tests that passed local builds but failed CI with CA1711, CA1001, and CA1861 analyzer errors.
+
+**Root Cause**: Local builds used `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false` which does NOT enable CI-specific analyzer strictness. The CI pipeline uses:
+
+```powershell
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
+```
+
+**Key Differences**:
+
+- `/p:ContinuousIntegrationBuild=true` - Enables stricter warnings/errors
+- `/p:UseSharedCompilation=false` - Prevents shared compiler state issues
+
+**Prevention**:
+
+1. **ALWAYS** use the CI build command locally before pushing:
+
+   ```powershell
+   dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
+   ```
+
+2. Check for these common test class issues:
+   - **CA1711**: Test class names ending in "Collection", "Dictionary", "Queue", etc.
+   - **CA1001**: Test classes owning disposable fields without implementing IDisposable
+   - **CA1861**: Inline array allocations that should be `static readonly` fields
+
+**Fix Applied**:
+
+- Added `#pragma warning disable CA1001` with explanation comment
+- Renamed classes ending in "Collection" to use "ToWIC" abbreviation
+- Extracted inline arrays to `static readonly` fields in a `TestArrays` class
 
 ---
 
@@ -420,6 +462,7 @@ If something goes wrong:
 
 ## Document Control
 
-| Version | Date       | Changes                    |
-| ------- | ---------- | -------------------------- |
-| 1.0     | 2025-12-06 | Initial agent instructions |
+| Version | Date       | Changes                                                    |
+| ------- | ---------- | ---------------------------------------------------------- |
+| 1.0     | 2025-12-06 | Initial agent instructions                                 |
+| 1.1     | 2025-12-13 | Added Lessons Learned section; updated CI build commands   |

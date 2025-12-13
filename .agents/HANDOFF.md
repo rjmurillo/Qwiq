@@ -1,14 +1,14 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (Session 38 - Mutation Testing Priority Improvements)
-> **Current Phase**: Wave 4 Phase 2 - Mutation Testing Priority Improvements
+> **Last Updated**: 2025-12-13 by Claude (Session 39 - CI Build Fix)
+> **Current Phase**: Wave 4 - Maintenance
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
 
 ## Current State
 
-**Build Status**: ✅ Passing - 0 errors, 0 warnings
+**Build Status**: ✅ Passing - 0 errors, 0 warnings (CI build validated)
 **Test Status**: ✅ All tests passing (701 tests - Core: 578, Identity: 25, Mapper: 53, Linq: 45)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
@@ -29,6 +29,53 @@
 - Must pass enterprise security review
 - **Git Hooks**: ✅ Pre-commit hooks enabled for linting enforcement
 - **Mutation Testing**: ✅ Stryker.NET configured, weekly CI runs scheduled
+
+### Session Summary (Session 39 - CI Build Fix - 2025-12-13)
+
+**Purpose**: Fix GitHub Actions run 20195290965 failing with CA1711, CA1001, CA1861 analyzer errors.
+
+**Root Cause**: Session 38 ran local builds without CI-specific flags (`/p:ContinuousIntegrationBuild=true`), which enables stricter analyzer behavior. Local builds passed but CI failed.
+
+**Work Completed**:
+
+1. **Fixed CA1711** - Renamed 5 test classes ending in "Collection":
+   - `Given_null_items_calling_ToWorkItemCollection` → `Given_null_items_calling_ToWIC`
+   - `Given_IWorkItemCollection_calling_ToWorkItemCollection` → `Given_IWorkItemColl_calling_ToWIC`
+   - (etc.)
+
+2. **Fixed CA1001** - Added file-level pragma with explanatory comment:
+
+   ```csharp
+   // CA1001: Test classes own disposable fields (_store) but disposal is handled
+   // by the ContextSpecification.Cleanup() pattern, which is called via [TestCleanup]
+   #pragma warning disable CA1001
+   ```
+
+3. **Fixed CA1861** - Extracted inline arrays to static readonly fields:
+
+   ```csharp
+   internal static class TestArrays
+   {
+       internal static readonly int[] DefaultTargetIds = { 1, 2, 3 };
+   }
+   ```
+
+4. **Updated AGENT-INSTRUCTIONS.md v1.1**:
+   - Added "Lessons Learned" section with root cause analysis
+   - Updated all build commands to use CI flags
+   - Documents prevention steps for future sessions
+
+**Commit**: `35a0f231` - fix(test): resolve CA1711, CA1001, CA1861 analyzer errors
+
+**Key Lesson**: **ALWAYS** use CI build command locally before pushing:
+
+```powershell
+dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseSharedCompilation=false /m:1 /nodeReuse:false
+```
+
+See: `.agents/sessions/2025-12-13-session-39-ci-build-fix.md` for full details
+
+---
 
 ### Session Summary (Session 38 - Mutation Testing Priority Improvements - 2025-12-13)
 
