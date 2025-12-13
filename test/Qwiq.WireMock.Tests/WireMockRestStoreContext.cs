@@ -97,7 +97,7 @@ namespace Qwiq.WireMock
             {
                 if (Server != null)
                 {
-                    System.Diagnostics.Trace.WriteLine($"[WireMock] Total mappings: {Server.Mappings.Count()}");
+                    System.Diagnostics.Trace.WriteLine($"[WireMock] Total mappings: {Server.Mappings.Count}");
                     System.Diagnostics.Trace.WriteLine("[WireMock] Requests received:");
                     foreach (var entry in Server.LogEntries)
                     {

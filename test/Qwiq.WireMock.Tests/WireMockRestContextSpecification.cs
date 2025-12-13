@@ -50,7 +50,7 @@ namespace Qwiq.WireMock
             var stubsPath = AzureDevOpsWireMockExtensions.GetDefaultStubsFilePath();
             Server.LoadStubsFromFile(stubsPath);
 
-            System.Diagnostics.Trace.WriteLine($"WireMock has {Server.Mappings.Count()} registered mappings");
+            System.Diagnostics.Trace.WriteLine($"WireMock has {Server.Mappings.Count} registered mappings");
 
             // Create the store after stubs are loaded
             Store = TimedAction(() => _context.CreateWorkItemStore(), "WireMock", "Create WorkItemStore");

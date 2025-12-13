@@ -4,6 +4,8 @@
 
 Successfully implemented WireMock-based offline testing for the Qwiq REST client using **real captured Azure DevOps API responses**. All 9 tests are now passing using authentic HTTP traffic recorded from qwiq-sandbox.visualstudio.com.
 
+> **Update 2025-12-12**: WireMock tests moved to dedicated `test/Qwiq.WireMock.Tests/` project targeting net8.0/net9.0/net10.0 due to OWIN hosting deadlock on .NET Framework 4.7.2. See `.agents/sessions/2025-12-12-wiremock-fix.md` for details.
+
 ## What Was Accomplished
 
 ### 1. Traffic Capture & Extraction
@@ -91,19 +93,22 @@ All WireMock tests passing with real captured Azure DevOps API responses!
 
 ## Files Created/Modified
 
-### Created
+### Current Location (as of 2025-12-12)
+
+> **Note**: WireMock tests were moved to a dedicated project targeting modern .NET due to OWIN deadlock issues on .NET Framework 4.7.2.
+
+- `test/Qwiq.WireMock.Tests/Qwiq.WireMock.Tests.csproj` - Dedicated test project (net8.0/net9.0/net10.0)
+- `test/Qwiq.WireMock.Tests/WireMock/Stubs/azure-devops-stubs-extracted.json` - Real captured stubs
+- `test/Qwiq.WireMock.Tests/AzureDevOpsWireMockExtensions.cs` - Stub loading infrastructure (using System.Text.Json)
+- `test/Qwiq.WireMock.Tests/WireMockRestStoreContext.cs` - WireMock context
+- `test/Qwiq.WireMock.Tests/WireMockRestContextSpecification.cs` - Base test class
+- `test/Qwiq.WireMock.Tests/WireMockQueryTests.cs` - 9 tests using real stubs
+
+### Other Files
 
 - `scripts/Convert-HarToWireMock.ps1` - HAR to WireMock converter (244 lines)
-- `test/Qwiq.Integration.Tests/WireMock/Stubs/azure-devops-stubs.json` - Real captured stubs (1 MB)
-- `test/Qwiq.Integration.Tests/WireMock/AzureDevOpsWireMockExtensions.cs` - Stub loading infrastructure
-- `test/Qwiq.Integration.Tests/WireMock/WireMockRestStoreContext.cs` - WireMock context
-- `test/Qwiq.Integration.Tests/WireMock/WireMockRestContextSpecification.cs` - Base test class
-- `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs` - 9 tests using real stubs
-
-### Modified
-
-- `test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj` - Added WireMock.Net, configured stub copying
-- `test/Qwiq.Integration.Tests/README.md` - Documented WireMock implementation
+- `src/Qwiq.Core/Qwiq.Core.csproj` - Added InternalsVisibleTo for Qwiq.WireMock.Tests
+- `src/Qwiq.Core.Rest/Qwiq.Client.Rest.csproj` - Added InternalsVisibleTo for Qwiq.WireMock.Tests
 
 ## Usage
 
@@ -122,10 +127,10 @@ dotnet test --filter "TestCategory=WireMock" --logger "console;verbosity=detaile
 ```powershell
 # 1. Capture traffic using Fiddler (save as .har)
 # 2. Run conversion script
-.\scripts\Convert-HarToWireMock.ps1 -HarFilePath "artifacts\qwiq.har" -OutputPath "test\Qwiq.Integration.Tests\WireMock\Stubs\azure-devops-stubs.json"
+.\scripts\Convert-HarToWireMock.ps1 -HarFilePath "artifacts\qwiq.har" -OutputPath "test\Qwiq.WireMock.Tests\WireMock\Stubs\azure-devops-stubs.json"
 
 # 3. Rebuild and test
-dotnet build test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj
+dotnet build test/Qwiq.WireMock.Tests/Qwiq.WireMock.Tests.csproj
 dotnet test --filter "TestCategory=WireMock"
 ```
 
@@ -160,10 +165,6 @@ dotnet test --filter "TestCategory=WireMock"
 
 ## Documentation
 
-See `test/Qwiq.Integration.Tests/README.md` for complete WireMock documentation including:
-
-- Architecture overview
-- Usage instructions
-- Stub file format
-- Traffic capture process
-- Troubleshooting guide
+- ADR-008: `docs/adr/ADR-008-wiremock-offline-rest-testing.md`
+- Session Log: `.agents/sessions/2025-12-12-wiremock-fix.md` (OWIN deadlock fix)
+- TODO: `.agents/modernize-TODO.md` (W2.16 section)

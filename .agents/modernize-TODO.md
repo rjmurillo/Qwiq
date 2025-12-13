@@ -1471,21 +1471,22 @@ jobs:
 - **Effort**: L (2-3 weeks total) ⏱️ Actual: Phase 1 (1 week), Phase 2 (1 day)
 - **Priority**: **HIGH**
 - **Dependencies**: None
-- **Files**: `test/Qwiq.Integration.Tests/WireMock/`, `test/Qwiq.Integration.Tests/Soap/`, `scripts/Convert-HarToWireMock.ps1`, `docs/adr/008-wiremock-offline-rest-testing.md`
+- **Files**: `test/Qwiq.WireMock.Tests/` (moved from Integration.Tests due to OWIN deadlock on net472), `test/Qwiq.Integration.Tests/Soap/`, `scripts/Convert-HarToWireMock.ps1`, `docs/adr/008-wiremock-offline-rest-testing.md`
 - **PRD**: Use ADR-008 + `.agents/WIREMOCK-IMPLEMENTATION-COMPLETE.md` as current design/requirements
 - **Completed**: 2025-12-10 (Session: Phase 2C - SOAP Tests)
 
 **Problem Statement**: Prior REST/SOAP tests required live Azure DevOps connectivity, blocking CI and contributors.
 
-**Phase 1 Outcome (REST offline)** ✅ COMPLETE:
+**Phase 1 Outcome (REST offline)** ✅ COMPLETE (Updated 2025-12-12):
 
 - WireMock.Net + captured ADO traffic via Fiddler HAR → `scripts/Convert-HarToWireMock.ps1`
-- Real stubs: `test/Qwiq.Integration.Tests/WireMock/Stubs/azure-devops-stubs.json` (5 mappings, 1 MB)
-- Test suite: `test/Qwiq.Integration.Tests/WireMock/WireMockQueryTests.cs` (9 tests, category `WireMock`)
+- **Moved to dedicated project**: `test/Qwiq.WireMock.Tests/` targeting net8.0/net9.0/net10.0 (OWIN deadlock on net472)
+- Real stubs: `test/Qwiq.WireMock.Tests/WireMock/Stubs/azure-devops-stubs-extracted.json`
+- Test suite: `test/Qwiq.WireMock.Tests/WireMockQueryTests.cs` (9 tests, category `WireMock`)
 - Base class/infrastructure: `WireMockRestContextSpecification`, `WireMockRestStoreContext`, `AzureDevOpsWireMockExtensions`
 - ADR: `docs/adr/008-wiremock-offline-rest-testing.md`
-- Summary: `.agents/WIREMOCK-IMPLEMENTATION-COMPLETE.md`
-- Execution: `dotnet test --filter "TestCategory=WireMock"` (4.17s)
+- Summary: `.agents/WIREMOCK-IMPLEMENTATION-COMPLETE.md`, `.agents/sessions/2025-12-12-wiremock-fix.md`
+- Execution: `dotnet test --filter "TestCategory=WireMock"` (1.53s on net8.0)
 
 **Phase 2 Outcome (SOAP offline)** ✅ COMPLETE:
 
