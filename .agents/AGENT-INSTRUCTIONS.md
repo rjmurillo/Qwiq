@@ -98,6 +98,7 @@ Before starting work, complete these steps IN ORDER:
 - [ ] Linting passes (run autofix before committing):
   - [ ] `npx markdownlint-cli2 --fix "**/*.md"` - Fix markdown issues
   - [ ] `dotnet format` - Fix C# formatting
+  - [ ] `dotnet pprettier --write .` - Fix general formatting
 - [ ] All files committed (including .agents/ files)
 - [ ] Build passes
 - [ ] Tests pass
