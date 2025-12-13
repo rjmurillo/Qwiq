@@ -16,163 +16,120 @@
 - [x] Read modernize-TODO.md
 - [x] Read WAVE4-TEST-IMPROVEMENT-PLAN.md
 
-## Current Coverage Baseline (from Session 30)
+## Current Coverage Status
 
 | Project          | Line Coverage | Status          |
 | ---------------- | ------------- | --------------- |
-| Qwiq.Linq        | 90.9%         | ✅              |
-| Qwiq.Identity    | 85.8%         | ✅              |
-| Qwiq.Mapper      | 73.9%         | 🟡              |
-| Qwiq.Core        | 51.2%         | 🟡              |
-| Qwiq.Client.Rest | **0.0%**      | 🔴 CRITICAL GAP |
-| **Overall**      | **51.1%**     | 🔴 Target: 70%  |
+| Qwiq.Linq        | 86.2%         | ✅              |
+| Qwiq.Identity    | 73.4%         | ✅              |
+| Qwiq.Mapper      | 70.4%         | ✅              |
+| Qwiq.Core        | 58.7%         | 🟡 Improved     |
+| Qwiq.Client.Rest | 14.8%         | 🟡 Some tests   |
+| **Overall**      | **49.6%**     | 🔴 Target: 70%  |
 
-## Priority Areas for Coverage
+## Work Completed This Session
 
-Based on WAVE4-TEST-IMPROVEMENT-PLAN.md:
+### Tests Added
 
-1. **REST Client** (highest ROI - 0% to 60% closes majority of gap)
-2. **Core Authentication** (0% to 50%)
-3. **LINQ Provider** (already high at 90.9%)
-4. **Mapper Edge Cases** (73.9% to 85%)
+1. **FieldDefinitionTests.cs** - Tests Qwiq.Core.FieldDefinition directly:
+   - Validation (null/empty/whitespace for name and referenceName)
+   - Core field ID lookup
+   - Explicit ID setting
+   - Equality and hash codes
+   - Case-insensitive comparison
+   - FieldDefinitionComparer null handling
 
-## Tasks to Complete (Wave 4 Phase 2)
+2. **WorkItemLinkInfoTests.cs** - Tests WorkItemLinkInfo and comparer:
+   - Construction with IWorkItemLinkTypeEnd
+   - Lazy loading of link type end
+   - Null handling
+   - Equality and hash codes
+   - ToString formatting
+   - WorkItemLinkInfoComparer behavior
 
-- [ ] W4.6: REST Client - WorkItemStore Tests (8 hours)
-- [ ] W4.7: REST Client - Query Classes Tests (6 hours)
-- [ ] W4.8: REST Client - WorkItem & Field Tests (6 hours)
-- [ ] W4.9: Core - Authentication & Credentials Tests (5 hours)
+3. **WorkItemLinkTypeEndTests.cs** - Tests WorkItemLinkTypeEnd behavior:
+   - Properties (ImmutableName, Name, IsForwardLink, LinkType)
+   - Equality comparison
+   - Opposite end navigation
+   - WorkItemLinkTypeEndComparer null handling
+   - WorkItemLinkType validation
 
----
+4. **RevisionTests.cs** - Enhanced with comprehensive tests:
+   - Both constructors (with WorkItem, with FieldDefinitions)
+   - NotSupported operations (Attachments, Links, GetTagLine)
+   - Internal methods (SetFieldValue, HasValue, GetCurrentFieldValue)
+   - IRevisionInternal and IWorkItemCore interfaces
 
-## Work Log
+5. **FieldTests.cs** - Tests Field class:
+   - Construction validation
+   - Value access via Revision
+   - NotImplemented properties
 
-### Initial Analysis
+### Code Reviews Performed
 
-The primary gap is the REST client at 0% coverage. The existing WireMock test infrastructure (from Session 30) provides a foundation for REST client testing.
+Ran csharp-pod and csharp-expert agents for architecture and quality review:
+- Confirmed tests follow BDD pattern (Given/When/Then)
+- Verified tests target Qwiq.Core classes, not just mocks
+- Identified minor improvements for future work
 
-Existing test patterns:
+### Bug Fixes
 
-- `ContextSpecification` base class (Given/When/Then)
-- `MockWorkItem`, `MockRevision` from Qwiq.Mocks
-- Shouldly assertions
-- WireMock fixtures in `test/Qwiq.WireMock.Tests/`
-
-### Implementation Progress
-
-#### Multi-Agent Planning (Completed)
-
-Ran 5 specialized agents in parallel to create comprehensive coverage plan:
-
-1. **csharp-expert**: Priority-ordered class list, testing patterns
-2. **csharp-pod**: Architecture review, file organization, test helpers
-3. **high-level-advisor**: Strategic guidance, anti-patterns to avoid
-4. **feature-request-review**: Gap analysis, risk identification
-5. **independent-thinker**: Critical review, blind spots
-
-**Consensus Reached:**
-
-- Focus on Qwiq.Core (50.9% → 70%) first
-- Defer REST/SOAP testing (requires WireMock)
-- Use existing ContextSpecification pattern
-- Test behavior, NOT exception constructors
-- Add mutation testing after coverage baseline
-
-**Plan Document:** `.agents/W4-COVERAGE-PLAN.md`
-
-#### Test Files Created
-
-Created initial test files for quick wins:
-
-1. `test/Qwiq.Core.Tests/Exceptions/CustomExceptionTests.cs` - Exception behavior tests
-2. `test/Qwiq.Core.Tests/Links/HyperlinkTests.cs` - Hyperlink class tests
-3. `test/Qwiq.Core.Tests/Extensions/ExtensionsTests.cs` - Extension method tests
-4. `test/Qwiq.Core.Tests/Comparers/ComparerTests.cs` - Comparer tests
-5. `test/Qwiq.Core.Tests/Collections/CollectionComparerTests.cs` - Collection comparer tests
-6. `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/WorkItemLinkInfoTests.cs` - Link info tests
-7. `test/Qwiq.Core.Tests/WorkItemStore/WorkItemLinkTypeTests.cs` - Link type tests
-
----
-
-## Files Changed
-
-- `.agents/W4-COVERAGE-PLAN.md` - NEW: Multi-agent consensus plan
-- `.agents/sessions/2025-12-13-session-w4-coverage.md` - Session log
-- `docs/coverage-improvement-plan.md` - NEW: Detailed implementation plan
-- `test/Qwiq.Core.Tests/Exceptions/CustomExceptionTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Links/HyperlinkTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Extensions/ExtensionsTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Comparers/ComparerTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Collections/CollectionComparerTests.cs` - NEW
-- `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/WorkItemLinkInfoTests.cs` - NEW
-- `test/Qwiq.Core.Tests/WorkItemStore/WorkItemLinkTypeTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Query/QueryDefinitionTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Query/QueryFolderTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Links/ExternalLinkTests.cs` - NEW
-- `test/Qwiq.Core.Tests/Links/RelatedLinkTests.cs` - NEW
-
----
+- Removed unnecessary `InternalsVisibleTo` from Qwiq.Mocks to Qwiq.Core.UnitTests
+- Removed `#region` directives from WorkItemLinkTypeComparerTests.cs
+- Removed `#region` directives from RevisionTests.cs
 
 ## Commits
 
-1. `e283c9f4` - test: add Qwiq.Core comparer and exception tests
-2. `8e2ec38b` - docs: add W4.1 coverage improvement plan
-3. `7700386f` - test: add QueryDefinition and QueryFolder tests
-4. `ba8b1dec` - test: add QueryDefinitionComparer and QueryFolderComparer tests
-5. `da5bcd68` - test: add ExternalLink and RelatedLink tests
+1. `e5c6866f` - style: remove regions from WorkItemLinkTypeComparerTests
+2. `13298828` - test: add Qwiq.Core coverage tests for W4.1
+3. `5a8b2cde` - fix: remove unnecessary InternalsVisibleTo from Qwiq.Mocks
+4. `0428f8df` - test: add Field class tests
 
----
+## Test Count
 
-## Session Summary
+- **Before**: 234 tests
+- **After**: 384 tests (+150 tests)
 
-**Status**: 🔄 In Progress
+## Key Classes Coverage
 
-**Work Completed**:
+| Class                      | Coverage |
+| -------------------------- | -------- |
+| FieldDefinition            | 86%      |
+| FieldDefinitionComparer    | 100%     |
+| Revision                   | 89.7%    |
+| WorkItemLinkInfo           | 65.7%    |
+| WorkItemLinkInfoComparer   | 84.2%    |
+| WorkItemLinkTypeEnd        | 55.8%    |
+| WorkItemLinkTypeEndComparer| 100%     |
+| WorkItemLinkTypeComparer   | 100%     |
+| Field                      | 38.8%    |
 
-- Ran 5 specialized agents to create multi-agent consensus coverage plan
-- Created `.agents/W4-COVERAGE-PLAN.md` with phased approach
-- Added comparer tests (NullableIdentifiableComparer, IdentifiableComparer, WorkItemComparer, WorkItemTypeComparer, GenericComparer)
-- Added exception tests (AccessDeniedException, PageSizeRangeException, TransientException, DeniedOrNotExistException, FieldDefinitionNotExistException, WorkItemTypeDeniedOrNotExistException)
-- Added Hyperlink tests
-- Added Extensions.ToUsefulString tests
-- Added QueryDefinition tests (validation, ToString, Equals)
-- Added QueryFolder tests (validation, ToString, Equals)
-- Added QueryDefinitionComparer tests
-- Added QueryFolderComparer tests
-- Added ExternalLink tests (validation, Equals, GetHashCode)
-- Added RelatedLink tests (validation, Equals, GetHashCode)
+## Next Steps
 
-**Coverage Achieved**:
+1. Add more tests for Field class to increase coverage
+2. Add WorkItemCore tests
+3. Add TeamFoundationIdentity tests
+4. Add FieldCollection tests
+5. Consider Credentials tests (0% currently)
 
-- Qwiq.Core: 45.2% (per latest report before link tests)
-- Key classes now at 100%:
-  - Hyperlink, Link, ExternalLink
-  - NullableIdentifiableComparer, IdentifiableComparer
-  - WorkItemComparer, WorkItemTypeComparer
-  - QueryDefinition, QueryDefinitionComparer
-  - QueryFolderComparer
-- QueryFolder: 95.4%
-- RelatedLink: ~100%
+## Files Changed
 
-**Test Count**: 285+ tests passing (234 + 51 link tests)
-
-**Next Steps**:
-
-- Add FieldDefinition tests
-- Add Credentials tests
-- Add WorkItemLinkInfo tests
-- Target: Get Qwiq.Core to 70%
-
----
+- `test/Qwiq.Core.Tests/Fields/FieldDefinitionTests.cs` - NEW
+- `test/Qwiq.Core.Tests/Fields/FieldTests.cs` - NEW
+- `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/WorkItemLinkInfoTests.cs` - NEW
+- `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/WorkItemLinkTypeEndTests.cs` - NEW
+- `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/RevisionTests.cs` - UPDATED
+- `test/Qwiq.Core.Tests/WorkItemStore/WorkItem/WorkItemLinkTypeComparerTests.cs` - UPDATED (removed regions)
+- `test/Qwiq.Mocks/Qwiq.Mocks.csproj` - UPDATED (removed InternalsVisibleTo)
 
 ## Verification Commands
 
 ```powershell
 # Verify build
-dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
+dotnet build test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --framework net8.0
 
 # Verify tests
-dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
+dotnet test test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj -c Release --framework net8.0 --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"
 
 # Run with coverage
 dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsettings

@@ -1,20 +1,21 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (W3.3 AppVeyor Removal)
-> **Current Phase**: Wave 3 - Framework Modernization
-> **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
+> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage Tests)
+> **Current Phase**: Wave 4 - Code Coverage Expansion
+> **Branch**: `chore/modernize-4`
+> **Target**: Production v11.0.0 Release
 
 ---
 
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (285+ passed including new coverage tests)
+**Test Status**: ✅ All tests passing (384 passed including new coverage tests)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
-**Coverage**: **45.2% Qwiq.Core** (target: **70%** for production) - In progress
+**Coverage**: **58.7% Qwiq.Core** (target: **70%** for production) - In progress
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
-**Test Execution**: **11.58 seconds** (target: <300s) ✅ **Exceeds target**
+**Test Execution**: **~200ms** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
 **CI Warning Gate**: ✅ PedanticMode enforces warnings-as-errors on CI (W2.32 verified)
 
@@ -57,47 +58,60 @@ See: `.agents/sessions/2025-12-13-session-33-w3.3-appveyor-removal.md` for full 
 
 ---
 
-### Session Summary (W4.1 Code Coverage Improvement - 2025-12-13)
+### Session Summary (W4.1 Code Coverage Tests - 2025-12-13 Continued)
 
 **Purpose**: Increase Qwiq.Core code coverage from ~51% toward 70% target.
 
-**Work Completed**:
+**Work Completed This Session** (150 new tests):
 
-1. ✅ **Multi-Agent Planning**
+1. ✅ **FieldDefinitionTests.cs** - Tests Qwiq.Core.FieldDefinition directly
+   - Validation, core field ID lookup, equality, case-insensitive comparison
+   - FieldDefinitionComparer null handling
 
-   - Used 5 specialized agents (csharp-expert, csharp-pod, high-level-advisor, feature-request-review, independent-thinker)
-   - Created consensus coverage plan: `.agents/W4-COVERAGE-PLAN.md`
+2. ✅ **WorkItemLinkInfoTests.cs** - Tests WorkItemLinkInfo and comparer
+   - Construction, lazy loading, equality, ToString
 
-2. ✅ **Query Tests** (35 tests)
+3. ✅ **WorkItemLinkTypeEndTests.cs** - Tests WorkItemLinkTypeEnd behavior
+   - Properties, equality, opposite end navigation
+   - WorkItemLinkType validation
 
-   - QueryDefinitionTests.cs - validation, ToString, Equals
-   - QueryFolderTests.cs - validation, ToString, Equals
-   - QueryDefinitionComparer and QueryFolderComparer tests
+4. ✅ **RevisionTests.cs** - Enhanced with comprehensive tests
+   - Both constructors, NotSupported operations, internal methods
 
-3. ✅ **Link Tests** (51 tests)
-   - ExternalLinkTests.cs - validation, reserved names, Equals
-   - RelatedLinkTests.cs - validation, Equals, GetHashCode
+5. ✅ **FieldTests.cs** - Tests Field class
+   - Construction validation, value access, NotImplemented properties
 
-**Classes at 100% Coverage**:
+6. ✅ **Code Reviews** - Ran csharp-pod and csharp-expert agents
 
-- QueryDefinition, QueryDefinitionComparer, QueryFolderComparer
-- ExternalLink, RelatedLink
-- Hyperlink, Link
-- NullableIdentifiableComparer, IdentifiableComparer
-- WorkItemComparer, WorkItemTypeComparer
+7. ✅ **Bug Fixes**
+   - Removed unnecessary `InternalsVisibleTo` from Qwiq.Mocks
+   - Removed `#region` directives from test files
 
-**Commits**:
+**Coverage Achieved**:
 
-1. `7700386f` - test: add QueryDefinition and QueryFolder tests
-2. `ba8b1dec` - test: add QueryDefinitionComparer and QueryFolderComparer tests
-3. `da5bcd68` - test: add ExternalLink and RelatedLink tests
+| Class                      | Coverage |
+| -------------------------- | -------- |
+| FieldDefinition            | 86%      |
+| FieldDefinitionComparer    | 100%     |
+| Revision                   | 89.7%    |
+| WorkItemLinkInfoComparer   | 84.2%    |
+| WorkItemLinkTypeEndComparer| 100%     |
+
+**Commits This Session**:
+
+1. `e5c6866f` - style: remove regions from WorkItemLinkTypeComparerTests
+2. `13298828` - test: add Qwiq.Core coverage tests for W4.1
+3. `5a8b2cde` - fix: remove unnecessary InternalsVisibleTo from Qwiq.Mocks
+4. `0428f8df` - test: add Field class tests
+
+**Test Count**: 234 → 384 (+150 tests)
 
 **Next Steps**:
 
-- Add FieldDefinition tests
-- Add Credentials tests
-- Add WorkItemLinkInfo tests
-- Target: Get Qwiq.Core from 45.2% to 70%
+- Add WorkItemCore tests
+- Add TeamFoundationIdentity tests
+- Add FieldCollection tests
+- Target: Get Qwiq.Core from 58.7% to 70%
 
 See: `.agents/sessions/2025-12-13-session-w4-coverage.md` for full details
 
