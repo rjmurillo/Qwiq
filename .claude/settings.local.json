@@ -5,7 +5,6 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:learn.microsoft.com)",
       "WebFetch(domain:nuget.org)",
-
       "Bash(dotnet restore:*)",
       "Bash(dotnet build:*)",
       "Bash(dotnet test:*)",
@@ -20,7 +19,6 @@
       "Bash(dotnet list:*)",
       "Bash(dotnet --version:*)",
       "Bash(dotnet --info:*)",
-
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -35,13 +33,10 @@
       "Bash(git show:*)",
       "Bash(git rev-parse:*)",
       "Bash(git remote:*)",
-
       "Bash(npx markdownlint-cli2:*)",
       "Bash(npx prettier:*)",
-
       "Bash(pwsh -Command:*)",
       "Bash(pwsh -File:*)",
-
       "Bash(ls:*)",
       "Bash(dir:*)",
       "Bash(rm:*)",
@@ -51,7 +46,8 @@
       "Bash(tail:*)",
       "Bash(find:*)",
       "Bash(which:*)",
-      "Bash(where:*)"
+      "Bash(where:*)",
+      "Bash(bash:*)"
     ]
   }
 }
