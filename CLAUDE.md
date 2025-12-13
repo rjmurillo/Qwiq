@@ -154,6 +154,46 @@ public class Given_context : ContextSpecification
 4. **Never commit artifacts/** - build outputs are gitignored
 5. **Conventional commits** - use `fix(scope):`, `feat(scope):`, `refactor:`, etc.
 
+## Agent System
+
+This repository uses a coordinated multi-agent system for development. Agents are located in your VS Code prompts directory (`%APPDATA%\Code\User\prompts\`).
+
+### Quick Reference
+
+| Agent | Use When |
+|-------|----------|
+| `orchestrator` | Complex multi-step tasks needing coordination |
+| `implementer` | Writing C# code and tests |
+| `analyst` | Research and investigation |
+| `architect` | Design decisions and ADRs |
+| `planner` | Breaking down work into tasks |
+| `critic` | Validating plans before implementation |
+| `qa` | Test strategy and verification |
+
+### Memory (cloudmcp-manager)
+
+Agents use `cloudmcp-manager` tools for cross-session memory:
+
+```text
+cloudmcp-manager/memory-search_nodes   # Find context
+cloudmcp-manager/memory-create_entities # Store knowledge
+cloudmcp-manager/memory-add_observations # Update existing
+```
+
+### Output Directories
+
+Agent artifacts go to `.agents/`:
+
+- `.agents/analysis/` - Research reports
+- `.agents/architecture/` - ADRs
+- `.agents/planning/` - Plans, PRDs, tasks
+- `.agents/qa/` - Test strategies
+
+### Full Documentation
+
+- `.agents/AGENT-SYSTEM.md` - Complete agent catalog and workflows
+- `.agents/AGENT-INSTRUCTIONS.md` - Task execution protocol
+
 ## Detailed Documentation
 
 See `.github/copilot-instructions.md` for comprehensive guidance including:
@@ -163,3 +203,4 @@ See `.github/copilot-instructions.md` for comprehensive guidance including:
 - Test categories and integration test setup
 - CI/CD pipeline details
 - Troubleshooting patterns
+- Agent system routing heuristics
