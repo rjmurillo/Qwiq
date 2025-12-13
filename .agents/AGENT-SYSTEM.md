@@ -1,6 +1,6 @@
 # Agent System Documentation
 
-> **Version**: 1.0
+> **Version**: 1.1
 > **Last Updated**: 2025-12-13
 > **Based on**: groupzer0/vs-code-agents concepts adapted for enterprise .NET workflows
 
@@ -296,8 +296,6 @@ Use the Task tool with `subagent_type` matching agent name:
 1. Route to `independent-thinker` for fresh perspective
 2. Escalate to `high-level-advisor` for prioritization
 3. Use `retrospective` to analyze what went wrong
-
----
 
 ---
 
