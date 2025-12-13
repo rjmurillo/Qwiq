@@ -1,3 +1,7 @@
+// CA1001: Test classes own disposable fields (_store) but disposal is handled
+// by the ContextSpecification.Cleanup() pattern, which is called via [TestCleanup]
+#pragma warning disable CA1001
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +12,12 @@ using Shouldly;
 
 namespace Qwiq.WorkItemExtensionsTests
 {
+    // Static readonly arrays for CA1861 compliance
+    internal static class TestArrays
+    {
+        internal static readonly int[] DefaultTargetIds = { 1, 2, 3 };
+    }
+
     // AddRelatedLink(IWorkItem, IWorkItemStore, int) tests
 
     [TestClass]
@@ -445,7 +455,7 @@ namespace Qwiq.WorkItemExtensionsTests
         public void Then_throws_ArgumentNullException()
         {
             using var store = new MockWorkItemStore();
-            ((IWorkItem)null!).AddRelatedLink(store, new[] { 1, 2, 3 });
+            ((IWorkItem)null!).AddRelatedLink(store, TestArrays.DefaultTargetIds);
         }
     }
 
@@ -465,7 +475,7 @@ namespace Qwiq.WorkItemExtensionsTests
         [ExpectedException(typeof(ArgumentNullException))]
         public void Then_throws_ArgumentNullException()
         {
-            _workItem.AddRelatedLink(null!, new[] { 1, 2, 3 });
+            _workItem.AddRelatedLink(null!, TestArrays.DefaultTargetIds);
         }
     }
 
@@ -539,7 +549,7 @@ namespace Qwiq.WorkItemExtensionsTests
     // ToWorkItemCollection tests
 
     [TestClass]
-    public class Given_null_items_calling_ToWorkItemCollection : ContextSpecification
+    public class Given_null_items_calling_ToWIC : ContextSpecification
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
@@ -550,7 +560,7 @@ namespace Qwiq.WorkItemExtensionsTests
     }
 
     [TestClass]
-    public class Given_IWorkItemCollection_calling_ToWorkItemCollection : ContextSpecification
+    public class Given_IWorkItemColl_calling_ToWIC : ContextSpecification
     {
         private IWorkItemCollection _original = null!;
         private IWorkItemCollection _result = null!;
@@ -587,7 +597,7 @@ namespace Qwiq.WorkItemExtensionsTests
     }
 
     [TestClass]
-    public class Given_List_calling_ToWorkItemCollection : ContextSpecification
+    public class Given_List_calling_ToWIC : ContextSpecification
     {
         private List<IWorkItem> _items = null!;
         private IWorkItemCollection _result = null!;
@@ -629,7 +639,7 @@ namespace Qwiq.WorkItemExtensionsTests
     }
 
     [TestClass]
-    public class Given_List_with_duplicates_calling_ToWorkItemCollection : ContextSpecification
+    public class Given_List_with_duplicates_calling_ToWIC : ContextSpecification
     {
         private List<IWorkItem> _items = null!;
         private IWorkItemCollection _result = null!;
@@ -670,7 +680,7 @@ namespace Qwiq.WorkItemExtensionsTests
     }
 
     [TestClass]
-    public class Given_empty_List_calling_ToWorkItemCollection : ContextSpecification
+    public class Given_empty_List_calling_ToWIC : ContextSpecification
     {
         private IWorkItemCollection _result = null!;
 
