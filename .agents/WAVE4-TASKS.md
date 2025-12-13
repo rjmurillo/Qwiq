@@ -12,7 +12,7 @@
 
 ## Phase 1: Baseline & Planning (Weeks 1-2)
 
-#### W4.1 Collect Test Execution Baseline Metrics ✅ COMPLETE
+### W4.1 Collect Test Execution Baseline Metrics ✅ COMPLETE
 
 - [x] **Task**: Measure current test execution time across all test projects
 - **Effort**: S (3 hours) ⏱️ Actual: ~1 hour
@@ -29,7 +29,7 @@
 
 ---
 
-#### W4.2 Measure Test Flake Rate ✅ COMPLETE
+### W4.2 Measure Test Flake Rate ✅ COMPLETE
 
 - [x] **Task**: Run test suite 50+ times to identify flaky tests
 - **Effort**: M (6 hours) ⏱️ Actual: ~2 hours (10 iterations sufficient)
@@ -50,7 +50,7 @@
 
 ---
 
-#### W4.3 Assess Current Code Coverage ✅ COMPLETE
+### W4.3 Assess Current Code Coverage ✅ COMPLETE
 
 - [x] **Task**: Generate code coverage baseline using existing coverage.runsettings
 - **Effort**: S (2 hours) ⏱️ Actual: ~1 hour
@@ -79,7 +79,7 @@
 
 ---
 
-#### W4.4 SOAP Client Usage Assessment ✅ COMPLETE
+### W4.4 SOAP Client Usage Assessment ✅ COMPLETE
 
 - [x] **Task**: Analyze SOAP client usage to inform migration/deprecation strategy
 - **Effort**: M (5 hours) ⏱️ Actual: ~3 hours
@@ -101,7 +101,7 @@
 
 ---
 
-#### W4.5 Create Test Quality Improvement Plan ✅ COMPLETE
+### W4.5 Create Test Quality Improvement Plan ✅ COMPLETE
 
 - [x] **Task**: Synthesize baseline metrics into actionable improvement plan
 - **Effort**: S (3 hours) ⏱️ Actual: ~2 hours
@@ -121,9 +121,184 @@
 
 ---
 
+## Phase 1B: CRAP Score Reduction (Weeks 2-5)
+
+> **Reference**: [WAVE4-CRAP-SCORE-REDUCTION-PLAN.md](WAVE4-CRAP-SCORE-REDUCTION-PLAN.md)
+>
+> **CRAP Formula**: `CRAP(m) = comp(m)² × (1 - cov(m))³ + comp(m)`
+>
+> **Threshold**: CRAP > 30 = Problematic code
+
+### W4.CRAP.0 Validate CRAP Score Baselines ✅ COMPLETE
+
+- [x] **Task**: Regenerate coverage report and validate actual CRAP scores for target classes
+- **Effort**: S (2 hours) ⏱️ Actual: ~1 hour
+- **Priority**: Critical
+- **Dependencies**: W4.3
+- **Completed**: 2025-12-13 (Session 31)
+- **File(s)**:
+  - `artifacts/coverage-report/` (regenerated)
+  - `.agents/metrics/crap-score-baseline.md` (created)
+- **Acceptance Criteria**:
+  - [x] Run fresh coverage analysis with `dotnet test --collect:"XPlat Code Coverage"`
+  - [x] Generate HTML report with `dotnet reportgenerator`
+  - [x] Extract actual CRAP scores from report for top 10 complex classes
+  - [x] Document verified baselines (many classes already have coverage!)
+  - [x] Re-prioritize CRAP reduction tasks based on verified data
+
+**Key Finding**: Independent review was correct! Many classes already have significant coverage:
+
+- IdentityFieldValue: 73.8% (CRAP 195, not 6,480)
+- GenericComparer: 71.8% (CRAP 116, not 2,862)
+- IdentityDescriptor: 100% (CRAP 32, not 1,056)
+- FieldCollection: 87.0% (CRAP 46, not 1,806)
+
+**Actual Critical Classes** (0% or very low coverage):
+
+- IFieldDefinition.Extensions: 0% (CRAP 2,162)
+- LinkCollection (REST): 0% (CRAP 1,056)
+- WorkItemStore (REST): 22% (CRAP 2,514)
+- Query (REST): 40% (CRAP 1,661)
+
+---
+
+### W4.CRAP.1 IdentityFieldValue Tests 📋 DEPRIORITIZED
+
+- [ ] **Task**: Add edge case tests for identity parsing logic
+- **Effort**: XS (1-2 hours)
+- **Priority**: Low (already 73.8% coverage, CRAP 195)
+- **Dependencies**: W4.CRAP.0
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Identity/IdentityFieldValueTests.cs` (extend)
+- **Acceptance Criteria**:
+  - [ ] Edge cases for uncovered 26% tested
+  - [ ] CRAP score reduced below 100
+- **Note**: Already well-covered. Only add tests if targeting specific uncovered branches.
+
+---
+
+### W4.CRAP.2 GenericComparer\<T\> Tests 📋 DEPRIORITIZED
+
+- [ ] **Task**: Add edge case tests for generic comparison utility
+- **Effort**: S (2-3 hours)
+- **Priority**: Low (already 71.8% coverage, CRAP 116)
+- **Dependencies**: W4.CRAP.0, W4.CRAP.12 (InternalsVisibleTo)
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Comparers/GenericComparerTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] Edge cases for uncovered 28% tested
+  - [ ] CRAP score reduced below 60
+- **Note**: Already well-covered. Only add tests if targeting specific uncovered branches.
+
+---
+
+### W4.CRAP.3 IFieldDefinition.Extensions Tests 📋 CRITICAL
+
+- [ ] **Task**: Add tests for field definition extension methods
+- **Effort**: XS (2 hours)
+- **Priority**: **CRITICAL** (0% coverage, CRAP 2,162)
+- **Dependencies**: W4.CRAP.0
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Extensions/FieldDefinitionExtensionsTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] IsCloneable tested for each CoreField type
+  - [ ] IsEditable tested for various field types
+  - [ ] IsComputed field identification tested
+  - [ ] Coverage increased from 0% to 80%+
+  - [ ] CRAP score reduced from 2,162 to <100
+
+**ROI**: Highest impact per effort - 2,116 CRAP reduction for 2 hours work
+
+---
+
+### W4.CRAP.4 IdentityDescriptor Tests ✅ NOT NEEDED
+
+- **Status**: Already complete (100% coverage, CRAP 32)
+- **Note**: Existing tests already cover this class fully. No action needed.
+
+---
+
+### W4.CRAP.5 ReadOnlyObjectCollection\<T\> Tests 📋 DEPRIORITIZED
+
+- [ ] **Task**: Add edge case tests for base collection class
+- **Effort**: S (2 hours)
+- **Priority**: Low (already 74.1% coverage, CRAP 61)
+- **Dependencies**: W4.CRAP.0
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Collections/ReadOnlyObjectCollectionTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] Edge cases for uncovered 26% tested
+  - [ ] CRAP score reduced below 40
+- **Note**: Already well-covered and near threshold. Low priority.
+
+---
+
+### W4.CRAP.6 LinkCollection (REST) Tests 📋 CRITICAL
+
+- [ ] **Task**: Add tests for REST link collection
+- **Effort**: S (3 hours)
+- **Priority**: **CRITICAL** (0% coverage, CRAP 1,056)
+- **Dependencies**: W4.CRAP.12 (InternalsVisibleTo)
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Rest/LinkCollectionTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] Constructor with various link types tested
+  - [ ] ICollection implementation tested
+  - [ ] Coverage increased from 0% to 70%+
+  - [ ] CRAP score reduced from 1,056 to <100
+
+---
+
+### W4.CRAP.7 WorkItemCommon Tests 📋 HIGH
+
+- [ ] **Task**: Add tests for WorkItemCommon base class
+- **Effort**: M (4 hours)
+- **Priority**: High (18.9% coverage, CRAP 728)
+- **Dependencies**: W4.CRAP.0
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/WorkItemCommonTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] Property accessors tested
+  - [ ] Field value handling tested
+  - [ ] Coverage increased from 19% to 60%+
+  - [ ] CRAP score reduced from 728 to <200
+
+---
+
+### W4.CRAP.8 AuthenticationOptions Tests 📋 HIGH
+
+- [ ] **Task**: Add tests for authentication options
+- **Effort**: S (3 hours)
+- **Priority**: High (38.5% coverage, CRAP 474)
+- **Dependencies**: W4.CRAP.0
+- **File(s)**:
+  - `test/Qwiq.Core.Tests/Credentials/AuthenticationOptionsTests.cs` (create)
+- **Acceptance Criteria**:
+  - [ ] Constructor variations tested
+  - [ ] Credential creation tested
+  - [ ] Coverage increased from 39% to 70%+
+  - [ ] CRAP score reduced from 474 to <100
+
+---
+
+### W4.CRAP.12 Add InternalsVisibleTo for REST Assembly 📋 PLANNED
+
+- [ ] **Task**: Enable testing of internal REST classes
+- **Effort**: XS (30 minutes)
+- **Priority**: Critical
+- **Dependencies**: None
+- **File(s)**:
+  - `src/Qwiq.Core.Rest/Qwiq.Core.Rest.csproj` (update)
+- **Acceptance Criteria**:
+  - [ ] `InternalsVisibleTo` attribute added for `Qwiq.Core.Tests`
+  - [ ] Internal classes accessible from test assembly
+  - [ ] Build succeeds with no warnings
+
+---
+
 ## Phase 2: Mutation Testing Setup (Weeks 3-4)
 
-#### W4.6 Add Stryker.NET to Project 📋 PLANNED
+### W4.6 Add Stryker.NET to Project 📋 PLANNED
 
 - [ ] **Task**: Install Stryker.NET mutation testing framework
 - **Effort**: S (2 hours)
@@ -141,7 +316,7 @@
 
 ---
 
-#### W4.7 Configure Stryker for Qwiq.Core 📋 PLANNED
+### W4.7 Configure Stryker for Qwiq.Core 📋 PLANNED
 
 - [ ] **Task**: Create targeted Stryker configuration for Qwiq.Core mutation testing
 - **Effort**: M (4 hours)
@@ -160,7 +335,7 @@
 
 ---
 
-#### W4.8 Configure Stryker for Qwiq.Core.Rest 📋 PLANNED
+### W4.8 Configure Stryker for Qwiq.Core.Rest 📋 PLANNED
 
 - [ ] **Task**: Create targeted Stryker configuration for REST client mutation testing
 - **Effort**: M (4 hours)
@@ -177,7 +352,7 @@
 
 ---
 
-#### W4.9 Create Mutation Testing GitHub Workflow 📋 PLANNED
+### W4.9 Create Mutation Testing GitHub Workflow 📋 PLANNED
 
 - [ ] **Task**: Add CI workflow for automated mutation testing
 - **Effort**: M (5 hours)
@@ -195,7 +370,7 @@
 
 ---
 
-#### W4.10 Analyze Initial Mutation Testing Results 📋 PLANNED
+### W4.10 Analyze Initial Mutation Testing Results 📋 PLANNED
 
 - [ ] **Task**: Review mutation testing output and identify weak test assertions
 - **Effort**: M (8 hours)
@@ -215,7 +390,7 @@
 
 ## Phase 3: WireMock Integration Tests (Weeks 5-8)
 
-#### W4.11 Add WireMock.Net Dependency 📋 PLANNED
+### W4.11 Add WireMock.Net Dependency 📋 PLANNED
 
 - [ ] **Task**: Install WireMock.Net for HTTP mocking in integration tests
 - **Effort**: S (2 hours)
@@ -232,7 +407,7 @@
 
 ---
 
-#### W4.12 Create WireMockFixture Base Class 📋 PLANNED
+### W4.12 Create WireMockFixture Base Class 📋 PLANNED
 
 - [ ] **Task**: Implement reusable WireMock test fixture for integration tests
 - **Effort**: M (6 hours)
@@ -251,7 +426,7 @@
 
 ---
 
-#### W4.13 Implement WireMock Recording Helper 📋 PLANNED
+### W4.13 Implement WireMock Recording Helper 📋 PLANNED
 
 - [ ] **Task**: Create utility to load and replay WireMock recordings
 - **Effort**: M (5 hours)
@@ -269,7 +444,7 @@
 
 ---
 
-#### W4.14 Capture WireMock Recordings for Common Scenarios 📋 PLANNED
+### W4.14 Capture WireMock Recordings for Common Scenarios 📋 PLANNED
 
 - [ ] **Task**: Record HTTP traffic for standard Azure DevOps operations
 - **Effort**: L (12 hours)
@@ -292,7 +467,7 @@
 
 ---
 
-#### W4.15 Migrate REST Integration Tests to WireMock 📋 PLANNED
+### W4.15 Migrate REST Integration Tests to WireMock 📋 PLANNED
 
 - [ ] **Task**: Convert brittle REST integration tests to use WireMock recordings
 - **Effort**: L (16 hours)
@@ -311,7 +486,7 @@
 
 ---
 
-#### W4.16 Create WireMock Tests for LINQ Provider 📋 PLANNED
+### W4.16 Create WireMock Tests for LINQ Provider 📋 PLANNED
 
 - [ ] **Task**: Add offline integration tests for LINQ-to-WIQL translation
 - **Effort**: M (8 hours)
@@ -330,7 +505,7 @@
 
 ---
 
-#### W4.17 Validate 80% Offline Test Coverage 📋 PLANNED
+### W4.17 Validate 80% Offline Test Coverage 📋 PLANNED
 
 - [ ] **Task**: Verify majority of tests can run without live connections
 - **Effort**: S (3 hours)
@@ -350,7 +525,7 @@
 
 ## Phase 4: Test Quality Improvements (Weeks 9-12)
 
-#### W4.18 Fix Identified Flaky Tests 📋 PLANNED
+### W4.18 Fix Identified Flaky Tests 📋 PLANNED
 
 - [ ] **Task**: Eliminate flaky tests identified in W4.2
 - **Effort**: L (16 hours)
@@ -368,7 +543,7 @@
 
 ---
 
-#### W4.19 Improve Test Assertions Based on Mutation Testing 📋 PLANNED
+### W4.19 Improve Test Assertions Based on Mutation Testing 📋 PLANNED
 
 - [ ] **Task**: Strengthen test assertions to kill more mutants
 - **Effort**: L (20 hours)
@@ -386,7 +561,7 @@
 
 ---
 
-#### W4.20 Achieve 65% Mutation Score on Qwiq.Core.Rest 📋 PLANNED
+### W4.20 Achieve 65% Mutation Score on Qwiq.Core.Rest 📋 PLANNED
 
 - [ ] **Task**: Iterate on test improvements until target mutation score reached
 - **Effort**: L (24 hours)
@@ -404,7 +579,7 @@
 
 ---
 
-#### W4.21 Optimize Test Execution Time 📋 PLANNED
+### W4.21 Optimize Test Execution Time 📋 PLANNED
 
 - [ ] **Task**: Reduce total test execution time to <5 minutes
 - **Effort**: M (8 hours)
@@ -425,7 +600,7 @@
 
 ## Phase 5: Documentation & Knowledge Transfer (Weeks 13-16)
 
-#### W4.22 Update TESTING.md with Comprehensive Guide 📋 PLANNED
+### W4.22 Update TESTING.md with Comprehensive Guide 📋 PLANNED
 
 - [ ] **Task**: Document all test practices, patterns, and tooling
 - **Effort**: M (8 hours)
@@ -444,7 +619,7 @@
 
 ---
 
-#### W4.23 Create ADR for Mutation Testing Strategy 📋 PLANNED
+### W4.23 Create ADR for Mutation Testing Strategy 📋 PLANNED
 
 - [ ] **Task**: Document mutation testing decisions and rationale
 - **Effort**: S (3 hours)
@@ -462,7 +637,7 @@
 
 ---
 
-#### W4.24 Create ADR for WireMock Integration Testing 📋 PLANNED
+### W4.24 Create ADR for WireMock Integration Testing 📋 PLANNED
 
 - [ ] **Task**: Document WireMock decisions and offline testing strategy
 - **Effort**: S (3 hours)
@@ -480,7 +655,7 @@
 
 ---
 
-#### W4.25 Add Definition of Done Checklist for Tests 📋 PLANNED
+### W4.25 Add Definition of Done Checklist for Tests 📋 PLANNED
 
 - [ ] **Task**: Create checklist ensuring all PRs meet test quality standards
 - **Effort**: S (2 hours)
@@ -501,26 +676,45 @@
 
 ## Summary
 
-**Total Tasks**: 25  
-**Total Effort**: ~185 hours (estimated)  
+**Total Tasks**: 32 (25 original + 7 CRAP reduction)
+**Total Effort**: ~210 hours (estimated)
 **Timeline**: 16 weeks
 
 **Priority Breakdown**:
 
-- Critical: 6 tasks
-- High: 12 tasks
-- Medium: 7 tasks
+- Critical: 9 tasks (including CRAP baseline validation)
+- High: 14 tasks
+- Medium: 9 tasks
 
 **Effort Breakdown**:
 
-- Small (S): 9 tasks (~28 hours)
-- Medium (M): 10 tasks (~67 hours)
+- Extra Small (XS): 2 tasks (~3 hours)
+- Small (S): 12 tasks (~40 hours)
+- Medium (M): 12 tasks (~80 hours)
 - Large (L): 6 tasks (~90 hours)
 
 **Key Milestones**:
 
-- Week 2: Baseline metrics complete, improvement plan finalized
+- Week 2: Baseline metrics complete, improvement plan finalized, **CRAP baselines validated**
 - Week 4: Mutation testing operational, initial scores captured
+- Week 5: **CRAP score reduction Phase 1 complete (pure unit tests)**
 - Week 8: WireMock infrastructure complete, 80% offline tests
-- Week 12: 65% mutation score achieved, <0.1% flake rate
+- Week 12: 65% mutation score achieved, <0.1% flake rate, **CRAP > 30 classes reduced to <5**
 - Week 16: Documentation complete, knowledge transferred
+
+**New Success Metrics** (CRAP-related, validated 2025-12-13):
+
+| Metric                   | Original Estimate | Validated Baseline | Target |
+| ------------------------ | ----------------- | ------------------ | ------ |
+| Classes with CRAP > 1000 | 10                | **5**              | 2      |
+| Classes with CRAP > 500  | -                 | **8**              | 3      |
+| Classes with CRAP > 30   | 10+               | **17**             | <10    |
+| Average CRAP (Top 10)    | ~2,700            | **1,197**          | <400   |
+
+**Revised CRAP Priority** (based on validated data):
+
+1. **CRITICAL**: IFieldDefinition.Extensions (0%, CRAP 2,162), LinkCollection REST (0%, CRAP 1,056)
+2. **HIGH**: WorkItemStore REST (22%), Query REST (40%), WorkItemCommon (19%), AuthenticationOptions (39%)
+3. **DEPRIORITIZED**: IdentityFieldValue (74%), GenericComparer (72%), IdentityDescriptor (100%)
+
+See `.agents/metrics/crap-score-baseline.md` for full validated data.

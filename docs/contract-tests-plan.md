@@ -28,23 +28,23 @@ The Qwiq library uses mock implementations (`Qwiq.Mocks`) extensively throughout
 
 ### 2.1 Core Interfaces to Verify
 
-| Interface | Mock Class | REST Class | SOAP Class | Priority |
-|-----------|------------|------------|------------|----------|
-| `IWorkItem` | `MockWorkItem` | `Client.Rest.WorkItem` | `Client.Soap.WorkItem` | P0 |
-| `IWorkItemStore` | `MockWorkItemStore` | `Client.Rest.WorkItemStore` | `Client.Soap.WorkItemStore` | P0 |
-| `IFieldDefinition` | `MockFieldDefinition` | `Client.Rest.FieldDefinition` | `Client.Soap.FieldDefinition` | P1 |
-| `IField` | `MockField` | `Client.Rest.Field` (via FieldCollection) | `Client.Soap.Field` | P1 |
-| `IFieldCollection` | `MockFieldCollection` | `Client.Rest.FieldCollection` | `Client.Soap.FieldCollection` | P1 |
-| `IWorkItemLinkType` | `MockWorkItemLinkType` | `WorkItemLinkType` | `Client.Soap.WorkItemLinkType` | P1 |
-| `IWorkItemLinkTypeEnd` | `MockWorkItemLinkTypeEnd` | `Client.Rest.WorkItemLinkTypeEnd` | `Client.Soap.WorkItemLinkTypeEnd` | P1 |
-| `IProject` | `MockProject` | `Client.Rest.Project` | `Client.Soap.Project` | P2 |
-| `IRelatedLink` | `MockRelatedLink` | (via LinkCollection) | `Client.Soap.RelatedLink` | P2 |
+| Interface              | Mock Class                | REST Class                                | SOAP Class                        | Priority |
+| ---------------------- | ------------------------- | ----------------------------------------- | --------------------------------- | -------- |
+| `IWorkItem`            | `MockWorkItem`            | `Client.Rest.WorkItem`                    | `Client.Soap.WorkItem`            | P0       |
+| `IWorkItemStore`       | `MockWorkItemStore`       | `Client.Rest.WorkItemStore`               | `Client.Soap.WorkItemStore`       | P0       |
+| `IFieldDefinition`     | `MockFieldDefinition`     | `Client.Rest.FieldDefinition`             | `Client.Soap.FieldDefinition`     | P1       |
+| `IField`               | `MockField`               | `Client.Rest.Field` (via FieldCollection) | `Client.Soap.Field`               | P1       |
+| `IFieldCollection`     | `MockFieldCollection`     | `Client.Rest.FieldCollection`             | `Client.Soap.FieldCollection`     | P1       |
+| `IWorkItemLinkType`    | `MockWorkItemLinkType`    | `WorkItemLinkType`                        | `Client.Soap.WorkItemLinkType`    | P1       |
+| `IWorkItemLinkTypeEnd` | `MockWorkItemLinkTypeEnd` | `Client.Rest.WorkItemLinkTypeEnd`         | `Client.Soap.WorkItemLinkTypeEnd` | P1       |
+| `IProject`             | `MockProject`             | `Client.Rest.Project`                     | `Client.Soap.Project`             | P2       |
+| `IRelatedLink`         | `MockRelatedLink`         | (via LinkCollection)                      | `Client.Soap.RelatedLink`         | P2       |
 
 ### 2.2 Critical Behavioral Contracts
 
 #### 2.2.1 IWorkItem Contract
 
-```
+```text
 Property Access Contracts:
 - Id: Returns 0 for new items, positive int after save
 - Fields[name]: Returns field value, throws FieldDefinitionNotExistException for unknown field
@@ -61,7 +61,7 @@ Method Contracts:
 
 #### 2.2.2 IWorkItemStore Contract
 
-```
+```text
 Query Contracts:
 - Query(int id): Returns null for non-existent ID
 - Query(IEnumerable<int> ids): Returns empty collection for empty input
@@ -75,7 +75,7 @@ Exception Contracts:
 
 #### 2.2.3 IFieldDefinition Contract
 
-```
+```text
 Property Contracts:
 - Id: Stable identifier, matches CoreFieldRefNames for system fields
 - Name: Friendly name, never null
@@ -84,7 +84,7 @@ Property Contracts:
 
 #### 2.2.4 IWorkItemLinkType Contract
 
-```
+```text
 Property Contracts:
 - ForwardEnd: Never null
 - ReverseEnd: Never null, equals ForwardEnd for non-directional links
@@ -101,7 +101,7 @@ Property Contracts:
 
 The recommended approach uses **parameterized test fixtures** with a common base class. This allows the same tests to run against Mock, REST, and SOAP implementations.
 
-```
+```text
 +------------------------------------------+
 |     IImplementationProvider<T>           |
 |  - CreateWorkItem()                      |
@@ -126,7 +126,7 @@ The recommended approach uses **parameterized test fixtures** with a common base
 
 ### 3.3 Project Structure
 
-```
+```text
 test/
   Qwiq.Contract.Tests/                    # NEW PROJECT
     Qwiq.Contract.Tests.csproj
@@ -197,98 +197,98 @@ public class RestImplementationProvider : IImplementationProvider<IWorkItem>
 
 #### 4.1.1 Property Access
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Id_WhenNew_ReturnsZero` | 0 | 0 | |
-| `Id_AfterSave_ReturnsPositiveInt` | >0 | >0 | |
-| `Type_Always_NotNull` | Not null | Not null | |
-| `Fields_Always_NotNull` | Not null | Not null | |
-| `IsDirty_WhenNew_ReturnsFalse` | false | false | VERIFY: Mock may differ |
-| `IsDirty_AfterFieldChange_ReturnsTrue` | true | true | |
-| `Links_WhenNew_ReturnsEmptyCollection` | Empty | Empty | Not null |
+| Test Case                              | Mock Expected | REST/SOAP Expected | Notes                   |
+| -------------------------------------- | ------------- | ------------------ | ----------------------- |
+| `Id_WhenNew_ReturnsZero`               | 0             | 0                  |                         |
+| `Id_AfterSave_ReturnsPositiveInt`      | >0            | >0                 |                         |
+| `Type_Always_NotNull`                  | Not null      | Not null           |                         |
+| `Fields_Always_NotNull`                | Not null      | Not null           |                         |
+| `IsDirty_WhenNew_ReturnsFalse`         | false         | false              | VERIFY: Mock may differ |
+| `IsDirty_AfterFieldChange_ReturnsTrue` | true          | true               |                         |
+| `Links_WhenNew_ReturnsEmptyCollection` | Empty         | Empty              | Not null                |
 
 #### 4.1.2 Field Access
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Field_ByReferenceName_ReturnsValue` | Value | Value | |
-| `Field_ByFriendlyName_ReturnsValue` | Value | Value | Case-insensitive |
-| `Field_NonExistent_ThrowsException` | Exception | Exception | Type must match |
-| `Field_SetValue_UpdatesIsDirty` | true | true | |
-| `Field_SetSameValue_NotDirty` | false | false | VERIFY |
+| Test Case                            | Mock Expected | REST/SOAP Expected | Notes            |
+| ------------------------------------ | ------------- | ------------------ | ---------------- |
+| `Field_ByReferenceName_ReturnsValue` | Value         | Value              |                  |
+| `Field_ByFriendlyName_ReturnsValue`  | Value         | Value              | Case-insensitive |
+| `Field_NonExistent_ThrowsException`  | Exception     | Exception          | Type must match  |
+| `Field_SetValue_UpdatesIsDirty`      | true          | true               |                  |
+| `Field_SetSameValue_NotDirty`        | false         | false              | VERIFY           |
 
 #### 4.1.3 Save Operations
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Save_WhenValid_SetsId` | Id > 0 | Id > 0 | |
-| `Save_WhenInvalid_ThrowsException` | Exception | Exception | |
-| `Save_ClearsIsDirty` | false | false | |
+| Test Case                          | Mock Expected | REST/SOAP Expected | Notes |
+| ---------------------------------- | ------------- | ------------------ | ----- |
+| `Save_WhenValid_SetsId`            | Id > 0        | Id > 0             |       |
+| `Save_WhenInvalid_ThrowsException` | Exception     | Exception          |       |
+| `Save_ClearsIsDirty`               | false         | false              |       |
 
 #### 4.1.4 Link Operations
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `CreateRelatedLink_WhenNew_ThrowsException` | InvalidOp | InvalidOp | |
-| `CreateRelatedLink_AfterSave_ReturnsLink` | Link | Link | |
-| `Links_Add_UpdatesRelatedLinkCount` | +1 | +1 | |
+| Test Case                                   | Mock Expected | REST/SOAP Expected | Notes |
+| ------------------------------------------- | ------------- | ------------------ | ----- |
+| `CreateRelatedLink_WhenNew_ThrowsException` | InvalidOp     | InvalidOp          |       |
+| `CreateRelatedLink_AfterSave_ReturnsLink`   | Link          | Link               |       |
+| `Links_Add_UpdatesRelatedLinkCount`         | +1            | +1                 |       |
 
 ### 4.2 IWorkItemStore Contract Tests
 
 #### 4.2.1 Query by ID
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Query_SingleId_ReturnsWorkItem` | WorkItem | WorkItem | |
-| `Query_NonExistentId_ReturnsNull` | null | null | |
-| `Query_MultipleIds_ReturnsAll` | Collection | Collection | |
-| `Query_EmptyIds_ReturnsEmpty` | Empty | Empty | |
-| `Query_NullIds_ThrowsArgumentNull` | ArgNull | ArgNull | |
+| Test Case                          | Mock Expected | REST/SOAP Expected | Notes |
+| ---------------------------------- | ------------- | ------------------ | ----- |
+| `Query_SingleId_ReturnsWorkItem`   | WorkItem      | WorkItem           |       |
+| `Query_NonExistentId_ReturnsNull`  | null          | null               |       |
+| `Query_MultipleIds_ReturnsAll`     | Collection    | Collection         |       |
+| `Query_EmptyIds_ReturnsEmpty`      | Empty         | Empty              |       |
+| `Query_NullIds_ThrowsArgumentNull` | ArgNull       | ArgNull            |       |
 
 #### 4.2.2 Query by WIQL
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Query_ValidWiql_ReturnsMatches` | Collection | Collection | |
-| `Query_NoMatches_ReturnsEmpty` | Empty | Empty | |
-| `Query_InvalidWiql_ThrowsException` | Exception | Exception | Type may differ |
+| Test Case                           | Mock Expected | REST/SOAP Expected | Notes           |
+| ----------------------------------- | ------------- | ------------------ | --------------- |
+| `Query_ValidWiql_ReturnsMatches`    | Collection    | Collection         |                 |
+| `Query_NoMatches_ReturnsEmpty`      | Empty         | Empty              |                 |
+| `Query_InvalidWiql_ThrowsException` | Exception     | Exception          | Type may differ |
 
 #### 4.2.3 Link Queries
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `QueryLinks_ReturnsLinkInfo` | LinkInfo[] | LinkInfo[] | |
-| `QueryLinks_NoLinks_ReturnsEmpty` | Empty | Empty | |
+| Test Case                         | Mock Expected | REST/SOAP Expected | Notes |
+| --------------------------------- | ------------- | ------------------ | ----- |
+| `QueryLinks_ReturnsLinkInfo`      | LinkInfo[]    | LinkInfo[]         |       |
+| `QueryLinks_NoLinks_ReturnsEmpty` | Empty         | Empty              |       |
 
 ### 4.3 IFieldDefinition Contract Tests
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Id_CoreField_MatchesKnownValue` | Known ID | Known ID | Use CoreFieldRefNames |
-| `Name_NotNullOrEmpty` | Valid | Valid | |
-| `ReferenceName_NotNullOrEmpty` | Valid | Valid | |
-| `Equals_SameReferenceName_ReturnsTrue` | true | true | |
+| Test Case                              | Mock Expected | REST/SOAP Expected | Notes                 |
+| -------------------------------------- | ------------- | ------------------ | --------------------- |
+| `Id_CoreField_MatchesKnownValue`       | Known ID      | Known ID           | Use CoreFieldRefNames |
+| `Name_NotNullOrEmpty`                  | Valid         | Valid              |                       |
+| `ReferenceName_NotNullOrEmpty`         | Valid         | Valid              |                       |
+| `Equals_SameReferenceName_ReturnsTrue` | true          | true               |                       |
 
 ### 4.4 IWorkItemLinkType Contract Tests
 
-| Test Case | Mock Expected | REST/SOAP Expected | Notes |
-|-----------|--------------|-------------------|-------|
-| `Hierarchy_IsDirectional` | true | true | |
-| `Hierarchy_ForwardEnd_IsChild` | "Child" | "Child" | |
-| `Hierarchy_ReverseEnd_IsParent` | "Parent" | "Parent" | |
-| `Related_IsNotDirectional` | false | false | |
-| `Related_ForwardEquals_Reverse` | Same | Same | |
-| `ForwardEnd_Id_MatchesCoreLinkTypes` | Known | Known | |
+| Test Case                            | Mock Expected | REST/SOAP Expected | Notes |
+| ------------------------------------ | ------------- | ------------------ | ----- |
+| `Hierarchy_IsDirectional`            | true          | true               |       |
+| `Hierarchy_ForwardEnd_IsChild`       | "Child"       | "Child"            |       |
+| `Hierarchy_ReverseEnd_IsParent`      | "Parent"      | "Parent"           |       |
+| `Related_IsNotDirectional`           | false         | false              |       |
+| `Related_ForwardEquals_Reverse`      | Same          | Same               |       |
+| `ForwardEnd_Id_MatchesCoreLinkTypes` | Known         | Known              |       |
 
 ### 4.5 Exception Contract Tests
 
-| Scenario | Expected Exception Type | Mock Throws | REST Throws | SOAP Throws |
-|----------|------------------------|-------------|-------------|-------------|
-| Field not found | `FieldDefinitionNotExistException` | VERIFY | VERIFY | VERIFY |
-| Project not found | `DeniedOrNotExistException` | VERIFY | VERIFY | VERIFY |
-| Invalid work item type | `WorkItemTypeDeniedOrNotExistException` | VERIFY | VERIFY | VERIFY |
-| Access denied | `AccessDeniedException` | VERIFY | VERIFY | VERIFY |
-| Invalid WIQL | Implementation-specific | VERIFY | VERIFY | VERIFY |
+| Scenario               | Expected Exception Type                 | Mock Throws | REST Throws | SOAP Throws |
+| ---------------------- | --------------------------------------- | ----------- | ----------- | ----------- |
+| Field not found        | `FieldDefinitionNotExistException`      | VERIFY      | VERIFY      | VERIFY      |
+| Project not found      | `DeniedOrNotExistException`             | VERIFY      | VERIFY      | VERIFY      |
+| Invalid work item type | `WorkItemTypeDeniedOrNotExistException` | VERIFY      | VERIFY      | VERIFY      |
+| Access denied          | `AccessDeniedException`                 | VERIFY      | VERIFY      | VERIFY      |
+| Invalid WIQL           | Implementation-specific                 | VERIFY      | VERIFY      | VERIFY      |
 
 ---
 
@@ -564,11 +564,11 @@ namespace Qwiq.Contract.Tests.Contracts.WorkItem
 
 Document known differences that are acceptable:
 
-| Behavior | Mock | REST | SOAP | Resolution |
-|----------|------|------|------|------------|
-| `IsDirty` initial state | false | N/A (read-only) | false | Mock behavior is correct |
-| Field ID generation | Hash-based | Server-assigned | Server-assigned | Document as expected |
-| Exception messages | Generic | API-specific | SOAP-specific | Test exception type, not message |
+| Behavior                | Mock       | REST            | SOAP            | Resolution                       |
+| ----------------------- | ---------- | --------------- | --------------- | -------------------------------- |
+| `IsDirty` initial state | false      | N/A (read-only) | false           | Mock behavior is correct         |
+| Field ID generation     | Hash-based | Server-assigned | Server-assigned | Document as expected             |
+| Exception messages      | Generic    | API-specific    | SOAP-specific   | Test exception type, not message |
 
 ---
 
@@ -592,7 +592,7 @@ Document known differences that are acceptable:
 - name: Run Fidelity Tests (With Services)
   if: github.event_name == 'schedule' || github.event.inputs.run_fidelity == 'true'
   env:
-    QWIQ_REST_TESTS: 'true'
+    QWIQ_REST_TESTS: "true"
     AZURE_DEVOPS_PAT: ${{ secrets.AZURE_DEVOPS_PAT }}
   run: dotnet test --filter "Category=FidelityTest" --logger "trx;LogFileName=fidelity-tests.trx"
 ```
@@ -611,12 +611,12 @@ Document known differences that are acceptable:
 
 ## 10. Risks and Mitigations
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Mock behavior differs significantly | High | Document differences, decide if mock or impl is wrong |
-| REST/SOAP not available in CI | Medium | WireMock for REST, skip SOAP in non-Windows |
-| Test maintenance overhead | Medium | Keep tests focused on contracts, not implementation |
-| Breaking changes in Azure DevOps API | Low | WireMock responses can be versioned |
+| Risk                                 | Impact | Mitigation                                            |
+| ------------------------------------ | ------ | ----------------------------------------------------- |
+| Mock behavior differs significantly  | High   | Document differences, decide if mock or impl is wrong |
+| REST/SOAP not available in CI        | Medium | WireMock for REST, skip SOAP in non-Windows           |
+| Test maintenance overhead            | Medium | Keep tests focused on contracts, not implementation   |
+| Breaking changes in Azure DevOps API | Low    | WireMock responses can be versioned                   |
 
 ---
 

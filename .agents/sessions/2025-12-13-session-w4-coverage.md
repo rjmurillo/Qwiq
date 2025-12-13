@@ -18,20 +18,21 @@
 
 ## Current Coverage Status
 
-| Project          | Line Coverage | Status          |
-| ---------------- | ------------- | --------------- |
-| Qwiq.Linq        | 86.2%         | ✅              |
-| Qwiq.Identity    | 73.4%         | ✅              |
-| Qwiq.Mapper      | 70.4%         | ✅              |
-| Qwiq.Core        | 58.7%         | 🟡 Improved     |
-| Qwiq.Client.Rest | 14.8%         | 🟡 Some tests   |
-| **Overall**      | **49.6%**     | 🔴 Target: 70%  |
+| Project          | Line Coverage | Status         |
+| ---------------- | ------------- | -------------- |
+| Qwiq.Linq        | 86.2%         | ✅             |
+| Qwiq.Identity    | 73.4%         | ✅             |
+| Qwiq.Mapper      | 70.4%         | ✅             |
+| Qwiq.Core        | 58.7%         | 🟡 Improved    |
+| Qwiq.Client.Rest | 14.8%         | 🟡 Some tests  |
+| **Overall**      | **49.6%**     | 🔴 Target: 70% |
 
 ## Work Completed This Session
 
 ### Tests Added
 
 1. **FieldDefinitionTests.cs** - Tests Qwiq.Core.FieldDefinition directly:
+
    - Validation (null/empty/whitespace for name and referenceName)
    - Core field ID lookup
    - Explicit ID setting
@@ -40,6 +41,7 @@
    - FieldDefinitionComparer null handling
 
 2. **WorkItemLinkInfoTests.cs** - Tests WorkItemLinkInfo and comparer:
+
    - Construction with IWorkItemLinkTypeEnd
    - Lazy loading of link type end
    - Null handling
@@ -48,6 +50,7 @@
    - WorkItemLinkInfoComparer behavior
 
 3. **WorkItemLinkTypeEndTests.cs** - Tests WorkItemLinkTypeEnd behavior:
+
    - Properties (ImmutableName, Name, IsForwardLink, LinkType)
    - Equality comparison
    - Opposite end navigation
@@ -55,6 +58,7 @@
    - WorkItemLinkType validation
 
 4. **RevisionTests.cs** - Enhanced with comprehensive tests:
+
    - Both constructors (with WorkItem, with FieldDefinitions)
    - NotSupported operations (Attachments, Links, GetTagLine)
    - Internal methods (SetFieldValue, HasValue, GetCurrentFieldValue)
@@ -93,28 +97,30 @@ Ran csharp-pod and csharp-expert agents for architecture and quality review:
 
 ## Key Classes Coverage
 
-| Class                      | Coverage |
-| -------------------------- | -------- |
-| FieldDefinition            | 86%      |
-| FieldDefinitionComparer    | 100%     |
-| Revision                   | 89.7%    |
-| WorkItemLinkInfo           | 65.7%    |
-| WorkItemLinkInfoComparer   | 84.2%    |
-| WorkItemLinkTypeEnd        | 55.8%    |
-| WorkItemLinkTypeEndComparer| 100%     |
-| WorkItemLinkTypeComparer   | 100%     |
-| Field                      | 38.8%    |
+| Class                       | Coverage |
+| --------------------------- | -------- |
+| FieldDefinition             | 86%      |
+| FieldDefinitionComparer     | 100%     |
+| Revision                    | 89.7%    |
+| WorkItemLinkInfo            | 65.7%    |
+| WorkItemLinkInfoComparer    | 84.2%    |
+| WorkItemLinkTypeEnd         | 55.8%    |
+| WorkItemLinkTypeEndComparer | 100%     |
+| WorkItemLinkTypeComparer    | 100%     |
+| Field                       | 38.8%    |
 
 ## Session Continuation (Context Refresh)
 
 ### Additional Tests Created
 
 1. **LinkTypeExtensionsTests.cs** - Tests for IWorkItemLinkTypeEndExtensions, IWorkItemLinkTypeExtensions, IWorkItemLinkInfoExtensions:
+
    - LinkTypeId() returns Id for mocks that implement `IIdentifiable<int>`
    - Forward and reverse end IDs with MockWorkItemLinkType
    - Null input handling (returns 0)
 
 2. **TeamFoundationIdentityTests.cs** - Tests for TeamFoundationIdentity using MockTeamFoundationIdentity:
+
    - DisplayName, UniqueName, IsActive properties
    - Equality via Comparer (uses UniqueName and Descriptor, NOT TeamFoundationId)
    - GetHashCode consistency
@@ -122,6 +128,7 @@ Ran csharp-pod and csharp-expert agents for architecture and quality review:
    - Equals object overload behavior
 
 3. **AttributeMapExceptionTests.cs** (Qwiq.Mapper) - Tests for exception message formatting:
+
    - PropertyMap struct (DestinationProperty, SourceField)
    - TypePair struct (Source, Destination)
    - AttributeMapException message contains type and property mapping info
@@ -152,13 +159,13 @@ Ran csharp-pod and csharp-expert agents for architecture and quality review:
 
 ### Updated Coverage Status
 
-| Project              | Coverage | Target | Status |
-| -------------------- | -------- | ------ | ------ |
-| Qwiq.Linq            | 90.9%    | 70%    | ✅ Met |
-| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met |
-| Qwiq.Mapper          | 75.7%    | 70%    | ✅ Met |
+| Project              | Coverage | Target | Status   |
+| -------------------- | -------- | ------ | -------- |
+| Qwiq.Linq            | 90.9%    | 70%    | ✅ Met   |
+| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met   |
+| Qwiq.Mapper          | 75.7%    | 70%    | ✅ Met   |
 | Qwiq.Core            | 65.7%    | 70%    | 🟡 -4.3% |
-| Qwiq.Mapper.Identity | 66%      | 70%    | 🟡 -4% |
+| Qwiq.Mapper.Identity | 66%      | 70%    | 🟡 -4%   |
 
 ## Files Changed
 
@@ -197,42 +204,47 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 ### Additional Tests Created
 
 1. **CollectionComparerTests.cs** - Tests for WorkItemCollectionComparer, WorkItemTypeCollectionComparer, ProjectComparer:
-    - Null handling for all comparers
-    - Same reference equality
-    - Equal collection equality
-    - Different collection inequality
-    - GetHashCode consistency and seed values
-    - Asymmetric collection comparisons
+
+   - Null handling for all comparers
+   - Same reference equality
+   - Equal collection equality
+   - Different collection inequality
+   - GetHashCode consistency and seed values
+   - Asymmetric collection comparisons
 
 2. **WorkItemTypeCollectionTests.cs** - Tests for WorkItemTypeCollection:
-    - Equals and GetHashCode methods
-    - Different type comparisons
-    - Non-collection object comparisons
+
+   - Equals and GetHashCode methods
+   - Different type comparisons
+   - Non-collection object comparisons
 
 3. **WorkItemLinkTypeCollectionTests.cs** - Tests for WorkItemLinkTypeCollection:
-    - Equals and GetHashCode
-    - LinkTypeEnds property access
-    - Directional vs non-directional link type handling
-    - Empty collection handling
+
+   - Equals and GetHashCode
+   - LinkTypeEnds property access
+   - Directional vs non-directional link type handling
+   - Empty collection handling
 
 4. **FieldCollectionTests.cs** - Tests for FieldCollection:
-    - Indexer by name, index, and ID
-    - Contains methods (by name, ID, IField)
-    - GetById and TryGetById
-    - TryGetByName with null handling
-    - SetField method
-    - GetEnumerator
+
+   - Indexer by name, index, and ID
+   - Contains methods (by name, ID, IField)
+   - GetById and TryGetById
+   - TryGetByName with null handling
+   - SetField method
+   - GetEnumerator
 
 5. **CustomExceptionTests.cs** - Enhanced exception tests:
-    - PageSizeRangeException (added tests were removed - only default constructor exists)
-    - DeniedOrNotExistException with message and inner exception
+
+   - PageSizeRangeException (added tests were removed - only default constructor exists)
+   - DeniedOrNotExistException with message and inner exception
 
 6. **IdentityFieldAttributeVisitorTests.cs** - Tests for Qwiq.Mapper.Identity:
-    - Constructor null handling
-    - Binary expression visiting with identity fields
-    - Constant expression visiting
-    - Non-identity field expressions (no mapping)
-    - MockIdentityValueConverter implementation
+   - Constructor null handling
+   - Binary expression visiting with identity fields
+   - Constant expression visiting
+   - Non-identity field expressions (no mapping)
+   - MockIdentityValueConverter implementation
 
 ### Final Test Count
 
@@ -241,14 +253,14 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 
 ### Final Coverage Status - 70% TARGET ACHIEVED ✅
 
-| Project              | Coverage | Target | Status    |
-| -------------------- | -------- | ------ | --------- |
-| Qwiq.Linq            | 90.9%    | 70%    | ✅ Met    |
-| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met    |
-| Qwiq.Mapper.Identity | 82.6%    | 70%    | ✅ Met    |
-| Qwiq.Mapper          | 80.5%    | 70%    | ✅ Met    |
-| **Qwiq.Core**        | **72.6%**| 70%    | ✅ **Met** |
-| Overall Line         | 63.6%    | -      | -         |
+| Project              | Coverage  | Target | Status     |
+| -------------------- | --------- | ------ | ---------- |
+| Qwiq.Linq            | 90.9%     | 70%    | ✅ Met     |
+| Qwiq.Identity        | 85.8%     | 70%    | ✅ Met     |
+| Qwiq.Mapper.Identity | 82.6%     | 70%    | ✅ Met     |
+| Qwiq.Mapper          | 80.5%     | 70%    | ✅ Met     |
+| **Qwiq.Core**        | **72.6%** | 70%    | ✅ **Met** |
+| Overall Line         | 63.6%     | -      | -          |
 
 ### Key Classes Now at 100% Coverage
 
@@ -275,13 +287,13 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 ### Additional Tests Created
 
 1. **IdentityMappingVisitorTests.cs** - Tests for Qwiq.Linq.Identity IdentityMappingVisitor:
-    - Constructor null handling (ArgumentNullException)
-    - Constructor with valid converter
-    - Binary expression with AssignedTo identity field (mapping occurs)
-    - Binary expression with Title non-identity field (no mapping)
-    - Binary expression with int value (no mapping)
-    - Simple constant expression (no mapping without context)
-    - Binary expression with null constant in identity context
+   - Constructor null handling (ArgumentNullException)
+   - Constructor with valid converter
+   - Binary expression with AssignedTo identity field (mapping occurs)
+   - Binary expression with Title non-identity field (no mapping)
+   - Binary expression with int value (no mapping)
+   - Simple constant expression (no mapping without context)
+   - Binary expression with null constant in identity context
 
 ### Project Reference Update
 
@@ -296,14 +308,14 @@ dotnet test Qwiq.sln --collect:"XPlat Code Coverage" --settings coverage.runsett
 
 ### Final Coverage Status - ALL 6 LIBRARIES AT 70%+ ✅
 
-| Project              | Coverage | Target | Status    |
-| -------------------- | -------- | ------ | --------- |
+| Project                | Coverage | Target | Status     |
+| ---------------------- | -------- | ------ | ---------- |
 | **Qwiq.Linq.Identity** | **100%** | 70%    | ✅ **Met** |
-| Qwiq.Linq            | 91%      | 70%    | ✅ Met    |
-| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met    |
-| Qwiq.Mapper.Identity | 82.6%    | 70%    | ✅ Met    |
-| Qwiq.Mapper          | 80.5%    | 70%    | ✅ Met    |
-| Qwiq.Core            | 71.4%    | 70%    | ✅ Met    |
+| Qwiq.Linq              | 91%      | 70%    | ✅ Met     |
+| Qwiq.Identity          | 85.8%    | 70%    | ✅ Met     |
+| Qwiq.Mapper.Identity   | 82.6%    | 70%    | ✅ Met     |
+| Qwiq.Mapper            | 80.5%    | 70%    | ✅ Met     |
+| Qwiq.Core              | 71.4%    | 70%    | ✅ Met     |
 
 ### Files Changed This Session
 

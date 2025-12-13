@@ -1,9 +1,8 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage - 70% ACHIEVED)
-> **Current Phase**: Wave 4 - Code Coverage Expansion
-> **Branch**: `chore/modernize-4`
-> **Target**: Production v11.0.0 Release
+> **Last Updated**: 2025-12-13 by Claude (Session 31 - CRAP Score Baseline Validation)
+> **Current Phase**: Wave 4 - CRAP Score Reduction Planning
+> **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
 
@@ -18,6 +17,7 @@
 **Test Execution**: **~200ms** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
 **CI Warning Gate**: ✅ PedanticMode enforces warnings-as-errors on CI (W2.32 verified)
+**CRAP Baselines**: ✅ Validated (W4.CRAP.0 COMPLETE)
 
 **Project Context**:
 
@@ -26,6 +26,52 @@
 - MCP extension for AI agents integration
 - Kubernetes container deployment required
 - Must pass enterprise security review
+
+### Session Summary (W4.CRAP.0 - CRAP Score Baseline Validation - 2025-12-13)
+
+**Purpose**: Create CRAP score reduction test plan for Wave 4 and validate baseline metrics.
+
+**Work Completed**:
+
+1. ✅ **CRAP Score Analysis**: Analyzed high-complexity classes using cobertura.xml coverage data
+2. ✅ **Subagent Review**: Used Plan, csharp-expert, csharp-pod, and independent-thinker agents
+3. ✅ **Critical Finding**: Independent review identified baseline data errors (original estimates assumed 0% coverage)
+4. ✅ **Coverage Validation**: Ran full test suite with only benchmark filter excluded to get true coverage
+5. ✅ **CRAP Score Recalculation**: Validated actual CRAP scores vs estimates
+
+**Key Corrections** (Original → Validated):
+
+| Class              | Original CRAP | Validated CRAP | Coverage |
+| ------------------ | ------------- | -------------- | -------- |
+| IdentityFieldValue | 6,480         | **195**        | 73.8%    |
+| `GenericComparer<T>` | 2,862         | **116**        | 71.8%    |
+| IdentityDescriptor | 1,056         | **32**         | 100%     |
+| FieldCollection    | 1,806         | **46**         | 87.0%    |
+
+**Actual Critical Classes** (0% or low coverage):
+
+- IFieldDefinition.Extensions: 0% coverage, CRAP 2,162
+- LinkCollection (REST): 0% coverage, CRAP 1,056
+- WorkItemStore (REST): 22% coverage, CRAP 2,514
+- Query (REST): 40% coverage, CRAP 1,661
+
+**Files Created**:
+
+- `.agents/WAVE4-CRAP-SCORE-REDUCTION-PLAN.md` - Full CRAP reduction plan with strategies
+- `.agents/metrics/crap-score-baseline.md` - Validated CRAP baseline data
+- `.agents/sessions/2025-12-13-session-31-crap-score-plan.md` - Session log
+
+**Files Updated**:
+
+- `.agents/WAVE4-TASKS.md` - Added W4.CRAP.0-8, W4.CRAP.12 tasks
+
+**Key Insight**: Always validate baseline data before planning. Many classes assumed to have 0% coverage actually had 70%+ coverage.
+
+**Next Recommended**: W4.CRAP.3 (IFieldDefinition.Extensions - 0% → 80%, highest ROI)
+
+See: `.agents/sessions/2025-12-13-session-31-crap-score-plan.md` for full details
+
+---
 
 ### Session Summary (W3.3 AppVeyor Removal - 2025-12-13)
 
@@ -65,20 +111,24 @@ See: `.agents/sessions/2025-12-13-session-33-w3.3-appveyor-removal.md` for full 
 **Work Completed This Session** (Final Context Refresh):
 
 1. ✅ **CollectionComparerTests.cs** - Tests for collection comparers (WorkItemCollection, WorkItemType, Project)
+
    - Null handling, same reference, equal/unequal collections
    - GetHashCode consistency
    - Pushed WorkItemCollectionComparer 23% → 100%
 
 2. ✅ **WorkItemTypeCollectionTests.cs** - Tests for WorkItemTypeCollection
+
    - Equals and GetHashCode
    - Pushed WorkItemTypeCollection 28.5% → 71.4%
 
 3. ✅ **WorkItemLinkTypeCollectionTests.cs** - Tests for WorkItemLinkTypeCollection
+
    - Equals, GetHashCode, LinkTypeEnds
    - Directional vs non-directional link types
    - Pushed WorkItemLinkTypeCollection 33.3% → 100%
 
 4. ✅ **FieldCollectionTests.cs** - Tests for FieldCollection
+
    - Indexers, Contains, TryGetByName, SetField
    - Pushed FieldCollection 38.8% → 87%
 
@@ -88,14 +138,14 @@ See: `.agents/sessions/2025-12-13-session-33-w3.3-appveyor-removal.md` for full 
 
 **Final Coverage Status - ALL TARGETS MET ✅**:
 
-| Project              | Coverage | Target | Status    |
-| -------------------- | -------- | ------ | --------- |
-| **Qwiq.Linq.Identity** | **100%** | 70%  | ✅ **Met** |
-| Qwiq.Linq            | 91%      | 70%    | ✅ Met    |
-| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met    |
-| Qwiq.Mapper.Identity | 82.6%    | 70%    | ✅ Met    |
-| Qwiq.Mapper          | 80.5%    | 70%    | ✅ Met    |
-| Qwiq.Core            | 71.4%    | 70%    | ✅ Met    |
+| Project                | Coverage | Target | Status     |
+| ---------------------- | -------- | ------ | ---------- |
+| **Qwiq.Linq.Identity** | **100%** | 70%    | ✅ **Met** |
+| Qwiq.Linq              | 91%      | 70%    | ✅ Met     |
+| Qwiq.Identity          | 85.8%    | 70%    | ✅ Met     |
+| Qwiq.Mapper.Identity   | 82.6%    | 70%    | ✅ Met     |
+| Qwiq.Mapper            | 80.5%    | 70%    | ✅ Met     |
+| Qwiq.Core              | 71.4%    | 70%    | ✅ Met     |
 
 **Test Count**: 608 tests (Core: 485, Identity: 25, Mapper: 53, Linq: 45)
 **Overall Line Coverage**: 60.4%

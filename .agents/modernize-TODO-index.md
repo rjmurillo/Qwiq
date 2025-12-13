@@ -117,26 +117,27 @@ dotnet test Qwiq.sln --filter "TestCategory!=localOnly&TestCategory!=Benchmark&T
 | 31      | Dec 12    | Claudette   | TODO file split for agent readability                 |
 | 32      | Dec 12    | Claude      | W2.32 CI Warning Gate verified complete               |
 | 33      | Dec 13    | Claude      | W3.3 Remove AppVeyor - migrated to GitHub Actions     |
+| 34      | Dec 13    | Claude      | W4.1 Code Coverage - 6/6 NuGet libs at 70%+ ✅        |
 
 ---
 
 ## Metrics Dashboard
 
-| Metric                         | Current        | Target      | Status |
-| ------------------------------ | -------------- | ----------- | ------ |
-| Build warnings                 | **0**          | 0           | 🟢     |
-| Build errors                   | **0**          | 0           | 🟢     |
-| CS8xxx warnings in source      | 0              | 0           | 🟢     |
-| Active suppressions            | **8** (design) | 8           | 🟢     |
-| Security rules (CA3xxx-CA5xxx) | ✅ 65 enabled  | All enabled | 🟢     |
-| Code coverage                  | 51.1%          | 70%         | 🟡     |
-| Documentation files            | 8/8            | 8/8         | 🟢     |
-| Package READMEs                | 10/10          | 10/10       | 🟢     |
-| ADRs                           | 9/9            | Documented  | 🟢     |
-| SLSA Provenance                | ✅ Level 3     | Level 3     | 🟢     |
-| Actions SHA-pinned             | 🟡 Renovate    | All pinned  | 🟡     |
-| CI Warning Gate                | ✅             | Implemented | 🟢     |
-| **NuGet v11.0.0**              | ❌             | Published   | 🔴     |
+| Metric                         | Current           | Target      | Status |
+| ------------------------------ | ----------------- | ----------- | ------ |
+| Build warnings                 | **0**             | 0           | 🟢     |
+| Build errors                   | **0**             | 0           | 🟢     |
+| CS8xxx warnings in source      | 0                 | 0           | 🟢     |
+| Active suppressions            | **8** (design)    | 8           | 🟢     |
+| Security rules (CA3xxx-CA5xxx) | ✅ 65 enabled     | All enabled | 🟢     |
+| Code coverage                  | **71%+ all libs** | 70%         | 🟢     |
+| Documentation files            | 8/8               | 8/8         | 🟢     |
+| Package READMEs                | 10/10             | 10/10       | 🟢     |
+| ADRs                           | 9/9               | Documented  | 🟢     |
+| SLSA Provenance                | ✅ Level 3        | Level 3     | 🟢     |
+| Actions SHA-pinned             | 🟡 Renovate       | All pinned  | 🟡     |
+| CI Warning Gate                | ✅                | Implemented | 🟢     |
+| **NuGet v11.0.0**              | ❌                | Published   | 🔴     |
 
 ---
 
