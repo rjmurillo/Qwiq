@@ -8,12 +8,14 @@
 ## Context and Problem Statement
 
 The Qwiq library provides two client implementations for accessing Azure DevOps/TFS work items:
+
 1. **REST client** (`Qwiq.Client.Rest`) - Modern HTTP/JSON API
 2. **SOAP client** (`Qwiq.Client.Soap`) - Legacy SOAP/XML API
 
 As part of Wave 4 test quality improvements and the transition to production v11.0.0 for 100+ team members, we need to determine the long-term strategy for the SOAP client.
 
 **Key Questions**:
+
 - Should the SOAP client be maintained, deprecated, or enhanced?
 - What is the migration path for SOAP users?
 - How does this decision impact test coverage targets and maintenance burden?
@@ -23,16 +25,19 @@ As part of Wave 4 test quality improvements and the transition to production v11
 ### Technical Factors
 
 1. **Platform Constraints**:
+
    - SOAP client requires `net472` target framework (Windows SDK dependency)
    - Cannot be used in Kubernetes containers (Linux-only deployment target)
    - Depends on `Microsoft.TeamFoundationServer.ExtendedClient` which is Windows-only
 
 2. **Code Complexity**:
+
    - **47 source files**, **~2,296 lines of code** across `Qwiq.Client.Soap` and `Qwiq.Identity.Soap`
    - Parallel implementation of all core interfaces (IWorkItemStore, IWorkItem, etc.)
    - Mapper implementations for SOAP-to-Core type conversions
 
 3. **Test Coverage**:
+
    - **0% automated test coverage** for SOAP client (integration tests require TFS instance)
    - Integration tests exist but are excluded from CI (require Windows + credentials)
    - Testing SOAP requires on-premises TFS or Azure DevOps Server with Windows auth
@@ -45,11 +50,13 @@ As part of Wave 4 test quality improvements and the transition to production v11
 ### Business Factors
 
 1. **User Base**:
+
    - Unknown number of SOAP-only users
    - Target deployment: Kubernetes containers (REST only)
    - 100+ team members planned for production (container-based)
 
 2. **Maintenance Burden**:
+
    - Parallel codebase increases complexity
    - Every feature/fix requires dual implementation
    - Test coverage gap creates risk
@@ -65,19 +72,23 @@ As part of Wave 4 test quality improvements and the transition to production v11
 **Status**: Deprecate in v11.0.0, remove in v12.0.0
 
 **Rationale**:
+
 - Kubernetes deployment requires REST client
 - Microsoft recommends REST API for new development
 - Reduces maintenance burden by 2,296 LOC
 - Allows focusing test coverage efforts on REST client (currently 0%)
 
 **Migration Path**:
+
 1. **v11.0.0** (Current release):
+
    - Mark SOAP packages as deprecated (add `<deprecated>` to NuGet metadata)
    - Add obsolete warnings to SOAP public APIs
    - Document migration guide (SOAP → REST)
    - Continue shipping SOAP packages for backward compatibility
 
 2. **v11.x** (6-month window):
+
    - Monitor NuGet download stats for SOAP packages
    - Provide migration support
    - No new features for SOAP
@@ -88,12 +99,14 @@ As part of Wave 4 test quality improvements and the transition to production v11
    - Clean up parallel implementations
 
 **Pros**:
+
 - ✅ Aligns with container deployment strategy
 - ✅ Reduces maintenance burden significantly
 - ✅ Focuses testing efforts on actively developed code path
 - ✅ Follows Microsoft's recommended API direction
 
 **Cons**:
+
 - ❌ Breaking change for SOAP-only users (mitigated by migration window)
 - ❌ Requires user action to migrate
 
@@ -104,10 +117,12 @@ As part of Wave 4 test quality improvements and the transition to production v11
 **Rationale**: Keep SOAP client for backward compatibility
 
 **Pros**:
+
 - ✅ No breaking changes for existing users
 - ✅ Supports on-premises TFS scenarios
 
 **Cons**:
+
 - ❌ Cannot be deployed in Kubernetes (primary deployment target)
 - ❌ Perpetual dual implementation burden
 - ❌ Test coverage remains at 0% (integration tests impractical in CI)
@@ -120,10 +135,12 @@ As part of Wave 4 test quality improvements and the transition to production v11
 **Rationale**: Invest in SOAP test coverage and feature parity
 
 **Pros**:
+
 - ✅ Improves quality metrics
 - ✅ No user migration required
 
 **Cons**:
+
 - ❌ High investment for legacy technology
 - ❌ Testing requires Windows + TFS infrastructure
 - ❌ Still cannot deploy in Kubernetes
@@ -138,11 +155,12 @@ As part of Wave 4 test quality improvements and the transition to production v11
 #### Phase 1: v11.0.0 Deprecation (Current Release)
 
 1. **NuGet Metadata**:
+
    ```xml
    <PropertyGroup>
      <PackageDeprecated>true</PackageDeprecated>
      <PackageDeprecationMessage>
-       The SOAP client is deprecated and will be removed in v12.0.0. 
+       The SOAP client is deprecated and will be removed in v12.0.0.
        Migrate to Qwiq.Client.Rest for continued support and container deployment compatibility.
        See migration guide: https://github.com/rjmurillo/Qwiq/blob/master/docs/SOAP-TO-REST-MIGRATION.md
      </PackageDeprecationMessage>
@@ -150,6 +168,7 @@ As part of Wave 4 test quality improvements and the transition to production v11
    ```
 
 2. **Code Annotations**:
+
    - Add `[Obsolete]` to all public SOAP APIs with migration guidance
    - Update XML docs with deprecation notices
 
@@ -161,6 +180,7 @@ As part of Wave 4 test quality improvements and the transition to production v11
 #### Phase 2: Monitor & Support (v11.x - 6 months)
 
 1. **Metrics**:
+
    - Track `Qwiq.Client.Soap` NuGet downloads
    - Monitor GitHub issues for SOAP migration questions
    - Survey known users about migration timeline
@@ -173,6 +193,7 @@ As part of Wave 4 test quality improvements and the transition to production v11
 #### Phase 3: Removal (v12.0.0)
 
 1. **Code Removal**:
+
    - Delete `src/Qwiq.Client.Soap` project
    - Delete `src/Qwiq.Identity.Soap` project
    - Remove SOAP-related tests
@@ -184,12 +205,12 @@ As part of Wave 4 test quality improvements and the transition to production v11
 
 ### Migration Guide (Summary)
 
-| SOAP | REST | Notes |
-|------|------|-------|
-| `Qwiq.Client.Soap.WorkItemStoreFactory` | `Qwiq.Client.Rest.WorkItemStoreFactory` | Factory pattern unchanged |
-| Windows Authentication | Personal Access Token (PAT) | Create PAT in Azure DevOps |
-| `AuthenticationTypes.Windows` | `AuthenticationTypes.PersonalAccessToken` | Update AuthenticationOptions |
-| TFS URL | Azure DevOps URL | REST supports both on-prem and cloud |
+| SOAP                                    | REST                                      | Notes                                |
+| --------------------------------------- | ----------------------------------------- | ------------------------------------ |
+| `Qwiq.Client.Soap.WorkItemStoreFactory` | `Qwiq.Client.Rest.WorkItemStoreFactory`   | Factory pattern unchanged            |
+| Windows Authentication                  | Personal Access Token (PAT)               | Create PAT in Azure DevOps           |
+| `AuthenticationTypes.Windows`           | `AuthenticationTypes.PersonalAccessToken` | Update AuthenticationOptions         |
+| TFS URL                                 | Azure DevOps URL                          | REST supports both on-prem and cloud |
 
 **Example Migration**:
 

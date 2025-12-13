@@ -69,6 +69,7 @@
   - [x] Baseline documented in coverage summary (Summary.txt generated)
 
 **Key Findings**:
+
 - Total: 51.1% line, 36.7% branch (target: 70%)
 - **CRITICAL**: Qwiq.Client.Rest 0% (23 classes, highest impact opportunity)
 - Qwiq.Linq: 90.9% (excellent, minor gaps in QueryExtensions)

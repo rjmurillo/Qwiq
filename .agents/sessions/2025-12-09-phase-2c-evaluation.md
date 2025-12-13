@@ -118,12 +118,12 @@ The `global.json` was updated to .NET 10.0.100 SDK, which has type forwarding ch
 
 **Evaluation Results**:
 
-| Task | Status | Notes |
-|------|--------|-------|
-| W2.4 | ✅ COMPLETE | Benchmarks compile in CI |
-| W2.16 Phase 1 | ✅ COMPLETE | WireMock offline REST tests (9 passing) |
-| W2.16 Phase 2 | ⏸️ NOT STARTED | SOAP offline tests deferred |
-| W2.3 | ⏸️ BLOCKED | Depends on W2.16 Phase 2 |
+| Task          | Status         | Notes                                   |
+| ------------- | -------------- | --------------------------------------- |
+| W2.4          | ✅ COMPLETE    | Benchmarks compile in CI                |
+| W2.16 Phase 1 | ✅ COMPLETE    | WireMock offline REST tests (9 passing) |
+| W2.16 Phase 2 | ⏸️ NOT STARTED | SOAP offline tests deferred             |
+| W2.3          | ⏸️ BLOCKED     | Depends on W2.16 Phase 2                |
 
 **Phase 2C Progress**: 1.5/3 tasks (W2.4 complete, W2.16 Phase 1 complete, Phase 2 pending)
 

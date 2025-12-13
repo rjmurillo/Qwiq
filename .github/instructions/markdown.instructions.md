@@ -159,16 +159,19 @@ Before submitting changes, verify:
 
 ## Common Mistakes to AVOID
 
-```markdown
+`````markdown
 <!-- ❌ WRONG: No language identifier -->
-````text
+
+```text
 dotnet build
-````
+```
+`````
 
 <!-- ✅ CORRECT: With language identifier -->
+
 ```powershell
 dotnet build
-````
+```
 
 <!-- ❌ WRONG: Bold instead of heading -->
 <!-- **Section Title** -->

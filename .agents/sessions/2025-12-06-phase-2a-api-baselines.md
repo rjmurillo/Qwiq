@@ -27,17 +27,17 @@ This session completed W2.2 (API Compatibility Baselines) by populating the Publ
 
 **API Entry Counts**:
 
-| Project | API Entries |
-|---------|-------------|
-| Qwiq.Core | 911 |
-| Qwiq.Client.Rest | 14 |
-| Qwiq.Client.Soap | 24 |
-| Qwiq.Identity | 36 |
-| Qwiq.Identity.Soap | 4 |
-| Qwiq.Linq | 135 |
-| Qwiq.Linq.Identity | 4 |
-| Qwiq.Mapper | 127 |
-| Qwiq.Mapper.Identity | 13 |
+| Project              | API Entries |
+| -------------------- | ----------- |
+| Qwiq.Core            | 911         |
+| Qwiq.Client.Rest     | 14          |
+| Qwiq.Client.Soap     | 24          |
+| Qwiq.Identity        | 36          |
+| Qwiq.Identity.Soap   | 4           |
+| Qwiq.Linq            | 135         |
+| Qwiq.Linq.Identity   | 4           |
+| Qwiq.Mapper          | 127         |
+| Qwiq.Mapper.Identity | 13          |
 
 ---
 
