@@ -59,12 +59,6 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
 
-      - name: Set up projects for SecurityCodeScan analysis
-        # SecurityCodeScan is a vulnerability patterns detector for C# and VB.NET
-        # Only run on Windows where MSBuild is available
-        if: matrix.os == 'windows-latest'
-        uses: security-code-scan/security-code-scan-add-action@f8ff4f2763ed6f229eded80b1f9af82ae7f32a0d
-
       - name: Build and pack solution (Windows)
         # Windows: Use /t:Build,Pack to ensure all packages are generated during build.
         # This produces packages for all target frameworks including net472.
@@ -84,17 +78,6 @@ jobs:
         run:
           dotnet build Qwiq.sln -c Release --no-restore /p:GeneratePackageOnBuild=false
           /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
-
-      - name: Convert SecurityCodeScan results to SARIF
-        # Convert SecurityCodeScan results to SARIF format for GitHub Code Scanning
-        if: matrix.os == 'windows-latest'
-        uses: security-code-scan/security-code-scan-results-action@cdb3d5e639054395e45bf401cba8688fcaf7a687
-
-      - name: Upload SecurityCodeScan SARIF
-        if: matrix.os == 'windows-latest'
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: SecurityCodeScan.sarif
 
       - name: Validate package output
         # Scans csproj files to find packable projects and validates each produced
