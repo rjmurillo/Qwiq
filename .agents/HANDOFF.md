@@ -49,10 +49,12 @@
    - PedanticMode documented in copilot-instructions.md (lines 37-43)
 
 **Files Modified**:
+
 - `.agents/modernize-TODO.md` - Marked W2.32 complete with verification details
 - `.agents/sessions/2025-12-12-session-01-w2.32.md` - Session log
 
 **Acceptance Criteria Met**:
+
 - ✅ PedanticMode activates on CI builds
 - ✅ CI build fails on any warning
 - ✅ Build passes with current codebase (0 warnings)
@@ -69,6 +71,7 @@ See: `.agents/sessions/2025-12-12-session-01-w2.32.md` for full details
 **Purpose**: Fix WireMock tests that were failing due to OWIN hosting deadlock on .NET Framework 4.7.2.
 
 **Root Cause Analysis**:
+
 - WireMock.Net has a **known OWIN hosting deadlock issue** on .NET Framework 4.7.2 when running in MSTest runners
 - The server starts and binds to the port, but the internal OWIN middleware never processes HTTP requests
 - Confirmed by diagnostic tests: TCP listener works, HttpListener works, but WireMock times out
@@ -85,6 +88,7 @@ Created new dedicated test project `Qwiq.WireMock.Tests` targeting `net8.0;net9.
 5. ✅ All 9 WireMock tests pass on .NET 8.0
 
 **Files Created**:
+
 - `test/Qwiq.WireMock.Tests/Qwiq.WireMock.Tests.csproj`
 - `test/Qwiq.WireMock.Tests/AzureDevOpsWireMockExtensions.cs`
 - `test/Qwiq.WireMock.Tests/WireMockRestContextSpecification.cs`
@@ -94,15 +98,18 @@ Created new dedicated test project `Qwiq.WireMock.Tests` targeting `net8.0;net9.
 - `test/Qwiq.WireMock.Tests/WireMock/Stubs/azure-devops-stubs-extracted.json`
 
 **Files Modified**:
+
 - `src/Qwiq.Core/Qwiq.Core.csproj` - Added InternalsVisibleTo
 - `src/Qwiq.Core.Rest/Qwiq.Client.Rest.csproj` - Added InternalsVisibleTo
 - `Qwiq.sln` - Added new project
 - `test/Qwiq.Integration.Tests/Qwiq.IntegrationTests.csproj` - Removed WireMock references
 
 **Files Deleted**:
+
 - `test/Qwiq.Integration.Tests/WireMock/` (entire folder - 8 files)
 
 **Verification**:
+
 ```
 Test Run Successful.
 Total tests: 9
@@ -113,6 +120,7 @@ Total time: 1.5301 Seconds
 **Commit**: `31ea4218` - fix(tests): move WireMock tests to dedicated .NET 8+ project
 
 **Key Insights**:
+
 1. WireMock.Net OWIN deadlock is a known issue affecting .NET Framework 4.7.2 in test runners
 2. On .NET 8+, WireMock uses Kestrel hosting which works correctly
 3. Captured stubs contain complete Azure DevOps API responses including service definitions

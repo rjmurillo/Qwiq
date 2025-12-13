@@ -11,9 +11,11 @@ Investigated why WireMock tests were failing and implemented a proper fix by mov
 ## Root Cause Analysis
 
 ### Problem
+
 WireMock.Net has a **known OWIN hosting deadlock issue** on .NET Framework 4.7.2 when running in MSTest runners. The server starts and binds to the port, but the internal OWIN middleware never processes HTTP requests.
 
 ### Evidence
+
 1. TCP listener tests passed - networking is functional
 2. HttpListener tests passed - HTTP serving works natively
 3. WireMock server reported `IsStarted: True` with correct port
@@ -21,10 +23,12 @@ WireMock.Net has a **known OWIN hosting deadlock issue** on .NET Framework 4.7.2
 5. `HandleRequestsSynchronously = true` setting did not fix the issue
 
 ### Documented Issues
+
 - WireMock.Net GitHub Issue #393, #470, #1089 - all describe the same deadlock behavior
 - The issue occurs specifically with OWIN hosting on .NET Framework in test runners
 
 ### Constraint
+
 The `Qwiq.Integration.Tests` project targets only `net472` due to its dependency on `Microsoft.TeamFoundationServer.ExtendedClient`, which only works on .NET Framework.
 
 ## Solution Implemented
@@ -32,6 +36,7 @@ The `Qwiq.Integration.Tests` project targets only `net472` due to its dependency
 Created a new dedicated test project `Qwiq.WireMock.Tests` targeting `net8.0;net9.0;net10.0` where WireMock uses Kestrel hosting instead of OWIN.
 
 ### Files Created
+
 - `test/Qwiq.WireMock.Tests/Qwiq.WireMock.Tests.csproj`
 - `test/Qwiq.WireMock.Tests/AzureDevOpsWireMockExtensions.cs` (using System.Text.Json)
 - `test/Qwiq.WireMock.Tests/WireMockRestContextSpecification.cs`
@@ -41,11 +46,13 @@ Created a new dedicated test project `Qwiq.WireMock.Tests` targeting `net8.0;net
 - `test/Qwiq.WireMock.Tests/WireMock/Stubs/azure-devops-stubs-extracted.json`
 
 ### Files Modified
+
 - `src/Qwiq.Core/Qwiq.Core.csproj` - Added `InternalsVisibleTo` for `Qwiq.WireMock.Tests`
 - `src/Qwiq.Core.Rest/Qwiq.Client.Rest.csproj` - Added `InternalsVisibleTo` for `Qwiq.WireMock.Tests`
 - `Qwiq.sln` - Added new test project
 
 ### Files Removed
+
 - `test/Qwiq.Integration.Tests/WireMock/` (entire folder)
 - WireMock.Net package reference from `Qwiq.IntegrationTests.csproj`
 
