@@ -2,12 +2,56 @@
   "permissions": {
     "allow": [
       "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:learn.microsoft.com)",
+      "WebFetch(domain:nuget.org)",
+
       "Bash(dotnet restore:*)",
       "Bash(dotnet build:*)",
-      "Bash(dotnet:*)",
+      "Bash(dotnet test:*)",
+      "Bash(dotnet format:*)",
+      "Bash(dotnet pack:*)",
+      "Bash(dotnet clean:*)",
+      "Bash(dotnet tool restore:*)",
+      "Bash(dotnet tool list:*)",
+      "Bash(dotnet nbgv:*)",
+      "Bash(dotnet pprettier:*)",
+      "Bash(dotnet reportgenerator:*)",
+      "Bash(dotnet list:*)",
+      "Bash(dotnet --version:*)",
+      "Bash(dotnet --info:*)",
+
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git show:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git remote:*)",
+
+      "Bash(npx markdownlint-cli2:*)",
+      "Bash(npx prettier:*)",
+
       "Bash(pwsh -Command:*)",
-      "WebFetch(domain:github.com)",
-      "Bash(git add:*)"
+      "Bash(pwsh -File:*)",
+
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(find:*)",
+      "Bash(which:*)",
+      "Bash(where:*)"
     ]
   }
 }
