@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Qwiq.Mocks;
@@ -297,6 +299,314 @@ namespace Qwiq.Comparers
         public void Then_GetHashCode_null_returns_zero()
         {
             GenericComparer<string>.Default.GetHashCode(null!).ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void Then_null_value_returns_false()
+        {
+            GenericComparer<string>.Default.Equals(null, "test").ShouldBeFalse();
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_same_reference : ContextSpecification
+    {
+        private string _item = "test";
+
+        [TestMethod]
+        public void Then_same_reference_returns_true()
+        {
+            GenericComparer<string>.Default.Equals(_item, _item).ShouldBeTrue();
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_int_values : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_equal_ints_return_true()
+        {
+            GenericComparer<int>.Default.Equals(42, 42).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_different_ints_return_false()
+        {
+            GenericComparer<int>.Default.Equals(42, 43).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_Compare_returns_zero_for_equal()
+        {
+            GenericComparer<int>.Default.Compare(42, 42).ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void Then_Compare_returns_negative_for_less()
+        {
+            GenericComparer<int>.Default.Compare(42, 43).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_Compare_returns_positive_for_greater()
+        {
+            GenericComparer<int>.Default.Compare(43, 42).ShouldBeGreaterThan(0);
+        }
+
+        [TestMethod]
+        public void Then_GetHashCode_returns_same_for_equal_values()
+        {
+            GenericComparer<int>.Default.GetHashCode(42).ShouldBe(GenericComparer<int>.Default.GetHashCode(42));
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_nullable_int_values : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_null_null_returns_zero()
+        {
+            GenericComparer<int?>.Default.Compare(null, null).ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void Then_value_null_returns_negative()
+        {
+            GenericComparer<int?>.Default.Compare(42, null).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_null_value_returns_negative()
+        {
+            GenericComparer<int?>.Default.Compare(null, 42).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_equal_values_return_zero()
+        {
+            GenericComparer<int?>.Default.Compare(42, 42).ShouldBe(0);
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_array_values : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_equal_arrays_return_true()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 1, 2, 3 };
+            GenericComparer<int[]>.Default.Equals(arr1, arr2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_different_arrays_return_false()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 1, 2, 4 };
+            GenericComparer<int[]>.Default.Equals(arr1, arr2).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_different_length_arrays_return_false()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 1, 2 };
+            GenericComparer<int[]>.Default.Equals(arr1, arr2).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_empty_arrays_return_true()
+        {
+            var arr1 = Array.Empty<int>();
+            var arr2 = Array.Empty<int>();
+            GenericComparer<int[]>.Default.Equals(arr1, arr2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_GetHashCode_returns_same_for_equal_arrays()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 1, 2, 3 };
+            GenericComparer<int[]>.Default.GetHashCode(arr1).ShouldBe(GenericComparer<int[]>.Default.GetHashCode(arr2));
+        }
+
+        [TestMethod]
+        public void Then_GetHashCode_returns_different_for_different_arrays()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 4, 5, 6 };
+            GenericComparer<int[]>.Default.GetHashCode(arr1).ShouldNotBe(GenericComparer<int[]>.Default.GetHashCode(arr2));
+        }
+
+        [TestMethod]
+        public void Then_array_with_null_null_return_false()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            GenericComparer<int[]>.Default.Equals(arr1, null).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_null_array_return_false()
+        {
+            var arr2 = new[] { 1, 2, 3 };
+            GenericComparer<int[]>.Default.Equals(null, arr2).ShouldBeFalse();
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_list_values : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_equal_lists_return_true()
+        {
+            var list1 = new List<string> { "a", "b", "c" };
+            var list2 = new List<string> { "a", "b", "c" };
+            GenericComparer<List<string>>.Default.Equals(list1, list2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_different_lists_return_false()
+        {
+            var list1 = new List<string> { "a", "b", "c" };
+            var list2 = new List<string> { "a", "b", "d" };
+            GenericComparer<List<string>>.Default.Equals(list1, list2).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_list_with_nulls_handled()
+        {
+            var list1 = new List<string?> { "a", null, "c" };
+            var list2 = new List<string?> { "a", null, "c" };
+            GenericComparer<List<string?>>.Default.Equals(list1, list2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_GetHashCode_handles_null_items()
+        {
+            var list = new List<string?> { "a", null, "c" };
+            // Should not throw
+            var hash = GenericComparer<List<string?>>.Default.GetHashCode(list);
+            hash.ShouldNotBe(0);
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_DateTime_values : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_equal_dates_return_true()
+        {
+            var date1 = new DateTime(2025, 1, 1);
+            var date2 = new DateTime(2025, 1, 1);
+            GenericComparer<DateTime>.Default.Equals(date1, date2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_Compare_returns_negative_for_earlier_date()
+        {
+            var earlier = new DateTime(2025, 1, 1);
+            var later = new DateTime(2025, 12, 31);
+            GenericComparer<DateTime>.Default.Compare(earlier, later).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_Compare_returns_positive_for_later_date()
+        {
+            var earlier = new DateTime(2025, 1, 1);
+            var later = new DateTime(2025, 12, 31);
+            GenericComparer<DateTime>.Default.Compare(later, earlier).ShouldBeGreaterThan(0);
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_with_object_values : ContextSpecification
+    {
+        private class SimpleObject
+        {
+            public int Value { get; set; }
+
+            public override bool Equals(object? obj) => obj is SimpleObject other && Value == other.Value;
+            public override int GetHashCode() => Value.GetHashCode();
+        }
+
+        [TestMethod]
+        public void Then_equal_objects_return_true()
+        {
+            var obj1 = new SimpleObject { Value = 42 };
+            var obj2 = new SimpleObject { Value = 42 };
+            GenericComparer<SimpleObject>.Default.Equals(obj1, obj2).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Then_different_objects_return_false()
+        {
+            var obj1 = new SimpleObject { Value = 42 };
+            var obj2 = new SimpleObject { Value = 43 };
+            GenericComparer<SimpleObject>.Default.Equals(obj1, obj2).ShouldBeFalse();
+        }
+
+        [TestMethod]
+        public void Then_GetHashCode_returns_object_hash()
+        {
+            var obj = new SimpleObject { Value = 42 };
+            GenericComparer<SimpleObject>.Default.GetHashCode(obj).ShouldBe(obj.GetHashCode());
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_Compare_with_IEquatable : ContextSpecification
+    {
+        private class EquatableOnly : IEquatable<EquatableOnly>
+        {
+            public int Value { get; set; }
+            public bool Equals(EquatableOnly? other) => other != null && Value == other.Value;
+            public override bool Equals(object? obj) => obj is EquatableOnly other && Equals(other);
+            public override int GetHashCode() => Value.GetHashCode();
+        }
+
+        [TestMethod]
+        public void Then_equal_equatables_return_zero()
+        {
+            var eq1 = new EquatableOnly { Value = 42 };
+            var eq2 = new EquatableOnly { Value = 42 };
+            GenericComparer<EquatableOnly>.Default.Compare(eq1, eq2).ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void Then_different_equatables_return_negative()
+        {
+            var eq1 = new EquatableOnly { Value = 42 };
+            var eq2 = new EquatableOnly { Value = 43 };
+            GenericComparer<EquatableOnly>.Default.Compare(eq1, eq2).ShouldBeLessThan(0);
+        }
+    }
+
+    [TestClass]
+    public class Given_GenericComparer_Compare_enumerable_branch_coverage : ContextSpecification
+    {
+        [TestMethod]
+        public void Then_shorter_array_first_returns_negative()
+        {
+            var arr1 = new[] { 1, 2 };
+            var arr2 = new[] { 1, 2, 3 };
+            GenericComparer<int[]>.Default.Compare(arr1, arr2).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_longer_array_first_returns_negative()
+        {
+            var arr1 = new[] { 1, 2, 3 };
+            var arr2 = new[] { 1, 2 };
+            GenericComparer<int[]>.Default.Compare(arr1, arr2).ShouldBeLessThan(0);
+        }
+
+        [TestMethod]
+        public void Then_single_element_arrays_equal()
+        {
+            var arr1 = new[] { 42 };
+            var arr2 = new[] { 42 };
+            GenericComparer<int[]>.Default.Compare(arr1, arr2).ShouldBe(0);
         }
     }
 
