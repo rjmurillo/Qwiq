@@ -33,12 +33,32 @@ Based on multi-agent analysis (Plan, C# Expert, Architecture, Independent Thinke
 
 ## Baseline Data
 
-| Date | Score | Killed | Survived | Timeout | No Coverage | Run Time |
-| ---- | ----- | ------ | -------- | ------- | ----------- | -------- |
-| TBD  | TBD   | TBD    | TBD      | TBD     | TBD         | TBD      |
+| Date       | Score      | Killed | Survived | Timeout | No Coverage | Run Time |
+| ---------- | ---------- | ------ | -------- | ------- | ----------- | -------- |
+| 2025-12-13 | **43.96%** | 656    | 354      | 17      | 504         | 11 min   |
 
-> **Note**: First baseline will be captured when the scheduled mutation testing job runs
-> on the weekly Monday 2:30 AM UTC schedule, or when manually triggered.
+### High Performers (≥75%)
+
+| File                              | Score   | Notes                     |
+| --------------------------------- | ------- | ------------------------- |
+| WorkItemTypeCollection.cs         | 100%    | All mutants killed        |
+| TeamFoundationIdentityComparer.cs | 100%    | All mutants killed        |
+| IWorkItemLinkType.Extensions.cs   | 100%    | All mutants killed        |
+| CoreFieldRefNames.cs              | 97.14%  | 1 no coverage mutant      |
+| ExceptionMapper.cs                | 79.17%  | Good exception handling   |
+| WorkItemLinkInfo.cs               | 77.78%  | Solid test coverage       |
+| FieldCollection.cs                | 75.47%  | Well-tested collection    |
+
+### Priority Improvements (Low scores, high impact)
+
+| File                        | Score  | Survived | No Coverage | Priority |
+| --------------------------- | ------ | -------- | ----------- | -------- |
+| IWorkItem.Extensions.cs     | 0%     | 0        | 47          | HIGH     |
+| CredentialsFactory.cs       | 0%     | 0        | 32          | HIGH     |
+| GenericComparer.cs          | 31.91% | 14       | 18          | HIGH     |
+| IdentityFieldValue.cs       | 49%    | 26       | 25          | MEDIUM   |
+| TypeParser.cs               | 57.75% | 21       | 9           | MEDIUM   |
+| WorkItemLinkTypeComparer.cs | 18.75% | 23       | 3           | MEDIUM   |
 
 ## Threshold Progression Plan
 
