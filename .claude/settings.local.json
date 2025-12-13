@@ -53,7 +53,9 @@
       "Bash(pwsh:*)",
       "Bash(Select-String -Pattern \"error|warning|Build succeeded\")",
       "WebFetch(domain:stryker-mutator.io)",
-      "mcp__deepwiki__ask_question"
+      "mcp__deepwiki__ask_question",
+      "Bash(dotnet stryker:*)",
+      "Bash(git -C /d/src/GitHub/rjmurillo/Qwiq status)"
     ]
   }
 }
