@@ -45,12 +45,14 @@ This plan increases Qwiq test coverage from **51.1% to 70%** with a focus on **b
 ### 1.1 Link Classes (~3.5%)
 
 **Files to create:**
+
 ```
 test/Qwiq.Core.Tests/Links/ExternalLinkTests.cs
 test/Qwiq.Core.Tests/Links/RelatedLinkTests.cs
 ```
 
 **Test scenarios:**
+
 - Valid construction
 - ArgumentNullException for null parameters
 - ArgumentException for reserved link type names
@@ -59,12 +61,14 @@ test/Qwiq.Core.Tests/Links/RelatedLinkTests.cs
 ### 1.2 Query Classes (~3%)
 
 **Files to create:**
+
 ```
 test/Qwiq.Core.Tests/Query/QueryDefinitionTests.cs
 test/Qwiq.Core.Tests/Query/QueryFolderTests.cs
 ```
 
 **Test scenarios:**
+
 - ArgumentOutOfRangeException for Guid.Empty
 - ArgumentException for null/empty name, wiql, path
 - ToString format verification
@@ -73,6 +77,7 @@ test/Qwiq.Core.Tests/Query/QueryFolderTests.cs
 ### 1.3 Comparers (~3%)
 
 **Files to create:**
+
 ```
 test/Qwiq.Core.Tests/Comparers/QueryDefinitionComparerTests.cs
 test/Qwiq.Core.Tests/Comparers/QueryFolderComparerTests.cs
@@ -80,6 +85,7 @@ test/Qwiq.Core.Tests/Comparers/WorkItemLinkInfoComparerTests.cs
 ```
 
 **Standard test matrix per comparer:**
+
 - Same reference → true
 - Both null → true
 - First null, second not → false
@@ -100,22 +106,26 @@ test/Qwiq.Core.Tests/Comparers/WorkItemLinkInfoComparerTests.cs
 ### 2.1 Exception Behavior (NOT constructor testing)
 
 **File to update:**
+
 ```
 test/Qwiq.Core.Tests/Exceptions/CustomExceptionTests.cs
 ```
 
 **Test BEHAVIOR, not constructors:**
+
 - Test code paths that THROW exceptions
 - Verify exception properties when caught
 - Test serialization roundtrip (if applicable)
 
 **Do NOT add:**
+
 - Tests that just instantiate exceptions
 - Tests for unused constructors
 
 ### 2.2 Field Infrastructure
 
 **Files to create:**
+
 ```
 test/Qwiq.Core.Tests/Fields/FieldDefinitionTests.cs
 test/Qwiq.Core.Tests/Fields/FieldTests.cs
@@ -124,6 +134,7 @@ test/Qwiq.Core.Tests/Fields/FieldTests.cs
 ### 2.3 Identity Comparers
 
 **File to create:**
+
 ```
 test/Qwiq.Core.Tests/Identity/IdentityDescriptorComparerTests.cs
 ```
@@ -141,6 +152,7 @@ test/Qwiq.Core.Tests/Identity/IdentityDescriptorComparerTests.cs
 ### 3.1 Credentials (via test seam)
 
 **File to create:**
+
 ```
 test/Qwiq.Core.Tests/Credentials/AuthenticationOptionsTests.cs
 ```
@@ -150,6 +162,7 @@ test/Qwiq.Core.Tests/Credentials/AuthenticationOptionsTests.cs
 ### 3.2 Collections
 
 **File to create:**
+
 ```
 test/Qwiq.Core.Tests/Collections/ReadOnlyCollectionWithIdTests.cs
 ```
@@ -166,6 +179,7 @@ test/Qwiq.Core.Tests/Collections/ReadOnlyCollectionWithIdTests.cs
 ### 4.1 Mapper Edge Cases
 
 **File to create:**
+
 ```
 test/Qwiq.Mapper.Tests/FieldMapperEdgeCaseTests.cs
 ```
@@ -245,6 +259,7 @@ public class When_creating_external_link_with_null_uri : ContextSpecification
 ## Files Created This Session
 
 Already in progress:
+
 - `test/Qwiq.Core.Tests/Exceptions/CustomExceptionTests.cs` (in git status)
 - `test/Qwiq.Core.Tests/Links/HyperlinkTests.cs` (in git status)
 - `test/Qwiq.Core.Tests/Extensions/ExtensionsTests.cs` (in git status)

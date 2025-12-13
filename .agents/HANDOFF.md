@@ -1,7 +1,7 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-12 by Claude (W2.32 CI Warning Gate Verification)
-> **Current Phase**: Wave 4 ✅ PHASE 1 COMPLETE (Test Quality & Coverage Baseline) + W3.1 TFM Expansion
+> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage Improvement)
+> **Current Phase**: Wave 4 - Phase 2 (Code Coverage Expansion)
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
 ---
@@ -9,10 +9,10 @@
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (189 passed in filtered run, 208 total with integration tests)
+**Test Status**: ✅ All tests passing (285+ passed including new coverage tests)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
-**Coverage**: **51.1% line coverage** (target: **70%** for production)
+**Coverage**: **45.2% Qwiq.Core** (target: **70%** for production) - In progress
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
 **Test Execution**: **11.58 seconds** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
@@ -25,6 +25,47 @@
 - MCP extension for AI agents integration
 - Kubernetes container deployment required
 - Must pass enterprise security review
+
+### Session Summary (W4.1 Code Coverage Improvement - 2025-12-13)
+
+**Purpose**: Increase Qwiq.Core code coverage from ~51% toward 70% target.
+
+**Work Completed**:
+
+1. ✅ **Multi-Agent Planning**
+   - Used 5 specialized agents (csharp-expert, csharp-pod, high-level-advisor, feature-request-review, independent-thinker)
+   - Created consensus coverage plan: `.agents/W4-COVERAGE-PLAN.md`
+
+2. ✅ **Query Tests** (35 tests)
+   - QueryDefinitionTests.cs - validation, ToString, Equals
+   - QueryFolderTests.cs - validation, ToString, Equals
+   - QueryDefinitionComparer and QueryFolderComparer tests
+
+3. ✅ **Link Tests** (51 tests)
+   - ExternalLinkTests.cs - validation, reserved names, Equals
+   - RelatedLinkTests.cs - validation, Equals, GetHashCode
+
+**Classes at 100% Coverage**:
+- QueryDefinition, QueryDefinitionComparer, QueryFolderComparer
+- ExternalLink, RelatedLink
+- Hyperlink, Link
+- NullableIdentifiableComparer, IdentifiableComparer
+- WorkItemComparer, WorkItemTypeComparer
+
+**Commits**:
+1. `7700386f` - test: add QueryDefinition and QueryFolder tests
+2. `ba8b1dec` - test: add QueryDefinitionComparer and QueryFolderComparer tests
+3. `da5bcd68` - test: add ExternalLink and RelatedLink tests
+
+**Next Steps**:
+- Add FieldDefinition tests
+- Add Credentials tests
+- Add WorkItemLinkInfo tests
+- Target: Get Qwiq.Core from 45.2% to 70%
+
+See: `.agents/sessions/2025-12-13-session-w4-coverage.md` for full details
+
+---
 
 ### Session Summary (W2.32 CI Warning Gate Verification - 2025-12-12)
 

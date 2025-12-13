@@ -26,6 +26,7 @@
 
 - ✅ **W2.32** - CI Warning Gate (Session 32, 2025-12-12)
 - ✅ **W3.1** - TFM Expansion (Session 30, 2025-12-12)
+- 🔄 **W4.1** - Code Coverage (In Progress, 2025-12-13) - See `.agents/W4-COVERAGE-PLAN.md`
 
 ## Documentation File Structure
 
@@ -448,11 +449,13 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ---
 
-### W4.1 - Achieve 70% Code Coverage
+### W4.1 - Achieve 70% Code Coverage (IN PROGRESS)
 
 - **Priority**: HIGH (Tier 2)
 - **Effort**: XL (16-32 hours)
 - **Description**: Increase test coverage from 46.1% to 70% for enterprise requirements.
+- **Current Progress**: See `.agents/W4-COVERAGE-PLAN.md` and `.agents/sessions/2025-12-13-session-w4-coverage.md`
+- **Coverage**: Qwiq.Core 45.2%, 285+ tests passing
 
 **Copy/paste prompt:**
 
@@ -1148,3 +1151,4 @@ Make documentation complete enough for any agent to continue.
 | 3.3     | 2025-12-12 | Updated for split TODO files: added file structure table, updated all references  |
 | 3.4     | 2025-12-13 | Removed completed task prompts: W2.32 (CI Warning Gate), W3.1 (TFM Expansion)     |
 | 3.5     | 2025-12-13 | Updated linting commands: use `npx markdownlint-cli2 --fix` and `dotnet format`   |
+| 3.6     | 2025-12-13 | Updated W4.1 status as IN PROGRESS with coverage plan reference                   |
