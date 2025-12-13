@@ -18,7 +18,7 @@
 **Security**: ✅ CodeQL and Gitleaks workflows active
 **CI Warning Gate**: ✅ PedanticMode enforces warnings-as-errors on CI (W2.32 verified)
 **CRAP Baselines**: ✅ Validated (W4.CRAP.0 COMPLETE)
-**Mutation Testing**: ✅ Infrastructure complete (W4.6, W4.7, W4.9, W4.10)
+**Mutation Testing**: ✅ Baseline: **43.96%** (W4.6, W4.7, W4.9, W4.10 COMPLETE)
 
 **Project Context**:
 
@@ -70,47 +70,47 @@ See: `.agents/sessions/2025-12-13-session-37-ci-workflow-refactor.md` for full d
 
 ### Session Summary (Session 35 - Mutation Testing Setup - 2025-12-13)
 
-**Purpose**: Implement mutation testing infrastructure for Wave 4 Phase 2.
+**Purpose**: Implement mutation testing infrastructure for Wave 4 Phase 2 and capture baseline.
 
 **Work Completed**:
 
 1. ✅ **W4.6 - Add Stryker.NET**: Added dotnet-stryker 4.8.1 to tool manifest
 2. ✅ **W4.7 - Configure Stryker**: Created stryker-config.json with consensus settings
-3. ✅ **W4.9 - CI Integration**: Integrated mutation testing into main.yml workflow
+3. ✅ **W4.9 - CI Integration**: Created dedicated mutation-testing.yml workflow
 4. ✅ **W4.10 - Baseline Documentation**: Created mutation-testing-baseline.md
+5. ✅ **Baseline Run**: Executed Stryker locally and captured baseline metrics
 
-**Multi-Agent Consensus**:
+**Mutation Testing Baseline Results**:
 
-| Agent               | Recommendation                                      |
-| ------------------- | --------------------------------------------------- |
-| Plan                | Detailed implementation for all 4 tasks             |
-| C# Expert           | Standard mutation level, perTest coverage           |
-| Architecture        | Advisory mode, weekly schedule, single TFM          |
-| Independent Thinker | threshold-break: 0 first, 65% unrealistic initially |
+| Metric         | Value      |
+| -------------- | ---------- |
+| Mutation Score | **43.96%** |
+| Killed         | 656        |
+| Survived       | 354        |
+| Timeout        | 17         |
+| No Coverage    | 504        |
+| Execution Time | 11 min     |
 
 **Key Decisions**:
 
-- Target net8.0 only for mutation testing (cross-platform)
-- Start with threshold-break: 0 (baseline mode)
-- Weekly scheduled runs (Monday 2:30 AM UTC)
-- Manual trigger available via workflow_dispatch
+- Target net8.0 only (cross-platform)
+- Output to `artifacts/StrykerOutput/`
+- Weekly scheduled runs (Monday 3:00 AM UTC)
 - Advisory mode (does not block builds)
 
 **Files Created/Modified**:
 
 - `.config/dotnet-tools.json` - Added Stryker.NET 4.8.1
-- `.gitignore` - Excluded StrykerOutput/
-- `stryker-config.json` - Stryker configuration
-- `.github/workflows/main.yml` - Added mutation-testing job
-- `docs/metrics/mutation-testing-baseline.md` - Baseline documentation
+- `stryker-config.json` - Stryker configuration with output path
+- `.github/workflows/mutation-testing.yml` - Dedicated workflow
+- `docs/metrics/mutation-testing-baseline.md` - Baseline with actual data
 
-**Commits**: `677f4456` (W4.7), `7b36203c` (W4.9)
+**Commits**: `cd093302`, `da604edf`, `94a84c29`
 
 **Next Steps**:
 
-1. Wait for first scheduled run (Monday 2:30 AM UTC) or trigger manually
-2. Once baseline captured, set threshold-break to baseline-5
-3. Review survived mutants and prioritize test improvements
+1. Set threshold-break to 39 (baseline-5) to prevent regression
+2. Prioritize: IWorkItem.Extensions (0%), CredentialsFactory (0%), GenericComparer (31.91%)
 
 See: `.agents/sessions/2025-12-13-session-35-mutation-testing.md` for full details
 

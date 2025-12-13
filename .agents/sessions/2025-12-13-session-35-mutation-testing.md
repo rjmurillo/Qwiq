@@ -6,7 +6,7 @@
 - **Phase**: Wave 4 Phase 2 - Mutation Testing Setup
 - **Branch**: `chore/modernize-4`
 - **Starting Commit**: `438793a4`
-- **Ending Commit**: `7b36203c`
+- **Ending Commit**: `94a84c29`
 
 ## Pre-Flight Checks
 
@@ -148,10 +148,68 @@ Used 4 specialized agents for comprehensive planning:
 
 ---
 
+### Baseline Run - Local Execution ✅ COMPLETE
+
+**Status**: ✅ Complete
+
+**What was done**:
+
+- Ran Stryker mutation testing locally
+- Fixed configuration issue (mutate patterns were filtering all mutants)
+- Captured actual baseline metrics
+- Updated baseline documentation with real data
+- Changed output path to `artifacts/StrykerOutput` for consistency
+
+**Configuration Fix**:
+
+The initial `mutate` patterns were too restrictive and filtered out all mutants.
+Changed from explicit include patterns to exclusion-only patterns:
+
+```json
+"mutate": [
+  "!**/obj/**",
+  "!**/bin/**",
+  "!**/*.Designer.cs",
+  "!**/*.Generated.cs",
+  "!**/AssemblyInfo.cs",
+  "!**/GlobalUsings.cs",
+  "!**/Compatibility/**"
+]
+```
+
+**Actual Baseline Results**:
+
+| Metric            | Value      |
+| ----------------- | ---------- |
+| Mutation Score    | **43.96%** |
+| Killed            | 656        |
+| Survived          | 354        |
+| Timeout           | 17         |
+| No Coverage       | 504        |
+| Compile Errors    | 138        |
+| Execution Time    | 11 minutes |
+
+**Key Findings**:
+
+- Score (43.96%) within predicted range (40-55%) ✅
+- 504 mutants have no test coverage (target for improvement)
+- High performers: WorkItemTypeCollection (100%), TeamFoundationIdentityComparer (100%)
+- Priority improvements: IWorkItem.Extensions (0%), CredentialsFactory (0%), GenericComparer (31.91%)
+
+**Files changed**:
+
+- `stryker-config.json` - Fixed mutate patterns, added output path
+- `.github/workflows/mutation-testing.yml` - Updated artifact paths
+- `docs/metrics/mutation-testing-baseline.md` - Added actual baseline data
+
+**Commits**: `cd093302`, `da604edf`, `94a84c29`
+
+---
+
 ## Session Summary
 
-**Completed**: 4/4 tasks
-**Commits**: 3 (W4.6 was prior commit, W4.7, W4.9, W4.10)
+**Completed**: 4/4 tasks + baseline run
+**Commits**: 6 total
 
 ## Verification Commands
 
@@ -185,7 +243,11 @@ dotnet stryker --config-file stryker-config.json --mutate "src/Qwiq.Core/Compare
 
 ## Notes for Next Session
 
-1. **First baseline**: Will be captured when scheduled run executes (Monday 2:30 AM UTC)
-2. **Manual trigger**: Available via workflow_dispatch with `run-mutation-testing: true`
-3. **Threshold progression**: Once baseline established, set threshold-break to baseline-5
-4. **Focus areas**: When reviewing results, prioritize Comparers, TypeParser, and identity classes
+1. **Baseline captured**: 43.96% mutation score established
+2. **Threshold progression**: Set threshold-break to 39 (baseline-5) to prevent regression
+3. **Priority improvements** (highest impact):
+   - IWorkItem.Extensions (0% - 47 no coverage mutants)
+   - CredentialsFactory (0% - 32 no coverage mutants)
+   - GenericComparer (31.91% - 18 no coverage mutants)
+4. **CI workflow**: Mutation testing runs weekly (Monday 3:00 AM UTC) via `mutation-testing.yml`
+5. **Output location**: Reports saved to `artifacts/StrykerOutput/`
