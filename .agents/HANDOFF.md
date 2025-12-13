@@ -50,7 +50,7 @@
 
 **Files Modified**:
 
-- `.agents/modernize-TODO.md` - Marked W2.32 complete with verification details
+- `.agents/modernize-wave2.md` - Marked W2.32 complete with verification details
 - `.agents/sessions/2025-12-12-session-01-w2.32.md` - Session log
 
 **Acceptance Criteria Met**:
@@ -848,9 +848,13 @@ dotnet build Qwiq.sln -c Release 2>&1 | Select-String "CS7069.*TimeZone|CS7069.*
 If you need context, read these files in order:
 
 1. `.agents/AGENT-INSTRUCTIONS.md` - **READ FIRST** - Process instructions
-2. `.agents/modernize-TODO.md` - Task details and acceptance criteria
-3. `.agents/modernize-explainer.md` - Architecture and design decisions
-4. `.github/copilot-instructions.md` - Repository coding standards
+2. `.agents/modernize-TODO-index.md` - Overview, metrics, and navigation
+3. The appropriate wave file for your tasks:
+   - `.agents/modernize-wave1.md` - Wave 0-1 tasks
+   - `.agents/modernize-wave2.md` - Wave 2 tasks
+   - `.agents/modernize-wave3-5.md` - Waves 3-5 tasks
+4. `.agents/modernize-explainer.md` - Architecture and design decisions
+5. `.github/copilot-instructions.md` - Repository coding standards
 
 ## Important Notes for Next Session
 

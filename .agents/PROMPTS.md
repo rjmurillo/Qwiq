@@ -37,7 +37,6 @@ The modernization TODO was split into multiple files for AI agent readability:
 | [modernize-wave1.md](modernize-wave1.md) | Wave 0 + Wave 1 tasks |
 | [modernize-wave2.md](modernize-wave2.md) | Wave 2 tasks |
 | [modernize-wave3-5.md](modernize-wave3-5.md) | Wave 3-5 tasks |
-| [modernize-TODO.md](modernize-TODO.md) | Original full file (archived) |
 
 ---
 

@@ -10,7 +10,11 @@
 Before starting work, complete these steps IN ORDER:
 
 - [ ] Read this file completely
-- [ ] Read `modernize-TODO.md` to understand current state
+- [ ] Read `modernize-TODO-index.md` for overview and navigation
+- [ ] Read the appropriate wave file for your assigned tasks:
+  - `modernize-wave1.md` - Wave 0-1 tasks
+  - `modernize-wave2.md` - Wave 2 tasks
+  - `modernize-wave3-5.md` - Waves 3-5 tasks
 - [ ] Read `modernize-explainer.md` for architectural context
 - [ ] Check `HANDOFF.md` for previous session notes
 - [ ] Identify your assigned phase (e.g., "Phase 2A")
@@ -20,13 +24,16 @@ Before starting work, complete these steps IN ORDER:
 
 ## Document Hierarchy
 
-| Document                 | Purpose                             | When to Update                   |
-| ------------------------ | ----------------------------------- | -------------------------------- |
-| `AGENT-INSTRUCTIONS.md`  | How to execute work (this file)     | Rarely - only if process changes |
-| `modernize-TODO.md`      | Task tracking, checkboxes, progress | After EVERY task completion      |
-| `modernize-explainer.md` | Architecture, decisions, rationale  | When design decisions are made   |
-| `HANDOFF.md`             | Session-to-session context transfer | At END of every session          |
-| `sessions/*.md`          | Detailed session logs               | Throughout session               |
+| Document                   | Purpose                             | When to Update                   |
+| -------------------------- | ----------------------------------- | -------------------------------- |
+| `AGENT-INSTRUCTIONS.md`    | How to execute work (this file)     | Rarely - only if process changes |
+| `modernize-TODO-index.md`  | Overview, metrics, session log      | After EVERY session              |
+| `modernize-wave1.md`       | Wave 0-1 task tracking              | After Wave 0-1 task completion   |
+| `modernize-wave2.md`       | Wave 2 task tracking                | After Wave 2 task completion     |
+| `modernize-wave3-5.md`     | Waves 3-5 task tracking             | After Wave 3-5 task completion   |
+| `modernize-explainer.md`   | Architecture, decisions, rationale  | When design decisions are made   |
+| `HANDOFF.md`               | Session-to-session context transfer | At END of every session          |
+| `sessions/*.md`            | Detailed session logs               | Throughout session               |
 
 ---
 
@@ -49,7 +56,10 @@ Before starting work, complete these steps IN ORDER:
 
 **Before starting a task:**
 
-1. Read the full task description in `modernize-TODO.md`
+1. Read the full task description in the appropriate wave file:
+   - `modernize-wave1.md` - Wave 0-1 tasks
+   - `modernize-wave2.md` - Wave 2 tasks
+   - `modernize-wave3-5.md` - Waves 3-5 tasks
 2. Understand acceptance criteria
 3. Plan the implementation approach
 
@@ -63,7 +73,7 @@ Before starting work, complete these steps IN ORDER:
 
 **After completing a task:**
 
-1. ✅ Check off the task in `modernize-TODO.md`
+1. ✅ Check off the task in the appropriate wave file
 2. Update session log with:
    - What was done
    - Decisions made and why
@@ -78,7 +88,7 @@ Before starting work, complete these steps IN ORDER:
 ```markdown
 ## Session End Checklist
 
-- [ ] All assigned tasks checked off in modernize-TODO.md
+- [ ] All assigned tasks checked off in the appropriate wave file
 - [ ] Session log complete with all details
 - [ ] HANDOFF.md updated with:
   - [ ] What was completed
@@ -287,8 +297,12 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 If you need context, read these files in order:
 
 1. `.agents/AGENT-INSTRUCTIONS.md` (this process)
-2. `.agents/modernize-TODO.md` (task details)
-3. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
+2. `.agents/modernize-TODO-index.md` (overview and navigation)
+3. The appropriate wave file for your tasks:
+   - `.agents/modernize-wave1.md` - Wave 0-1 tasks
+   - `.agents/modernize-wave2.md` - Wave 2 tasks
+   - `.agents/modernize-wave3-5.md` - Waves 3-5 tasks
+4. `.agents/sessions/YYYY-MM-DD-phase-XX.md` (last session details)
 
 ````markdown
 ---

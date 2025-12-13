@@ -46,11 +46,14 @@ Session 27 concluded "maintenance mode" based on external adoption metrics for w
 
 ## How to Use This Document
 
-| Document                             | Purpose                                        | Update Frequency    |
-| ------------------------------------ | ---------------------------------------------- | ------------------- |
-| `modernize-explainer.md` (this file) | Strategic overview, architecture, gap analysis | Per wave completion |
-| `modernize-TODO.md`                  | Task-level tracking, session logs              | Every session       |
-| `copilot-instructions.md`            | Agent behavioral guidance                      | As needed           |
+| Document                             | Purpose                                        | Update Frequency         |
+| ------------------------------------ | ---------------------------------------------- | ------------------------ |
+| `modernize-explainer.md` (this file) | Strategic overview, architecture, gap analysis | Per wave completion      |
+| `modernize-TODO-index.md`            | Overview, metrics, and navigation              | Every session            |
+| `modernize-wave1.md`                 | Wave 0-1 task tracking                         | After Wave 0-1 tasks     |
+| `modernize-wave2.md`                 | Wave 2 task tracking                           | After Wave 2 tasks       |
+| `modernize-wave3-5.md`               | Waves 3-5 task tracking                        | After Waves 3-5 tasks    |
+| `copilot-instructions.md`            | Agent behavioral guidance                      | As needed                |
 
 ---
 
@@ -998,7 +1001,7 @@ Build succeeded.
 
 ## Appendix D: REST/SOAP Unit Test Coverage (NEW)
 
-See detailed PRD in `modernize-TODO.md` under W2.16.
+See detailed task description in `modernize-wave2.md` under W2.16.
 
 **Problem**: Current REST/SOAP tests require Azure DevOps connectivity.
 
