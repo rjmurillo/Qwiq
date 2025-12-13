@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage Tests)
+> **Last Updated**: 2025-12-13 by Claude (W4.1 Code Coverage Tests - Continuation)
 > **Current Phase**: Wave 4 - Code Coverage Expansion
 > **Branch**: `chore/modernize-4`
 > **Target**: Production v11.0.0 Release
@@ -10,10 +10,10 @@
 ## Current State
 
 **Build Status**: ✅ Passing - 0 errors, 0 warnings
-**Test Status**: ✅ All tests passing (384 passed including new coverage tests)
+**Test Status**: ✅ All tests passing (461 tests - Core: 408, Mapper: 53)
 **Nullable Status**: ✅ 0 CS8xxx warnings across all source projects
 **TFM Status**: ✅ 6 target frameworks (net472, net48, net481, net8.0, net9.0, net10.0)
-**Coverage**: **58.7% Qwiq.Core** (target: **70%** for production) - In progress
+**Coverage**: 3/5 NuGet libraries meet 70% target (Qwiq.Linq, Qwiq.Identity, Qwiq.Mapper ✅)
 **Flake Rate**: **0.00%** (target: <0.1%) ✅ **Exceeds target**
 **Test Execution**: **~200ms** (target: <300s) ✅ **Exceeds target**
 **Security**: ✅ CodeQL and Gitleaks workflows active
@@ -58,60 +58,52 @@ See: `.agents/sessions/2025-12-13-session-33-w3.3-appveyor-removal.md` for full 
 
 ---
 
-### Session Summary (W4.1 Code Coverage Tests - 2025-12-13 Continued)
+### Session Summary (W4.1 Code Coverage Tests - 2025-12-13 Continuation)
 
-**Purpose**: Increase Qwiq.Core code coverage from ~51% toward 70% target.
+**Purpose**: Increase code coverage for NuGet-packable libraries to 70% target.
 
-**Work Completed This Session** (150 new tests):
+**Work Completed This Session**:
 
-1. ✅ **FieldDefinitionTests.cs** - Tests Qwiq.Core.FieldDefinition directly
-   - Validation, core field ID lookup, equality, case-insensitive comparison
-   - FieldDefinitionComparer null handling
+1. ✅ **LinkTypeExtensionsTests.cs** - Tests for link type extension methods
+   - IWorkItemLinkTypeEndExtensions, IWorkItemLinkTypeExtensions, IWorkItemLinkInfoExtensions
+   - Null handling returns 0
+   - MockWorkItemLinkType with explicit Id values
 
-2. ✅ **WorkItemLinkInfoTests.cs** - Tests WorkItemLinkInfo and comparer
-   - Construction, lazy loading, equality, ToString
+2. ✅ **TeamFoundationIdentityTests.cs** - Tests for identity infrastructure
+   - DisplayName, UniqueName, IsActive properties
+   - TeamFoundationIdentityComparer (uses UniqueName and Descriptor)
+   - Null handling and object equality
 
-3. ✅ **WorkItemLinkTypeEndTests.cs** - Tests WorkItemLinkTypeEnd behavior
-   - Properties, equality, opposite end navigation
-   - WorkItemLinkType validation
+3. ✅ **AttributeMapExceptionTests.cs** - Tests for mapper exception formatting
+   - PropertyMap and TypePair structs
+   - Message formatting with type and property info
+   - InnerException preservation
 
-4. ✅ **RevisionTests.cs** - Enhanced with comprehensive tests
-   - Both constructors, NotSupported operations, internal methods
+4. ✅ **NoExceptionAttributeMapperStrategyTests.cs** - Tests for exception suppression
+   - Mapping missing fields doesn't throw
+   - Default values for null-to-non-nullable mappings
 
-5. ✅ **FieldTests.cs** - Tests Field class
-   - Construction validation, value access, NotImplemented properties
+**Mock Infrastructure Gap Identified**:
+- Qwiq mocks never throw exceptions, preventing exception handling code path testing
+- Created Wave 5 tasks (W5.1-W5.8) for MockBehaviorMode (Lenient/Strict like Moq)
+- Documented in `.agents/WAVE4-TASKS.md` and feature specs
 
-6. ✅ **Code Reviews** - Ran csharp-pod and csharp-expert agents
+**Coverage Status**:
 
-7. ✅ **Bug Fixes**
-   - Removed unnecessary `InternalsVisibleTo` from Qwiq.Mocks
-   - Removed `#region` directives from test files
+| Project              | Coverage | Target | Status |
+| -------------------- | -------- | ------ | ------ |
+| Qwiq.Linq            | 90.9%    | 70%    | ✅ Met |
+| Qwiq.Identity        | 85.8%    | 70%    | ✅ Met |
+| Qwiq.Mapper          | 75.7%    | 70%    | ✅ Met |
+| Qwiq.Core            | 65.7%    | 70%    | 🟡 -4.3% |
+| Qwiq.Mapper.Identity | 66%      | 70%    | 🟡 -4% |
 
-**Coverage Achieved**:
-
-| Class                      | Coverage |
-| -------------------------- | -------- |
-| FieldDefinition            | 86%      |
-| FieldDefinitionComparer    | 100%     |
-| Revision                   | 89.7%    |
-| WorkItemLinkInfoComparer   | 84.2%    |
-| WorkItemLinkTypeEndComparer| 100%     |
-
-**Commits This Session**:
-
-1. `e5c6866f` - style: remove regions from WorkItemLinkTypeComparerTests
-2. `13298828` - test: add Qwiq.Core coverage tests for W4.1
-3. `5a8b2cde` - fix: remove unnecessary InternalsVisibleTo from Qwiq.Mocks
-4. `0428f8df` - test: add Field class tests
-
-**Test Count**: 234 → 384 (+150 tests)
+**Test Count**: 461 tests (Core: 408, Mapper: 53)
 
 **Next Steps**:
-
-- Add WorkItemCore tests
-- Add TeamFoundationIdentity tests
-- Add FieldCollection tests
-- Target: Get Qwiq.Core from 58.7% to 70%
+- Continue Qwiq.Core coverage (+4.3% needed)
+- Add Qwiq.Mapper.Identity tests (+4% needed)
+- Implement Wave 5 MockBehaviorMode for exception testing
 
 See: `.agents/sessions/2025-12-13-session-w4-coverage.md` for full details
 
