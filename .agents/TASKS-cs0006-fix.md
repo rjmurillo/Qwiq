@@ -27,7 +27,7 @@ Fix intermittent CS0006 build failures in GitHub Actions CI caused by race condi
 </PropertyGroup>
 ```
 
-2. **Add .NET Framework reference assemblies for Linux** (in `Directory.Build.props`):
+1. **Add .NET Framework reference assemblies for Linux** (in `Directory.Build.props`):
 
 ```xml
 <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
@@ -36,7 +36,7 @@ Fix intermittent CS0006 build failures in GitHub Actions CI caused by race condi
 ```
 
 This allows building net472 targets on Linux/macOS without the Windows SDK installed.
-See: https://github.com/microsoft/dotnet-framework-reference-assemblies
+See: <https://github.com/microsoft/dotnet-framework-reference-assemblies>
 
 ## Current Situation
 
@@ -130,7 +130,7 @@ The following high-level tasks break down the work needed to complete this fix:
   - Commit with message: `ci: disable inner-build parallelism to fix CS0006 race conditions`
   - Body text:
 
-    ```
+    ```text
     Fixes intermittent CS0006 errors in CI by:
     - Disabling BuildInParallel for multi-TFM inner builds
     - Disabling reference assembly generation on CI
@@ -185,7 +185,7 @@ The following high-level tasks break down the work needed to complete this fix:
 - [ ] **2.2: Download and analyze binlog (if available)**
 
   - Download `build.binlog` from artifacts
-  - Open in MSBuild Structured Log Viewer (https://msbuildlog.com/)
+  - Open in MSBuild Structured Log Viewer (<https://msbuildlog.com/>)
   - Search for properties:
     - `BuildInParallel`
     - `MSBuildBuildInParallel`
@@ -248,9 +248,11 @@ If CS0006 still occurs:
 - [ ] **3.2: Reproduce CI build command (Windows)**
 
   - Run exact CI command with CI properties:
+
     ```powershell
     dotnet build Qwiq.sln -c Release --no-restore /t:Build,Pack /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build-local-ci.binlog
     ```
+
   - Watch for CS0006 errors
   - Note build duration
 
@@ -267,9 +269,11 @@ If CS0006 still occurs:
 
   - Clean again: `dotnet clean`
   - Run local build WITHOUT CI properties:
+
     ```powershell
     dotnet build Qwiq.sln -c Release /m:1 /bl:./artifacts/logs/build-local-dev.binlog
     ```
+
   - Compare binlog: properties should be default values
   - Confirm `ProduceReferenceAssembly=true` (default) in dev build
 
@@ -328,14 +332,18 @@ If CS0006 occurs locally:
 - [ ] **4.3: Add diagnostic logging**
 
   - Option A: Add diagnostic step before build:
+
     ```yaml
     - name: Show MSBuild properties
       run: dotnet msbuild Qwiq.sln /t:Restore /p:ContinuousIntegrationBuild=true /pp:./artifacts/logs/preprocessed.xml
     ```
+
   - Option B: Use `/v:diag` for one-time verbose build:
+
     ```yaml
     /bl:./artifacts/logs/build.binlog /v:diag > ./artifacts/logs/build.log
     ```
+
   - Commit whichever option provides value for future debugging
 
 - [ ] **4.4: Consider RestoreUseStaticGraphEvaluation**
@@ -384,9 +392,11 @@ Only implement changes that:
   - Open `.github/copilot-instructions.md`
   - Navigate to `## Solutions Repository` section
   - Add new entry under "Build Debugging" table:
+
     ```markdown
     | CS0006 in multi-TFM CI builds | Disable inner-build parallelism: BuildInParallel=false, ProduceReferenceAssembly=false | 98% |
     ```
+
   - Add detailed notes if pattern differs from description
 
 - [ ] **5.2: Document build time tradeoffs**

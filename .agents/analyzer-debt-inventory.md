@@ -569,7 +569,7 @@
 - `IDE0024`
 - `IDE0025`
 
-_... and 85 more IDE rules_
+(... and 85 more IDE rules)
 
 **Common IDE Issues**:
 
@@ -704,7 +704,7 @@ CS0618 should be reviewed - may indicate use of deprecated APIs that need migrat
 - [ ] Fix or justify suppression with comment
 - [ ] Zero unsuppressed security violations
 
-**Week 3: W1.17 - Reliability Rules**
+#### Week 3: W1.17 - Reliability Rules
 
 - [ ] Enable high-priority CA2xxx rules:
   - CA1062 (argument validation - pairs with nullable)
@@ -714,7 +714,7 @@ CS0618 should be reviewed - may indicate use of deprecated APIs that need migrat
 - [ ] Fix violations incrementally
 - [ ] Document justified suppressions
 
-**Week 4: W1.18 - Performance Rules**
+#### Week 4: W1.18 - Performance Rules
 
 - [ ] Enable high-impact CA18xx rules:
   - CA1812 (uninstantiated classes - review DI scenarios)

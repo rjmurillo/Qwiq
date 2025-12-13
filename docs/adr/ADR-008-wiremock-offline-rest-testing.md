@@ -163,7 +163,7 @@ We implemented a two-phase approach:
 
 ### Test Results
 
-```
+```text
 Test Run Successful.
 Total tests: 9
      Passed: 9

@@ -55,7 +55,7 @@ dotnet test Qwiq.sln -c Release --filter "TestCategory!=localOnly&TestCategory!=
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 <type>(<scope>): <short description>
 
 <optional body with more details>
@@ -89,7 +89,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 
 **Examples:**
 
-```
+```text
 fix(core): add null guard to prevent NullReferenceException
 feat(linq): add support for Contains operator
 docs: update contributing guide with sandbox details
@@ -353,6 +353,40 @@ start ./artifacts/coverage/index.html
 - Use mocks from `Qwiq.Mocks` for unit tests
 - Mark intentionally untested code with `[ExcludeFromCodeCoverage]`
 
+#### ⚠️ CRITICAL: Coverage Artifacts Must Never Be Committed
+
+**The `artifacts/` directory is in `.gitignore` and must NEVER contain committed files.**
+
+Coverage files (`.cobertura.xml`, HTML reports) are generated during test runs and are:
+
+- ✅ **Automatically ignored** by `.gitignore` (line 77: `/artifacts/`)
+- ✅ **Generated on-demand** during CI/CD and local test runs
+- ❌ **NEVER committed to git** - they are build artifacts, not source code
+
+**Before committing:**
+
+```powershell
+# Verify no artifacts are staged
+git status | Select-String "artifacts/"
+
+# If any artifacts appear, they should NOT be staged
+# This indicates a git issue - DO NOT force-add them
+```
+
+**Why this matters:**
+
+- Coverage files are **large** (20-23k lines each, 87k total in one test run)
+- Coverage files are **ephemeral** (change every test run)
+- Committing them **bloats the repository** and git history
+- They provide **no value** in version control (regenerated on demand)
+
+**If you accidentally stage artifacts:**
+
+1. **DO NOT commit them**
+2. Unstage: `git restore --staged artifacts/`
+3. Verify: `git status` should show them as untracked
+4. `.gitignore` will prevent them from being staged in future
+
 ## Code Style
 
 ### Formatting and Linting
@@ -520,6 +554,7 @@ public class Bug : IIdentifiable<int?>
    ```
 
 2. Reference in your project file (without version):
+
    ```xml
    <PackageReference Include="NewPackage" />
    ```
@@ -547,11 +582,11 @@ If tests need access to internal types, add to the source project's `.csproj`:
 
 ### Common Issues
 
-**"Type is inaccessible due to its protection level"**
+#### "Type is inaccessible due to its protection level"
 
 Add `InternalsVisibleTo` to the source project (see [InternalsVisibleTo Setup](#internalsvisibleto-setup)).
 
-**Build fails with file locking errors**
+#### Build fails with file locking errors
 
 Use single-threaded build:
 
@@ -559,7 +594,7 @@ Use single-threaded build:
 dotnet build /m:1 /nodeReuse:false -v:minimal
 ```
 
-**SOAP tests fail with TF30063 authorization error**
+#### SOAP tests fail with TF30063 authorization error
 
 SOAP tests require Windows integrated authentication. MSA accounts with MFA are not supported. Use:
 
@@ -567,7 +602,7 @@ SOAP tests require Windows integrated authentication. MSA accounts with MFA are 
 dotnet test --filter "TestCategory!=SOAP"
 ```
 
-**Package restore fails**
+#### Package restore fails
 
 Clear NuGet cache:
 

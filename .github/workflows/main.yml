@@ -48,7 +48,7 @@ jobs:
           global-json-file: ./global.json
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: csharp
           queries: security-extended,security-and-quality
@@ -58,6 +58,12 @@ jobs:
 
       - name: Restore NuGet packages
         run: dotnet restore Qwiq.sln
+
+      - name: Set up projects for SecurityCodeScan analysis
+        # SecurityCodeScan is a vulnerability patterns detector for C# and VB.NET
+        # Only run on Windows where MSBuild is available
+        if: matrix.os == 'windows-latest'
+        uses: security-code-scan/security-code-scan-add-action@f8ff4f2763ed6f229eded80b1f9af82ae7f32a0d
 
       - name: Build and pack solution (Windows)
         # Windows: Use /t:Build,Pack to ensure all packages are generated during build.
@@ -79,6 +85,17 @@ jobs:
           dotnet build Qwiq.sln -c Release --no-restore /p:GeneratePackageOnBuild=false
           /p:ContinuousIntegrationBuild=true /m:1 /nodeReuse:false /bl:./artifacts/logs/build.binlog
 
+      - name: Convert SecurityCodeScan results to SARIF
+        # Convert SecurityCodeScan results to SARIF format for GitHub Code Scanning
+        if: matrix.os == 'windows-latest'
+        uses: security-code-scan/security-code-scan-results-action@cdb3d5e639054395e45bf401cba8688fcaf7a687
+
+      - name: Upload SecurityCodeScan SARIF
+        if: matrix.os == 'windows-latest'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: SecurityCodeScan.sarif
+
       - name: Validate package output
         # Scans csproj files to find packable projects and validates each produced
         # both .nupkg and .snupkg files. Fails the build if any are missing.
@@ -95,7 +112,7 @@ jobs:
         run: ./build/scripts/Verify-SourceLink.ps1
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:csharp"
           output: ${{ runner.temp }}/codeql-results
@@ -114,7 +131,7 @@ jobs:
           }
 
       - name: Upload CodeQL SARIF artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: codeql-sarif-${{ matrix.os }}
@@ -153,7 +170,7 @@ jobs:
 
       - name: Upload build logs
         if: success() || failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-logs-${{ matrix.os }}
           path: ./artifacts/logs/
@@ -172,7 +189,7 @@ jobs:
         if:
           always() && (steps.test-windows.outcome == 'success' || steps.test-windows.outcome == 'failure' ||
           steps.test-linux.outcome == 'success' || steps.test-linux.outcome == 'failure')
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-${{ matrix.os }}
           path: ./artifacts/TestResults/**/*.trx
@@ -182,14 +199,14 @@ jobs:
         if:
           always() && (steps.test-windows.outcome == 'success' || steps.test-windows.outcome == 'failure' ||
           steps.test-linux.outcome == 'success' || steps.test-linux.outcome == 'failure')
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-report-${{ matrix.os }}
           path: ./artifacts/CoverageReport/
           if-no-files-found: ignore
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: success()
         with:
           name: binaries-${{ matrix.os }}
@@ -200,7 +217,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload packages
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         # Only upload packages from Windows build (Linux doesn't build all packages)
         if: success() && matrix.os == 'windows-latest'
         with:
@@ -230,7 +247,7 @@ jobs:
           dotnet sbom-tool generate -b ./src -bc ./ -pn Qwiq -pv ${{ steps.nbgv.outputs.version }} -ps "Qwiq Contributors" -nsb https://github.com/rjmurillo/Qwiq -m ./artifacts/sbom
 
       - name: Upload SBOM artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: success()
         with:
           name: sbom-${{ matrix.os }}

@@ -28,12 +28,12 @@ Added 4 major improvements to the Sub-Agent Routing section:
 - Tool restriction via custom agents
 - Usage example with `agentName` parameter
 
-**C. Added Agents to Table**
+#### C. Added Agents to Table
 
 - `orchestration` - Task routing & coordination
 - `Plan` - Research & multi-step planning
 
-**D. Updated Routing Heuristics**
+#### D. Updated Routing Heuristics
 
 - Multi-agent task coordination → orchestration
 - Research & solution planning → Plan

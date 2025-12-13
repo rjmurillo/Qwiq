@@ -47,7 +47,7 @@
 
 **Current Branch**: `feat/modernize-3` (commit: 767b30f0)
 
-**Session 28 Key Decision: PRODUCTION v11.0.0 RELEASE**
+### Session 28 Key Decision: PRODUCTION v11.0.0 RELEASE
 
 - ✅ **Wave 1 COMPLETE (25/26)** - W1.18 deferred pending W2.2 (API compat baselines)
 - ✅ **Build is clean** - 0 warnings, 0 errors
@@ -57,6 +57,7 @@
 - 🎯 **Goal**: Ship NuGet v11.0.0 in 6-8 weeks
 
 **The 8 Active Suppressions (Design Decisions)**:
+
 | Rule | Count | Justification |
 |------|-------|---------------|
 | CS1591 | ~4200 | XML docs - large effort, low ROI |
@@ -69,6 +70,7 @@
 | CA2263 | scoped | Test-specific - appropriate scope |
 
 **Sprint Priorities (Production v11.0.0)**:
+
 | Tier | Task | Effort | Description |
 |------|------|--------|-------------|
 | **Tier 1 CRITICAL** | W2.32 | 1-2h | CI Warning Gate |
@@ -182,6 +184,7 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 
 | Date                    | Activities                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Validation                                                                                                                                                                                                                                                      |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-12-12 (Session 30) | **Wave 4 Phase 1 Complete**: Established production-ready test quality baseline. Completed W4.1-W4.5: (1) Test execution baseline (189 tests, 11.58s - exceeds <300s target). (2) Test flake rate (0.00% - exceeds <0.1% target). (3) Code coverage baseline (51.1% - gap to 70% defined). (4) SOAP usage assessment (recommend deprecation - ADR-010). (5) 16-week test improvement plan created. **Key Findings**: REST client at 0% coverage (critical gap), test suite exceptionally stable, SOAP cannot deploy in Kubernetes. **Deliverables**: docs/WAVE4-TEST-IMPROVEMENT-PLAN.md, docs/metrics/test-baseline.md, docs/metrics/test-flakiness-report.md, docs/adr/ADR-010-soap-client-deprecation-strategy.md, scripts/Measure-TestFlakiness.ps1. Next: Phase 2 - REST client coverage expansion (highest ROI). | Build: ✅ 0 errors, 0 warnings. Tests: ✅ 189/189 passed, 0% flake. Coverage: ✅ 51.1% baseline. Plan: ✅ 16-week roadmap to 70%. Git: ✅ Commits e5d4110, b73542b.                                                                                                |
 | 2025-12-12 (Session 28) | **Documentation Reconciliation**: Updated 7 documentation files with critical corrections: (1) .NET 10 is GA (Nov 11, 2025), LTS until Nov 2028 - NOT "defer". (2) net48/net481 provide compiler optimizations, NOT just binary compat. (3) Branch corrected from `chore/modernize-wave-2` to `feat/modernize-3`. (4) Production v11.0.0 context added (100+ team members). (5) Waves 3-4 RE-ACTIVATED, Wave 5 ADDED. Files updated: copilot-instructions.md, modernize-explainer.md, modernize-TODO.md, PROMPTS.md, analyzer-debt-inventory.md, HANDOFF.md, memory file. See: `.agents/sessions/2025-12-12-session-28-documentation-reconciliation.md`                                                                                                                                                                                                                                     | Build: ✅ 0 errors, 0 warnings. Docs: ✅ 7 files updated. TFM: ✅ Corrected to net472;net48;net481;net8.0;net9.0;net10.0.                                                                                                                                       |
 | 2025-12-12 (Session 26) | **Multi-Agent Consensus Analysis**: Invoked 5 subagents (csharp-expert, feature-request-review, independent-thinker, create-explainer, generate-tasks) to audit analyzer debt claims. **Key Findings**: (1) Wave 1 is 25/26 complete - W1.18 deferred pending W2.2 (API compat baselines). (2) "~400 suppressed rules" was a measurement artifact - only 8 active suppressions exist (all design decisions). (3) Build is clean: 0 warnings, 0 errors. (4) Polyfill work complete (ThrowIfNull, ThrowIfNegative, ThrowIfNegativeOrZero, ThrowIfZero, ThrowIfEqual). (5) Original 7+ day remediation plan cancelled - problem doesn't exist. **Actions**: Added W2.32 (CI Warning Gate), updated Quick Reference, documented 8 active suppressions with justifications, updated modernize-explainer.md Gap 1 as RESOLVED. See: `.agents/sessions/2025-12-12-session-26-ca-debt-analysis.md`  | Build: ✅ 0 errors, 0 warnings. Docs: ✅ Updated. Consensus: ✅ 5/5 agents agreed.                                                                                                                                                                              |
 | 2025-12-11 (Session 25) | **Wave 4: Test Quality & Coverage Excellence**: Deep analysis of code coverage gaps using multi-agent consensus (csharp-expert, feature-request-review, independent-thinker). Created comprehensive Wave 4 with 25 tasks across 5 phases: (1) Baseline & Planning - metrics collection, SOAP usage assessment; (2) Mutation Testing Setup - Stryker.NET integration, CI workflow; (3) WireMock Integration - offline test infrastructure, recording capture; (4) Test Quality Improvements - flaky test remediation, 65% mutation score target; (5) Documentation - TESTING.md update, ADRs. Key decisions: mutation testing before coverage expansion, test stabilization before mutation runs, SOAP spike-then-deprecate strategy. Success criteria: 65% mutation score on REST core, <0.1% flake rate, 80% offline tests. Timeline: 18-20 weeks (Q1-Q2 2026). See: Wave 4 section below. | Docs: ✅ 25 tasks added. Multi-agent consensus achieved.                                                                                                                                                                                                        |
@@ -643,6 +646,7 @@ All foundation items have been completed in prior modernization efforts.
   - Updated Quick Reference with category breakdown
 
 **Verified Counts (Session 7)**:
+
 | Category | Count | Priority |
 |----------|-------|----------|
 | CA1xxx (Design) | ~135 | P3 (Low) |
@@ -669,6 +673,7 @@ All foundation items have been completed in prior modernization efforts.
 - **Completed**: 2025-12-05 (Session 7 on `copilot/sub-pr-58`)
 
 **P0 Security Rules Enabled** (ALL 65 rules):
+
 | Rule | Description | Risk |
 |------|-------------|------|
 | CA2100 | Review SQL queries for security vulnerabilities | SQL Injection |
@@ -698,6 +703,7 @@ All foundation items have been completed in prior modernization efforts.
 - **Completed**: 2025-12-08 (Wave 1 completion)
 
 **P1 Reliability Rules Enabled** (5 of 5):
+
 | Rule | Description | Impact |
 |------|-------------|--------|
 | CA1062 | Validate arguments of public methods | ✅ Zero violations |
@@ -734,6 +740,7 @@ All foundation items have been completed in prior modernization efforts.
 - CA1822: Mark members as static ❌ (8 violations - deferred to Wave 2)
 
 **P2 Performance Rules** (ordered by allocation impact):
+
 | Rule | Description | Benefit |
 |------|-------------|---------|
 | CA1822 | Mark members as static | Avoid this pointer |
@@ -761,6 +768,7 @@ All foundation items have been completed in prior modernization efforts.
 **Note**: Enable these AFTER API compatibility baselines are established (W2.2) to avoid accidental breaking changes.
 
 **P3 Design Rules** (phased):
+
 | Phase | Rules | Description |
 |-------|-------|-------------|
 | 3a | CA1000-CA1020 | Static members, type design |
@@ -903,7 +911,7 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
 ```
 ````
 
-````
+````text
 
 - **Acceptance Criteria**:
   - [ ] Coverage expectations documented
@@ -944,9 +952,9 @@ reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -report
    </Project>
 ````
 
-2. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
-3. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
-4. Clean the new `artifacts/` folder in `.gitignore` if not already present.
+1. Import the file early in `Directory.Build.props` (before other SDK-driven defaults take effect) or in `Directory.Build.targets` if needed for evaluation order.
+2. Update CI workflow to reference `$(ArtifactsPath)` for artifact uploads and coverage aggregation.
+3. Clean the new `artifacts/` folder in `.gitignore` if not already present.
 
 **Verification**:
 
@@ -1320,7 +1328,7 @@ jobs:
 
 **Current Actions Needing SHA Pinning**:
 
-```
+```text
 .github/workflows/main.yml:
   - actions/checkout@v4 → needs SHA
   - actions/setup-dotnet@v4 → needs SHA
@@ -1575,6 +1583,7 @@ jobs:
 8. ✅ Build passes with 0 RS00xx warnings
 
 **API Entry Summary**:
+
 | Project | API Entries |
 |---------|-------------|
 | Qwiq.Core | 911 |
@@ -2407,6 +2416,7 @@ the official Microsoft.TeamFoundationServer.Client packages.
 > **Status**: 📋 **RE-ACTIVATED** (December 12, 2025 - Session 28 Strategic Pivot)
 >
 > **Session 28 Re-Activation Rationale**:
+>
 > | Factor | Session 27 Assumption | Session 28 Reality |
 > |--------|----------------------|-------------------|
 > | User base | "Nobody uses this" | 100+ team members planned |
@@ -2837,7 +2847,7 @@ var options = new QwiqOptionsBuilder()
 
 ### Timeline (Updated Dec 12, 2025 - MAINTENANCE MODE DECISION)
 
-```
+```text
 Week 1-2:   W1.1, W1.2, W1.3 (Infrastructure - parallel) ✅ DONE
 Week 2-3:   W1.4, W1.5, W1.6, W1.7 (Documentation - parallel) ✅ DONE
 Week 3-4:   W1.8 (PackageReadme) ✅ DONE

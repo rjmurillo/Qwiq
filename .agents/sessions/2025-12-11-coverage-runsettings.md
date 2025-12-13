@@ -73,7 +73,7 @@
 
 ## Commits Made
 
-```
+```text
 889416aa docs(skills): add code coverage to qwiq-testing skill
 900c30f8 docs: add coverage command to copilot-instructions
 ca97d2bf docs(contributing): add code coverage section

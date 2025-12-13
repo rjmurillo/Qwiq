@@ -180,7 +180,7 @@ dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false
 
 **Result**:
 
-```
+```text
 Build succeeded.
     0 Warning(s)
     0 Error(s)

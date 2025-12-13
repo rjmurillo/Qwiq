@@ -46,7 +46,7 @@ If you need to capture new traffic (e.g., for additional endpoints):
 
 1. **Install and configure Fiddler**:
 
-   - Download from https://www.telerik.com/fiddler
+   - Download from <https://www.telerik.com/fiddler>
    - Enable HTTPS decryption: Tools > Options > HTTPS > Decrypt HTTPS traffic
    - Trust the Fiddler root certificate
 

@@ -119,7 +119,7 @@ dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj -c Release --no-bu
 
 ## Git Commit History
 
-```
+```text
 e03abd45 (HEAD -> copilot/start-wave-1-task-w1-1, origin/copilot/start-wave-1-task-w1-1)
   docs: document package testing modernization for session handoff
 
@@ -195,7 +195,7 @@ This caused Verify framework to fail with "The prefix has already been used" err
 
 ## Files Modified This Session
 
-```
+```text
 .github/workflows/main.yml               (removed dotnet pack, user removed verify step)
 test/Qwiq.Package.Tests/
   ├── PackageTests.cs                    (refactored to use Verify.Nupkg)

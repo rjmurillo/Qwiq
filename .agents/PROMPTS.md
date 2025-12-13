@@ -12,7 +12,6 @@
 
 ## Quick Reference: Current Sprint Priorities
 
-
 | Tier       | Task ID | Description            | Status                 |
 | ---------- | ------- | ---------------------- | ---------------------- |
 | 1 CRITICAL | W2.32   | CI Warning Gate        | 📋 Planned             |
@@ -24,7 +23,6 @@
 | 2 HIGH     | W5.2    | Container Docs         | 📋 Planned             |
 | 3 MEDIUM   | W2.33   | NuGet v11.0.0 Publish  | 📋 Planned             |
 | 3 MEDIUM   | W5.6    | Migration Guide v10→11 | 📋 Planned             |
-
 
 ---
 
@@ -40,6 +38,8 @@
 
 ```text
 # QWIQ Modernization Session - Task W2.32: CI Warning Gate
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -94,9 +94,10 @@ dotnet build Qwiq.sln -c Release /p:PedanticMode=false /m:1 /nodeReuse:false
 1. Check off W2.32 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.32 CI warning gate verification"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.32 CI warning gate verification"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -113,6 +114,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W2.22: SHA Digest Pinning
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -169,9 +172,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.22 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.22 SHA digest pinning"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.22 SHA digest pinning"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -188,6 +192,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W5.1: Security Audit Checklist
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -249,9 +255,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.1 security audit checklist"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.1 security audit checklist"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -270,6 +277,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W3.1: TFM Expansion
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -341,9 +350,10 @@ dotnet test Qwiq.sln -c Release -f net8.0 --no-build --filter "TestCategory!=loc
 1. Check off W3.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.1 TFM expansion"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.1 TFM expansion"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -360,6 +370,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W2.29: Service Resolution Null Guards
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -424,9 +436,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.29 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "fix: complete W2.29 service resolution null guards"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "fix: complete W2.29 service resolution null guards"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -443,6 +456,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W5.2: Container Deployment Guide
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -500,9 +515,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.2 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.2 container deployment guide"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.2 container deployment guide"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -519,6 +535,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W3.8: Observability Overhaul
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -575,9 +593,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.8 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.8 observability overhaul"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.8 observability overhaul"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -594,6 +613,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W4.1: Achieve 70% Code Coverage
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -655,10 +676,11 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W4.1 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W4.1 code coverage improvements"`
-5. Update coverage badge in README
-6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W4.1 code coverage improvements"`
+6. Update coverage badge in README
+7. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+8. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -677,6 +699,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W2.33: NuGet v11.0.0 Publish
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -761,6 +785,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 ```text
 # QWIQ Modernization Session - Task W5.6: Migration Guide v10→v11
 
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
+
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
 2. Read `.agents/HANDOFF.md` - previous session context
@@ -816,9 +842,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W5.6 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.6 migration guide v10 to v11"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W5.6 migration guide v10 to v11"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -835,6 +862,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W3.9: IConfiguration Support
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -891,9 +920,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W3.9 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.9 IConfiguration support"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "feat: complete W3.9 IConfiguration support"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -910,6 +940,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W2.3: Contract Tests
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -956,9 +988,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.3 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W2.3 contract tests"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "test: complete W2.3 contract tests"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -975,6 +1008,8 @@ CRITICAL: The next session has ZERO context except checked-in documentation.
 
 ```text
 # QWIQ Modernization Session - Task W2.7: Update CONTRIBUTING.md
+
+**CRITICAL**: Only terminate your turn when you are sure the problem is solved and all TODO items are checked off. **Continue working until the task is truly and completely solved.**
 
 ## Session Setup (MANDATORY - Do First)
 1. Read `.agents/AGENT-INSTRUCTIONS.md` - operational protocol
@@ -1020,9 +1055,10 @@ dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&Tes
 1. Check off W2.7 in `.agents/modernize-TODO.md`
 2. Complete session log with: what was done, decisions made, challenges, files changed
 3. Update `.agents/HANDOFF.md` with: current state, what's completed, what's next
-4. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.7 update CONTRIBUTING.md"`
-5. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
-6. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+4. Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+5. Stage and commit: `git add .agents/ && git add -f .agents/sessions/*.md && git commit -m "docs: complete W2.7 update CONTRIBUTING.md"`
+6. Verify build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+7. Verify tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
 
 CRITICAL: The next session has ZERO context except checked-in documentation.
 ```
@@ -1079,7 +1115,7 @@ Complete these steps immediately before ending the session:
 - [ ] Check off ALL completed tasks in `.agents/modernize-TODO.md`
 
 ## 2. Complete Session Log
-Update `.agents/sessions/YYYY-MM-DD-session-NN.md` with:
+Update your session log in `.agents/sessions/` (example: `.agents/sessions/2025-12-12-session-01.md`) with:
 - What was done
 - Decisions made and rationale
 - Challenges and resolutions
@@ -1200,6 +1236,45 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 
 ---
 
+## Universal Session End Prompt
+
+Use this prompt before ending ANY session:
+
+```text
+# Session Finalization Checklist
+
+Before ending, complete ALL mandatory steps:
+
+## 1. Documentation Updates
+- [ ] All completed tasks checked off in `.agents/modernize-TODO.md`
+- [ ] Session log complete at `.agents/sessions/YYYY-MM-DD-session-NN.md`:
+  - What was done for each task
+  - Decisions made and rationale
+  - Challenges encountered and resolutions
+  - Files changed and commits made
+- [ ] `.agents/HANDOFF.md` updated with:
+  - Current state (build/test status)
+  - What was completed this session
+  - What's next for following session
+  - Any blockers or concerns
+
+## 2. Git Operations
+- [ ] Stage all documentation: `git add .agents/`
+- [ ] Force-add session logs: `git add -f .agents/sessions/*.md`
+- [ ] Commit with conventional message
+
+## 3. Verification
+- [ ] Lint clean: `dotnet pprettier --write . && npx markdownlint-cli2 --fix "**/*.md"`
+- [ ] Build passes: `dotnet build Qwiq.sln -c Release /m:1 /nodeReuse:false`
+- [ ] Tests pass: `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"`
+
+## Critical Reminder
+The next session has ZERO context except checked-in documentation.
+Make documentation complete enough for any agent to continue.
+```
+
+---
+
 ## Document Control
 
 | Version | Date       | Changes                                                                           |
@@ -1207,3 +1282,5 @@ DO NOT attempt this task until maintainer confirms Key Vault is ready.
 | 1.0     | 2025-12-06 | Initial prompts                                                                   |
 | 2.0     | 2025-12-12 | Complete rewrite: tier-based prompts, zero-context format                         |
 | 3.0     | 2025-12-12 | Self-contained prompts: each task includes full start/end protocol for copy/paste |
+| 3.1     | 2025-12-12 | Added branch/clean checks, baseline build step, and forced add of session logs    |
+| 3.2     | 2025-12-12 | Restored Universal Session End Prompt for agent handoff continuity                |

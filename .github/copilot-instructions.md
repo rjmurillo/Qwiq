@@ -66,6 +66,49 @@ dotnet test Qwiq.sln --configuration Release --settings coverage.runsettings
 - Only Qwiq.\* production assemblies are instrumented
 - Use `reportgenerator` to create HTML reports from coverage results
 
+### ⚠️ CRITICAL: Never Commit Artifacts
+
+**The `artifacts/` directory is in `.gitignore` and must NEVER contain committed files.**
+
+All build outputs, test results, and coverage files go to `artifacts/` and are:
+
+- ✅ **Automatically ignored** by `.gitignore` (line 77: `/artifacts/`)
+- ✅ **Generated on-demand** during builds and test runs
+- ❌ **NEVER committed to git** - they are ephemeral build artifacts
+
+**What goes in artifacts/ (all ignored):**
+
+- `artifacts/bin/` - Build outputs
+- `artifacts/obj/` - Intermediate build files
+- `artifacts/package/` - NuGet packages
+- `artifacts/TestResults/` - Test results and coverage files (.cobertura.xml)
+- `artifacts/coverage/` - HTML coverage reports (from reportgenerator)
+- `artifacts/logs/` - Build logs (.binlog)
+
+**Before committing, ALWAYS verify:**
+
+```powershell
+# Check that no artifacts are staged
+git status | Select-String "artifacts/"
+
+# If any appear, DO NOT commit them - this indicates a git/tool issue
+# The .gitignore rule should prevent them from ever being staged
+```
+
+**Why this matters:**
+
+- Coverage files are large (20-23k lines each)
+- They change every test run (meaningless in version control)
+- Committing them bloats the repository and git history
+- They provide zero value (regenerated on demand)
+
+**If artifacts accidentally get staged:**
+
+1. **STOP - DO NOT COMMIT**
+2. Unstage: `git restore --staged artifacts/`
+3. Verify .gitignore is working: `git check-ignore -v artifacts/test.xml`
+4. Report the issue - artifacts should never be stageable
+
 ## Project Layout
 
 ### Source Projects (`src/`)
@@ -260,7 +303,10 @@ results.ShouldHaveSingleItem();
 dotnet format
 
 # Markdown/JSON formatting (via PackedPrettier)
-dotnet pprettier --write "**/*.md"
+dotnet pprettier --write .
+
+# Markdown linting (auto-fix)
+npx markdownlint-cli2 --fix "**/*.md"
 
 # Check formatting without changes
 dotnet pprettier --check "**/*.md"
@@ -346,6 +392,7 @@ public void SetValue(string value) { } // Cannot be null
 - Use `Contract.Requires` for design-by-contract assertions (optional)
 - **Avoid duplicate validation**: Don't use both `Contract.Requires` AND runtime `ArgumentNullException` for the same parameter
 - **Logging exceptions**: When catching exceptions that will be rethrown or handled, log them:
+
   ```csharp
   catch (Exception ex)
   {
@@ -353,6 +400,7 @@ public void SetValue(string value) { } // Cannot be null
       throw; // or return appropriate value
   }
   ```
+
 - **Never swallow exceptions silently**: Empty `catch { }` blocks hide bugs; at minimum log the error
 
 ### Known Patterns
@@ -513,7 +561,7 @@ When adding or updating .NET workflows in this repo, follow these guidelines:
 
 Use the [Conventional Commits](https://www.conventionalcommits.org/) format:
 
-```
+```text
 <type>(<scope>): <short description>
 
 <optional body with more details>
@@ -706,9 +754,9 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 - Compare package manifests and contents against verified baselines
 - Will fail if run without first creating packages
 
-**⚠️ CRITICAL: When NuGet Package Contents Change**
-
-Whenever ANY change is made that affects NuGet package contents (adding/removing files, changing metadata, etc.), you MUST:
+> **⚠️ CRITICAL: When NuGet Package Contents Change**
+>
+> Whenever ANY change is made that affects NuGet package contents (adding/removing files, changing metadata, etc.), you MUST:
 
 1. **Run PackageTests first** to identify baseline mismatches:
 
