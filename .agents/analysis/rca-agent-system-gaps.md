@@ -576,7 +576,7 @@ fi
 
 **Remediation**:
 
-````markdown
+`````markdown
 ## Deliverables
 
 1. Create `.agents/usage-log.md`:
@@ -624,7 +624,7 @@ fi
 
 1. CLI tool: `claude-agents.sh` or `poetry run agents`
 ```
-````
+`````
 
 ```bash
 $ claude-agents suggest

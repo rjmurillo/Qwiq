@@ -17,26 +17,26 @@ Session 40 completed W2.22 (SHA pinning for supply chain security) by pinning 11
 
 ### Successes (Tag: helpful)
 
-| Strategy | Evidence | Impact | Atomicity |
-|----------|----------|--------|-----------|
-| PowerShell wrapper for .NET builds | Build succeeded after using `pwsh -NoProfile -NonInteractive -Command "..."` | 10 | 97% |
-| Immediate skill documentation | Created Skill-Build-002 in Serena memory during session | 8 | 95% |
-| Renovate automation for future updates | `helpers:pinGitHubActionDigests` preset configured | 7 | 94% |
-| Pre-commit hook validation | All commits passed lint checks | 6 | 98% |
+| Strategy                               | Evidence                                                                     | Impact | Atomicity |
+| -------------------------------------- | ---------------------------------------------------------------------------- | ------ | --------- |
+| PowerShell wrapper for .NET builds     | Build succeeded after using `pwsh -NoProfile -NonInteractive -Command "..."` | 10     | 97%       |
+| Immediate skill documentation          | Created Skill-Build-002 in Serena memory during session                      | 8      | 95%       |
+| Renovate automation for future updates | `helpers:pinGitHubActionDigests` preset configured                           | 7      | 94%       |
+| Pre-commit hook validation             | All commits passed lint checks                                               | 6      | 98%       |
 
 ### Failures (Tag: harmful)
 
-| Strategy | Error Type | Root Cause | Prevention | Atomicity |
-|----------|------------|------------|------------|-----------|
-| Direct bash build commands | MSB1008 | .NET 10 SDK parses `/m:1` incorrectly through bash | Use PowerShell wrapper | 96% |
-| Multiple retry attempts | Process inefficiency | Unknown SDK/shell incompatibility | Document build patterns upfront | 88% |
+| Strategy                   | Error Type           | Root Cause                                         | Prevention                      | Atomicity |
+| -------------------------- | -------------------- | -------------------------------------------------- | ------------------------------- | --------- |
+| Direct bash build commands | MSB1008              | .NET 10 SDK parses `/m:1` incorrectly through bash | Use PowerShell wrapper          | 96%       |
+| Multiple retry attempts    | Process inefficiency | Unknown SDK/shell incompatibility                  | Document build patterns upfront | 88%       |
 
 ### Near Misses
 
-| What Almost Failed | Recovery | Learning |
-|--------------------|----------|----------|
+| What Almost Failed                       | Recovery                                         | Learning                                     |
+| ---------------------------------------- | ------------------------------------------------ | -------------------------------------------- |
 | Pre-flight verification blocked progress | Identified shell as culprit, documented solution | Session context includes diagnostic findings |
-| File locking from previous builds | Used `git clean -fdx` | Add to pre-flight checklist |
+| File locking from previous builds        | Used `git clean -fdx`                            | Add to pre-flight checklist                  |
 
 ## Extracted Learnings
 
@@ -90,29 +90,29 @@ Session 40 completed W2.22 (SHA pinning for supply chain security) by pinning 11
 
 ### UPDATE
 
-| Skill ID | Current | Proposed | Why |
-|----------|---------|----------|-----|
+| Skill ID        | Current                              | Proposed                         | Why                                    |
+| --------------- | ------------------------------------ | -------------------------------- | -------------------------------------- |
 | Skill-Build-002 | Documents PowerShell wrapper pattern | Add explicit CI template command | Session 40 validated the pattern works |
 
 ### TAG
 
-| Skill ID | Tag | Evidence | Impact |
-|----------|-----|----------|--------|
-| Skill-Build-002 | validated | Session 40 successful build after applying | 10 |
-| Skill-Build-001 | validated | CI build passed with full flags | 9 |
+| Skill ID        | Tag       | Evidence                                   | Impact |
+| --------------- | --------- | ------------------------------------------ | ------ |
+| Skill-Build-002 | validated | Session 40 successful build after applying | 10     |
+| Skill-Build-001 | validated | CI build passed with full flags            | 9      |
 
 ### REMOVE
 
 | Skill ID | Reason | Evidence |
-|----------|--------|----------|
-| (none) | - | - |
+| -------- | ------ | -------- |
+| (none)   | -      | -        |
 
 ## Deduplication Check
 
-| New Skill | Most Similar | Similarity | Decision |
-|-----------|--------------|------------|----------|
-| Skill-Build-003 (git clean) | None | 0% | Add |
-| Skill-CI-004 (Renovate SHA) | Skill-CI-001, CI-002 | 15% | Add (different topic) |
+| New Skill                   | Most Similar         | Similarity | Decision              |
+| --------------------------- | -------------------- | ---------- | --------------------- |
+| Skill-Build-003 (git clean) | None                 | 0%         | Add                   |
+| Skill-CI-004 (Renovate SHA) | Skill-CI-001, CI-002 | 15%        | Add (different topic) |
 
 ## Action Items
 
@@ -123,14 +123,14 @@ Session 40 completed W2.22 (SHA pinning for supply chain security) by pinning 11
 
 ## Session Metrics
 
-| Metric | Value |
-|--------|-------|
-| Tasks Completed | 1 (W2.22) |
-| Commits | 3 |
-| Pre-flight Retries | Multiple (2-3) |
-| Skills Learned | 2 new, 1 updated |
-| Build Status | Passing |
-| Test Status | 701 tests passed |
+| Metric             | Value            |
+| ------------------ | ---------------- |
+| Tasks Completed    | 1 (W2.22)        |
+| Commits            | 3                |
+| Pre-flight Retries | Multiple (2-3)   |
+| Skills Learned     | 2 new, 1 updated |
+| Build Status       | Passing          |
+| Test Status        | 701 tests passed |
 
 ## Handoff Notes
 
