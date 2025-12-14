@@ -28,9 +28,10 @@
 #### W3.8 Structured Logging/Observability
 
 - [ ] **Task**: Add structured logging via Microsoft.Extensions.Logging
-- **Status**: ⏸️ DEFERRED to maintenance phase
-- **Rationale**: Low priority, requires significant API surface changes
+- **Status**: ⏸️ DEFERRED indefinitely
+- **Rationale**: Nice-to-have, requires VERY careful thought about API surface changes and breaking changes
 - **Effort**: L (1 week)
+- **Note**: Deferred per Session 41 - not blocking v11.0.0 release
 
 ---
 
@@ -43,12 +44,13 @@
 
 ---
 
-#### W3.10 Package Signing (Authenticode/StrongName)
+#### W3.10 Package Signing (Authenticode/StrongName) → MOVED TO W5.10
 
 - [ ] **Task**: Add package signing for enterprise trust
-- **Status**: ⏸️ DEFERRED to maintenance phase
-- **Rationale**: Requires certificate management, Azure Key Vault integration
+- **Status**: ⏸️ MOVED to Wave 5 (W5.10)
+- **Rationale**: Requires certificate management, Azure Key Vault integration - not blocking v11.0.0
 - **Effort**: L (1 week)
+- **Note**: Moved to Wave 5 per Session 41
 
 ---
 
@@ -165,11 +167,10 @@
 
 ---
 
-### W5.2 Container Deployment Support
+### W5.2 Container Deployment Support ❌ REMOVED
 
-- [ ] **Task**: Add Dockerfile and container deployment guidance
-- **Effort**: M (1 week)
-- **Priority**: Low
+- **Status**: ❌ REMOVED per Session 41
+- **Rationale**: Nothing for the library owner to do here - container deployment is a consumer concern
 
 ---
 
@@ -219,6 +220,26 @@
 - [ ] **Task**: Publish automated benchmark results
 - **Effort**: M (1 week)
 - **Priority**: Low
+
+---
+
+### W5.10 Package Signing (Authenticode/StrongName)
+
+- [ ] **Task**: Add package signing for enterprise trust
+- **Effort**: L (1 week)
+- **Priority**: Medium (enterprise requirement)
+- **Note**: Moved from W3.10 per Session 41
+- **Dependencies**: Azure Key Vault integration, certificate management
+
+---
+
+### W5.99 NuGet v11.0.0 Publish (FINAL TASK)
+
+- [ ] **Task**: Publish first NuGet release in 7 years
+- **Effort**: S (2-4 hours)
+- **Priority**: **CRITICAL** - This is the LAST task before release
+- **Dependencies**: ALL other tasks in Waves 1-5 complete
+- **Note**: Publishing will be the absolute last thing we do per Session 41
 
 ---
 

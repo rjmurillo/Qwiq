@@ -26,10 +26,6 @@
     <!-- Analyzer diagnostic severities are configured in .editorconfig -->
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 
-    <!-- Deterministic Builds -->
-    <Deterministic>true</Deterministic>
-    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-
     <!-- Artifact Output Configuration -->
     <!-- ArtifactsPath and ArtifactsTestResultsPath are defined in build/targets/artifacts/Artifacts.props -->
     <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK (we'll adopt in .NET 10 LTS, skipping .NET 9 STS). For .NET 8, paths are configured manually. -->
@@ -98,10 +94,12 @@
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
-  <!-- Source Link Configuration -->
+  <!--
+    Source Link Configuration:
+    - PublishRepositoryUrl and EmbedUntrackedSources are now handled by DotNet.ReproducibleBuilds
+    - We only need to configure symbol package generation (not covered by the package)
+  -->
   <PropertyGroup>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
@@ -114,6 +112,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <!-- Override DotNet.ReproducibleBuilds default of 'embedded' to 'portable' for separate .snupkg symbol packages -->
     <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
@@ -128,6 +127,18 @@
   <!-- Source Link for all projects (even test projects benefit from source linking in debugging) -->
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!--
+    Reproducible Builds: .NET Foundation package that auto-configures deterministic build settings.
+    - Auto-detects 11 CI platforms (GitHub Actions, Azure Pipelines, GitLab CI, Jenkins, etc.)
+    - Sets ContinuousIntegrationBuild=true automatically on detected CI systems
+    - Configures SourceLink for GitHub, GitLab, Azure DevOps, Bitbucket
+    - Our explicit settings (Deterministic, DebugType=portable, PublishRepositoryUrl) take precedence
+    See: https://github.com/dotnet/reproducible-builds
+  -->
+  <ItemGroup>
+    <PackageReference Include="DotNet.ReproducibleBuilds" PrivateAssets="All" />
   </ItemGroup>
 
   <!--

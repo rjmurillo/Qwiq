@@ -19,26 +19,26 @@ Session 41 completed the **Reproducible Builds Epic** (W2.34-W2.37), integrating
 
 ### Successes (Tag: helpful)
 
-| Strategy | Evidence | Impact | Atomicity |
-| -------- | -------- | ------ | --------- |
-| **Full Epic Workflow** - Used analyst→roadmap→explainer→task-generator pattern for new feature | W2.34-W2.37 PRD and tasks produced with high specificity; zero rework needed | 10 | 88% |
-| **Package-Based Config** - Used DotNet.ReproducibleBuilds v1.2.39 instead of manual properties | Replaced 4 manual properties (Deterministic, ContinuousIntegrationBuild condition, PublishRepositoryUrl, EmbedUntrackedSources) with single PackageReference; reduced config entropy | 9 | 92% |
-| **Property Reconciliation** - Removed redundant properties handled by package | Eliminated duplicate source of truth; maintains only necessary overrides (DebugType=portable for .snupkg) | 8 | 90% |
-| **Documentation Integration** - Added Reproducible Builds section to CLAUDE.md | New developers can immediately understand deterministic build strategy and CI platform auto-detection | 7 | 85% |
-| **User Clarification on Priorities** - Sought and obtained explicit guidance on deferrals | W3.10 (Package Signing) moved to W5.10, W3.8 (Observability) deferred indefinitely, W5.2 removed entirely, W2.33 (NuGet Publish) moved to W5.99 | 10 | 89% |
+| Strategy                                                                                       | Evidence                                                                                                                                                                             | Impact | Atomicity |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | --------- |
+| **Full Epic Workflow** - Used analyst→roadmap→explainer→task-generator pattern for new feature | W2.34-W2.37 PRD and tasks produced with high specificity; zero rework needed                                                                                                         | 10     | 88%       |
+| **Package-Based Config** - Used DotNet.ReproducibleBuilds v1.2.39 instead of manual properties | Replaced 4 manual properties (Deterministic, ContinuousIntegrationBuild condition, PublishRepositoryUrl, EmbedUntrackedSources) with single PackageReference; reduced config entropy | 9      | 92%       |
+| **Property Reconciliation** - Removed redundant properties handled by package                  | Eliminated duplicate source of truth; maintains only necessary overrides (DebugType=portable for .snupkg)                                                                            | 8      | 90%       |
+| **Documentation Integration** - Added Reproducible Builds section to CLAUDE.md                 | New developers can immediately understand deterministic build strategy and CI platform auto-detection                                                                                | 7      | 85%       |
+| **User Clarification on Priorities** - Sought and obtained explicit guidance on deferrals      | W3.10 (Package Signing) moved to W5.10, W3.8 (Observability) deferred indefinitely, W5.2 removed entirely, W2.33 (NuGet Publish) moved to W5.99                                      | 10     | 89%       |
 
 ### Failures (Tag: harmful)
 
-| Strategy | Error Type | Root Cause | Prevention | Atomicity |
-| -------- | ---------- | ---------- | ---------- | --------- |
-| None identified | - | - | - | - |
+| Strategy        | Error Type | Root Cause | Prevention | Atomicity |
+| --------------- | ---------- | ---------- | ---------- | --------- |
+| None identified | -          | -          | -          | -         |
 
 ### Near Misses
 
-| What Almost Failed | Recovery | Learning |
-| ------------------ | -------- | --------- |
-| Priority confusion over W3.8 (Observability) | User clarified that deferring non-critical items indefinitely is acceptable for research-heavy tasks | Defer-indefinitely is valid status; not all deferred items go to future waves |
-| Scope creep on W2.33 (NuGet Publishing) | User moved to W5.99 (last thing Wave 5) to prevent premature attention | Explicitly mark deferred tasks with final position to avoid accidental advancement |
+| What Almost Failed                           | Recovery                                                                                             | Learning                                                                           |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Priority confusion over W3.8 (Observability) | User clarified that deferring non-critical items indefinitely is acceptable for research-heavy tasks | Defer-indefinitely is valid status; not all deferred items go to future waves      |
+| Scope creep on W2.33 (NuGet Publishing)      | User moved to W5.99 (last thing Wave 5) to prevent premature attention                               | Explicitly mark deferred tasks with final position to avoid accidental advancement |
 
 ---
 
@@ -164,13 +164,13 @@ Session 41 completed the **Reproducible Builds Epic** (W2.34-W2.37), integrating
 
 ## Deduplication Check
 
-| New Skill | Most Similar | Similarity | Decision |
-| --------- | ------------ | ---------- | -------- |
-| Skill-Build-PKG-001 | Skill-Build-001 (MSBuild /m:1 /nodeReuse:false) | 15% - Different domain (packages vs. parallelism) | ADD - Distinct strategy |
-| Skill-Build-CFG-002 | Skill-Build-PKG-001 | 35% - Related but addresses override specificity vs. package adoption | ADD - Complements PKG-001 |
-| Skill-Agent-WF-001 | Skill-Agent-003 (Epic pattern) | 70% - Likely duplicate or refinement | MERGE - Check existing Epic workflow skill |
-| Skill-Proj-CTX-001 | N/A | - | ADD - New domain (context management) |
-| Skill-Doc-CFG-001 | Skill-Doc-001 (comment cleanup) | 65% - Related but broader | MERGE or TAG existing if exists |
+| New Skill           | Most Similar                                    | Similarity                                                            | Decision                                   |
+| ------------------- | ----------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------ |
+| Skill-Build-PKG-001 | Skill-Build-001 (MSBuild /m:1 /nodeReuse:false) | 15% - Different domain (packages vs. parallelism)                     | ADD - Distinct strategy                    |
+| Skill-Build-CFG-002 | Skill-Build-PKG-001                             | 35% - Related but addresses override specificity vs. package adoption | ADD - Complements PKG-001                  |
+| Skill-Agent-WF-001  | Skill-Agent-003 (Epic pattern)                  | 70% - Likely duplicate or refinement                                  | MERGE - Check existing Epic workflow skill |
+| Skill-Proj-CTX-001  | N/A                                             | -                                                                     | ADD - New domain (context management)      |
+| Skill-Doc-CFG-001   | Skill-Doc-001 (comment cleanup)                 | 65% - Related but broader                                             | MERGE or TAG existing if exists            |
 
 ---
 
@@ -247,26 +247,26 @@ Relation: completes
 
 ## Key Metrics
 
-| Metric | Value | Note |
-| ------ | ----- | ---- |
-| Wave 2 Completion | 17/31 (55%) | +4 tasks (W2.34-W2.37) |
-| Total Completion | 51/84 (61%) | Reproducible Builds Epic integrated |
-| Build Status | 0 warnings, 0 errors | Clean build verification |
-| Test Status | 724 passing | All unit tests pass |
-| Rework Cycles | 0 | Epic workflow prevented iteration |
-| Priority Deferrals | 4 items | Strategic alignment with production context |
+| Metric             | Value                | Note                                        |
+| ------------------ | -------------------- | ------------------------------------------- |
+| Wave 2 Completion  | 17/31 (55%)          | +4 tasks (W2.34-W2.37)                      |
+| Total Completion   | 51/84 (61%)          | Reproducible Builds Epic integrated         |
+| Build Status       | 0 warnings, 0 errors | Clean build verification                    |
+| Test Status        | 724 passing          | All unit tests pass                         |
+| Rework Cycles      | 0                    | Epic workflow prevented iteration           |
+| Priority Deferrals | 4 items              | Strategic alignment with production context |
 
 ---
 
 ## Session Learnings Quality Summary
 
-| Learning | Atomicity | Quality | Confidence |
-| -------- | --------- | ------- | ---------- |
-| Package-Based Configuration | 92% | Excellent | High - Directly applicable |
-| Override Specificity | 87% | Good | High - Clear tradeoff identified |
-| Epic Workflow | 90% | Excellent | High - Repeatable pattern |
-| Context Revalidation | 88% | Good | High - Session evidence strong |
-| Config Documentation | 84% | Good | Medium - Domain-specific |
+| Learning                    | Atomicity | Quality   | Confidence                       |
+| --------------------------- | --------- | --------- | -------------------------------- |
+| Package-Based Configuration | 92%       | Excellent | High - Directly applicable       |
+| Override Specificity        | 87%       | Good      | High - Clear tradeoff identified |
+| Epic Workflow               | 90%       | Excellent | High - Repeatable pattern        |
+| Context Revalidation        | 88%       | Good      | High - Session evidence strong   |
+| Config Documentation        | 84%       | Good      | Medium - Domain-specific         |
 
 **Overall Session Quality**: EXCELLENT - All learnings scored 84%+, multi-agent approach validated, zero defects.
 
