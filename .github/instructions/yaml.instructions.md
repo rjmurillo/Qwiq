@@ -41,10 +41,6 @@ jobs:
   build:
     runs-on: windows-latest # Required for net472/SOAP projects
 
-    env:
-      # Enable GitHub CLI for GitHub agents or scripts
-      GH_TOKEN: ${{ github.token }}
-
     steps:
       - uses: actions/checkout@v4
         with:
