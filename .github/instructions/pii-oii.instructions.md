@@ -180,7 +180,7 @@ When generating documentation:
 
 2. **Attribution**: Use role-based attribution
    - ✅ "Analyst Agent", "QA Agent", "Security Agent"
-   - ❌ "John Doe", "alice@company.com"
+   - ❌ "John Doe", `alice@company.com`
 
 3. **Output Locations**: Omit absolute path footers
    - ❌ `## Output Location: D:\src\GitHub\...\file.md`
@@ -211,6 +211,7 @@ When reviewing code or documentation:
 When writing code:
 
 1. **Test Data**: Use generic examples
+
    ```csharp
    // ✅ CORRECT
    var email = "user@example.com";
@@ -222,6 +223,7 @@ When writing code:
    ```
 
 2. **Comments**: Avoid personal attribution
+
    ```csharp
    // ✅ CORRECT
    // Fix for null reference exception in WorkItem constructor
@@ -233,14 +235,16 @@ When writing code:
 3. **Configuration Examples**: Use placeholders
 
    **Correct example:**
+
    ```json
    {
      "author": "Your Name",
      "email": "your-email@example.com"
    }
    ```
-   
+
    **Incorrect example:**
+
    ```json
    {
      "author": "John Doe",
@@ -335,13 +339,15 @@ If PII/OII is discovered in committed files:
 2. **Remove**: Edit files to use repository-relative paths or generic examples
 3. **Verify**: Run validation commands above
 4. **Commit**: Use conventional commit message
-   ```
+
+   ```text
    fix(docs): remove PII/OII from documentation files
-   
+
    - Replace absolute paths with repository-relative paths
    - Replace real names with role-based attribution
    - Remove email addresses from examples
    ```
+
 5. **Update Instructions**: If pattern was missed, update this file
 
 ## Related Instruction Files
