@@ -1,6 +1,6 @@
 # Handoff Document
 
-> **Last Updated**: 2025-12-13 by Claude (Session 39 - CI Build Fix)
+> **Last Updated**: 2025-12-14 by Claude (Session 40 - SHA Pinning)
 > **Current Phase**: Wave 4 - Maintenance
 > **Branch**: `chore/modernize-4` > **Target**: Production v11.0.0 Release
 
@@ -29,6 +29,30 @@
 - Must pass enterprise security review
 - **Git Hooks**: ✅ Pre-commit hooks enabled for linting enforcement
 - **Mutation Testing**: ✅ Stryker.NET configured, weekly CI runs scheduled
+
+### Session Summary (Session 40 - SHA Pinning - 2025-12-14)
+
+**Purpose**: Complete W2.22 - Pin all GitHub Actions to SHA digests for supply chain security.
+
+**Work Completed**:
+
+1. **Pinned 11 GitHub Actions to SHA digests** in all workflow files:
+   - actions/checkout, actions/upload-artifact, actions/download-artifact
+   - github/codeql-action, gitleaks/gitleaks-action, softprops/action-gh-release
+   - slsa-framework/slsa-github-generator, microsoft/DevSkim-Action, etc.
+
+2. **Documented PowerShell build requirement** (Skill-Build-002):
+   - .NET 10 SDK parses MSBuild switches incorrectly through bash
+   - Added CRITICAL note to CLAUDE.md
+   - Created Serena memory: skillbook-build-powershell-requirement
+
+3. **Future updates automated**: Renovate will maintain SHA pins via `helpers:pinGitHubActionDigests` preset.
+
+**Commit**: `940e69bd` - ci(security): pin all GitHub Actions to SHA digests (W2.22)
+
+See: `.agents/sessions/2025-12-14-session-40.md` for full details
+
+---
 
 ### Session Summary (Session 39 - CI Build Fix - 2025-12-13)
 
