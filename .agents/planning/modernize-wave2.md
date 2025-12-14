@@ -559,9 +559,9 @@ jobs:
 
 ---
 
-### W2.33 NuGet 2.0.0 Publish 🔴
+### W2.33 NuGet v11.0.0 Publish 🔴
 
-- [ ] **Task**: Publish first NuGet release in 7 years, declare maintenance mode
+- [ ] **Task**: Publish first NuGet release in 7 years
 - **Effort**: S (2-4 hours)
 - **Priority**: **CRITICAL** - Release milestone before maintenance mode
 - **Dependencies**: W2.32 (CI Warning Gate), W2.22 (SHA Pinning)
@@ -569,11 +569,11 @@ jobs:
 
 **Pre-Release Checklist**:
 
-1. [ ] All CRITICAL Wave 2 tasks complete (W2.32, W2.22)
-2. [ ] CI passing on develop branch
-3. [ ] Version set to 2.0.0 via version.json
-4. [ ] CHANGELOG/release notes drafted
-5. [ ] README.md updated with maintenance mode notice
+1. [x] All CRITICAL Wave 2 tasks complete (W2.32 ✅, W2.22 ✅)
+2. [ ] CI passing on develop branch (requires PR merge)
+3. [x] Version set to 11.0.0 via version.json (Session 40)
+4. [ ] CHANGELOG/release notes drafted (deferred)
+5. [ ] README.md updated (deferred)
 
 **NuGet.org Expectations**:
 
