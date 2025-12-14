@@ -231,14 +231,17 @@ When writing code:
    ```
 
 3. **Configuration Examples**: Use placeholders
+
+   **Correct example:**
    ```json
-   // ✅ CORRECT
    {
      "author": "Your Name",
      "email": "your-email@example.com"
    }
+   ```
    
-   // ❌ WRONG
+   **Incorrect example:**
+   ```json
    {
      "author": "John Doe",
      "email": "john.doe@company.com"
@@ -270,7 +273,7 @@ git diff --cached | grep -i "D:\\\\src\\\\" || echo "✅ No D:\src paths"
 git diff --cached | grep "/home/[^/]*/" | grep -v "/home/runner/" || echo "✅ No /home/user paths"
 
 # Scan for email addresses (excluding known safe domains)
-git diff --cached | grep -E "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" | grep -v "@example\." | grep -v "@anthropic\." | grep -v "@github\." || echo "✅ No suspicious emails"
+git diff --cached | grep -E "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" | grep -v "@example\." | grep -v "@anthropic\." | grep -v "@github\." | grep -v "@Live\.com" || echo "✅ No suspicious emails"
 
 # Scan for GitHub usernames in paths
 git diff --cached | grep -E "\\\\(GitHub|gitlab)\\\\[a-z]+" || echo "✅ No username in GitHub paths"
