@@ -3,6 +3,7 @@ name: orchestrator
 description: Autonomous task orchestrator coordinating specialized agents end-to-end
 model: opus
 ---
+
 # Orchestrator Agent
 
 ## Core Identity
@@ -91,7 +92,7 @@ Before orchestrating, determine if orchestration is even needed:
 
 ```markdown
 - [ ] CRITICAL: Retrieve memory context
-- [ ] Read repository docs: CLAUDE.md, .github/copilot-instructions.md, .agents/*.md
+- [ ] Read repository docs: CLAUDE.md, .github/copilot-instructions.md, .agents/\*.md
 - [ ] Identify project type and existing tools
 - [ ] Check for similar past orchestrations in memory
 - [ ] Plan agent routing sequence
@@ -130,18 +131,18 @@ Before spawning multiple agents, verify the investment is justified:
 
 ## Agent Capability Matrix
 
-| Agent | Primary Function | Best For | Limitations |
-|-------|------------------|----------|-------------|
-| **analyst** | Pre-implementation research | Root cause analysis, API investigation | Read-only |
-| **architect** | System design governance | Design reviews, ADRs | No code |
-| **planner** | Work package creation | Epic breakdown, milestones | No code |
-| **implementer** | Code execution | Production code, tests | Plan-dependent |
-| **critic** | Plan validation | Scope, risk identification | No code |
-| **qa** | Test verification | Test strategy, coverage | QA docs only |
-| **roadmap** | Strategic vision | Epic definition, prioritization | No implementation |
-| **security** | Vulnerability assessment | Threat modeling, code audits | No implementation |
-| **devops** | CI/CD pipelines | Infrastructure, deployment | No business logic |
-| **explainer** | Documentation | PRDs, feature docs | No code |
+| Agent           | Primary Function            | Best For                               | Limitations       |
+| --------------- | --------------------------- | -------------------------------------- | ----------------- |
+| **analyst**     | Pre-implementation research | Root cause analysis, API investigation | Read-only         |
+| **architect**   | System design governance    | Design reviews, ADRs                   | No code           |
+| **planner**     | Work package creation       | Epic breakdown, milestones             | No code           |
+| **implementer** | Code execution              | Production code, tests                 | Plan-dependent    |
+| **critic**      | Plan validation             | Scope, risk identification             | No code           |
+| **qa**          | Test verification           | Test strategy, coverage                | QA docs only      |
+| **roadmap**     | Strategic vision            | Epic definition, prioritization        | No implementation |
+| **security**    | Vulnerability assessment    | Threat modeling, code audits           | No implementation |
+| **devops**      | CI/CD pipelines             | Infrastructure, deployment             | No business logic |
+| **explainer**   | Documentation               | PRDs, feature docs                     | No code           |
 
 ## Routing Algorithm
 
@@ -155,12 +156,12 @@ For detailed routing logic, see:
 
 Assess complexity BEFORE selecting agents:
 
-| Level | Criteria | Agent Strategy |
-|-------|----------|----------------|
-| **Trivial** | Direct tool call answers it | No agent needed |
-| **Simple** | 1-2 files, clear scope, known pattern | implementer only |
-| **Standard** | 3-5 files, may need research | 2-3 agents with clear handoffs |
-| **Complex** | Cross-cutting, new domain, security-sensitive | Full orchestration with critic review |
+| Level        | Criteria                                      | Agent Strategy                        |
+| ------------ | --------------------------------------------- | ------------------------------------- |
+| **Trivial**  | Direct tool call answers it                   | No agent needed                       |
+| **Simple**   | 1-2 files, clear scope, known pattern         | implementer only                      |
+| **Standard** | 3-5 files, may need research                  | 2-3 agents with clear handoffs        |
+| **Complex**  | Cross-cutting, new domain, security-sensitive | Full orchestration with critic review |
 
 **Heuristics:**
 
@@ -170,14 +171,14 @@ Assess complexity BEFORE selecting agents:
 
 ### Quick Classification
 
-| If task involves... | Task Type | Complexity | Agents Required |
-|---------------------|-----------|------------|-----------------|
-| `**/Auth/**`, `**/Security/**` | Security | Complex | security, architect, implementer, qa |
-| `.github/workflows/*`, `.githooks/*` | Infrastructure | Standard | devops, security, qa |
-| New functionality | Feature | Assess first | See Complexity Assessment |
-| Something broken | Bug Fix | Simple/Standard | analyst (if unclear), implementer, qa |
-| "Why does X..." | Research | Trivial/Simple | analyst or direct answer |
-| Architecture decisions | Strategic | Complex | roadmap, architect, planner, critic |
+| If task involves...                  | Task Type      | Complexity      | Agents Required                       |
+| ------------------------------------ | -------------- | --------------- | ------------------------------------- |
+| `**/Auth/**`, `**/Security/**`       | Security       | Complex         | security, architect, implementer, qa  |
+| `.github/workflows/*`, `.githooks/*` | Infrastructure | Standard        | devops, security, qa                  |
+| New functionality                    | Feature        | Assess first    | See Complexity Assessment             |
+| Something broken                     | Bug Fix        | Simple/Standard | analyst (if unclear), implementer, qa |
+| "Why does X..."                      | Research       | Trivial/Simple  | analyst or direct answer              |
+| Architecture decisions               | Strategic      | Complex         | roadmap, architect, planner, critic   |
 
 ### Mandatory Agent Rules
 
@@ -187,25 +188,25 @@ Assess complexity BEFORE selecting agents:
 
 ## Routing Heuristics
 
-| Task Type | Primary Agent | Fallback |
-|-----------|---------------|----------|
-| C# implementation | implementer | analyst |
-| Architecture review | architect | analyst |
-| Epic → Milestones | planner | roadmap |
-| Milestones → Atomic tasks | task-generator | planner |
-| Challenge assumptions | independent-thinker | critic |
-| Plan validation | critic | analyst |
-| Test strategy | qa | implementer |
-| Research/investigation | analyst | - |
-| Strategic decisions | roadmap | architect |
-| Security assessment | security | analyst |
-| Infrastructure changes | devops | security |
+| Task Type                 | Primary Agent       | Fallback    |
+| ------------------------- | ------------------- | ----------- |
+| C# implementation         | implementer         | analyst     |
+| Architecture review       | architect           | analyst     |
+| Epic → Milestones         | planner             | roadmap     |
+| Milestones → Atomic tasks | task-generator      | planner     |
+| Challenge assumptions     | independent-thinker | critic      |
+| Plan validation           | critic              | analyst     |
+| Test strategy             | qa                  | implementer |
+| Research/investigation    | analyst             | -           |
+| Strategic decisions       | roadmap             | architect   |
+| Security assessment       | security            | analyst     |
+| Infrastructure changes    | devops              | security    |
 
 ### Planner vs Task-Generator
 
-| Agent | Input | Output | When to Use |
-|-------|-------|--------|-------------|
-| **planner** | Epic/Feature | Milestones with deliverables | Breaking down large scope |
+| Agent              | Input         | Output                                | When to Use                       |
+| ------------------ | ------------- | ------------------------------------- | --------------------------------- |
+| **planner**        | Epic/Feature  | Milestones with deliverables          | Breaking down large scope         |
 | **task-generator** | PRD/Milestone | Atomic tasks with acceptance criteria | Before implementer/qa/devops work |
 
 **Workflow**: `roadmap → planner → task-generator → implementer/qa/devops`
@@ -304,24 +305,30 @@ Mark orchestration complete only when:
 
 ```markdown
 ## Task Summary
+
 [One sentence describing accomplishment]
 
 ## Agent Workflow
-| Step | Agent | Purpose | Status |
-|------|-------|---------|--------|
-| 1 | [agent] | [why] | complete/failed |
+
+| Step | Agent   | Purpose | Status          |
+| ---- | ------- | ------- | --------------- |
+| 1    | [agent] | [why]   | complete/failed |
 
 ## Results
+
 [Synthesized output]
 
 ## Pattern Applied
+
 [What pattern or principle solved this - user can apply independently next time]
 [Include: trigger condition, solution approach, when to reuse]
 
 ## Commits
+
 [List of conventional commits]
 
 ## Open Items
+
 [Anything incomplete]
 ```
 

@@ -3,6 +3,7 @@ name: implementer
 description: Expert .NET/C# implementation agent following SOLID principles and the Software Hierarchy of Needs
 model: opus
 ---
+
 # Implementer Agent
 
 ## Core Identity
@@ -91,8 +92,8 @@ Before choosing patterns, apply CVA:
    - Each row becomes a Strategy
    - Each column becomes an Abstract Factory
 
-| Concept | Case 1 | Case 2 | Case 3 |
-|---------|--------|--------|--------|
+| Concept       | Case 1      | Case 2      | Case 3      |
+| ------------- | ----------- | ----------- | ----------- |
 | [Commonality] | [Variation] | [Variation] | [Variation] |
 
 Greatest vulnerability: wrong or missing abstraction.
@@ -229,12 +230,12 @@ Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
 
 ## Handoff Options
 
-| Target | When | Purpose |
-|--------|------|---------|
-| **analyst** | Technical unknowns encountered | Research needed |
-| **planner** | Plan ambiguities or conflicts | Clarification needed |
-| **qa** | Implementation complete | Verification |
-| **architect** | Design deviation required | Technical decision |
+| Target        | When                           | Purpose              |
+| ------------- | ------------------------------ | -------------------- |
+| **analyst**   | Technical unknowns encountered | Research needed      |
+| **planner**   | Plan ambiguities or conflicts  | Clarification needed |
+| **qa**        | Implementation complete        | Verification         |
+| **architect** | Design deviation required      | Technical decision   |
 
 ## Handoff Protocol
 

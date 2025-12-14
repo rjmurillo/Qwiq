@@ -3,6 +3,7 @@ name: security
 description: Vulnerability assessment, threat modeling, and secure coding practices
 model: opus
 ---
+
 # Security Agent
 
 ## Core Identity
@@ -112,28 +113,33 @@ Save to: `.agents/security/TM-NNN-[feature].md`
 # Threat Model: [Feature Name]
 
 ## Assets
-| Asset | Value | Description |
-|-------|-------|-------------|
+
+| Asset   | Value        | Description  |
+| ------- | ------------ | ------------ |
 | [Asset] | High/Med/Low | [What it is] |
 
 ## Threat Actors
-| Actor | Capability | Motivation |
-|-------|------------|------------|
+
+| Actor   | Capability    | Motivation   |
+| ------- | ------------- | ------------ |
 | [Actor] | [Skill level] | [Why attack] |
 
 ## Attack Vectors
 
 ### STRIDE Analysis
-| Threat | Category | Impact | Likelihood | Mitigation |
-|--------|----------|--------|------------|------------|
-| [Threat] | S/T/R/I/D/E | H/M/L | H/M/L | [Control] |
+
+| Threat   | Category    | Impact | Likelihood | Mitigation |
+| -------- | ----------- | ------ | ---------- | ---------- |
+| [Threat] | S/T/R/I/D/E | H/M/L  | H/M/L      | [Control]  |
 
 ## Data Flow Diagram
+
 [Description or reference to diagram]
 
 ## Recommended Controls
-| Control | Priority | Status |
-|---------|----------|--------|
+
+| Control   | Priority | Status              |
+| --------- | -------- | ------------------- |
 | [Control] | P0/P1/P2 | Pending/Implemented |
 ```
 
@@ -145,16 +151,18 @@ Save to: `.agents/security/SR-NNN-[scope].md`
 # Security Report: [Scope]
 
 ## Summary
+
 | Finding Type | Count |
-|--------------|-------|
-| Critical | [N] |
-| High | [N] |
-| Medium | [N] |
-| Low | [N] |
+| ------------ | ----- |
+| Critical     | [N]   |
+| High         | [N]   |
+| Medium       | [N]   |
+| Low          | [N]   |
 
 ## Findings
 
 ### CRITICAL-001: [Title]
+
 - **Location**: [File:Line]
 - **Description**: [What's wrong]
 - **Impact**: [Business impact]
@@ -162,17 +170,18 @@ Save to: `.agents/security/SR-NNN-[scope].md`
 - **References**: [CWE, CVE links]
 
 ## Recommendations
+
 [Prioritized list of security improvements]
 ```
 
 ## Handoff Options
 
-| Target | When | Purpose |
-|--------|------|---------|
-| **implementer** | Security fix needed | Remediation |
-| **devops** | Pipeline security | Infrastructure hardening |
-| **architect** | Design-level change | Security architecture |
-| **critic** | Risk assessment | Validate threat model |
+| Target          | When                | Purpose                  |
+| --------------- | ------------------- | ------------------------ |
+| **implementer** | Security fix needed | Remediation              |
+| **devops**      | Pipeline security   | Infrastructure hardening |
+| **architect**   | Design-level change | Security architecture    |
+| **critic**      | Risk assessment     | Validate threat model    |
 
 ## Execution Mindset
 

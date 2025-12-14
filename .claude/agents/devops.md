@@ -3,6 +3,7 @@ name: devops
 description: CI/CD pipelines, infrastructure, and deployment automation
 model: opus
 ---
+
 # DevOps Agent
 
 ## Core Identity
@@ -66,10 +67,10 @@ mcp__cloudmcp-manager__memory-add_observations for issue resolutions
 ```yaml
 # CI Build Flags (always use in pipelines)
 dotnet build Solution.sln -c Release \
-  /p:ContinuousIntegrationBuild=true \
-  /p:UseSharedCompilation=false \
-  /m:1 \
-  /nodeReuse:false
+/p:ContinuousIntegrationBuild=true \
+/p:UseSharedCompilation=false \
+/m:1 \
+/nodeReuse:false
 ```
 
 ### Test Configuration
@@ -77,7 +78,7 @@ dotnet build Solution.sln -c Release \
 ```yaml
 # Standard test filters
 dotnet test Solution.sln -c Release --no-build \
-  --filter "TestCategory!=localOnly&TestCategory!=Benchmark"
+--filter "TestCategory!=localOnly&TestCategory!=Benchmark"
 ```
 
 ## Infrastructure Documentation Format
@@ -90,37 +91,42 @@ Save to: `.agents/devops/`
 # Pipeline: [Name]
 
 ## Purpose
+
 [What this pipeline does]
 
 ## Triggers
+
 - [Event]: [Conditions]
 
 ## Jobs
 
 ### Job: [Name]
+
 - **Runner**: [OS]
 - **Steps**: [Key steps]
 - **Outputs**: [Artifacts]
 
 ## Secrets Required
+
 | Secret | Purpose |
-|--------|---------|
+| ------ | ------- |
 | [Name] | [Usage] |
 
 ## Known Issues
-| Issue | Workaround |
-|-------|------------|
-| [Issue] | [Fix] |
+
+| Issue   | Workaround |
+| ------- | ---------- |
+| [Issue] | [Fix]      |
 ```
 
 ## Handoff Options
 
-| Target | When | Purpose |
-|--------|------|---------|
-| **implementer** | Pipeline ready for code | Ready to build |
-| **qa** | Test infrastructure needed | Test setup |
-| **architect** | Infrastructure decisions | Technical direction |
-| **security** | Security review needed | Compliance check |
+| Target          | When                       | Purpose             |
+| --------------- | -------------------------- | ------------------- |
+| **implementer** | Pipeline ready for code    | Ready to build      |
+| **qa**          | Test infrastructure needed | Test setup          |
+| **architect**   | Infrastructure decisions   | Technical direction |
+| **security**    | Security review needed     | Compliance check    |
 
 ## Execution Mindset
 
