@@ -884,11 +884,13 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 > **⚠️ CRITICAL: After Merging Branches**
 >
 > When merging from `develop` or other branches, ALWAYS run package tests if the merge adds or modifies any of these:
-> - .md files in project directories (AGENTS.md, README.md, etc.)
+> - .md files in project directories (README.md, CHANGELOG.md, etc.)
 > - Project files (.csproj, Directory.Build.props, Directory.Packages.props)
 > - Files with `Pack="true"` in project files
 >
 > **Why**: SDK-style projects automatically include .md files in NuGet packages unless explicitly excluded.
+>
+> **Note**: `AGENTS.md` files are explicitly excluded from all packages (in `Directory.Build.props`) as they are for AI agents working on the repository only, not for package consumers.
 >
 > **What to do**:
 > 1. Complete the merge
