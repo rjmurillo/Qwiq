@@ -34,6 +34,10 @@ jobs:
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
 
+    env:
+      # Enable GitHub CLI for GitHub agents or scripts
+      GH_TOKEN: ${{ github.token }}
+
     steps:
       - name: Download packages
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
@@ -76,6 +80,10 @@ jobs:
     environment:
       name: production-nuget
       url: https://www.nuget.org/packages/Qwiq.Core
+
+    env:
+      # Enable GitHub CLI for GitHub agents or scripts
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: Download packages

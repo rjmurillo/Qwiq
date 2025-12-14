@@ -21,6 +21,10 @@ jobs:
     name: CodeQL (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
+    env:
+      # Enable GitHub CLI for GitHub agents or scripts
+      GH_TOKEN: ${{ github.token }}
+
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
