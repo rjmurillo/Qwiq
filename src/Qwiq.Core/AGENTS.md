@@ -22,13 +22,13 @@
 
 ### Core Interfaces
 
-| Interface                | Purpose                                    | Key Methods/Properties          |
-| ------------------------ | ------------------------------------------ | ------------------------------- |
-| `IWorkItemStore`         | Work item storage and querying             | `Query()`, `GetWorkItem()`      |
-| `IWorkItem`              | Single work item with fields and revisions | `Id`, `Fields`, `Revisions`     |
-| `IRevision`              | Historical snapshot of work item state     | `Index`, `Fields`               |
-| `IFieldDefinition`       | Metadata about a field type                | `ReferenceName`, `Name`, `Type` |
-| `IQuery`                 | Query execution and iteration              | `RunQuery()`, `WorkItems`       |
+| Interface                 | Purpose                                    | Key Methods/Properties          |
+| ------------------------- | ------------------------------------------ | ------------------------------- |
+| `IWorkItemStore`          | Work item storage and querying             | `Query()`, `GetWorkItem()`      |
+| `IWorkItem`               | Single work item with fields and revisions | `Id`, `Fields`, `Revisions`     |
+| `IRevision`               | Historical snapshot of work item state     | `Index`, `Fields`               |
+| `IFieldDefinition`        | Metadata about a field type                | `ReferenceName`, `Name`, `Type` |
+| `IQuery`                  | Query execution and iteration              | `RunQuery()`, `WorkItems`       |
 | `ITeamFoundationIdentity` | User/group identity information            | `DisplayName`, `UniqueName`     |
 
 ### Directory Structure
@@ -52,12 +52,12 @@ var title = workItem["System.Title"];
 
 ## Key Entry Points
 
-| Type                     | Purpose                        | When to Use                          |
-| ------------------------ | ------------------------------ | ------------------------------------ |
-| `WorkItemStoreFactory`   | Create work item store         | Starting point for all queries       |
-| `CoreFieldRefNames`      | Field reference name constants | Accessing standard work item fields  |
-| `CoreLinkTypeEndReferenceNames` | Link type constants | Working with work item relationships |
-| `IWorkItemStore`         | Main query interface           | Implementing client adapters         |
+| Type                            | Purpose                        | When to Use                          |
+| ------------------------------- | ------------------------------ | ------------------------------------ |
+| `WorkItemStoreFactory`          | Create work item store         | Starting point for all queries       |
+| `CoreFieldRefNames`             | Field reference name constants | Accessing standard work item fields  |
+| `CoreLinkTypeEndReferenceNames` | Link type constants            | Working with work item relationships |
+| `IWorkItemStore`                | Main query interface           | Implementing client adapters         |
 
 ## Design Patterns
 
@@ -72,6 +72,7 @@ var store = WorkItemStoreFactory.Default.Create(options);
 ### Interface-Based Design
 
 All types expose interfaces to support:
+
 - Dependency injection
 - Unit testing with mocks (`Qwiq.Mocks`)
 - Multiple implementations (REST, SOAP)
@@ -97,6 +98,7 @@ store.Add(new MockWorkItem("Bug") { Title = "Test" });
 ### Test Interface Contracts
 
 When changing interfaces, verify:
+
 - Both REST and SOAP implementations still compile
 - Mock implementations in `Qwiq.Mocks` are updated
 - Public API files are updated (run `dotnet format`)
@@ -120,8 +122,8 @@ public void SetField(string fieldName, object value)
 
 ```csharp
 // ✅ CORRECT: Safe field access
-object? value = workItem.Fields.Contains(fieldName) 
-    ? workItem[fieldName] 
+object? value = workItem.Fields.Contains(fieldName)
+    ? workItem[fieldName]
     : null;
 
 // ❌ WRONG: Direct access without checking existence
@@ -158,6 +160,7 @@ var first = workItem.Revisions[0]; // Revisions is IEnumerable, not IList
 ## InternalsVisibleTo
 
 This component exposes internals to:
+
 - `Qwiq.Core.UnitTests` - Unit tests
 - `Qwiq.Mocks` - Mock implementations
 - `Qwiq.Client.Soap`, `Qwiq.Client.Rest` - Client implementations
@@ -180,6 +183,7 @@ dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Release
 ### Package Validation
 
 This project has `EnablePackageValidation` enabled:
+
 - API changes are detected automatically
 - Breaking changes fail the build
 - See test/Qwiq.Package.Tests for validation tests

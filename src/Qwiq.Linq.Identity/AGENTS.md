@@ -28,6 +28,7 @@ var query = store.Query<WorkItem>()
 ```
 
 Generates WIQL:
+
 ```sql
 WHERE [System.AssignedTo] IN GROUP '[Project]\Contributors'
 ```
@@ -42,6 +43,7 @@ var query = store.Query<WorkItem>()
 ```
 
 Generates WIQL:
+
 ```sql
 WHERE [System.AssignedTo] NOT IN GROUP '[Project]\Readers'
 ```
@@ -72,7 +74,7 @@ public void Should_generate_in_group_clause()
 {
     var query = new Query<WorkItem>(mockStore)
         .Where(wi => wi.AssignedTo.InGroup("[Project]\\Team"));
-    
+
     var wiql = WiqlTranslator.Translate(query.Expression);
     wiql.ShouldContain("IN GROUP");
 }

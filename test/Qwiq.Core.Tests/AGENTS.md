@@ -27,12 +27,12 @@ Tests use ContextSpecification pattern:
 public class Given_work_item : ContextSpecification
 {
     private MockWorkItem? _workItem;
-    
+
     public override void Given()
     {
         _workItem = new MockWorkItem("Bug");
     }
-    
+
     [TestMethod]
     public void Then_has_expected_type()
     {

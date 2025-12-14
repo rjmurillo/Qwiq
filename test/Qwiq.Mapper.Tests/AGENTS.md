@@ -32,9 +32,9 @@ public void Should_map_work_item_to_poco()
         Title = "Test",
         ["System.State"] = "Active"
     };
-    
+
     var bug = _mapper!.Create<Bug>(new[] { workItem }).Single();
-    
+
     bug.Id.ShouldBe(123);
     bug.Title.ShouldBe("Test");
     bug.State.ShouldBe("Active");
@@ -63,7 +63,7 @@ public class TestBug
 {
     [FieldDefinition(CoreFieldRefNames.Id)]
     public int? Id { get; set; }
-    
+
     [FieldDefinition(CoreFieldRefNames.Title)]
     public string? Title { get; set; }
 }
@@ -76,7 +76,7 @@ public override void Given()
 {
     var identityService = new MockIdentityManagementService();
     identityService.AddIdentity("user@domain.com", "Display Name");
-    
+
     var strategy = new BulkIdentityAwareAttributeMapperStrategy(identityService);
     _mapper = new WorkItemMapper(strategy);
 }

@@ -30,7 +30,7 @@ public void Should_translate_where_clause()
 {
     var query = _store!.Query<WorkItem>()
         .Where(wi => wi.State == "Active");
-    
+
     var wiql = WiqlTranslator.Translate(query.Expression);
     wiql.ShouldContain("WHERE [System.State] = 'Active'");
 }
@@ -78,7 +78,7 @@ public void Then_generates_valid_wiql()
 [TestMethod]
 public void Should_throw_for_unsupported_operation()
 {
-    Should.Throw<NotSupportedException>(() => 
+    Should.Throw<NotSupportedException>(() =>
     {
         var query = _store!.Query<WorkItem>()
             .Where(wi => wi.Title.ToUpper().Contains("BUG"));

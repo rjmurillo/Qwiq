@@ -20,6 +20,7 @@
 ## ⚠️ Critical: Windows-Only Requirement
 
 This component requires:
+
 - Windows operating system
 - .NET Framework 4.7.2+
 - TFS Client OM (Microsoft.TeamFoundationServer.ExtendedClient)

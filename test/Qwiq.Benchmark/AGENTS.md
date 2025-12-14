@@ -39,14 +39,14 @@ dotnet run -c Release --project test/Qwiq.Benchmark/Qwiq.Benchmark.csproj -- --f
 public class QueryBenchmark
 {
     private MockWorkItemStore? _store;
-    
+
     [GlobalSetup]
     public void Setup()
     {
         _store = new MockWorkItemStore();
         // Add test data
     }
-    
+
     [Benchmark]
     public void Query_100_WorkItems()
     {

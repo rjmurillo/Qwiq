@@ -47,7 +47,7 @@ var store = Qwiq.Client.Rest.WorkItemStoreFactory.Default.Create(options);
 ### Personal Access Token (Recommended)
 
 ```csharp
-var credentialsFactory = new Func<ICredentials>(() => 
+var credentialsFactory = new Func<ICredentials>(() =>
     new NetworkCredential("PAT", personalAccessToken));
 
 var options = new AuthenticationOptions(
@@ -104,6 +104,7 @@ The client uses Azure DevOps REST API version 7.0+. Key endpoints:
 REST integration tests are in `Qwiq.Integration.Tests` with category `[TestCategory("REST")]`.
 
 **Note**: These tests present an interactive login dialog and require:
+
 - Network connectivity to Azure DevOps
 - Valid authentication credentials
 - Not suitable for headless CI/CD
@@ -217,6 +218,7 @@ new Uri("https://dev.azure.com/myorg")
 ### Rate Limiting
 
 Azure DevOps Services applies rate limits:
+
 - 200 requests per user per second
 - Larger queries may take multiple pages
 
@@ -234,6 +236,7 @@ catch (VssServiceException ex) when (ex.HttpStatusCode == 429)
 ### Page Size
 
 Work item queries are paginated:
+
 - Default page size: 200 items
 - Configurable via `WorkItemStoreConfiguration`
 
@@ -273,16 +276,17 @@ $env:AZURE_DEVOPS_EXT_PAT_DEBUG = "1"
 ### View REST Requests
 
 Use Fiddler or browser DevTools to inspect:
+
 - Request URLs and headers
 - Response payloads
 - Authentication tokens (be careful with PATs!)
 
 ### Common Issues
 
-| Issue                       | Cause                          | Solution                                  |
-| --------------------------- | ------------------------------ | ----------------------------------------- |
-| 401 Unauthorized            | Invalid/expired PAT            | Regenerate PAT with required scopes       |
-| 404 Not Found               | Wrong organization/project URL | Verify URL is organization-level          |
-| 403 Forbidden               | Insufficient PAT permissions   | Grant "Work Items (Read)" scope           |
-| VssServiceException (empty) | Network/proxy issues           | Check network connectivity and proxy      |
+| Issue                       | Cause                          | Solution                                     |
+| --------------------------- | ------------------------------ | -------------------------------------------- |
+| 401 Unauthorized            | Invalid/expired PAT            | Regenerate PAT with required scopes          |
+| 404 Not Found               | Wrong organization/project URL | Verify URL is organization-level             |
+| 403 Forbidden               | Insufficient PAT permissions   | Grant "Work Items (Read)" scope              |
+| VssServiceException (empty) | Network/proxy issues           | Check network connectivity and proxy         |
 | Null reference in field     | Field doesn't exist            | Check field name spelling and work item type |

@@ -16,13 +16,13 @@
 - **Target Frameworks**: `net472;net48;net481;net8.0;net9.0;net10.0`
 - **Platform**: Cross-platform
 - **Dependencies**: Qwiq.Core
-- **Pattern**: Query Provider pattern (IQueryable<T>)
+- **Pattern**: Query Provider pattern (IQueryable&lt;T&gt;)
 
 ## Architecture
 
 ### LINQ Translation Pipeline
 
-```
+```text
 C# LINQ Expression
     ↓
 Query<T> (implements IQueryable<T>)
@@ -40,14 +40,14 @@ Work Item Results
 
 ### Key Types
 
-| Type                  | Purpose                                     | Location          |
-| --------------------- | ------------------------------------------- | ----------------- |
-| `Query<T>`            | Entry point, implements IOrderedQueryable   | `Query.cs`        |
-| `WiqlQueryProvider`   | Orchestrates translation                    | Provider class    |
-| `QueryRewriter`       | Transforms expression tree                  | `Visitors/`       |
-| `WiqlTranslator`      | Generates WIQL from expression              | `WiqlTranslator.cs` |
-| `IFieldMapper`        | Maps properties to field names              | `IFieldMapper.cs` |
-| `TranslatedQuery`     | Result containing WIQL + context            | `TranslatedQuery.cs` |
+| Type                | Purpose                                   | Location             |
+| ------------------- | ----------------------------------------- | -------------------- |
+| `Query<T>`          | Entry point, implements IOrderedQueryable | `Query.cs`           |
+| `WiqlQueryProvider` | Orchestrates translation                  | Provider class       |
+| `QueryRewriter`     | Transforms expression tree                | `Visitors/`          |
+| `WiqlTranslator`    | Generates WIQL from expression            | `WiqlTranslator.cs`  |
+| `IFieldMapper`      | Maps properties to field names            | `IFieldMapper.cs`    |
+| `TranslatedQuery`   | Result containing WIQL + context          | `TranslatedQuery.cs` |
 
 ## Key Entry Points
 
@@ -112,7 +112,7 @@ var items = query.Where(wi => wi.AssignedTo.NotInGroup("[Project]\\Readers"));
 ✅ **Where** - All standard comparison operators
 ✅ **OrderBy / OrderByDescending / ThenBy** - Multiple sort keys
 ✅ **Take** - Limit result count
-✅ **Contains** - With arrays and IEnumerable<T>
+✅ **Contains** - With arrays and IEnumerable&lt;T&gt;
 
 ### Partially Supported
 
@@ -125,7 +125,7 @@ var items = query.Where(wi => wi.AssignedTo.NotInGroup("[Project]\\Readers"));
 ❌ **Aggregations** - Count, Sum, Max, Min, Average
 ❌ **Joins** - Join, GroupJoin
 ❌ **Grouping** - GroupBy
-❌ **Some collections in Contains** - Collection<T>, HashSet<T> (use arrays or IEnumerable<T>)
+❌ **Some collections in Contains** - Collection&lt;T&gt;, HashSet&lt;T&gt; (use arrays or IEnumerable&lt;T&gt;)
 
 ## Testing Guidelines
 
@@ -137,7 +137,7 @@ public void Should_translate_where_clause()
 {
     var query = new Query<WorkItem>(mockStore)
         .Where(wi => wi.State == "Active");
-    
+
     var wiql = WiqlTranslator.Translate(query.Expression);
     wiql.ShouldContain("WHERE [System.State] = 'Active'");
 }
@@ -168,11 +168,11 @@ public class CustomFieldMapper : IFieldMapper
         ["Title"] = CoreFieldRefNames.Title,
         ["CustomField"] = "MyCompany.CustomField"
     };
-    
+
     public string GetFieldName(string propertyName)
     {
-        return _mappings.TryGetValue(propertyName, out var fieldName) 
-            ? fieldName 
+        return _mappings.TryGetValue(propertyName, out var fieldName)
+            ? fieldName
             : propertyName;
     }
 }
@@ -262,7 +262,7 @@ var titles = query.Select(wi => wi.Title).ToList();
 var titles = query.ToList().Select(wi => wi.Title);
 ```
 
-❌ **Don't use Collection<T> or HashSet<T> in Contains**
+❌ **Don't use Collection&lt;T&gt; or HashSet&lt;T&gt; in Contains**
 
 ```csharp
 // ❌ WRONG: HashSet not supported
@@ -327,7 +327,7 @@ store.Query(""); // Throws ArgumentException
 ```csharp
 var query = store.Query<WorkItem>()
     .Where(wi => wi.State == "Active");
-    
+
 var translated = WiqlTranslator.Translate(query.Expression);
 Console.WriteLine(translated.Wiql);
 ```

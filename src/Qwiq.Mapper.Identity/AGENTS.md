@@ -40,7 +40,7 @@ public class Bug
     [FieldDefinition("System.AssignedTo")]
     [IdentityField]  // Will be resolved in bulk
     public string? AssignedTo { get; set; }
-    
+
     [FieldDefinition("System.CreatedBy")]
     [IdentityField]  // Will be resolved in bulk
     public string? CreatedBy { get; set; }
@@ -77,16 +77,16 @@ public void Should_resolve_identity_fields_in_bulk()
 {
     var mockIdentityService = new MockIdentityManagementService();
     mockIdentityService.AddIdentity("user@domain.com", "User Name");
-    
+
     var workItem = new MockWorkItem("Bug")
     {
         ["System.AssignedTo"] = "user@domain.com"
     };
-    
+
     var strategy = new BulkIdentityAwareAttributeMapperStrategy(mockIdentityService);
     var mapper = new WorkItemMapper(strategy);
     var bug = mapper.Create<Bug>(new[] { workItem }).Single();
-    
+
     bug.AssignedTo.ShouldBe("User Name");
 }
 ```
