@@ -77,11 +77,10 @@ jobs:
 | `fetch-depth: 0`      | Nerdbank.GitVersioning needs full history           |
 | `dotnet tool restore` | Restores nbgv from dotnet tool manifest             |
 | `global-json-file`    | Uses pinned SDK version from repository             |
-| `GH_TOKEN`            | Enables GitHub CLI and API access for agents        |
 
 ### GitHub CLI (gh) Support
 
-All workflows include `GH_TOKEN: ${{ github.token }}` to enable GitHub CLI commands and API access. This allows:
+The `copilot-setup-steps.yml` workflow includes `GH_TOKEN: ${{ github.token }}` to enable GitHub CLI commands and API access. This allows:
 
 **For GitHub Agents/Copilot:**
 - View workflow run logs and status
@@ -109,12 +108,17 @@ gh pr checks <pr-number>
 
 **Usage in workflow steps:**
 ```yaml
-- name: Check workflow status
-  run: |
-    # GH_TOKEN is automatically available
-    gh run list --limit 5
-    gh pr checks ${{ github.event.pull_request.number }}
+jobs:
+  setup:
+    env:
+      GH_TOKEN: ${{ github.token }}  # Available to all steps in copilot-setup-steps.yml
+    
+    steps:
+      - name: Monitor other workflows
+        run: gh run list --workflow=main.yml --limit 5
 ```
+
+**Note:** For security and principle of least privilege, GH_TOKEN is only enabled in `copilot-setup-steps.yml`. Other workflows do not have GitHub CLI access unless specifically required.
 
 ### Deterministic Builds
 

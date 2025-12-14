@@ -555,7 +555,7 @@ When adding or updating .NET workflows in this repo, follow these guidelines:
 
 ### GitHub CLI Support in Workflows
 
-All workflows include `GH_TOKEN: ${{ github.token }}` environment variable to enable GitHub CLI (`gh`) commands. This allows GitHub agents and Copilot to:
+The `copilot-setup-steps.yml` workflow includes `GH_TOKEN: ${{ github.token }}` environment variable to enable GitHub CLI (`gh`) commands. This allows GitHub agents and Copilot to:
 
 **Monitor and debug workflow execution:**
 ```bash
@@ -586,17 +586,20 @@ gh pr checks <pr-number> --watch
 
 **Usage in workflow steps:**
 ```yaml
+# Only in copilot-setup-steps.yml workflow
 jobs:
-  build:
+  setup:
     env:
       GH_TOKEN: ${{ github.token }}  # Available to all steps
     
     steps:
       - name: Monitor other workflows
-        run: gh run list --workflow=lint.yml --limit 5
+        run: gh run list --workflow=main.yml --limit 5
 ```
 
 The `GH_TOKEN` uses the automatic `github.token` (not a PAT), which has permissions based on the workflow's `permissions:` block.
+
+**Note:** For security and principle of least privilege, GH_TOKEN is only enabled in `copilot-setup-steps.yml`. Other workflows do not have GitHub CLI access unless specifically required.
 
 ## ⚠️ CRITICAL: Commit Practices
 

@@ -1,10 +1,10 @@
 # GitHub CLI Usage for Agents
 
-This document provides examples of how GitHub Copilot agents can use the GitHub CLI (`gh`) in workflows now that `GH_TOKEN` is available.
+This document provides examples of how GitHub Copilot agents can use the GitHub CLI (`gh`) via the `copilot-setup-steps.yml` workflow.
 
 ## Environment Setup
 
-All workflows now include:
+The `copilot-setup-steps.yml` workflow includes:
 
 ```yaml
 env:
@@ -12,6 +12,8 @@ env:
 ```
 
 This enables `gh` CLI commands without authentication prompts.
+
+**Security Note:** For principle of least privilege, only the `copilot-setup-steps.yml` workflow has GH_TOKEN enabled. Other workflows do not have GitHub CLI access unless specifically required.
 
 ## Common Use Cases
 
