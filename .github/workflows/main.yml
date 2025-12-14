@@ -28,8 +28,6 @@ jobs:
     name: Build (${{ matrix.os }})
 
     env:
-      # Enable GitHub CLI for GitHub agents or scripts
-      GH_TOKEN: ${{ github.token }}
       # Test filter matching AppVeyor configuration
       # WireMock tests are excluded because they require HTTPS which needs elevated privileges
       # for SSL certificate binding - this fails on GitHub Actions runners
