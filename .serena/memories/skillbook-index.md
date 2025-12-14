@@ -4,8 +4,8 @@
 
 This is the master index of all skills stored in the Qwiq repository's skillbook. Skills are organized by category and stored in separate memory files for efficient retrieval.
 
-**Total Skills**: 26
-**Categories**: 11
+**Total Skills**: 29
+**Categories**: 12
 **Storage Method**: Serena memory tools (cloudmcp-manager was full)
 
 ## Quick Access by Category
@@ -43,13 +43,21 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 - **Skill-Git-001** (97%): Use git checkout -- [file] to restore overwritten files
 - **Skill-Git-002** (91%): Use git mv to preserve history during reorganization
 
-### Markdown Skills (3 skills)
+### Markdown Skills (4 skills)
 
 **File**: `skillbook-markdown.md`
 
 - **Skill-Markdown-001** (98%): Always add language identifier to code fences
 - **Skill-Markdown-002** (96%): Generic type syntax like `ArrayPool<T>` triggers MD033
 - **Skill-Markdown-003** (95%): Use ul/li in MD033 allowed_elements for tables
+- **Skill-Markdown-004** (95%): Bold text as pseudo-heading triggers MD036
+
+### Configuration Skills (2 skills)
+
+**File**: `skillbook-config.md`
+
+- **Skill-Config-001** (94%): .serena memories should be version controlled for team knowledge
+- **Skill-Config-002** (93%): Use ignorePatterns in markdownlint for AI tool directories
 
 ### Code Quality Skills (3 skills)
 
@@ -97,6 +105,7 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 - Skill-CI-001 (95%)
 - Skill-Doc-002 (95%)
 - Skill-Markdown-003 (95%)
+- Skill-Markdown-004 (95%)
 - Skill-Test-001 (95%)
 - Skill-Workflow-001 (95%)
 
@@ -104,6 +113,8 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 
 - Skill-Strategic-002 (94%)
 - Skill-Test-003 (94%)
+- Skill-Config-001 (94%)
+- Skill-Config-002 (93%)
 - Skill-Build-002 (93%)
 - Skill-Doc-001 (93%)
 - Skill-CI-002 (92%)
@@ -254,8 +265,8 @@ When applying a skill:
 
 ## Maintenance
 
-**Last Updated**: 2025-12-13
-**Total Skills**: 26
+**Last Updated**: 2025-12-14
+**Total Skills**: 29
 **Storage Location**: `.serena/memories/skillbook-*.md`
 **Index File**: `skillbook-index.md`
 

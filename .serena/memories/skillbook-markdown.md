@@ -10,7 +10,7 @@
 **Evidence**: Session Linting Automation - Fixed 92+ MD040 violations
 **Tag**: helpful
 **Impact**: 9
-**Validated**: 1
+**Validated**: 2
 
 **Summary**: Markdown linter rule MD040 requires language identifier on code blocks. Improves readability and enables syntax highlighting. 'text' is catch-all for diagrams, pseudo-code, tool output. Prevents rendering issues and linting failures.
 
@@ -41,7 +41,7 @@
 **Evidence**: Session Linting Automation - Multiple files flagged for inline HTML
 **Tag**: helpful
 **Impact**: 8
-**Validated**: 1
+**Validated**: 2
 
 **Summary**: Markdown linter rule MD033 flags inline HTML. Generic type syntax `<T>` looks like HTML tag to linter. Solution: Wrap in backticks or code block. Improves readability and linting compliance.
 
@@ -91,3 +91,42 @@ MD033:
     - ul      # Add for table cell lists
     - li      # Add for table cell lists
 ```
+
+---
+
+## Skill-Markdown-004
+
+**Entity Type**: Skill
+**Statement**: Bold text followed by content on next line triggers MD036; use proper headings
+**Atomicity**: 95%
+**Category**: Markdown
+**Context**: When writing or validating markdown documentation
+**Evidence**: Session 2025-12-14 - Multiple .serena memory files flagged for pseudo-headings
+**Tag**: helpful
+**Impact**: 7
+**Validated**: 1
+
+**Summary**: Markdown linter rule MD036 detects emphasis used instead of heading. Pattern: **Bold text** on its own line followed by content looks like a heading but uses emphasis syntax. Solution: Convert to proper heading syntax (## or ###). Improves document structure and accessibility.
+
+**Pattern - Wrong:**
+
+```markdown
+**Section Title**
+
+This is the content under the section.
+```
+
+**Pattern - Correct:**
+
+```markdown
+## Section Title
+
+This is the content under the section.
+```
+
+**Quick Fix**:
+
+1. Find lines with only bold text (`**text**`)
+2. Check if followed by content (looks like a section)
+3. Replace `**text**` with `## text` or appropriate heading level
+4. Run linter to verify
