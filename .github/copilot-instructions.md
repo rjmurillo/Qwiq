@@ -601,6 +601,32 @@ The `GH_TOKEN` uses the automatic `github.token` (not a PAT), which has permissi
 
 **Note:** For security and principle of least privilege, GH_TOKEN is only enabled in `copilot-setup-steps.yml`. Other workflows do not have GitHub CLI access unless specifically required.
 
+### YAML Validation (For Agents)
+
+**CRITICAL: DO NOT manually validate YAML files.** This wastes tokens.
+
+❌ **NEVER do this after editing YAML:**
+```bash
+# ❌ WASTES TOKENS - pre-commit hook does this automatically
+python3 -c "import yaml; yaml.safe_load(open('file.yml'))"
+dotnet pprettier --check file.yml
+pwsh .github/scripts/Validate-Yaml.ps1 file.yml
+```
+
+✅ **Correct workflow:**
+```bash
+# Edit YAML file
+# Just commit - pre-commit hook validates automatically
+git add .github/workflows/my-workflow.yml
+git commit -m "feat: add workflow"
+# Pre-commit hook auto-validates and auto-fixes
+# Zero tokens spent on validation
+```
+
+**Why?** The pre-commit hook at `.githooks/pre-commit` automatically runs `dotnet pprettier` which validates and formats YAML. Running manual validation creates an unnecessary OODA loop and wastes tokens.
+
+**For details:** See [YAML Validation Guide](.github/docs/yaml-validation.md)
+
 ## ⚠️ CRITICAL: Commit Practices
 
 **This is very important.** All changes must be committed incrementally, with small, atomic commits.
