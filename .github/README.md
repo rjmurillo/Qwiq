@@ -12,10 +12,30 @@ bash .github/copilot-setup.sh
 
 This will:
 
+- ✓ Check and install .NET SDK (version from `global.json`)
 - ✓ Enable git hooks at `.githooks/`
 - ✓ Set `SKIP_AUTOFIX=0` (auto-fix mode enabled)
 - ✓ Restore dotnet tools (nbgv)
 - ✓ Install markdownlint-cli2
+- ✓ Provide installation instructions for missing prerequisites
+
+### What Gets Installed
+
+The script automatically detects and installs missing prerequisites:
+
+1. **.NET SDK** - If not installed or wrong version, the script will:
+   - Download the .NET install script from Microsoft
+   - Install the exact version specified in `global.json` to `~/.dotnet`
+   - Add it to your PATH for the current session
+   - Provide instructions to persist the PATH change
+
+2. **Node.js/npm** - If not installed, provides installation instructions:
+   - Direct download from <https://nodejs.org/>
+   - Or via nvm (Node Version Manager)
+
+3. **Git hooks** - Always configured automatically
+
+4. **Linting tools** - markdownlint-cli2 and dotnet tools (nbgv)
 
 ## Files
 
@@ -38,13 +58,15 @@ Or from the GitHub Actions UI:
 
 ## Comparison with DevContainer
 
-| Feature                | DevContainer              | Copilot Workspace        |
-| ---------------------- | ------------------------- | ------------------------ |
-| Git hooks setup        | Automatic (postCreate)    | Manual (run script)      |
-| SKIP_AUTOFIX           | Set via containerEnv      | Set via script           |
-| Dotnet tools           | Automatic restore         | Automatic restore        |
-| markdownlint-cli2      | Automatic install         | Automatic install        |
-| Trigger                | Container creation        | Manual script execution  |
+| Feature                | DevContainer              | Copilot Workspace          |
+| ---------------------- | ------------------------- | -------------------------- |
+| .NET SDK install       | Pre-installed in image    | Auto-installed if missing  |
+| Node.js install        | Pre-installed in image    | Manual (with instructions) |
+| Git hooks setup        | Automatic (postCreate)    | Automatic (in script)      |
+| SKIP_AUTOFIX           | Set via containerEnv      | Set via script             |
+| Dotnet tools           | Automatic restore         | Automatic restore          |
+| markdownlint-cli2      | Automatic install         | Automatic install          |
+| Trigger                | Container creation        | Manual script execution    |
 
 ## Environment Variables
 
@@ -83,6 +105,42 @@ npx markdownlint-cli2 --help
 
 ## Troubleshooting
 
+### .NET SDK version mismatch
+
+If you see the warning about SDK version mismatch, the script will attempt to install the correct version automatically. If automatic installation fails:
+
+**Manual installation options:**
+
+1. **Using the dotnet-install script** (Linux/macOS):
+
+   ```bash
+   curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 10.0.101
+   export PATH="$HOME/.dotnet:$PATH"
+   export DOTNET_ROOT="$HOME/.dotnet"
+   ```
+
+2. **Using the dotnet-install script** (Windows PowerShell):
+
+   ```powershell
+   Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+   ./dotnet-install.ps1 -Version 10.0.101
+   ```
+
+3. **Direct download from Microsoft**:
+   - Visit <https://dotnet.microsoft.com/download/dotnet/10.0>
+   - Download the SDK installer for your platform
+   - Run the installer
+
+After installing, verify:
+
+```bash
+dotnet --version
+# Should output: 10.0.101
+
+dotnet --list-sdks
+# Should include: 10.0.101 [path]
+```
+
 ### Git hooks not running
 
 Re-run the setup script:
@@ -106,14 +164,30 @@ The script will warn but continue if the .NET SDK version doesn't match `global.
 
 ### npm packages not found
 
-Ensure Node.js and npm are installed:
+The script will provide installation instructions if Node.js/npm is not found. To install:
+
+#### Option 1: Direct download
+
+Visit <https://nodejs.org/> and download the LTS version for your platform.
+
+#### Option 2: Using nvm (recommended for development)
 
 ```bash
+# Install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Reload shell configuration
+source ~/.bashrc
+
+# Install Node.js LTS
+nvm install --lts
+
+# Verify installation
 node --version
 npm --version
 ```
 
-If missing, install Node.js LTS from <https://nodejs.org/>
+After installing Node.js, re-run the setup script to install markdownlint-cli2.
 
 ## Related Documentation
 

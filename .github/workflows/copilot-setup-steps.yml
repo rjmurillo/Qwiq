@@ -29,13 +29,30 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Setup .NET SDK
+      - name: Setup .NET SDK from global.json
         uses: ./.github/actions/setup-dotnet
+        id: setup-dotnet
+      
+      - name: Verify .NET SDK installation
+        run: |
+          echo "Verifying .NET SDK installation..."
+          dotnet --version
+          dotnet --list-sdks
+          echo ""
+          echo "✓ .NET SDK is ready"
       
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 'lts/*'
+      
+      - name: Verify Node.js installation
+        run: |
+          echo "Verifying Node.js installation..."
+          node --version
+          npm --version
+          echo ""
+          echo "✓ Node.js and npm are ready"
       
       - name: Enable git hooks
         run: |
@@ -50,11 +67,12 @@ jobs:
       - name: Restore dotnet tools
         run: |
           echo "Restoring dotnet tools..."
-          if dotnet tool restore 2>/dev/null; then
-            echo "✓ Dotnet tools restored"
+          if dotnet tool restore; then
+            echo "✓ Dotnet tools restored successfully"
           else
-            echo "⚠ Warning: dotnet tool restore failed (possible SDK version mismatch)"
-            echo "  You may need to install the SDK version specified in global.json"
+            echo "⚠ Warning: dotnet tool restore failed"
+            echo "  This may indicate an issue with the .NET SDK setup"
+            exit 1
           fi
       
       - name: Install markdownlint-cli2
