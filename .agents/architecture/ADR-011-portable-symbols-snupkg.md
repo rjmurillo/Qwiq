@@ -146,12 +146,12 @@ Adopt Option 1: Portable Symbols with snupkg.
 2. **Corporate Firewall Blocks**:
 
    - Some enterprises block external symbol servers
-   - **Mitigation**: Users in such environments can use Source Link with authenticated GitHub access, or accept debugging without symbols
+   - **Mitigation**: Document workarounds in README - Source Link for source browsing, build from source with embedded symbols, or request IT whitelist `symbols.nuget.org`
 
 3. **Dual Package Publishing**:
 
    - CI must push both `.nupkg` and `.snupkg`
-   - **Mitigation**: `dotnet nuget push *.nupkg --source nuget.org` handles both automatically
+   - **Mitigation**: Explicit dual-push in `release.yml` with `--skip-duplicate` for idempotency
 
 4. **Configuration Override Maintenance**:
 
@@ -183,45 +183,155 @@ Adopt Option 1: Portable Symbols with snupkg.
 The following is already in `Directory.Build.props`:
 
 ```xml
-<!-- Source Link Configuration -->
+<!--
+  Source Link Configuration:
+  - PublishRepositoryUrl and EmbedUntrackedSources are now handled by DotNet.ReproducibleBuilds
+  - We only need to configure symbol package generation (not covered by the package)
+-->
 <PropertyGroup>
-  <PublishRepositoryUrl>true</PublishRepositoryUrl>
-  <EmbedUntrackedSources>true</EmbedUntrackedSources>
   <IncludeSymbols>true</IncludeSymbols>
   <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 </PropertyGroup>
 
 <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <!-- Override DotNet.ReproducibleBuilds default of 'embedded' to 'portable' for separate .snupkg symbol packages -->
   <DebugType>portable</DebugType>
-  <!-- ... -->
+  <Optimize>true</Optimize>
+  <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
 </PropertyGroup>
 ```
 
+> **Note**: `PublishRepositoryUrl=true` and `EmbedUntrackedSources=true` are automatically set by `DotNet.ReproducibleBuilds` package (v1.2.39). We do not set these explicitly to avoid configuration duplication.
+
 ### CI Publishing
 
-```bash
-# Push both nupkg and snupkg to NuGet.org
-dotnet nuget push "artifacts/**/*.nupkg" --source nuget.org --api-key $NUGET_API_KEY
-# Note: snupkg is automatically pushed alongside nupkg
+The `release.yml` workflow explicitly pushes both package types for reliability:
+
+```powershell
+# Push nupkg files
+foreach ($file in $nupkgFiles) {
+    dotnet nuget push $file.FullName --api-key "$env:NUGET_API_KEY" `
+        --source https://api.nuget.org/v3/index.json --skip-duplicate
+}
+
+# Push snupkg files separately for explicit control
+foreach ($file in $snupkgFiles) {
+    dotnet nuget push $file.FullName --api-key "$env:NUGET_API_KEY" `
+        --source https://api.nuget.org/v3/index.json --skip-duplicate
+}
 ```
+
+> **Note**: While NuGet V3 API supports automatic `.snupkg` discovery when pushing `.nupkg`, explicit dual-push is preferred in CI for reliability and visibility. The `--skip-duplicate` flag provides idempotency for retries.
 
 ### Consumer Documentation
 
-Add to README.md or package README:
+Add the following debugging section to README.md or package README:
+
+#### Debugging Header
 
 ```markdown
 ## Debugging
 
 QWIQ packages include Source Link support for full debugging with source code navigation.
+```
 
-**Visual Studio Setup** (one-time):
+#### Visual Studio Setup (one-time)
 
 1. Tools > Options > Debugging > Symbols
 2. Check "NuGet.org Symbol Server"
 3. Enable "Load only specified modules" for faster debugging (optional)
 
-**JetBrains Rider**: Works automatically.
+#### JetBrains Rider
+
+Works automatically when external sources are enabled in decompiler settings.
+
+#### VS Code Setup
+
+For .NET 7+ projects, add to your `.csproj`:
+
+```xml
+<PropertyGroup>
+  <CopyDebugSymbolFilesFromPackages>true</CopyDebugSymbolFilesFromPackages>
+</PropertyGroup>
 ```
+
+Then configure `launch.json`:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Core Launch",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Debug/net8.0/YourApp.dll",
+      "justMyCode": false,
+      "symbolOptions": {
+        "searchMicrosoftSymbolServer": true,
+        "searchNuGetOrgSymbolServer": true
+      }
+    }
+  ]
+}
+```
+
+#### Corporate Firewall Workaround
+
+If `symbols.nuget.org` is blocked, you can:
+
+1. Use Source Link for source browsing (requires GitHub access)
+2. Clone the repository and build locally with embedded symbols
+3. Request IT to whitelist `symbols.nuget.org` and `raw.githubusercontent.com`
+
+## Rollback Strategy
+
+If symbol packages fail validation post-publish or cause significant user friction:
+
+### Detection
+
+- Monitor GitHub issues for debugging complaints within 7 days of release
+- Track NuGet.org download metrics for unexpected patterns
+- Review symbol server indexing status via NuGet.org package page
+
+### Triage
+
+1. Reproduce issue locally with same package version
+2. Verify `.snupkg` was correctly indexed on NuGet.org symbol server
+3. Check if issue is configuration (consumer-side) vs. package (producer-side)
+
+### Recovery Options
+
+| Scenario | Action |
+|----------|--------|
+| Minor fix needed | Patch release (v11.0.x) with corrected symbols |
+| Major issue with portable symbols | Patch release with embedded symbols (revert to Option 2) |
+| Symbol server indexing failed | Re-push `.snupkg` files to NuGet.org |
+
+### Reverting to Embedded Symbols
+
+If portable symbols prove problematic for QWIQ's audience:
+
+1. Update `Directory.Build.props`:
+
+   ```xml
+   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+     <DebugType>embedded</DebugType>
+   </PropertyGroup>
+   <PropertyGroup>
+     <IncludeSymbols>false</IncludeSymbols>
+     <!-- Remove SymbolPackageFormat -->
+   </PropertyGroup>
+   ```
+
+2. Publish patch release (e.g., v11.0.1)
+3. Update README to remove symbol server configuration instructions
+
+### Limitations
+
+- Symbol packages already on `symbols.nuget.org` cannot be removed
+- Cached symbols in developer IDEs persist until cache is cleared
+- Unlisting packages prevents new installs but does not remove existing installations
 
 ## Validation
 
@@ -253,3 +363,32 @@ QWIQ packages include Source Link support for full debugging with source code na
 - [dotnet/sdk Issue #2679: Discussion on embedded default](https://github.com/dotnet/sdk/issues/2679)
 - [Ken Muse: What Every Developer Should Know About PDBs](https://www.kenmuse.com/blog/what-every-developer-should-know-about-pdbs/)
 - [dotnet/runtime Directory.Build.props](https://github.com/dotnet/runtime/blob/main/Directory.Build.props)
+
+## Consensus Review
+
+**Review Date**: 2025-12-14
+
+This ADR underwent multi-agent consensus review with 5 specialized agents:
+
+| Agent | Verdict | Key Observations |
+|-------|---------|------------------|
+| **Architect** | ACCEPT with observations | Format compliant, well-researched, minor code drift noted |
+| **Critic** | APPROVED with caveats | Enterprise audience considerations, documentation quality |
+| **DevOps** | ACCEPT with revisions | CI workflow robust, auto-push statement corrected |
+| **Independent Thinker** | RECONSIDER | Scale mismatch with Microsoft patterns (noted, not blocking) |
+| **QA** | NEEDS REVISION | Validation gaps addressed with rollback strategy |
+
+**Consensus Achieved**: 4/5 agents approved the core technical decision. Revisions incorporated:
+
+1. Fixed stale code block to match actual `Directory.Build.props`
+2. Added rollback strategy section
+3. Corrected auto-push mitigation to document explicit dual-push
+4. Expanded VS Code debugging documentation
+5. Added corporate firewall workarounds
+
+**Contrarian View Acknowledged**: The independent-thinker noted QWIQ's low adoption (~1 download/day) may not justify portable symbols. This is acknowledged as an aspirational decision aligning QWIQ with professional public library standards for v11.0.0.
+
+**Review Documents**:
+
+- `.agents/critique/001-ADR-011-portable-symbols-critique.md`
+- `.agents/qa/011-ADR-011-symbols-review.md`
