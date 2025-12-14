@@ -58,6 +58,16 @@ If you're using **GitHub Codespaces** or **VS Code Dev Containers**, git hooks a
 
 The devcontainer also sets `SKIP_AUTOFIX=0` to ensure auto-fix mode is enabled.
 
+### GitHub Copilot Workspace
+
+If you're using **GitHub Copilot Workspace**, run the setup script once:
+
+```bash
+bash .github/copilot-setup.sh
+```
+
+This will enable git hooks, set `SKIP_AUTOFIX=0`, and install required linting tools.
+
 ### Manual Setup (Local Development)
 
 If you're working locally outside a devcontainer, run this command once after cloning to enable the pre-commit hooks:

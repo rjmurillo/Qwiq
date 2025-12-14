@@ -2,6 +2,8 @@
 
 This directory contains the configuration for the Qwiq development container, which provides a consistent development environment for GitHub Codespaces, VS Code Remote Containers, and other devcontainer-compatible tools.
 
+**For GitHub Copilot Workspace users**: See [../.github/copilot-setup.sh](../.github/copilot-setup.sh) for Copilot Workspace setup.
+
 ## What Gets Configured
 
 The devcontainer automatically sets up:
