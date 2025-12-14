@@ -590,8 +590,11 @@ jobs:
 
 ## Phase 2G: Reproducible Builds (NEW - Session 41)
 
-> **PRD**: `.agents/planning/PRD-reproducible-builds.md` > **Added**: 2025-12-14 (Session 41)
+> **PRD**: `.agents/planning/PRD-reproducible-builds.md`
+> **ADR**: `.agents/architecture/ADR-011-portable-symbols-snupkg.md`
+> **Added**: 2025-12-14 (Session 41)
 > **Goal**: Integrate DotNet.ReproducibleBuilds package for enhanced CI platform detection and alignment with .NET Foundation best practices.
+> **Key Decision**: Portable symbols with `.snupkg` packages (ADR-011) - follows Microsoft guidance for public NuGet libraries.
 
 ### W2.34 Add DotNet.ReproducibleBuilds Package Version ✅ COMPLETE
 
