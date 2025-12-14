@@ -36,7 +36,7 @@ if (-not (Test-Path $PackagePath)) {
     exit 1
 }
 
-$maxBytes = $MaxSizeMB * 1MB
+$maxBytes = $MaxSizeMB * 1024 * 1024  # Convert MB to bytes explicitly for clarity
 $nupkgFiles = Get-ChildItem -Path $PackagePath -Filter "*.nupkg" -Recurse
 
 if ($nupkgFiles.Count -eq 0) {

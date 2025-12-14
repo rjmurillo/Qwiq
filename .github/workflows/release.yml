@@ -46,7 +46,7 @@ jobs:
         shell: pwsh
         run: |
           # Compute SHA256 hashes of all .nupkg files (no .snupkg - using embedded symbols)
-          $nupkgFiles = Get-ChildItem -Path ./packages -Filter '*.nupkg' -Recurse | Where-Object { $_.Name -notlike '*.snupkg' }
+          $nupkgFiles = Get-ChildItem -Path ./packages -Filter '*.nupkg' -Recurse
           $hashes = $nupkgFiles | ForEach-Object {
             $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLower()
             $relativePath = $_.FullName.Replace((Get-Location).Path + [IO.Path]::DirectorySeparatorChar, '').Replace('\', '/')
