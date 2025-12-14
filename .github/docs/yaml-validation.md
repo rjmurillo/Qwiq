@@ -179,6 +179,34 @@ dotnet tool restore
 
 **Rule:** After editing YAML, just commit. The pre-commit hook handles all validation.
 
+## For CI/CD (Optional Validation Script)
+
+A PowerShell validation script is available for CI/CD pipelines: `.github/scripts/Validate-Yaml.ps1`
+
+**Features:**
+- Uses `dotnet pprettier` for formatting and syntax validation (already in repo)
+- Optionally uses `yamllint` for enhanced linting (if installed)
+- Cross-platform (Windows, Linux, macOS)
+
+**Requirements:**
+- PowerShell 7+ (pwsh)
+- dotnet pprettier (via `dotnet tool restore`)
+- yamllint (optional): `pip install yamllint`
+
+**Usage:**
+```powershell
+# Formatting + syntax validation only
+pwsh .github/scripts/Validate-Yaml.ps1 .github/workflows/main.yml
+
+# With yamllint checks (if installed)
+pwsh .github/scripts/Validate-Yaml.ps1 .github/workflows/main.yml
+
+# Skip yamllint, only pprettier
+pwsh .github/scripts/Validate-Yaml.ps1 .github/workflows/main.yml -SkipLint
+```
+
+**Simple approach:** The script uses existing tools (pprettier) + optional linter (yamllint). No custom YAML parsing to maintain.
+
 ## References
 
 - [Pre-commit hook](../.githooks/pre-commit) - Auto-fix implementation
