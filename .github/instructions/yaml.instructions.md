@@ -41,6 +41,10 @@ jobs:
   build:
     runs-on: windows-latest # Required for net472/SOAP projects
 
+    env:
+      # Enable GitHub CLI for GitHub agents or scripts
+      GH_TOKEN: ${{ github.token }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,6 +77,44 @@ jobs:
 | `fetch-depth: 0`      | Nerdbank.GitVersioning needs full history           |
 | `dotnet tool restore` | Restores nbgv from dotnet tool manifest             |
 | `global-json-file`    | Uses pinned SDK version from repository             |
+| `GH_TOKEN`            | Enables GitHub CLI and API access for agents        |
+
+### GitHub CLI (gh) Support
+
+All workflows include `GH_TOKEN: ${{ github.token }}` to enable GitHub CLI commands and API access. This allows:
+
+**For GitHub Agents/Copilot:**
+- View workflow run logs and status
+- Monitor action execution in real-time
+- Query PR information and comments
+- Check CI/CD pipeline status
+
+**Common gh commands available:**
+```bash
+# View workflow runs
+gh run list --workflow=main.yml
+
+# Get workflow run status
+gh run view <run-id>
+
+# View workflow logs
+gh run view <run-id> --log
+
+# Check PR status
+gh pr view <pr-number>
+
+# List PR checks
+gh pr checks <pr-number>
+```
+
+**Usage in workflow steps:**
+```yaml
+- name: Check workflow status
+  run: |
+    # GH_TOKEN is automatically available
+    gh run list --limit 5
+    gh pr checks ${{ github.event.pull_request.number }}
+```
 
 ### Deterministic Builds
 

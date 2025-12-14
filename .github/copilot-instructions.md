@@ -553,6 +553,51 @@ When adding or updating .NET workflows in this repo, follow these guidelines:
 - Upload binlogs as artifacts for debugging: `/bl:./artifacts/logs/build.binlog`
 - Prefer `.runsettings` files or environment variables for complex test filters instead of long inline strings
 
+### GitHub CLI Support in Workflows
+
+All workflows include `GH_TOKEN: ${{ github.token }}` environment variable to enable GitHub CLI (`gh`) commands. This allows GitHub agents and Copilot to:
+
+**Monitor and debug workflow execution:**
+```bash
+# View workflow runs
+gh run list --workflow=main.yml --limit 10
+
+# Check specific run status
+gh run view <run-id>
+
+# View logs from a run
+gh run view <run-id> --log
+
+# Download logs for analysis
+gh run download <run-id>
+```
+
+**Check PR and CI status:**
+```bash
+# View PR details
+gh pr view <pr-number>
+
+# Check all PR checks/workflows
+gh pr checks <pr-number>
+
+# View specific check logs
+gh pr checks <pr-number> --watch
+```
+
+**Usage in workflow steps:**
+```yaml
+jobs:
+  build:
+    env:
+      GH_TOKEN: ${{ github.token }}  # Available to all steps
+    
+    steps:
+      - name: Monitor other workflows
+        run: gh run list --workflow=lint.yml --limit 5
+```
+
+The `GH_TOKEN` uses the automatic `github.token` (not a PAT), which has permissions based on the workflow's `permissions:` block.
+
 ## ⚠️ CRITICAL: Commit Practices
 
 **This is very important.** All changes must be committed incrementally, with small, atomic commits.
