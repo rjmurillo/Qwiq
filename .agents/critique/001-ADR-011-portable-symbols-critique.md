@@ -189,7 +189,3 @@ The comparison is valid but selectively highlights libraries that support the de
 | **implementer** | Now | Proceed with v11.0.0 preparation using current configuration |
 | **planner** | If revisions requested | Address documentation issues identified above |
 | **qa** | Post-release | Verify debugging experience works as documented |
-
-## Output Location
-
-`D:\src\GitHub\rjmurillo\Qwiq\.agents\critique\001-ADR-011-portable-symbols-critique.md`

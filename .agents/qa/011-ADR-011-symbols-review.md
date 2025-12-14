@@ -299,12 +299,12 @@ ADR-011 can be **ACCEPTED** once items 1-4 are addressed. The decision to use po
 
 ## Appendix: File References
 
-| File | Absolute Path |
-|------|---------------|
-| ADR-011 | `D:\src\GitHub\rjmurillo\Qwiq\.agents\architecture\ADR-011-portable-symbols-snupkg.md` |
-| Directory.Build.props | `D:\src\GitHub\rjmurillo\Qwiq\Directory.Build.props` |
-| Validate-PackageOutput.ps1 | `D:\src\GitHub\rjmurillo\Qwiq\build\scripts\Validate-PackageOutput.ps1` |
-| Verify-SourceLink.ps1 | `D:\src\GitHub\rjmurillo\Qwiq\build\scripts\Verify-SourceLink.ps1` |
-| PackageTests.cs | `D:\src\GitHub\rjmurillo\Qwiq\test\Qwiq.Package.Tests\PackageTests.cs` |
-| main.yml | `D:\src\GitHub\rjmurillo\Qwiq\.github\workflows\main.yml` |
-| release.yml | `D:\src\GitHub\rjmurillo\Qwiq\.github\workflows\release.yml` |
+| File | Repository Path |
+|------|-----------------|
+| ADR-011 | `.agents/architecture/ADR-011-portable-symbols-snupkg.md` |
+| Directory.Build.props | `Directory.Build.props` |
+| Validate-PackageOutput.ps1 | `build/scripts/Validate-PackageOutput.ps1` |
+| Verify-SourceLink.ps1 | `build/scripts/Verify-SourceLink.ps1` |
+| PackageTests.cs | `test/Qwiq.Package.Tests/PackageTests.cs` |
+| main.yml | `.github/workflows/main.yml` |
+| release.yml | `.github/workflows/release.yml` |
