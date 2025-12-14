@@ -20,14 +20,14 @@
 
 ## Key Mock Types
 
-| Mock Type                       | Implements                   | Purpose                          |
-| ------------------------------- | ---------------------------- | -------------------------------- |
-| `MockWorkItemStore`             | `IWorkItemStore`             | In-memory work item storage      |
-| `MockWorkItem`                  | `IWorkItem`                  | Work item with field storage     |
-| `MockRevision`                  | `IRevision`                  | Revision history                 |
-| `MockIdentityManagementService` | `IIdentityManagementService` | Identity resolution              |
-| `MockFieldDefinitionCollection` | `IFieldDefinitionCollection` | Field metadata                   |
-| `MockQuery`                     | `IQuery`                     | Query execution                  |
+| Mock Type                       | Implements                   | Purpose                      |
+| ------------------------------- | ---------------------------- | ---------------------------- |
+| `MockWorkItemStore`             | `IWorkItemStore`             | In-memory work item storage  |
+| `MockWorkItem`                  | `IWorkItem`                  | Work item with field storage |
+| `MockRevision`                  | `IRevision`                  | Revision history             |
+| `MockIdentityManagementService` | `IIdentityManagementService` | Identity resolution          |
+| `MockFieldDefinitionCollection` | `IFieldDefinitionCollection` | Field metadata               |
+| `MockQuery`                     | `IQuery`                     | Query execution              |
 
 ## Common Usage Patterns
 
@@ -39,16 +39,16 @@ public void Should_query_work_items()
 {
     // Arrange
     var store = new MockWorkItemStore();
-    store.Add(new MockWorkItem("Bug") 
-    { 
+    store.Add(new MockWorkItem("Bug")
+    {
         Id = 123,
         Title = "Test Bug",
         ["System.State"] = "Active"
     });
-    
+
     // Act
     var items = store.Query("SELECT [System.Id] FROM WorkItems");
-    
+
     // Assert
     items.ShouldHaveSingleItem();
     items.First().Id.ShouldBe(123);
@@ -136,18 +136,18 @@ public class Given_mock_work_item_store : ContextSpecification
 {
     private MockWorkItemStore? _store;
     private IEnumerable<IWorkItem>? _results;
-    
+
     public override void Given()
     {
         _store = new MockWorkItemStore();
         _store.Add(new MockWorkItem("Bug") { Id = 1, Title = "Test" });
     }
-    
+
     public override void When()
     {
         _results = _store!.Query("SELECT [System.Id] FROM WorkItems");
     }
-    
+
     [TestMethod]
     public void Then_should_return_work_items()
     {
@@ -277,12 +277,14 @@ public void MyService_should_query_active_bugs()
 ## When NOT to Use Mocks
 
 Use integration tests (`Qwiq.Integration.Tests`) for:
+
 - Testing actual REST/SOAP client implementations
 - Verifying real Azure DevOps / TFS behavior
 - Testing complex queries against real data
 - Validating authentication flows
 
 Use mocks for:
+
 - Fast unit tests
 - Testing business logic that uses `IWorkItemStore`
 - Isolated component tests

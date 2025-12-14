@@ -23,7 +23,7 @@
 
 ### Mapping Pipeline
 
-```
+```text
 IWorkItem
     ↓
 WorkItemMapper (orchestrator)
@@ -39,16 +39,16 @@ Strongly-Typed POCO
 
 ### Key Types
 
-| Type                                        | Purpose                              | Location                             |
-| ------------------------------------------- | ------------------------------------ | ------------------------------------ |
-| `WorkItemMapper`                            | Main mapping orchestrator            | `WorkItemMapper.cs`                  |
-| `IWorkItemMapperStrategy`                   | Strategy interface                   | `IWorkItemMapperStrategy.cs`         |
-| `AttributeMapperStrategy`                   | Attribute-based mapping              | Strategy implementation              |
-| `BulkIdentityAwareAttributeMapperStrategy`  | Identity resolution                  | Strategy implementation              |
-| `WorkItemLinksMapperStrategy`               | Link collection mapping              | Strategy implementation              |
-| `FieldDefinitionAttribute`                  | Map property to field                | `Attributes/`                        |
-| `WorkItemTypeAttribute`                     | Declare work item type               | `Attributes/`                        |
-| `IdentityFieldAttribute`                    | Mark identity field for bulk resolve | `Attributes/`                        |
+| Type                                       | Purpose                              | Location                     |
+| ------------------------------------------ | ------------------------------------ | ---------------------------- |
+| `WorkItemMapper`                           | Main mapping orchestrator            | `WorkItemMapper.cs`          |
+| `IWorkItemMapperStrategy`                  | Strategy interface                   | `IWorkItemMapperStrategy.cs` |
+| `AttributeMapperStrategy`                  | Attribute-based mapping              | Strategy implementation      |
+| `BulkIdentityAwareAttributeMapperStrategy` | Identity resolution                  | Strategy implementation      |
+| `WorkItemLinksMapperStrategy`              | Link collection mapping              | Strategy implementation      |
+| `FieldDefinitionAttribute`                 | Map property to field                | `Attributes/`                |
+| `WorkItemTypeAttribute`                    | Declare work item type               | `Attributes/`                |
+| `IdentityFieldAttribute`                   | Mark identity field for bulk resolve | `Attributes/`                |
 
 ## Key Entry Points
 
@@ -143,6 +143,7 @@ public string? CreatedBy { get; set; }
 ```
 
 **Benefits**:
+
 - Single batch call to identity service for all identity fields
 - Improves performance when mapping many work items
 - Resolves display names, email addresses, etc.
@@ -183,7 +184,7 @@ public class CustomMappingStrategy : IWorkItemMapperStrategy
             yield return CreateInstance<T>(wi);
         }
     }
-    
+
     private T CreateInstance<T>(IWorkItem workItem)
     {
         // Custom mapping logic
@@ -205,10 +206,10 @@ public void Should_map_work_item_to_bug()
         Title = "Test Bug",
         ["System.State"] = "Active"
     };
-    
+
     var mapper = new WorkItemMapper();
     var bug = mapper.Create<Bug>(new[] { workItem }).Single();
-    
+
     bug.Id.ShouldBe(123);
     bug.Title.ShouldBe("Test Bug");
     bug.State.ShouldBe("Active");
@@ -223,16 +224,16 @@ public void Should_resolve_identity_fields_in_bulk()
 {
     var identityService = new MockIdentityManagementService();
     identityService.AddIdentity("user@domain.com", "User Name");
-    
+
     var workItem = new MockWorkItem("Bug")
     {
         ["System.AssignedTo"] = "user@domain.com"
     };
-    
+
     var strategy = new BulkIdentityAwareAttributeMapperStrategy(identityService);
     var mapper = new WorkItemMapper(strategy);
     var bug = mapper.Create<Bug>(new[] { workItem }).Single();
-    
+
     bug.AssignedTo.ShouldBe("User Name");
 }
 ```
@@ -260,7 +261,7 @@ public class Bug
 {
     [FieldDefinition("System.Id")]
     public int? Id { get; set; }  // int? - ID might be null for new items
-    
+
     [FieldDefinition("System.Title")]
     public string? Title { get; set; }  // string? - Title might be missing
 }
@@ -344,7 +345,7 @@ var strategy = new BulkIdentityAwareAttributeMapperStrategy(identityService);
 
 ✅ **Do use CoreFieldRefNames constants** - Avoid magic strings
 
-✅ **Do implement IIdentifiable<T>** - For trackable entities
+✅ **Do implement IIdentifiable&lt;T&gt;** - For trackable entities
 
 ✅ **Do use nullable types** - For optional fields
 
@@ -382,7 +383,7 @@ catch (AttributeMapException ex)
 - **Use BulkIdentityAwareAttributeMapperStrategy** - Batches identity resolution
 - **Map only needed fields** - Don't declare unused properties
 - **Cache mapper instances** - Reuse across queries
-- **Use IEnumerable<T>** - Supports deferred execution
+- **Use IEnumerable&lt;T&gt;** - Supports deferred execution
 
 ## Related Components
 

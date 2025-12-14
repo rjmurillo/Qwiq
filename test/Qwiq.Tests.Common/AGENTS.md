@@ -30,26 +30,26 @@ public class Given_some_context : ContextSpecification
 {
     private MyClass? _sut;  // System Under Test
     private string? _result;
-    
+
     public override void Given()
     {
         // Arrange - setup test context
         _sut = new MyClass();
     }
-    
+
     public override void When()
     {
         // Act - perform the action being tested
         _result = _sut!.DoSomething();
     }
-    
+
     [TestMethod]
     public void Then_expected_behavior()
     {
         // Assert - verify the outcome
         _result.ShouldBe("expected");
     }
-    
+
     [TestMethod]
     public void Then_another_expected_behavior()
     {
@@ -72,16 +72,16 @@ public static class TestData
     public const int HierarchyChildId = 2;
     public const int MapperBugId = 4;
     public const int WorkItemWithLinksId = 5;
-    
+
     // Identity Information
     public const string TestUserUpn = "rjmurillo@msn.com";
     public const string TestUserAlias = "rjmurillo";
     public const string TestUserDisplayName = "Richard Murillo";
-    
+
     // Project Information
     public const string ProjectName = "WIT";
     public static readonly Guid ProjectGuid = new("0a4c0240-1a67-45de-93db-fc1de9f54ffb");
-    
+
     // Azure DevOps Organization
     public const string OrganizationUrl = "https://qwiq-sandbox.visualstudio.com/";
 }
@@ -116,7 +116,7 @@ collection.ShouldBeEmpty();
 
 1. **Given()** - Arrange test context (setup)
 2. **When()** - Act on the system under test
-3. **Then_*()** - Assert expected outcomes (multiple test methods)
+3. **Then\_\*()** - Assert expected outcomes (multiple test methods)
 
 ### Benefits
 
@@ -134,27 +134,27 @@ public class Given_query_with_where_clause : ContextSpecification
     private MockWorkItemStore? _store;
     private Query<WorkItem>? _query;
     private IEnumerable<WorkItem>? _results;
-    
+
     public override void Given()
     {
         _store = new MockWorkItemStore();
         _store.Add(new MockWorkItem("Bug") { Id = 1, State = "Active" });
         _store.Add(new MockWorkItem("Bug") { Id = 2, State = "Closed" });
-        
+
         _query = new Query<WorkItem>(_store);
     }
-    
+
     public override void When()
     {
         _results = _query!.Where(wi => wi.State == "Active").ToList();
     }
-    
+
     [TestMethod]
     public void Then_returns_only_active_items()
     {
         _results.ShouldHaveSingleItem();
     }
-    
+
     [TestMethod]
     public void Then_returned_item_has_correct_state()
     {
@@ -174,6 +174,7 @@ public class Given_[context] : ContextSpecification
 ```
 
 Examples:
+
 - `Given_WorkItemStore_When_querying_by_id`
 - `Given_empty_collection`
 - `Given_mapped_work_item_with_identity_fields`
@@ -189,6 +190,7 @@ public void Then_[expected_behavior]()
 ```
 
 Examples:
+
 - `Then_should_return_work_item()`
 - `Then_throws_ArgumentNullException()`
 - `Then_identity_field_is_resolved()`
@@ -200,7 +202,7 @@ Examples:
 ```csharp
 public override void When()
 {
-    _exception = Should.Throw<ArgumentNullException>(() => 
+    _exception = Should.Throw<ArgumentNullException>(() =>
     {
         _sut!.MethodThatThrows(null);
     });
@@ -295,7 +297,7 @@ nullableInt.HasValue.ShouldBeFalse();
 
 ✅ **Do separate Given-When-Then** - Clear test structure
 
-✅ **Do use multiple Then_ methods** - Test different aspects of same behavior
+✅ **Do use multiple Then\_ methods** - Test different aspects of same behavior
 
 ## Related Components
 
@@ -322,4 +324,4 @@ result.ShouldBeGreaterThan(0);
 exception.ShouldBeOfType<ArgumentNullException>();
 ```
 
-See <a href="https://docs.shouldly.io/">Shouldly documentation</a> for complete API.
+See [Shouldly documentation](https://docs.shouldly.io/) for complete API.

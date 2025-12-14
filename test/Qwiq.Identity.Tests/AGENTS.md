@@ -37,12 +37,12 @@ public void Should_read_identity()
 [TestMethod]
 public void Should_read_identities_in_bulk()
 {
-    var identities = _identityService!.ReadIdentities(new[] 
-    { 
-        "user1@domain.com", 
-        "user2@domain.com" 
+    var identities = _identityService!.ReadIdentities(new[]
+    {
+        "user1@domain.com",
+        "user2@domain.com"
     });
-    
+
     identities.Count().ShouldBe(2);
 }
 ```

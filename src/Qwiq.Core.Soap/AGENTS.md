@@ -22,11 +22,13 @@
 ## ⚠️ Critical: Windows-Only Requirement
 
 This component **CANNOT** be built or run on Linux/macOS because:
+
 - `Microsoft.TeamFoundationServer.ExtendedClient` requires Windows
 - TFS Client OM uses Windows-specific APIs
 - NTLM/Kerberos authentication is Windows-only
 
 **Build requirements**:
+
 - Windows operating system
 - .NET Framework 4.7.2+ SDK
 - Visual Studio 2022 or later (recommended)
@@ -91,17 +93,18 @@ var options = new AuthenticationOptions(
 ### Fields Not Returned by SOAP
 
 SOAP client does NOT return these classification fields:
+
 - `System.AreaLevel1-7` (returned by REST)
 - `System.IterationLevel1-7` (returned by REST)
 
 ### Authentication
 
-| Method       | SOAP                        | REST                   |
-| ------------ | --------------------------- | ---------------------- |
-| Windows/AD   | ✅ NTLM, Kerberos            | ✅ Azure AD             |
-| PAT          | ❌ Not supported             | ✅ Recommended          |
-| OAuth        | ❌ Not supported             | ✅ Supported            |
-| Basic        | ✅ HTTP Basic (not recommended) | ✅ Supported            |
+| Method     | SOAP                            | REST           |
+| ---------- | ------------------------------- | -------------- |
+| Windows/AD | ✅ NTLM, Kerberos               | ✅ Azure AD    |
+| PAT        | ❌ Not supported                | ✅ Recommended |
+| OAuth      | ❌ Not supported                | ✅ Supported   |
+| Basic      | ✅ HTTP Basic (not recommended) | ✅ Supported   |
 
 ### Performance
 
@@ -115,6 +118,7 @@ SOAP client does NOT return these classification fields:
 SOAP integration tests are in `Qwiq.Integration.Tests` with category `[TestCategory("SOAP")]`.
 
 **Note**: These tests present an interactive login dialog and require:
+
 - Windows operating system
 - Network connectivity to TFS server
 - Domain credentials or Windows authentication
@@ -239,13 +243,13 @@ var uri = new Uri(configuration["TFS:CollectionUrl"]);
 
 ## TFS Version Compatibility
 
-| TFS/AzDO Version        | SOAP Support | Recommended Client |
-| ----------------------- | ------------ | ------------------ |
-| TFS 2015                | ✅ Full       | SOAP               |
-| TFS 2017                | ✅ Full       | SOAP               |
-| TFS 2018                | ✅ Full       | SOAP or REST       |
-| Azure DevOps Server     | ✅ Full       | REST (preferred)   |
-| Azure DevOps Services   | ✅ Limited    | REST (only option) |
+| TFS/AzDO Version      | SOAP Support | Recommended Client |
+| --------------------- | ------------ | ------------------ |
+| TFS 2015              | ✅ Full      | SOAP               |
+| TFS 2017              | ✅ Full      | SOAP               |
+| TFS 2018              | ✅ Full      | SOAP or REST       |
+| Azure DevOps Server   | ✅ Full      | REST (preferred)   |
+| Azure DevOps Services | ✅ Limited   | REST (only option) |
 
 **Note**: Azure DevOps Services deprecated SOAP endpoints. Use REST client.
 
@@ -269,19 +273,20 @@ $env:TF_ADDITIONAL_JAVA_ARGS = "-Djavax.net.debug=all"
 ### View SOAP Requests
 
 Use Fiddler to inspect SOAP traffic:
+
 - XML request/response payloads
 - Authentication headers
 - Error details
 
 ### Common Issues
 
-| Issue                               | Cause                     | Solution                          |
-| ----------------------------------- | ------------------------- | --------------------------------- |
-| `TF30063` Authentication failed     | Invalid credentials       | Check username/password/domain    |
-| `TF26071` Invalid field name        | Field doesn't exist       | Verify field reference name       |
-| `TF51005` Area/iteration not found  | Invalid path              | Check classification paths        |
-| `TF26027` Work item does not exist  | Invalid ID or permissions | Verify ID and read permissions    |
-| Platform not supported              | Running on Linux/macOS    | Build/run on Windows              |
+| Issue                              | Cause                     | Solution                       |
+| ---------------------------------- | ------------------------- | ------------------------------ |
+| `TF30063` Authentication failed    | Invalid credentials       | Check username/password/domain |
+| `TF26071` Invalid field name       | Field doesn't exist       | Verify field reference name    |
+| `TF51005` Area/iteration not found | Invalid path              | Check classification paths     |
+| `TF26027` Work item does not exist | Invalid ID or permissions | Verify ID and read permissions |
+| Platform not supported             | Running on Linux/macOS    | Build/run on Windows           |
 
 ## Migration Path
 
@@ -308,7 +313,7 @@ var restStore = Qwiq.Client.Rest.WorkItemStoreFactory.Default.Create(restOptions
 
 SOAP client adapts TFS Client OM to Qwiq interfaces:
 
-```
+```text
 Qwiq.IWorkItemStore
     ↓
 SoapWorkItemStore (internal adapter)
@@ -319,6 +324,7 @@ Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemStore
 ### Why Internal?
 
 TFS Client OM types:
+
 - Are Windows-specific
 - Have complex dependencies
 - Don't follow Qwiq conventions

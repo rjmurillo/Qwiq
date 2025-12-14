@@ -37,13 +37,13 @@
 
 Use `TestData` constants from `Qwiq.Tests.Common`:
 
-| ID  | Type       | Title                             | Constant                     |
-| --- | ---------- | --------------------------------- | ---------------------------- |
-| 1   | Bug        | Integration Test                  | TestData.BasicWorkItemId     |
-| 2   | Task       | Child Task                        | TestData.HierarchyChildId    |
-| 3   | User Story | Parent Story                      | TestData.HierarchyParentId   |
-| 4   | Bug        | Bug for Mapper                    | TestData.MapperBugId         |
-| 5   | Bug        | Work Item with Links              | TestData.WorkItemWithLinksId |
+| ID  | Type       | Title                | Constant                     |
+| --- | ---------- | -------------------- | ---------------------------- |
+| 1   | Bug        | Integration Test     | TestData.BasicWorkItemId     |
+| 2   | Task       | Child Task           | TestData.HierarchyChildId    |
+| 3   | User Story | Parent Story         | TestData.HierarchyParentId   |
+| 4   | Bug        | Bug for Mapper       | TestData.MapperBugId         |
+| 5   | Bug        | Work Item with Links | TestData.WorkItemWithLinksId |
 
 ## Test Categories
 
@@ -141,10 +141,10 @@ public void REST_returns_additional_classification_fields()
 {
     var restStore = CreateRestStore();
     var soapStore = CreateSoapStore();
-    
+
     var restItem = restStore.GetWorkItem(TestData.BasicWorkItemId);
     var soapItem = soapStore.GetWorkItem(TestData.BasicWorkItemId);
-    
+
     // REST returns System.AreaLevel1-7, SOAP does not
     restItem.Fields.Contains("System.AreaLevel1").ShouldBeTrue();
     soapItem.Fields.Contains("System.AreaLevel1").ShouldBeFalse();
@@ -178,11 +178,11 @@ new Uri("https://qwiq-sandbox.visualstudio.com/WIT")
 
 Optional overrides for test environment:
 
-| Variable               | Purpose                     | Default                                  |
-| ---------------------- | --------------------------- | ---------------------------------------- |
-| `QWIQ_TEST_URL`        | Override organization URL   | `https://qwiq-sandbox.visualstudio.com/` |
-| `QWIQ_PROJECT_GUID`    | Override project GUID       | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
-| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication      | (prompts if not set)                     |
+| Variable               | Purpose                   | Default                                  |
+| ---------------------- | ------------------------- | ---------------------------------------- |
+| `QWIQ_TEST_URL`        | Override organization URL | `https://qwiq-sandbox.visualstudio.com/` |
+| `QWIQ_PROJECT_GUID`    | Override project GUID     | `0a4c0240-1a67-45de-93db-fc1de9f54ffb`   |
+| `AZURE_DEVOPS_EXT_PAT` | PAT for authentication    | (prompts if not set)                     |
 
 ## Common Mistakes to Avoid
 

@@ -40,7 +40,7 @@ public Task Should_have_correct_manifest_for_Qwiq_Core()
 {
     var package = GetPackage("Qwiq.Core");
     var manifest = ReadManifest(package);
-    
+
     return Verify(manifest)
         .UseFileName("Qwiq.Core#manifest");
 }
@@ -56,7 +56,7 @@ public Task Should_include_expected_files_in_Qwiq_Core()
 {
     var package = GetPackage("Qwiq.Core");
     var files = GetPackageFiles(package);
-    
+
     return Verify(files)
         .UseFileName("Qwiq.Core#contents");
 }
@@ -150,7 +150,7 @@ dotnet test test/Qwiq.Package.Tests -c Release
 
 Verified baselines are in `test/Qwiq.Package.Tests/`:
 
-```
+```text
 test/Qwiq.Package.Tests/
 ├── Qwiq.Core#manifest.verified.nuspec
 ├── Qwiq.Core#contents.verified.txt
