@@ -4,21 +4,23 @@
 
 This is the master index of all skills stored in the Qwiq repository's skillbook. Skills are organized by category and stored in separate memory files for efficient retrieval.
 
-**Total Skills**: 29
+**Total Skills**: 31
 **Categories**: 12
 **Storage Method**: Serena memory tools (cloudmcp-manager was full)
 
 ## Quick Access by Category
 
-### Build & CI Skills (5 skills)
+### Build & CI Skills (7 skills)
 
 **File**: `skillbook-build-ci.md`
 
 - **Skill-Build-001** (96%): Use CI flags for local builds to match CI analyzer strictness
 - **Skill-Build-002** (93%): Set BuildInParallel=false for Windows multi-framework builds
+- **Skill-Build-003** (94%): Use git clean -fdx before builds when file locks persist
 - **Skill-CI-001** (95%): CI should verify lint rules without auto-fix
 - **Skill-CI-002** (92%): CI must validate all files, not just changes
 - **Skill-CI-003** (88%): Run baseline validation when enabling hooks
+- **Skill-CI-004** (92%): Renovate pinGitHubActionDigests preset automates SHA updates
 
 ### Developer Experience & Git Hooks (2 skills)
 
@@ -111,6 +113,7 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 
 ### Good (90-94%)
 
+- Skill-Build-003 (94%)
 - Skill-Strategic-002 (94%)
 - Skill-Test-003 (94%)
 - Skill-Config-001 (94%)
@@ -118,6 +121,7 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 - Skill-Build-002 (93%)
 - Skill-Doc-001 (93%)
 - Skill-CI-002 (92%)
+- Skill-CI-004 (92%)
 - Skill-Issue-001 (92%)
 - Skill-Quality-001 (92%)
 - Skill-Git-002 (91%)
@@ -153,6 +157,7 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 
 ### High Impact (7-8)
 
+- Skill-CI-004 (8): Renovate SHA pinning automation
 - Skill-Build-002 (8): Windows multi-framework builds
 - Skill-Doc-001 (8): Split large documentation
 - Skill-Issue-001 (8): Suggested fix in bug reports
@@ -162,6 +167,7 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 - Skill-Test-002 (8): Fiddler for traffic capture
 - Skill-Workflow-001 (8): Check for install scripts
 - Skill-Workflow-002 (8): Agent lint validation
+- Skill-Build-003 (7): git clean for file locks
 - Skill-GitHub-001 (7): Copilot not assignable
 - Skill-Quality-001 (7): Collection suffix CA1711
 - Skill-Quality-003 (7): Extract test arrays
@@ -172,9 +178,11 @@ This is the master index of all skills stored in the Qwiq repository's skillbook
 
 - Skill-Build-001: Before pushing changes
 - Skill-Build-002: CS0006 metadata errors
+- Skill-Build-003: File lock errors
 - Skill-CI-001: CI pipeline configuration
 - Skill-CI-002: CI lint checks
 - Skill-CI-003: Enabling git hooks
+- Skill-CI-004: GitHub Actions supply chain security
 
 ### Git Operations
 
@@ -267,7 +275,7 @@ When applying a skill:
 ## Maintenance
 
 **Last Updated**: 2025-12-14
-**Total Skills**: 29
+**Total Skills**: 31
 **Storage Location**: `.serena/memories/skillbook-*.md`
 **Index File**: `skillbook-index.md`
 

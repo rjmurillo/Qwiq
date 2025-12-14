@@ -87,3 +87,43 @@ dotnet build Qwiq.sln -c Release /p:ContinuousIntegrationBuild=true /p:UseShared
 **Validated**: 1
 
 **Summary**: Git hooks that check only staged files have a blind spot. Files that existed before hook enablement are never validated. This creates a "technical debt" of unvalidated files. Solution: Run full repository scan before enabling incremental hooks.
+
+---
+
+## Skill-Build-003
+
+**Entity Type**: Skill
+**Statement**: Use `git clean -fdx` before builds when file locks persist from previous builds
+**Atomicity**: 94%
+**Category**: Build
+**Context**: When build fails with file-in-use errors after previous build attempts
+**Evidence**: Session 40 pre-flight retrospective 2025-12-14
+**Tag**: helpful
+**Impact**: 7
+**Validated**: 1
+
+**Summary**: Previous build processes can leave file handles open, especially on Windows. MSBuild and dotnet CLI may not fully release resources. Solution is to clean the working directory with `git clean -fdx` to remove all untracked files and build artifacts. Warning: This removes ALL untracked files, so ensure nothing important is uncommitted.
+
+**Application Example**:
+
+```powershell
+# When build fails with file lock errors
+git clean -fdx
+dotnet build Qwiq.sln -c Release
+```
+
+---
+
+## Skill-CI-004
+
+**Entity Type**: Skill
+**Statement**: Renovate `helpers:pinGitHubActionDigests` preset automates SHA digest updates for GitHub Actions
+**Atomicity**: 92%
+**Category**: CI
+**Context**: When configuring supply chain security for GitHub Actions workflows
+**Evidence**: Session 40 W2.22 - renovate.json5 configuration
+**Tag**: helpful
+**Impact**: 8
+**Validated**: 1
+
+**Summary**: GitHub Actions should be pinned to commit SHA digests instead of version tags for supply chain security. Manually maintaining these is tedious. Renovate's `helpers:pinGitHubActionDigests` preset automatically creates PRs to update SHA pins when new versions are released. Combines with `schedule:weekly` for controlled update cadence.
