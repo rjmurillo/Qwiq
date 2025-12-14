@@ -37,11 +37,13 @@
 **Work Completed**:
 
 1. **Pinned 11 GitHub Actions to SHA digests** in all workflow files:
+
    - actions/checkout, actions/upload-artifact, actions/download-artifact
    - github/codeql-action, gitleaks/gitleaks-action, softprops/action-gh-release
    - slsa-framework/slsa-github-generator, microsoft/DevSkim-Action, etc.
 
 2. **Documented PowerShell build requirement** (Skill-Build-002):
+
    - .NET 10 SDK parses MSBuild switches incorrectly through bash
    - Added CRITICAL note to CLAUDE.md
    - Created Serena memory: skillbook-build-powershell-requirement

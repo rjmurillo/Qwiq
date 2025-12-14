@@ -31,11 +31,13 @@
 **Pre-Installation Checklist**:
 
 1. **Check repository** for:
+
    - `install.sh` / `install.ps1`
    - `setup.py` / `Makefile`
    - Installation instructions in README
 
 2. **Review script** before running:
+
    - What files will it create/modify?
    - Will it preserve existing configs?
    - Does it require special permissions?
@@ -150,9 +152,9 @@ git commit -m "docs: add retrospective analysis"
 
 **Common Agent-Generated Issues**:
 
-| Issue | Rule | Fix |
-|-------|------|-----|
-| Missing language on code fence | MD040 | Add `text`, `bash`, `yaml`, etc. |
-| HTML lists in tables | MD033 | Ensure ul/li in allowed_elements |
-| Bold text as heading | MD036 | Use `##` or `###` headings |
-| Missing blank lines | MD031 | Add blank line before/after fences |
+| Issue                          | Rule  | Fix                                |
+| ------------------------------ | ----- | ---------------------------------- |
+| Missing language on code fence | MD040 | Add `text`, `bash`, `yaml`, etc.   |
+| HTML lists in tables           | MD033 | Ensure ul/li in allowed_elements   |
+| Bold text as heading           | MD036 | Use `##` or `###` headings         |
+| Missing blank lines            | MD031 | Add blank line before/after fences |

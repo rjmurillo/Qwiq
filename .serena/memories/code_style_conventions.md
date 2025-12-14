@@ -12,7 +12,7 @@
 ### Naming Conventions
 
 - **Classes/Methods/Properties**: PascalCase
-- **Private fields**: _camelCase with underscore prefix
+- **Private fields**: \_camelCase with underscore prefix
 - **Parameters/Locals**: camelCase
 - **Test methods**: Given_When_Then pattern (underscores allowed)
 
@@ -75,15 +75,15 @@ public class Given_context : ContextSpecification
 
 ## Analyzer Suppressions (Technical Debt)
 
-| Rule   | Reason                                               |
-| ------ | ---------------------------------------------------- |
-| CS1591 | ~4200 missing XML docs - tracked separately          |
-| CS0618 | TimeZone used in public APIs (breaking change)       |
-| CA1707 | Test classes use Given_When_Then naming              |
-| CA1716 | When() method in test pattern                        |
-| CA1822 | Instance methods kept for API compatibility          |
-| CA1859 | Interface types used for abstraction/testability     |
-| CA1863 | CompositeFormat requires .NET 8+ (multi-target)      |
+| Rule   | Reason                                           |
+| ------ | ------------------------------------------------ |
+| CS1591 | ~4200 missing XML docs - tracked separately      |
+| CS0618 | TimeZone used in public APIs (breaking change)   |
+| CA1707 | Test classes use Given_When_Then naming          |
+| CA1716 | When() method in test pattern                    |
+| CA1822 | Instance methods kept for API compatibility      |
+| CA1859 | Interface types used for abstraction/testability |
+| CA1863 | CompositeFormat requires .NET 8+ (multi-target)  |
 
 ## Package Management
 

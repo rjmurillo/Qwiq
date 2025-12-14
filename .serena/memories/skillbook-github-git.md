@@ -50,12 +50,15 @@ gh issue comment [issue] -b "@copilot [your request]"
 # Issue: Script overwrites files instead of appending
 
 ## Problem
+
 The `install-claude-repo.ps1` script uses `Out-File` without `-Append` flag, replacing CLAUDE.md instead of merging new content.
 
 ## Root Cause
+
 Line 45: `Out-File -FilePath $configPath` should append, not replace.
 
 ## Suggested Fix
+
 Replace:
 \`\`\`powershell
 '<content>' | Out-File -FilePath $configPath
@@ -67,11 +70,13 @@ With:
 \`\`\`
 
 ## Evidence
+
 - Reproduced on clean clone
 - CLAUDE.md lost 200+ lines of config
 - Fixed with: `git checkout -- CLAUDE.md`
 
 ## Impact
+
 High - Anyone installing on existing repo loses configuration
 ```
 

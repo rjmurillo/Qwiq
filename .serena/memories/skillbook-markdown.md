@@ -16,18 +16,18 @@
 
 **Language Identifiers by Content Type**:
 
-| Content | Identifier | Example |
-|---------|-----------|---------|
-| C# code | `csharp` | Class definitions, methods |
-| PowerShell commands | `powershell` | Build scripts, setup |
-| Bash/shell | `bash` | Linux commands |
-| JSON data | `json` | Configuration, API responses |
-| XML/YAML | `xml`, `yaml` | Configuration files |
-| Markdown examples | `markdown` | Documentation samples |
-| **Pseudo-code** | `text` | Algorithm descriptions |
-| **Diagrams** | `text` | ASCII art, flowcharts |
-| **Tool output** | `text` | Command output, logs |
-| **Workflows** | `text` | → arrows, process flows |
+| Content             | Identifier    | Example                      |
+| ------------------- | ------------- | ---------------------------- |
+| C# code             | `csharp`      | Class definitions, methods   |
+| PowerShell commands | `powershell`  | Build scripts, setup         |
+| Bash/shell          | `bash`        | Linux commands               |
+| JSON data           | `json`        | Configuration, API responses |
+| XML/YAML            | `xml`, `yaml` | Configuration files          |
+| Markdown examples   | `markdown`    | Documentation samples        |
+| **Pseudo-code**     | `text`        | Algorithm descriptions       |
+| **Diagrams**        | `text`        | ASCII art, flowcharts        |
+| **Tool output**     | `text`        | Command output, logs         |
+| **Workflows**       | `text`        | → arrows, process flows      |
 
 ---
 
@@ -88,8 +88,8 @@ MD033:
     - br
     - sup
     - sub
-    - ul      # Add for table cell lists
-    - li      # Add for table cell lists
+    - ul # Add for table cell lists
+    - li # Add for table cell lists
 ```
 
 ---

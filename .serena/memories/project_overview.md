@@ -46,17 +46,17 @@ Both implement `IWorkItemStore` via factory pattern: `WorkItemStoreFactory.Defau
 
 ### Test Projects (test/)
 
-| Directory                      | Purpose                       |
-| ------------------------------ | ----------------------------- |
-| `Qwiq.Mocks`                   | In-memory mock implementations|
-| `Qwiq.Core.Tests`              | Core unit tests               |
-| `Qwiq.Linq.Tests`              | LINQ provider tests           |
-| `Qwiq.Mapper.Tests`            | Mapper tests                  |
-| `Qwiq.Identity.Tests`          | Identity tests                |
-| `Qwiq.Integration.Tests`       | Integration tests (server)    |
-| `Qwiq.Benchmark`               | Performance benchmarks        |
-| `Qwiq.WireMock.Tests`          | HTTP mock tests               |
-| `Qwiq.Package.Tests`           | NuGet package verification    |
+| Directory                | Purpose                        |
+| ------------------------ | ------------------------------ |
+| `Qwiq.Mocks`             | In-memory mock implementations |
+| `Qwiq.Core.Tests`        | Core unit tests                |
+| `Qwiq.Linq.Tests`        | LINQ provider tests            |
+| `Qwiq.Mapper.Tests`      | Mapper tests                   |
+| `Qwiq.Identity.Tests`    | Identity tests                 |
+| `Qwiq.Integration.Tests` | Integration tests (server)     |
+| `Qwiq.Benchmark`         | Performance benchmarks         |
+| `Qwiq.WireMock.Tests`    | HTTP mock tests                |
+| `Qwiq.Package.Tests`     | NuGet package verification     |
 
 ## Configuration Files
 

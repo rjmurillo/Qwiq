@@ -250,6 +250,7 @@ When applying a skill:
 
 1. Create skill in appropriate category file
 2. Follow skill format:
+
    - Entity Type: Skill
    - Statement (atomic, actionable)
    - Atomicity percentage

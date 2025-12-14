@@ -16,6 +16,7 @@ This index maps all validated skills from the Qwiq project, organized by categor
 Build and CI skills for dotnet builds
 
 - **Skill-Build-001**: Single-threaded builds with `/m:1 /nodeReuse:false`
+
   - Purpose: Avoid Windows file locking issues
   - Context: CI environments, parallel builds failing
   - Validation: Build succeeds without file locking errors
@@ -30,11 +31,13 @@ Build and CI skills for dotnet builds
 Testing skills for WireMock, test patterns, and verification
 
 - **Skill-Testing-001**: WireMock integration test setup
+
   - Purpose: Configure WireMock for REST API testing
   - Context: Testing REST clients without live servers
   - Validation: Tests can mock Azure DevOps REST API responses
 
 - **Skill-Testing-002**: ContextSpecification test pattern
+
   - Purpose: Use Given-When-Then structure for unit tests
   - Context: Writing maintainable, readable tests
   - Validation: Tests follow consistent pattern
@@ -49,6 +52,7 @@ Testing skills for WireMock, test patterns, and verification
 Code quality skills for CA analyzers
 
 - **Skill-Quality-001**: CA analyzer configuration in Directory.Build.props
+
   - Purpose: Centralize code analysis rules
   - Context: Consistent code quality across projects
   - Validation: Analyzers run correctly, no duplicate warnings
@@ -63,11 +67,13 @@ Code quality skills for CA analyzers
 Documentation skills for file management
 
 - **Skill-Documentation-001**: Remove duplicate documentation files
+
   - Purpose: Eliminate conflicting information
   - Context: Multiple sources causing confusion
   - Validation: Single source of truth established
 
 - **Skill-Documentation-002**: Cross-reference validation
+
   - Purpose: Ensure documentation references are valid
   - Context: Broken links, missing files
   - Validation: All references resolve correctly
@@ -82,11 +88,13 @@ Documentation skills for file management
 Git workflow and recovery skills
 
 - **Skill-Git-001**: Atomic commits with conventional commit messages
+
   - Purpose: Clear git history with traceable changes
   - Context: Multiple changes needing separate commits
   - Validation: Each commit is independently understandable
 
 - **Skill-Git-002**: Restaging changes after pre-commit hooks
+
   - Purpose: Recover from pre-commit hook modifications
   - Context: Hooks modify files, causing staging issues
   - Validation: Changes successfully committed after hook runs
@@ -101,11 +109,13 @@ Git workflow and recovery skills
 Markdown linting and formatting skills
 
 - **Skill-Markdown-001**: markdownlint-cli2 with auto-fix
+
   - Purpose: Fix markdown lint errors automatically
   - Context: Linting failures in CI
   - Validation: `npx markdownlint-cli2 --fix` resolves errors
 
 - **Skill-Markdown-002**: prettier integration for markdown
+
   - Purpose: Format markdown consistently
   - Context: Inconsistent formatting across files
   - Validation: `dotnet pprettier --write .` succeeds
@@ -120,11 +130,13 @@ Markdown linting and formatting skills
 Workflow and installation skills
 
 - **Skill-Workflow-001**: Orchestrator coordination pattern
+
   - Purpose: Manage multi-agent task execution
   - Context: Complex tasks requiring multiple agents
   - Validation: Agents execute in correct sequence
 
 - **Skill-Installation-001**: PowerShell installation scripts
+
   - Purpose: Automate repository setup
   - Context: Onboarding new developers/agents
   - Validation: Script completes without errors
@@ -157,6 +169,7 @@ Developer experience and hooks
 GitHub API and issue management
 
 - **Skill-GitHub-001**: GitHub CLI for issue creation
+
   - Purpose: Create issues programmatically
   - Context: Bulk issue creation, automation
   - Validation: `gh issue create` succeeds

@@ -15,25 +15,25 @@ Committed 7 Claude Code agent definitions, updated .gitignore for AI tooling fil
 
 ### Successes (Tag: helpful)
 
-| Strategy | Evidence | Impact | Atomicity |
-|----------|----------|--------|-----------|
-| Atomic commits with conventional messages | 4 commits: ac67b94e (agents), 270127a0 (gitignore), b8eba510 (serena), 614fa160 (lint ignore) | 9 | 95% |
-| Pre-commit hooks catching lint errors | MD036, MD033, MD040 violations caught before CI | 9 | 97% |
-| Separating concerns across commits | Agent files separate from .gitignore separate from .serena config | 8 | 92% |
-| Using ignorePatterns for tool directories | Added .serena to .markdownlint-cli2.yaml ignorePatterns | 8 | 94% |
+| Strategy                                  | Evidence                                                                                      | Impact | Atomicity |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- | ------ | --------- |
+| Atomic commits with conventional messages | 4 commits: ac67b94e (agents), 270127a0 (gitignore), b8eba510 (serena), 614fa160 (lint ignore) | 9      | 95%       |
+| Pre-commit hooks catching lint errors     | MD036, MD033, MD040 violations caught before CI                                               | 9      | 97%       |
+| Separating concerns across commits        | Agent files separate from .gitignore separate from .serena config                             | 8      | 92%       |
+| Using ignorePatterns for tool directories | Added .serena to .markdownlint-cli2.yaml ignorePatterns                                       | 8      | 94%       |
 
 ### Failures (Tag: harmful)
 
-| Strategy | Error Type | Root Cause | Prevention | Atomicity |
-|----------|------------|------------|------------|-----------|
-| Assumed .serena should be gitignored | Incorrect assumption | AI tool directories often excluded, but .serena contains valuable memories | Ask user before excluding directories with content | 94% |
+| Strategy                             | Error Type           | Root Cause                                                                 | Prevention                                         | Atomicity |
+| ------------------------------------ | -------------------- | -------------------------------------------------------------------------- | -------------------------------------------------- | --------- |
+| Assumed .serena should be gitignored | Incorrect assumption | AI tool directories often excluded, but .serena contains valuable memories | Ask user before excluding directories with content | 94%       |
 
 ### Near Misses
 
-| What Almost Failed | Recovery | Learning |
-|--------------------|----------|----------|
-| Markdown lint errors in .serena memories | Manual fixes for MD036/MD033/MD040 | Validate markdown before committing |
-| Stray code fence in roadmap.md | Fixed before pre-commit hook ran | Review generated content for syntax errors |
+| What Almost Failed                       | Recovery                           | Learning                                   |
+| ---------------------------------------- | ---------------------------------- | ------------------------------------------ |
+| Markdown lint errors in .serena memories | Manual fixes for MD036/MD033/MD040 | Validate markdown before committing        |
+| Stray code fence in roadmap.md           | Fixed before pre-commit hook ran   | Review generated content for syntax errors |
 
 ## Extracted Learnings
 
@@ -115,11 +115,11 @@ None
 
 ### TAG
 
-| Skill ID | Tag | Evidence | Impact |
-|----------|-----|----------|--------|
-| Skill-DevEx-001 | helpful | Pre-commit hooks caught 5+ markdown violations | 9 |
-| Skill-Markdown-001 | helpful | MD040 fixed during session | 9 |
-| Skill-Markdown-002 | helpful | MD033 fixed during session | 8 |
+| Skill ID           | Tag     | Evidence                                       | Impact |
+| ------------------ | ------- | ---------------------------------------------- | ------ |
+| Skill-DevEx-001    | helpful | Pre-commit hooks caught 5+ markdown violations | 9      |
+| Skill-Markdown-001 | helpful | MD040 fixed during session                     | 9      |
+| Skill-Markdown-002 | helpful | MD033 fixed during session                     | 8      |
 
 ### REMOVE
 
@@ -127,21 +127,21 @@ None
 
 ## Deduplication Check
 
-| New Skill | Most Similar Existing | Similarity | Decision |
-|-----------|----------------------|------------|----------|
-| Skill-Config-001 | None found | 0% | Add as new |
-| Skill-Markdown-004 | Skill-Workflow-002 (mentions MD036) | 30% | Add as dedicated skill |
-| Skill-Config-002 | None found | 0% | Add as new |
+| New Skill          | Most Similar Existing               | Similarity | Decision               |
+| ------------------ | ----------------------------------- | ---------- | ---------------------- |
+| Skill-Config-001   | None found                          | 0%         | Add as new             |
+| Skill-Markdown-004 | Skill-Workflow-002 (mentions MD036) | 30%        | Add as dedicated skill |
+| Skill-Config-002   | None found                          | 0%         | Add as new             |
 
 ## Session Statistics
 
-| Metric | Value |
-|--------|-------|
-| Commits made | 4 |
-| Agent files added | 7 |
-| Memory files added | 15 |
-| Markdown lint fixes | 6+ |
-| Configuration files updated | 3 |
+| Metric                      | Value |
+| --------------------------- | ----- |
+| Commits made                | 4     |
+| Agent files added           | 7     |
+| Memory files added          | 15    |
+| Markdown lint fixes         | 6+    |
+| Configuration files updated | 3     |
 
 ## Action Items
 
@@ -151,7 +151,7 @@ None
 
 ## Handoff
 
-| Target | Purpose |
-|--------|---------|
-| **skillbook** | Store the 3 new skills extracted |
-| **memory** | Update validation counts for existing skills |
+| Target        | Purpose                                      |
+| ------------- | -------------------------------------------- |
+| **skillbook** | Store the 3 new skills extracted             |
+| **memory**    | Update validation counts for existing skills |

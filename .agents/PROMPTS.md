@@ -1137,8 +1137,6 @@ dotnet pprettier --write . && dotnet format
 ```
 
 Continue with tasks from modernize-TODO.md based on current sprint priorities.
-
-
 ````
 
 ## Universal Session End Prompt

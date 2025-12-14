@@ -435,19 +435,19 @@ jobs:
 
 **Actions Pinned**:
 
-| Action | Version | SHA |
-|--------|---------|-----|
-| actions/checkout | v6 | 8e8c483db84b4bee98b60c0593521ed34d9990e8 |
-| actions/upload-artifact | v6 | b7c566a772e6b6bfb58ed0dc250532a479d7789f |
-| actions/download-artifact | v7 | 37930b1c2abaa49bbe596cd826c3c89aef350131 |
-| actions/dependency-review-action | v4 | 3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261 |
-| actions/setup-node | v4 | 49933ea5288caeca8642d1e84afbd3f7d6820020 |
-| amannn/action-semantic-pull-request | v6 | 48f256284bd46cdaab1048c3721360e808335d50 |
-| gitleaks/gitleaks-action | v2 | ff98106e4c7b2bc287b24eaf42907196329070c7 |
-| github/codeql-action | v4 | 1b168cd39490f61582a9beae412bb7057a6b2c4e |
-| softprops/action-gh-release | v2 | a06a81a03ee405af7f2048a818ed3f03bbf83c7b |
-| slsa-framework/slsa-github-generator | v2.1.0 | f7dd8c54c2067bafc12ca7a55595d5ee9b75204a |
-| microsoft/DevSkim-Action | v1 | 4b5047945a44163b94642a1cecc0d93a3f428cc6 |
+| Action                               | Version | SHA                                      |
+| ------------------------------------ | ------- | ---------------------------------------- |
+| actions/checkout                     | v6      | 8e8c483db84b4bee98b60c0593521ed34d9990e8 |
+| actions/upload-artifact              | v6      | b7c566a772e6b6bfb58ed0dc250532a479d7789f |
+| actions/download-artifact            | v7      | 37930b1c2abaa49bbe596cd826c3c89aef350131 |
+| actions/dependency-review-action     | v4      | 3c4e3dcb1aa7874d2c16be7d79418e9b7efd6261 |
+| actions/setup-node                   | v4      | 49933ea5288caeca8642d1e84afbd3f7d6820020 |
+| amannn/action-semantic-pull-request  | v6      | 48f256284bd46cdaab1048c3721360e808335d50 |
+| gitleaks/gitleaks-action             | v2      | ff98106e4c7b2bc287b24eaf42907196329070c7 |
+| github/codeql-action                 | v4      | 1b168cd39490f61582a9beae412bb7057a6b2c4e |
+| softprops/action-gh-release          | v2      | a06a81a03ee405af7f2048a818ed3f03bbf83c7b |
+| slsa-framework/slsa-github-generator | v2.1.0  | f7dd8c54c2067bafc12ca7a55595d5ee9b75204a |
+| microsoft/DevSkim-Action             | v1      | 4b5047945a44163b94642a1cecc0d93a3f428cc6 |
 
 **Already SHA-pinned** (no changes needed):
 

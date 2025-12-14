@@ -54,7 +54,7 @@
 # .markdownlint-cli2.yaml
 ignorePatterns:
   - "node_modules"
-  - ".serena"        # AI tool memories
+  - ".serena" # AI tool memories
   - ".agents/skills" # May contain external skills
 ```
 
