@@ -25,16 +25,6 @@
 
 ### Phase 3A: Deferred Tasks
 
-#### W3.8 Structured Logging/Observability
-
-- [ ] **Task**: Add structured logging via Microsoft.Extensions.Logging
-- **Status**: ⏸️ DEFERRED indefinitely
-- **Rationale**: Nice-to-have, requires VERY careful thought about API surface changes and breaking changes
-- **Effort**: L (1 week)
-- **Note**: Deferred per Session 41 - not blocking v11.0.0 release
-
----
-
 #### W3.9 Modernize Configuration via IConfiguration
 
 - [ ] **Task**: Replace legacy config with Microsoft.Extensions.Configuration
@@ -240,6 +230,25 @@
 - **Priority**: **CRITICAL** - This is the LAST task before release
 - **Dependencies**: ALL other tasks in Waves 1-5 complete
 - **Note**: Publishing will be the absolute last thing we do per Session 41
+
+---
+
+## Future / Deferred Indefinitely 🔮
+
+> **Note**: These tasks are deferred indefinitely and do NOT block v11.0.0 release. They require careful thought and may never be implemented.
+
+### W3.8 Structured Logging/Observability
+
+- [ ] **Task**: Add structured logging via Microsoft.Extensions.Logging
+- **Status**: 🔮 DEFERRED INDEFINITELY
+- **Rationale**: Nice-to-have, requires VERY careful thought about API surface changes and breaking changes. Would affect all consumers.
+- **Effort**: L (1 week)
+- **Note**: Moved from Wave 3 per Session 41 - not blocking v11.0.0 release
+- **Considerations**:
+  - Breaking API change (adding logging parameters)
+  - Consumer must provide ILogger or ILoggerFactory
+  - May warrant separate "Qwiq.Diagnostics" package instead
+  - Could use source generators for zero-allocation logging
 
 ---
 
