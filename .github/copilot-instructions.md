@@ -879,6 +879,25 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 - Changing package metadata (`<PackageIcon>`, `<PackageLicenseExpression>`, etc.)
 - Adding/removing packaged files (`<None Include="..." Pack="true">`)
 - Changing target frameworks (affects `<dependencies>` groups)
+- **Merging branches that add .md files** (SDK-style projects include .md files by default)
+
+> **⚠️ CRITICAL: After Merging Branches**
+>
+> When merging from `develop` or other branches, ALWAYS run package tests if the merge adds or modifies any of these:
+> - .md files in project directories (AGENTS.md, README.md, etc.)
+> - Project files (.csproj, Directory.Build.props, Directory.Packages.props)
+> - Files with `Pack="true"` in project files
+>
+> **Why**: SDK-style projects automatically include .md files in NuGet packages unless explicitly excluded.
+>
+> **What to do**:
+> 1. Complete the merge
+> 2. Run: `dotnet build Qwiq.sln -c Release`
+> 3. Run: `dotnet pack Qwiq.sln -c Release --no-build`
+> 4. Run: `dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --configuration Release --no-build`
+> 5. If tests fail, verify changes are expected, then update baselines (see above)
+>
+> **Reference**: See `.agents/retrospective/2025-12-14-package-baseline-merge-conflict.md` for lessons learned
 
 **Example:** Adding `README.md` files to packages requires updating:
 
