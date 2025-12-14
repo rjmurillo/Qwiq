@@ -95,13 +95,13 @@
   </PropertyGroup>
 
   <!--
-    Source Link Configuration:
-    - PublishRepositoryUrl and EmbedUntrackedSources are now handled by DotNet.ReproducibleBuilds
-    - We only need to configure symbol package generation (not covered by the package)
+    Symbol Configuration:
+    - Use embedded symbols for simplicity and enterprise firewall compatibility
+    - Symbols are embedded in assemblies, no separate .snupkg needed
+    - See ADR-012 for rationale
   -->
   <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -112,8 +112,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <!-- Override DotNet.ReproducibleBuilds default of 'embedded' to 'portable' for separate .snupkg symbol packages -->
-    <DebugType>portable</DebugType>
+    <!-- Use embedded symbols (DotNet.ReproducibleBuilds default) for just-works debugging -->
+    <DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
   </PropertyGroup>
