@@ -17,13 +17,13 @@ ADR-011 proposes using portable debug symbols (`.snupkg`) instead of embedded sy
 
 ### Current Criteria (from ADR-011 Section: Validation > Success Criteria)
 
-| Criterion | Testable | Automated | Gap |
-|-----------|----------|-----------|-----|
-| `Directory.Build.props` configured for portable + snupkg | Yes | Partially | Build validation script exists |
-| v11.0.0 packages publish successfully to NuGet.org | Yes | No | Manual verification only |
-| Symbol packages indexed on NuGet.org symbol server | Yes | No | No automated verification |
-| Debugging into QWIQ source works in Visual Studio | Yes | No | Manual only |
-| Package size is baseline (no embedded symbol bloat) | Yes | No | No size comparison test |
+| Criterion                                                | Testable | Automated | Gap                            |
+| -------------------------------------------------------- | -------- | --------- | ------------------------------ |
+| `Directory.Build.props` configured for portable + snupkg | Yes      | Partially | Build validation script exists |
+| v11.0.0 packages publish successfully to NuGet.org       | Yes      | No        | Manual verification only       |
+| Symbol packages indexed on NuGet.org symbol server       | Yes      | No        | No automated verification      |
+| Debugging into QWIQ source works in Visual Studio        | Yes      | No        | Manual only                    |
+| Package size is baseline (no embedded symbol bloat)      | Yes      | No        | No size comparison test        |
 
 ### Verdict: NEEDS REVISION
 
@@ -35,26 +35,29 @@ ADR-011 proposes using portable debug symbols (`.snupkg`) instead of embedded sy
 
 ### What Already Exists
 
-| Test/Script | Location | Purpose | Coverage |
-|-------------|----------|---------|----------|
-| `Validate-PackageOutput.ps1` | `build/scripts/` | Verifies `.nupkg` and `.snupkg` pairs exist | Good |
-| `Verify-SourceLink.ps1` | `build/scripts/` | Validates Source Link in PDB files | Good |
-| `PackageTests.cs` | `test/Qwiq.Package.Tests/` | Baseline verification of `.nupkg` contents | Partial |
-| CI workflow `main.yml` | `.github/workflows/` | Runs both validation scripts | Good |
-| Release workflow `release.yml` | `.github/workflows/` | Publishes both `.nupkg` and `.snupkg` | Good |
+| Test/Script                    | Location                   | Purpose                                     | Coverage |
+| ------------------------------ | -------------------------- | ------------------------------------------- | -------- |
+| `Validate-PackageOutput.ps1`   | `build/scripts/`           | Verifies `.nupkg` and `.snupkg` pairs exist | Good     |
+| `Verify-SourceLink.ps1`        | `build/scripts/`           | Validates Source Link in PDB files          | Good     |
+| `PackageTests.cs`              | `test/Qwiq.Package.Tests/` | Baseline verification of `.nupkg` contents  | Partial  |
+| CI workflow `main.yml`         | `.github/workflows/`       | Runs both validation scripts                | Good     |
+| Release workflow `release.yml` | `.github/workflows/`       | Publishes both `.nupkg` and `.snupkg`       | Good     |
 
 ### Gaps Identified
 
 1. **No `.snupkg` Content Verification**
+
    - `PackageTests.cs` explicitly skips `.snupkg` files (lines 58-63)
    - Comment references: "pending Verify.Nupkg support. See github.com/MattKotsenas/Verify.Nupkg/issues/38"
    - Risk: Symbol packages could be malformed without detection
 
 2. **No Package Size Baseline**
+
    - No test compares package size against expected baseline
    - Cannot detect if embedded symbols accidentally get included
 
 3. **No Post-Publish Symbol Server Verification**
+
    - No automated check that symbols are indexed on `symbols.nuget.org`
    - No smoke test for symbol download functionality
 
@@ -68,29 +71,29 @@ ADR-011 proposes using portable debug symbols (`.snupkg`) instead of embedded sy
 
 ### Critical (Must Have Before Release)
 
-| Scenario | Description | Risk if Missing |
-|----------|-------------|-----------------|
-| Symbol package contains correct PDB | Verify `.snupkg` contains portable PDB | Debugging fails silently |
+| Scenario                              | Description                              | Risk if Missing                 |
+| ------------------------------------- | ---------------------------------------- | ------------------------------- |
+| Symbol package contains correct PDB   | Verify `.snupkg` contains portable PDB   | Debugging fails silently        |
 | PDB type is `portable` not `embedded` | Check `DebugType` in compiled assemblies | Size bloat, unexpected behavior |
-| Package size regression test | Compare `.nupkg` size to baseline | Undetected embedded symbols |
-| Source Link URLs accessible | Verify GitHub raw content URLs resolve | "Source not available" errors |
+| Package size regression test          | Compare `.nupkg` size to baseline        | Undetected embedded symbols     |
+| Source Link URLs accessible           | Verify GitHub raw content URLs resolve   | "Source not available" errors   |
 
 ### Important (Should Have)
 
-| Scenario | Description | Risk if Missing |
-|----------|-------------|-----------------|
-| Visual Studio debugging | Step into QWIQ code with symbol server | Primary use case untested |
-| JetBrains Rider debugging | Verify automatic symbol resolution | Second IDE untested |
-| VS Code debugging | Verify `CopyDebugSymbolFilesFromPackages` works | Third IDE untested |
-| Corporate firewall scenario | Document workaround for blocked symbol servers | User confusion |
+| Scenario                    | Description                                     | Risk if Missing           |
+| --------------------------- | ----------------------------------------------- | ------------------------- |
+| Visual Studio debugging     | Step into QWIQ code with symbol server          | Primary use case untested |
+| JetBrains Rider debugging   | Verify automatic symbol resolution              | Second IDE untested       |
+| VS Code debugging           | Verify `CopyDebugSymbolFilesFromPackages` works | Third IDE untested        |
+| Corporate firewall scenario | Document workaround for blocked symbol servers  | User confusion            |
 
 ### Nice to Have
 
-| Scenario | Description | Risk if Missing |
-|----------|-------------|-----------------|
-| Symbol server latency | Measure time to download symbols | Poor developer experience |
-| Multiple version debugging | Debug when multiple QWIQ versions in project | Edge case failures |
-| Offline debugging fallback | Verify Source Link to GitHub works | No fallback documentation |
+| Scenario                   | Description                                  | Risk if Missing           |
+| -------------------------- | -------------------------------------------- | ------------------------- |
+| Symbol server latency      | Measure time to download symbols             | Poor developer experience |
+| Multiple version debugging | Debug when multiple QWIQ versions in project | Edge case failures        |
+| Offline debugging fallback | Verify Source Link to GitHub works           | No fallback documentation |
 
 ---
 
@@ -119,17 +122,20 @@ Location: test/Qwiq.Package.Tests/
 ## Pre-Release Symbol Verification Checklist
 
 ### Build Verification
+
 - [ ] `dotnet pack` produces both `.nupkg` and `.snupkg` for all 9 projects
 - [ ] `Validate-PackageOutput.ps1` passes
 - [ ] `Verify-SourceLink.ps1` passes
 
 ### Local Debugging Verification
+
 - [ ] Install package from local feed in test project
 - [ ] Set breakpoint in test code calling QWIQ
 - [ ] Step into QWIQ source (F11)
 - [ ] Verify source code displays correctly
 
 ### Post-Publish Verification
+
 - [ ] Packages visible on NuGet.org
 - [ ] Symbol packages visible on NuGet.org (check "Symbols" badge)
 - [ ] Create new test project with published package
@@ -299,12 +305,12 @@ ADR-011 can be **ACCEPTED** once items 1-4 are addressed. The decision to use po
 
 ## Appendix: File References
 
-| File | Repository Path |
-|------|-----------------|
-| ADR-011 | `.agents/architecture/ADR-011-portable-symbols-snupkg.md` |
-| Directory.Build.props | `Directory.Build.props` |
-| Validate-PackageOutput.ps1 | `build/scripts/Validate-PackageOutput.ps1` |
-| Verify-SourceLink.ps1 | `build/scripts/Verify-SourceLink.ps1` |
-| PackageTests.cs | `test/Qwiq.Package.Tests/PackageTests.cs` |
-| main.yml | `.github/workflows/main.yml` |
-| release.yml | `.github/workflows/release.yml` |
+| File                       | Repository Path                                           |
+| -------------------------- | --------------------------------------------------------- |
+| ADR-011                    | `.agents/architecture/ADR-011-portable-symbols-snupkg.md` |
+| Directory.Build.props      | `Directory.Build.props`                                   |
+| Validate-PackageOutput.ps1 | `build/scripts/Validate-PackageOutput.ps1`                |
+| Verify-SourceLink.ps1      | `build/scripts/Verify-SourceLink.ps1`                     |
+| PackageTests.cs            | `test/Qwiq.Package.Tests/PackageTests.cs`                 |
+| main.yml                   | `.github/workflows/main.yml`                              |
+| release.yml                | `.github/workflows/release.yml`                           |

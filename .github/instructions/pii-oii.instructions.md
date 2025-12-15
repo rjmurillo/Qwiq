@@ -58,21 +58,27 @@ File system paths that reveal:
 
 ```markdown
 <!-- ❌ WRONG: Absolute path with username/org -->
+
 From `D:\src\GitHub\rjmurillo\Qwiq\Directory.Build.props`:
 
 <!-- ❌ WRONG: Absolute path with username -->
+
 Located at `/home/johndoe/projects/Qwiq/src/file.cs`:
 
 <!-- ❌ WRONG: Network path with organization -->
+
 From `\\CORP-SERVER\Projects\Qwiq\config.xml`:
 
 <!-- ✅ CORRECT: Repository-relative path -->
+
 From `Directory.Build.props`:
 
 <!-- ✅ CORRECT: Repo-relative path with context -->
+
 Located at `src/Qwiq.Core/WorkItem.cs`:
 
 <!-- ✅ CORRECT: Generic placeholder for examples -->
+
 Clone to your preferred location (e.g., `~/projects/Qwiq`):
 ```
 
@@ -80,18 +86,23 @@ Clone to your preferred location (e.g., `~/projects/Qwiq`):
 
 ```markdown
 <!-- ❌ WRONG: Real email address -->
+
 Contact: johndoe@company.com
 
 <!-- ❌ WRONG: Real contributor email in docs -->
+
 Implemented by alice.smith@example.org
 
 <!-- ✅ CORRECT: Generic example -->
+
 Use format: `user@example.com`
 
 <!-- ✅ CORRECT: Generic placeholder -->
+
 Set email in config: `your-email@domain.com`
 
 <!-- ✅ CORRECT: Official project contact (if public) -->
+
 Report security issues to: security@project.org
 ```
 
@@ -99,14 +110,17 @@ Report security issues to: security@project.org
 
 ```markdown
 <!-- ❌ WRONG: Real names in documentation -->
+
 Analysis by: John Doe
 Reviewed by: Alice Smith
 
 <!-- ✅ CORRECT: Role-based attribution -->
+
 Analysis by: Analyst Agent
 Reviewed by: QA Agent
 
 <!-- ✅ CORRECT: Generic placeholders -->
+
 Author: Your Name
 Committer: Developer Name
 ```
@@ -115,15 +129,19 @@ Committer: Developer Name
 
 ```markdown
 <!-- ❌ WRONG: Internal organization name -->
+
 Deployed to ACME Corp infrastructure
 
 <!-- ❌ WRONG: Internal project codename -->
+
 Part of Project Phoenix initiative
 
 <!-- ✅ CORRECT: Generic reference -->
+
 Deployed to production infrastructure
 
 <!-- ✅ CORRECT: Public project name -->
+
 Part of the Qwiq library ecosystem
 ```
 
@@ -175,14 +193,17 @@ Acceptable to include:
 When generating documentation:
 
 1. **File References**: Use repository-relative paths only
+
    - ✅ `.agents/analysis/report.md`
    - ❌ `D:\src\GitHub\user\Qwiq\.agents\analysis\report.md`
 
 2. **Attribution**: Use role-based attribution
+
    - ✅ "Analyst Agent", "QA Agent", "Security Agent"
    - ❌ "John Doe", `alice@company.com`
 
 3. **Output Locations**: Omit absolute path footers
+
    - ❌ `## Output Location: D:\src\GitHub\...\file.md`
    - ✅ Just omit this section entirely
 
@@ -196,6 +217,7 @@ When reviewing code or documentation:
 
 1. **Flag as HIGH SEVERITY**: Any PII/OII in commits
 2. **Specific items to flag**:
+
    - Absolute paths with usernames: `C:\Users\name\...`
    - Real email addresses: `name@company.com`
    - Organization names in non-public contexts
@@ -216,7 +238,7 @@ When writing code:
    // ✅ CORRECT
    var email = "user@example.com";
    var path = Path.Combine("projects", "Qwiq");
-   
+
    // ❌ WRONG
    var email = "john.doe@company.com";
    var path = @"D:\src\CompanyName\Qwiq";
@@ -227,7 +249,7 @@ When writing code:
    ```csharp
    // ✅ CORRECT
    // Fix for null reference exception in WorkItem constructor
-   
+
    // ❌ WRONG
    // Fixed by John Doe on 2025-01-15
    ```
@@ -291,11 +313,13 @@ When agents generate analysis, critique, or QA reports:
 
 ```markdown
 <!-- ❌ WRONG Pattern -->
+
 **Analyst**: John Doe  
 **Date**: 2025-12-14  
 **Output**: D:\src\GitHub\rjmurillo\Qwiq\.agents\analysis\report.md
 
 <!-- ✅ CORRECT Pattern -->
+
 **Date**: 2025-12-14  
 **Analyst**: Claude Code (Analyst Agent)  
 **Status**: Complete
@@ -305,14 +329,16 @@ When agents generate analysis, critique, or QA reports:
 
 ```markdown
 <!-- ❌ WRONG Pattern -->
-| File | Absolute Path |
-|------|---------------|
+
+| File   | Absolute Path                       |
+| ------ | ----------------------------------- |
 | Config | D:\src\GitHub\user\Qwiq\config.json |
 
 <!-- ✅ CORRECT Pattern -->
-| File | Repository Path |
-|------|-----------------|
-| Config | `config.json` |
+
+| File   | Repository Path |
+| ------ | --------------- |
+| Config | `config.json`   |
 ```
 
 ### Command Examples

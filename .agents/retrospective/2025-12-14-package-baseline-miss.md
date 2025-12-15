@@ -69,30 +69,34 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 ```
 
 **Why wasn't this followed?**
+
 - The implementer agent likely did not review this section
 - No checklist item for "configuration changes" triggering package test rebaseline
 - The connection between "changing DebugType" → "package metadata changes" → "rebaseline needed" was not made
 
 #### 2. **Agent instructions lacked explicit trigger patterns**
 
-The documentation tells *how* to rebaseline but doesn't clearly state *when* to check. It should have said:
+The documentation tells _how_ to rebaseline but doesn't clearly state _when_ to check. It should have said:
 
 > "Configuration changes to `Directory.Build.props` that affect build outputs ALWAYS require package test validation and potential rebaselining."
 
 #### 3. **Validation checklist was incomplete**
 
 The orchestrator's validation included:
+
 - Build success ✅
 - Package size check ✅
 - Code review ✅
 
 But missed:
+
 - **Run package tests** ❌
 - **Verify package manifests** ❌
 
 #### 4. **Non-obvious metadata change**
 
 The change was to `DebugType` and symbol configuration. It's not immediately obvious that this would affect repository metadata in the manifest. The actual cause was:
+
 - DotNet.ReproducibleBuilds package behavior
 - Building from a feature branch adds `branch` attribute
 - This is expected and correct behavior (for source linking and reproducibility)
@@ -104,6 +108,7 @@ The change was to `DebugType` and symbol configuration. It's not immediately obv
 ### Documentation Quality: Good ✅
 
 The `copilot-instructions.md` has comprehensive coverage:
+
 - Clear explanation of package tests
 - Step-by-step rebaselining instructions
 - Warnings about when to rebaseline
@@ -114,6 +119,7 @@ The `copilot-instructions.md` has comprehensive coverage:
 **The problem**: The information exists but wasn't surfaced at the right time.
 
 **Missing connection**: No explicit link between:
+
 - "I'm changing build configuration" (agent's current task)
 - "I should check package tests" (documented requirement)
 - "I should run validation before committing" (general practice)
@@ -125,6 +131,7 @@ The `copilot-instructions.md` has comprehensive coverage:
 ### 1. **Configuration changes are high-risk for package metadata**
 
 Any change to:
+
 - `Directory.Build.props`
 - `Directory.Build.targets`
 - `Directory.Packages.props`
@@ -135,6 +142,7 @@ Should **automatically trigger** package test validation.
 ### 2. **CI is the safety net, not the first test**
 
 Package tests should be run **before** committing, not discovered in CI. The workflow should be:
+
 1. Make change
 2. Build
 3. **Run affected tests** (including package tests for build config changes)
@@ -145,15 +153,18 @@ Package tests should be run **before** committing, not discovered in CI. The wor
 ### 3. **Checklists need to be context-aware**
 
 A generic "run tests" checklist item doesn't help if the agent doesn't know which tests to run. We need:
+
 - **Trigger-based checklists**: "If changing X, run tests Y"
 - **Validation matrices**: "For config changes: build ✓, unit tests ✓, package tests ✓"
 
 ### 4. **Agent instructions need explicit patterns**
 
 Instead of:
+
 > "Package tests validate package contents"
 
 We need:
+
 > "PATTERN: Changes to Directory.Build.props → Run package tests → Rebaseline if metadata changed"
 
 ---
@@ -185,10 +196,12 @@ dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --no-build -c Rele
 \`\`\`
 
 **If package tests fail**, review the diff between .received and .verified files:
+
 - If changes are expected (e.g., metadata updates), rebaseline: `dotnet verify accept -w test/Qwiq.Package.Tests`
 - If changes are unexpected, investigate the root cause
 
 **Common triggers for rebaselining**:
+
 - Adding/removing PackageReference
 - Changing build configuration (DebugType, IncludeSymbols, etc.)
 - Updating DotNet.ReproducibleBuilds or SourceLink packages
@@ -203,6 +216,7 @@ Add to validation checklist:
 ## Validation Checklist
 
 Before submitting changes, verify:
+
 - [ ] `dotnet restore Qwiq.sln` succeeds
 - [ ] `dotnet build Qwiq.sln -c Release` succeeds with 0 errors
 - [ ] No new warnings introduced
@@ -220,13 +234,16 @@ Create `.agents/patterns/package-metadata-changes.md`:
 # Pattern: Package Metadata Changes
 
 ## When to Use
+
 Any time you modify:
+
 - Directory.Build.props
-- Directory.Build.targets  
+- Directory.Build.targets
 - Directory.Packages.props
 - Build-affecting packages (DotNet.ReproducibleBuilds, SourceLink, etc.)
 
 ## Validation Steps
+
 1. Build in Release mode: `dotnet build Qwiq.sln -c Release`
 2. Run package tests: `dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --no-build -c Release`
 3. If tests fail, check .received vs .verified files
@@ -234,6 +251,7 @@ Any time you modify:
 5. Commit baseline updates with configuration changes
 
 ## Common Failures
+
 - Branch name in repository metadata (expected on feature branches)
 - Dependency version changes (expected when updating packages)
 - File list changes (expected when adding/removing package content)
@@ -249,6 +267,7 @@ In `.agents/AGENT-SYSTEM.md` or orchestrator-specific guidance:
 When delegating tasks that modify build configuration:
 
 **Required validations**:
+
 - Standard build/test validation
 - **Package test validation** (for metadata changes)
 - Size regression checks (if adding content)
@@ -261,6 +280,7 @@ When delegating tasks that modify build configuration:
 #### 1. **Pre-commit hook for package tests**
 
 Add to `.githooks/pre-commit`:
+
 ```bash
 # Check if Directory.Build.props changed
 if git diff --cached --name-only | grep -q "Directory.Build"; then
@@ -272,6 +292,7 @@ fi
 #### 2. **CI validation matrix**
 
 Update CI to report:
+
 - Which tests were run
 - Which validation steps were skipped
 - Suggestions for missing validations
@@ -279,6 +300,7 @@ Update CI to report:
 #### 3. **Agent memory/context**
 
 Store pattern cards in agent memory:
+
 - "Configuration change patterns"
 - "Validation requirements"
 - "Common failure modes"
@@ -288,12 +310,14 @@ Store pattern cards in agent memory:
 ## Success Criteria Going Forward
 
 ### For this specific issue:
+
 - ✅ Package tests pass
 - ✅ Baselines updated
 - ⚠️ Documentation updated (in progress)
 - ⚠️ Instructions enhanced (recommended)
 
 ### For preventing recurrence:
+
 - Build configuration changes trigger package test validation
 - Agents have clear pattern cards for configuration changes
 - Validation checklists are context-aware

@@ -114,11 +114,13 @@ Before making strategic decisions about a project:
 **Revalidation Protocol**:
 
 1. **Query: "Has deployment scope changed?"**
+
    - Internal team only → External adoption
    - Traditional hosting → Container/Kubernetes
    - Single platform → Multi-platform
 
 2. **Query: "Has security requirements changed?"**
+
    - OSS standards → Enterprise security review
    - Public packages → Private registry
    - No signing → Package signing required
@@ -127,11 +129,11 @@ Before making strategic decisions about a project:
 
 **Real Example** (Sessions 27-41):
 
-| Session | Context Assumption     | Actual Context       | Impact                  |
-| ------- | ---------------------- | -------------------- | ----------------------- |
-| 27      | Low adoption, OSS-only | 100+ team members    | Declared maintenance    |
-| 28      | (Clarified by user)    | Enterprise Kubernetes | Re-activated Waves 3-5  |
-| 41      | Priorities confirmed   | Production v11.0.0   | Strategic deferrals made |
+| Session | Context Assumption     | Actual Context        | Impact                   |
+| ------- | ---------------------- | --------------------- | ------------------------ |
+| 27      | Low adoption, OSS-only | 100+ team members     | Declared maintenance     |
+| 28      | (Clarified by user)    | Enterprise Kubernetes | Re-activated Waves 3-5   |
+| 41      | Priorities confirmed   | Production v11.0.0    | Strategic deferrals made |
 
 **Priority Deferrals Enabled by Context Clarity** (Session 41):
 

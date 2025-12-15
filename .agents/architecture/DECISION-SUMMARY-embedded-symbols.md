@@ -14,29 +14,32 @@ For a library with ~1 download/day serving enterprise users often behind firewal
 
 ## Voting Results
 
-| Agent | Vote | Rationale |
-|-------|------|-----------|
-| **Architect** | EMBEDDED ✓ | Maintainer time > bandwidth at QWIQ's scale |
-| **DevOps** | EMBEDDED ✓ | CI/CD simplification saves 10-15 min/release |
-| **Independent Thinker** | EMBEDDED ✓ | Following Microsoft is cargo culting; make pragmatic decisions |
-| **QA** | PORTABLE ⚠️ | Technically superior, but pragmatically unjustified (accepts embedded) |
+| Agent                   | Vote        | Rationale                                                              |
+| ----------------------- | ----------- | ---------------------------------------------------------------------- |
+| **Architect**           | EMBEDDED ✓  | Maintainer time > bandwidth at QWIQ's scale                            |
+| **DevOps**              | EMBEDDED ✓  | CI/CD simplification saves 10-15 min/release                           |
+| **Independent Thinker** | EMBEDDED ✓  | Following Microsoft is cargo culting; make pragmatic decisions         |
+| **QA**                  | PORTABLE ⚠️ | Technically superior, but pragmatically unjustified (accepts embedded) |
 
 ---
 
 ## Why Embedded Wins
 
 ### HIGH Impact Factors (Favor Embedded)
+
 ✓ **Maintainer Time**: Single package vs dual-package complexity  
 ✓ **Debugging UX**: "Just works" vs requires symbol server config  
 ✓ **Enterprise Compat**: No firewall issues vs blocked symbol servers  
 ✓ **CI/CD Simplicity**: One package type vs two  
-✓ **Test Complexity**: Simple validation vs multi-IDE testing  
+✓ **Test Complexity**: Simple validation vs multi-IDE testing
 
 ### MEDIUM Impact Factors (Favor Portable)
+
 ✗ **Package Size**: 200KB larger per package  
-✗ **Industry Alignment**: Deviates from Microsoft approach  
+✗ **Industry Alignment**: Deviates from Microsoft approach
 
 ### Scale-Adjusted Analysis
+
 - At 1 download/day: 200KB × 365 = ~73MB/year total bandwidth
 - This is **background noise** compared to a single Windows update (~1GB)
 - Optimizing for 73MB/year when maintainer time is scarce = **premature optimization**
