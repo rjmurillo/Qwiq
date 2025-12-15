@@ -303,17 +303,15 @@ When implementing ADRs that change build configuration:
    ```bash
    grep -r "<property_name>" build/ .github/ docs/
    ```
-````
 
-2. **Add findings to PR description:** List ALL affected files, including those NOT being updated
+1. **Add findings to PR description:** List ALL affected files, including those NOT being updated
 
-3. **Flag out-of-scope files:** If a file needs updating but is out-of-scope, add to "Follow-up Required" section
-
+2. **Flag out-of-scope files:** If a file needs updating but is out-of-scope, add to "Follow-up Required" section
 ````
 
 #### For DevOps Agent
 
-```markdown
+````markdown
 ### Validation Script Maintenance
 
 When updating CI/CD workflows:
@@ -340,10 +338,8 @@ Before approving PRs that modify build configuration:
    ./build/scripts/Verify-SourceLink.ps1
    ./build/scripts/Count-NullableWarnings.ps1
    ```
-````
 
 3. **Report failures:** Any script exit code ≠ 0 blocks PR approval
-
 ````
 
 ## Extracted Learnings (Skills)
@@ -417,8 +413,6 @@ Scripts that need updating but are out-of-scope:
   ```
 ````
 
-````
-
 **Success Criteria:** All scripts exit with code 0 before PR approval
 
 ### Skill-Util-INV-004: Validation Script Inventory Maintenance
@@ -437,7 +431,7 @@ Scripts that need updating but are out-of-scope:
 | Script | Config Dependencies | Updated By ADR | Last Review |
 |--------|---------------------|----------------|-------------|
 | Name   | Properties it reads | ADR number     | Date        |
-````
+```
 
 **Success Criteria:** Inventory is consulted before every build config change
 
@@ -462,13 +456,13 @@ Scripts that need updating but are out-of-scope:
 
 ### HIGH (Next Session)
 
-3. **Create validation script inventory**
+1. **Create validation script inventory**
 
    - **File:** `.agents/utilities/validation-script-inventory.md`
    - **Owner:** QA Agent
    - **Effort:** 30 minutes
 
-4. **Update AGENT-INSTRUCTIONS.md**
+2. **Update AGENT-INSTRUCTIONS.md**
 
    - Add ripple analysis step for Implementer
    - Add validation script execution for QA
@@ -476,19 +470,19 @@ Scripts that need updating but are out-of-scope:
    - **Owner:** Orchestrator Agent
    - **Effort:** 45 minutes
 
-5. **Add pre-publish validation to release.yml**
+3. **Add pre-publish validation to release.yml**
    - **Owner:** DevOps Agent
    - **Effort:** 10 minutes
 
 ### MEDIUM (Next Wave)
 
-6. **Expand QA verification checklist**
+1. **Expand QA verification checklist**
 
    - Add validation script execution
    - **Owner:** QA Agent
    - **Effort:** 15 minutes
 
-7. **Create ADR checklist template**
+2. **Create ADR checklist template**
    - Include "Validation Scripts" section
    - **Owner:** Architect Agent
    - **Effort:** 20 minutes
