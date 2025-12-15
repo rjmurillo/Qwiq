@@ -1,9 +1,12 @@
 # ADR-011: Portable Debug Symbols with Symbol Packages
 
-**Status**: Accepted
-**Date**: 2025-12-14
-**Deciders**: Architecture Team
-**Context**: v11.0.0 NuGet Release Preparation
+**Status**: Superseded by ADR-012  
+**Date**: 2025-12-14  
+**Deciders**: Architecture Team  
+**Context**: v11.0.0 NuGet Release Preparation  
+**Superseded By**: [ADR-012: Embedded Debug Symbols](adr-012-embedded-symbols.md)
+
+> **NOTE**: This ADR was initially accepted but later superseded by ADR-012 after multi-agent consensus recommended embedded symbols for QWIQ's scale and enterprise audience. See ADR-012 for the current decision.
 
 ## Context and Problem Statement
 
