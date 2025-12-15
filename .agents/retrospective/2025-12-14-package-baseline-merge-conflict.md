@@ -33,20 +33,20 @@ When PR #119 was merged to develop, it added AGENTS.md files to all project dire
 
 ## What Went Wrong
 
-| Issue | Impact | Likelihood |
-|-------|--------|------------|
-| Package tests not run after merge | HIGH - CI failure | Common |
-| Agent didn't validate merge impact | MEDIUM - Wasted CI time | Common |
-| No explicit post-merge checklist | LOW - Process gap | Rare |
+| Issue                              | Impact                  | Likelihood |
+| ---------------------------------- | ----------------------- | ---------- |
+| Package tests not run after merge  | HIGH - CI failure       | Common     |
+| Agent didn't validate merge impact | MEDIUM - Wasted CI time | Common     |
+| No explicit post-merge checklist   | LOW - Process gap       | Rare       |
 
 ## What Went Right
 
-| Success | Value |
-|---------|-------|
-| Package tests caught the issue | Prevented bad packages |
-| Clear error messages from Verify | Easy diagnosis |
-| Local reproduction worked | Quick validation |
-| Existing documentation explained fix | Self-service recovery |
+| Success                              | Value                  |
+| ------------------------------------ | ---------------------- |
+| Package tests caught the issue       | Prevented bad packages |
+| Clear error messages from Verify     | Easy diagnosis         |
+| Local reproduction worked            | Quick validation       |
+| Existing documentation explained fix | Self-service recovery  |
 
 ## Lessons Learned
 
