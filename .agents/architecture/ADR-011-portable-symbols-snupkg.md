@@ -185,9 +185,11 @@ Adopt Option 1: Portable Symbols with snupkg.
 
 ## Implementation
 
-### Current Configuration (Verified)
+### Current Configuration (Verified) - SUPERSEDED
 
-The following is already in `Directory.Build.props`:
+> **IMPORTANT**: The configuration below documents what portable+snupkg **would have been**. The actual implementation uses **embedded symbols** instead. See `Directory.Build.props` lines 97-119 for the current embedded symbols configuration.
+
+The following is what portable+snupkg configuration would look like:
 
 ```xml
 <!--
@@ -208,7 +210,28 @@ The following is already in `Directory.Build.props`:
 </PropertyGroup>
 ```
 
-> **Note**: `PublishRepositoryUrl=true` and `EmbedUntrackedSources=true` are automatically set by `DotNet.ReproducibleBuilds` package (v1.2.39). We do not set these explicitly to avoid configuration duplication.
+> **Note**: `PublishRepositoryUrl=true` and `EmbedUntrackedSources=true` are automatically set by `DotNet.ReproducibleBuilds` package. We do not set these explicitly to avoid configuration duplication.
+
+**Actual Implementation (Embedded Symbols)**:
+
+```xml
+<!--
+  Symbol Configuration:
+  - Use embedded symbols for simplicity and enterprise firewall compatibility
+  - Symbols are embedded in assemblies, no separate .snupkg needed
+  - See ADR-012 for rationale
+-->
+<PropertyGroup>
+  <IncludeSymbols>false</IncludeSymbols>
+</PropertyGroup>
+
+<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <!-- Use embedded symbols (DotNet.ReproducibleBuilds default) for just-works debugging -->
+  <DebugType>embedded</DebugType>
+  <Optimize>true</Optimize>
+  <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+</PropertyGroup>
+```
 
 ### CI Publishing
 
@@ -399,3 +422,29 @@ This ADR underwent multi-agent consensus review with 5 specialized agents:
 
 - `.agents/critique/001-ADR-011-portable-symbols-critique.md`
 - `.agents/qa/011-ADR-011-symbols-review.md`
+
+---
+
+## Superseded Decision
+
+**Superseded Date**: 2025-12-14 (same day as original decision)
+
+After the initial consensus review above, a **second consensus session** was held specifically on the embedded vs portable choice. The outcome was to **reverse this decision** and switch to embedded symbols.
+
+**Final Consensus Vote**: 3 of 4 agents voted for embedded symbols (architect, devops, independent-thinker). QA acknowledged embedded is pragmatically justified despite technical preference for portable.
+
+**Key Deciding Factors for Reversal**:
+
+1. **Scale Mismatch**: At ~1 download/day, optimizing for 200KB bandwidth savings is premature optimization
+2. **Enterprise Reality**: QWIQ's target audience (Azure DevOps/TFS users) disproportionately likely to be behind corporate firewalls that block symbol servers
+3. **Maintainer Sustainability**: Single maintainer with limited time; CI/CD simplicity saves 10-15 minutes per release
+4. **"Just Works" Debugging**: Embedded symbols work immediately in all IDEs without symbol server configuration
+
+**Outcome**: The current implementation in `Directory.Build.props` uses `DebugType=embedded` and `IncludeSymbols=false`.
+
+**Decision Documents**:
+
+- `.agents/architecture/DECISION-SUMMARY-embedded-symbols.md` - Executive summary
+- `.agents/architecture/002-symbols-consensus-recommendation.md` - Full multi-agent analysis
+
+This ADR is retained for historical context, showing the analysis that led to the portable symbols decision before it was reconsidered and superseded by the embedded symbols approach.
