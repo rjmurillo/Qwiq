@@ -2,9 +2,15 @@
 
 **Status**: Superseded by ADR-012  
 **Date**: 2025-12-14  
+**Superseded Date**: 2025-12-14  
 **Deciders**: Architecture Team  
-**Context**: v11.0.0 NuGet Release Preparation  
-**Superseded by**: ADR-012-embedded-symbols.md (2025-12-14)
+**Context**: v11.0.0 NuGet Release Preparation
+
+> **⚠️ This ADR has been superseded by [ADR-012: Embedded Debug Symbols](./ADR-012-embedded-symbols.md)**
+>
+> After initial analysis recommended portable symbols, a multi-agent consensus review reconsidered this decision based on QWIQ's specific scale, audience, and maintainer constraints. ADR-012 documents the final decision to use embedded symbols.
+>
+> This document is preserved for historical context and to understand the analysis that led to the embedded symbols decision.
 
 ## Context and Problem Statement
 

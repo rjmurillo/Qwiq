@@ -325,13 +325,13 @@ The maintenance mode decision was reached through a **structured multi-agent con
 
 ### 1.3 Package Quality ✅
 
-| Item                | Status | Notes                                                      |
-| ------------------- | ------ | ---------------------------------------------------------- |
-| Source Link         | ✅     | Configured with embedded symbols (ADR-012)                 |
-| Symbol Strategy     | ✅     | Embedded symbols for simplicity and UX (ADR-012)           |
-| PackageReadme       | ✅     | All 10 packages have README.md                             |
-| Code coverage in CI | ✅     | 71%+ line coverage (all 6 NuGet libs)                      |
-| Package validation  | ✅     | CI validates .nupkg output                                 |
+| Item                | Status | Notes                                                        |
+| ------------------- | ------ | ------------------------------------------------------------ |
+| Source Link         | ✅     | Configured with embedded symbols (ADR-012)                   |
+| Symbol Strategy     | ✅     | Embedded symbols for simplicity and enterprise compatibility |
+| PackageReadme       | ✅     | All 10 packages have README.md                               |
+| Code coverage in CI | ✅     | 71%+ line coverage (all 6 NuGet libs)                        |
+| Package validation  | ✅     | CI validates .nupkg output                                   |
 
 ### 1.4 Code Quality Gates ✅
 

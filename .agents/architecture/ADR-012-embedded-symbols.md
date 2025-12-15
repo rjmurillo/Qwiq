@@ -4,227 +4,344 @@
 **Date**: 2025-12-14  
 **Deciders**: Multi-Agent Consensus (Architect, DevOps, Independent Thinker, QA)  
 **Context**: v11.0.0 NuGet Release Preparation  
-**Supersedes**: ADR-011
+**Supersedes**: ADR-011 (Portable Debug Symbols with Symbol Packages)
 
 ## Context and Problem Statement
 
-Following the initial analysis in ADR-011, which recommended portable debug symbols with separate `.snupkg` symbol packages, the maintainer raised concerns about operational complexity ("pain in the ass factor"). This prompted a multi-agent consensus review to reconsider the decision in light of QWIQ's actual scale, audience, and maintainer capacity.
+QWIQ is preparing for its v11.0.0 NuGet release. The project uses `DotNet.ReproducibleBuilds` for deterministic builds, which defaults to `embedded` debug symbols. After initial analysis in ADR-011 recommended portable symbols with .snupkg packages, a multi-agent consensus review reconsidered this decision based on QWIQ's specific constraints.
 
-**Key Question**: Should QWIQ optimize for theoretical bandwidth efficiency (portable symbols) or maintainer simplicity and debugging UX (embedded symbols)?
+**Key Questions**:
+
+- Should debug symbols be embedded in assemblies or distributed separately?
+- What decision framework is appropriate for QWIQ's scale and audience?
+- How do we balance industry best practices with maintainer sustainability?
 
 ## Decision Drivers
 
 ### Scale Reality
 
-- **QWIQ's Download Rate**: ~1 download/day (<1000 total downloads)
-- **Microsoft's Download Rate**: Millions per day
-- **Bandwidth Impact**: 200KB × 365 days = ~73MB/year total overhead
-- **Conclusion**: Bandwidth optimization is premature at QWIQ's scale
-
-### Maintainer Constraints
-
-- **Single part-time maintainer** with limited capacity
-- **CI/CD complexity**: Dual-package publishing adds cognitive overhead and failure modes
-- **Support burden**: Symbol server configuration requires user documentation and support
-- **Sustainability**: Simpler operations = more time for features/fixes
+1. **Download Volume**: ~1 download/day (~365/year)
+2. **Total Bandwidth Impact**: 200KB × 365 = ~73MB/year with embedded symbols
+3. **Context**: This is negligible compared to a single Windows update (~1GB)
+4. **Conclusion**: Bandwidth optimization is solving a problem that doesn't exist at QWIQ's scale
 
 ### Audience Characteristics
 
-- **Target Users**: Enterprise Azure DevOps/TFS users
-- **Network Environment**: Disproportionately behind corporate firewalls
-- **Symbol Server Access**: May be blocked by IT policy
-- **Debugging Pattern**: When users debug, "just works" > configuration steps
+1. **Enterprise Environment**: QWIQ targets Azure DevOps/TFS users in corporate settings
+2. **Firewall Reality**: Corporate networks often block external symbol servers
+3. **Symbol Server Access**: Many potential users cannot access `symbols.nuget.org`
+4. **Impact**: Portable symbols optimize for an access pattern that may not exist for QWIQ's audience
 
-### Technical Considerations
+### Maintainer Constraints
 
-- **Package Size Impact**: 20-30% increase (~200-300KB per package)
-- **Absolute Size**: Still under 2MB per package
-- **Modern Hardware**: Size increase is negligible on developer workstations
-- **Source Link**: Provides GitHub source navigation regardless of symbol type
+1. **Team Size**: Single maintainer with limited time
+2. **Scarce Resource**: Maintainer time, not consumer bandwidth
+3. **Sustainability**: Simpler workflows support long-term project health
+4. **CI/CD Complexity**: Dual-package publishing adds operational overhead
 
-## Considered Options
+### Debugging Experience
 
-### Option 1: Continue with Portable + snupkg (ADR-011)
+1. **Embedded**: Zero configuration - "just works" in all IDEs
+2. **Portable**: Requires one-time symbol server configuration
+3. **Enterprise Friction**: Configuration may be insufficient if symbol server is blocked
+4. **Contributor Experience**: Uniform debugging experience reduces onboarding friction
 
-**Pros**:
+## Multi-Agent Consensus
 
-- Aligns with Microsoft's public library guidance
-- Smaller package size for majority who never debug
-- Industry standard for popular libraries
-- Pay-to-play bandwidth model
+A formal multi-agent review was conducted with 4 specialized agents:
 
-**Cons**:
+| Agent                   | Vote        | Rationale                                                 |
+| ----------------------- | ----------- | --------------------------------------------------------- |
+| **Architect**           | EMBEDDED ✓  | Maintainer time > bandwidth at QWIQ's scale               |
+| **DevOps**              | EMBEDDED ✓  | CI/CD simplification saves 10-15 min/release              |
+| **Independent Thinker** | EMBEDDED ✓  | Following Microsoft is cargo culting; decide pragmatically |
+| **QA**                  | PORTABLE ⚠️ | Technically superior, but pragmatically unjustified       |
 
-- Dual-package CI/CD complexity
-- Symbol server configuration required for debugging
-- Corporate firewalls may block symbol servers
-- Maintainer overhead for minimal benefit at QWIQ's scale
+**Consensus Level**: Strong majority (3/4 agents favor embedded)
 
-### Option 2: Switch to Embedded Symbols (Recommended)
-
-**Pros**:
-
-- Zero-configuration debugging experience
-- Single package simplifies CI/CD pipeline
-- No network dependency for debugging
-- Works in all enterprise environments
-- Consistent experience across all IDEs
-- Reduces maintainer operational burden
-
-**Cons**:
-
-- 20-30% larger packages (~200-300KB increase)
-- Deviates from Microsoft's guidance for public libraries
-- All consumers download symbols whether they debug or not
+**QA's Caveat**: While portable+snupkg is the technical best practice for public libraries, QA acknowledges that embedded is pragmatically justified for QWIQ's specific constraints.
 
 ## Decision
 
-**Adopt Option 2: Embedded Debug Symbols**
-
-This decision explicitly reverses ADR-011 based on pragmatic assessment of QWIQ's specific constraints.
+**Adopt embedded debug symbols for v11.0.0 and future releases.**
 
 ### Rationale
 
-1. **Maintainer Sustainability**: Single maintainer's time is the scarce resource, not consumer bandwidth. Simpler CI/CD operations directly benefit project longevity.
+1. **Scale Appropriateness**
 
-2. **Scale-Appropriate Optimization**: At 1 download/day, the bandwidth "savings" from portable symbols (~73MB/year) is background noise. Optimizing for this is premature.
+   - At QWIQ's download volume, bandwidth optimization is premature
+   - 73MB/year total bandwidth cost is background noise
+   - Optimizing for bytes at this scale diverts attention from value delivery
 
-3. **Enterprise Reality**: QWIQ's Azure DevOps/TFS audience is disproportionately behind corporate firewalls where `symbols.nuget.org` may be blocked. Embedded symbols bypass this entirely.
+2. **Enterprise Compatibility**
 
-4. **Debugging UX**: Zero-configuration debugging benefits both consumers debugging issues and contributors working on QWIQ. The "just works" experience outweighs theoretical efficiency.
+   - QWIQ's audience is disproportionately likely to be behind corporate firewalls
+   - Symbol server blocks are common in enterprise environments
+   - Embedded symbols guarantee debugging works regardless of network policy
 
-5. **Professional Decision-Making**: Following Microsoft's approach without understanding their constraints (millions of downloads, dedicated support teams) is cargo culting. QWIQ's constraints are fundamentally different.
+3. **Maintainer Sustainability**
 
-## Consequences
+   - Single-package workflow reduces CI/CD complexity
+   - Fewer failure modes (no partial publish scenarios)
+   - More time for features and bug fixes vs. infrastructure maintenance
 
-### Accepted Trade-offs
+4. **Contributor Experience**
 
-1. **Package Size**: 20-30% increase (~200-300KB per package)
+   - Zero-configuration debugging reduces onboarding friction
+   - Consistent experience across Visual Studio, Rider, VS Code
+   - Anyone debugging QWIQ issues gets symbols immediately
 
-   - **Impact**: Low - still under 2MB per package
-   - **Mitigation**: CI validation enforces 2MB threshold
+5. **Context-Appropriate Decision**
+   - Microsoft's portable symbol strategy optimizes for millions of downloads/day
+   - QWIQ has ~1 download/day - fundamentally different constraints
+   - Professional = making appropriate decisions for YOUR context, not copying Microsoft blindly
 
-2. **Industry Deviation**: Differs from Microsoft and popular libraries
+### Why This Differs from ADR-011
 
-   - **Impact**: May raise questions in code reviews
-   - **Mitigation**: Clear documentation of rationale in this ADR
+ADR-011 initially recommended portable symbols based on industry best practices and Microsoft guidance. The multi-agent consensus review challenged the assumption that Microsoft's optimization strategy applies to QWIQ's scale and audience. Key insights:
 
-3. **Bandwidth "Waste"**: All consumers download symbols
-   - **Impact**: Negligible at 1 download/day scale
-   - **Reevaluation Trigger**: If downloads exceed 100/day
+- **Cargo Culting**: Following Microsoft's approach without considering QWIQ's constraints
+- **False Optimization**: Bandwidth savings are negligible at QWIQ's scale
+- **Audience Mismatch**: Enterprise users often cannot access symbol servers anyway
+- **Maintainer Reality**: Sustainability trumps theoretical best practices
 
-### Benefits Gained
+## Considered Options
 
-1. **Simplified CI/CD**: Single package type, fewer failure modes
-2. **Zero-Config Debugging**: Works immediately in all IDEs
-3. **Enterprise Compatibility**: No symbol server network dependency
-4. **Contributor Experience**: Consistent debugging without setup
-5. **Maintainer Time**: Reduced operational overhead
+### Option 1: Portable Symbols with snupkg (ADR-011 Recommendation)
+
+**Pros**:
+
+- Smaller package size for all consumers
+- Follows Microsoft guidance for public libraries
+- Industry standard approach
+
+**Cons**:
+
+- Requires symbol server configuration (may fail in enterprise)
+- Two packages to publish and validate
+- Higher CI/CD complexity
+- Support burden for "debugging doesn't work" issues
+- Optimization doesn't matter at QWIQ's scale
+
+### Option 2: Embedded Symbols (This Decision)
+
+**Pros**:
+
+- Zero-configuration debugging - "just works"
+- No network dependency for symbols
+- Single package to manage
+- Simpler CI pipeline
+- Works in corporate environments with symbol server blocks
+- Appropriate for QWIQ's scale and audience
+
+**Cons**:
+
+- 20-30% larger packages (~200KB per package)
+- Deviates from Microsoft's approach
+- All consumers pay size penalty (even if they never debug)
 
 ## Implementation
 
-### Configuration (Already Applied)
+### Current Configuration
 
-`Directory.Build.props` has been updated:
+`Directory.Build.props` is configured for embedded symbols:
 
 ```xml
+<!--
+  Symbol Configuration:
+  - DebugType=embedded includes PDBs directly in assemblies
+  - Symbols are embedded in assemblies, no separate .snupkg needed
+  - See ADR-012 for rationale
+-->
+<PropertyGroup>
+  <IncludeSymbols>false</IncludeSymbols>
+</PropertyGroup>
+
 <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-  <!-- Use embedded symbols for simplicity and enterprise compatibility -->
+  <!-- Use embedded symbols (DotNet.ReproducibleBuilds default) for just-works debugging -->
   <DebugType>embedded</DebugType>
   <Optimize>true</Optimize>
   <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
 </PropertyGroup>
 ```
 
-**Note**: `IncludeSymbols` and `SymbolPackageFormat` are NOT set, preventing `.snupkg` generation.
+### CI Pipeline
 
-### CI/CD Simplification
-
-Release workflow publishes only `.nupkg` files (symbols embedded):
+The `release.yml` workflow publishes only `.nupkg` files (no `.snupkg` files):
 
 ```powershell
-# Push nupkg files (now contain embedded symbols)
+# Push nupkg files (contain embedded symbols)
 foreach ($file in $nupkgFiles) {
     dotnet nuget push $file.FullName --api-key "$env:NUGET_API_KEY" `
         --source https://api.nuget.org/v3/index.json --skip-duplicate
 }
 ```
 
-### Validation
+### Package Size Validation
 
-Package size regression test added to CI:
+CI validates that packages remain within acceptable size thresholds:
 
-```powershell
-# Fail if any package exceeds 2MB threshold
-$maxNupkgSize = 2MB
-foreach ($nupkg in $nupkgFiles) {
-    if ($nupkg.Length -gt $maxNupkgSize) {
-        Write-Error "Package $($nupkg.Name) exceeds size threshold"
+```yaml
+- name: Validate Package Sizes
+  run: |
+    $maxSize = 2MB
+    Get-ChildItem artifacts/package/**/*.nupkg | ForEach-Object {
+      if ($_.Length -gt $maxSize) {
+        Write-Error "Package exceeds size threshold: $($_.Name) ($($_.Length) bytes)"
+      }
     }
-}
 ```
 
-## Monitoring and Reevaluation
+## Consequences
 
-### Success Criteria
+### Benefits We Gain
 
-- [x] `DebugType=embedded` configured in Directory.Build.props
-- [ ] v11.0.0 packages published successfully
-- [ ] Package sizes under 2MB threshold
-- [ ] Debugging works without configuration in VS, Rider, and VS Code
-- [ ] No user complaints about package size in first 30 days
+1. **Zero-Configuration Debugging**
 
-### Reevaluation Triggers
+   - Step into QWIQ source works immediately in any IDE
+   - No symbol server setup required
+   - No network dependency
 
-Reconsider this decision if:
+2. **Enterprise Compatibility**
 
-- **Download count exceeds 100/day** (scaling assumption changes)
-- **Multiple users report package size issues** within first release
-- **Corporate environments report embedded symbols as security concern**
+   - Works regardless of corporate firewall policies
+   - No symbol server access required
+   - Guaranteed debugging experience
 
-Monitor:
+3. **Maintainer Simplicity**
 
-- NuGet.org download statistics
-- GitHub issues tagged with `debugging` or `package-size`
-- Package size trends in CI builds
+   - Single package type to publish and validate
+   - Fewer CI/CD failure modes
+   - Reduced support burden for debugging issues
 
-## Multi-Agent Consensus
+4. **Contributor Experience**
 
-This decision resulted from consultation with 4 specialized agents:
+   - Consistent debugging across all IDEs
+   - No onboarding friction for symbol configuration
+   - Immediate productivity when debugging issues
 
-| Agent                   | Vote        | Key Reasoning                                    |
-| ----------------------- | ----------- | ------------------------------------------------ |
-| **Architect**           | EMBEDDED ✓  | Maintainer time > bandwidth at QWIQ's scale      |
-| **DevOps**              | EMBEDDED ✓  | CI/CD simplification measurable (10-15 min/rel)  |
-| **Independent Thinker** | EMBEDDED ✓  | Following Microsoft is cargo culting at our scale |
-| **QA**                  | PORTABLE ⚠️ | Technically superior but pragmatically accepts   |
+5. **Appropriate Optimization**
+   - Resources focused on features/fixes, not theoretical bandwidth savings
+   - Decision matches QWIQ's actual constraints
 
-**Consensus**: 3/4 favor embedded (strong majority). QA's technical preference for portable symbols acknowledged but overridden by pragmatic factors.
+### Trade-offs We Accept
 
-### Dissenting Opinion
+1. **Package Size**
 
-**QA's Reservation**: Portable+snupkg remains technically superior for public libraries in abstract. Embedded is a deliberate tradeoff for maintainer pragmatism, not the "correct" technical choice. If QWIQ's adoption grows significantly, this should be reevaluated.
+   - ~20-30% larger packages (~200KB per package)
+   - Total bandwidth impact: ~73MB/year at current download rate
+   - **Assessment**: Negligible cost at QWIQ's scale
+
+2. **Industry Standard Deviation**
+
+   - Differs from Microsoft's approach for public libraries
+   - **Assessment**: Microsoft's constraints ≠ QWIQ's constraints; context matters
+
+3. **Symbols in Production**
+   - Debug symbols embedded in deployed assemblies
+   - **Assessment**: Not a security concern for public library; source is already public
+
+### Monitoring
+
+Track the following metrics post-v11.0.0 release:
+
+- **Package Size**: Should be ~200-300KB per package
+- **User Feedback**: Monitor for "package too large" complaints
+- **Debugging Issues**: Track "debugging doesn't work" support requests (should be zero)
+- **Download Trends**: If scale increases significantly, reevaluate
+
+## Reevaluation Triggers
+
+This decision should be reconsidered if:
+
+1. **Download volume exceeds 100/day** - scaling assumptions change
+2. **Multiple users report package size as a problem** - optimization becomes meaningful
+3. **Microsoft publishes guidance for low-volume libraries** - new information available
+4. **Symbol server access becomes universal** - enterprise firewall assumptions change
 
 ## Related Decisions
 
-- **ADR-011**: Superseded by this decision - originally recommended portable symbols
-- **DotNet.ReproducibleBuilds**: External package providing deterministic build support
-- **ADR-005**: Central Package Management - Package versioning approach
+- **ADR-011**: Portable Debug Symbols with Symbol Packages (Superseded)
+- **ADR-005**: Central Package Management
+- **DECISION-SUMMARY-embedded-symbols.md**: Executive summary of multi-agent consensus
+- **002-symbols-consensus-recommendation.md**: Full multi-agent analysis and voting record
 
 ## References
 
-- **Consensus Documents**:
-  - `.agents/architecture/002-symbols-consensus-recommendation.md` - Full analysis
-  - `.agents/architecture/DECISION-SUMMARY-embedded-symbols.md` - Executive summary
-  - `.agents/sessions/2025-12-14-debug-symbol-consensus.md` - Session log
-- **Implementation**: PR #124 - Multi-agent consensus: Switch to embedded debug symbols
-- **Microsoft Guidance**:
-  - [NuGet and .NET libraries](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
-  - [Symbol packages (.snupkg)](https://learn.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg)
-- **Technical Context**:
-  - [Ken Muse: What Every Developer Should Know About PDBs](https://www.kenmuse.com/blog/what-every-developer-should-know-about-pdbs/)
-  - [dotnet/sdk Issue #2679: Discussion on embedded default](https://github.com/dotnet/sdk/issues/2679)
+- [Multi-Agent Consensus Document](./002-symbols-consensus-recommendation.md)
+- [Decision Summary](./DECISION-SUMMARY-embedded-symbols.md)
+- [DotNet.ReproducibleBuilds](https://github.com/dotnet/reproducible-builds)
+- [Microsoft Learn: Symbol packages](https://learn.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg)
+- [Ken Muse: What Every Developer Should Know About PDBs](https://www.kenmuse.com/blog/what-every-developer-should-know-about-pdbs/)
 
-## Superseded By
+## Documentation
 
-None
+### README.md Section
+
+Added debugging documentation to README.md:
+
+```markdown
+## Debugging
+
+QWIQ packages include embedded debug symbols for a seamless debugging experience.
+
+### Visual Studio, Rider, or VS Code
+
+Step into QWIQ source code works immediately - no symbol server configuration required.
+
+1. Set a breakpoint in your code that calls QWIQ
+2. Press F11 to step into QWIQ methods
+3. Source code will be retrieved via Source Link from GitHub
+
+### Why Embedded Symbols?
+
+QWIQ uses embedded debug symbols instead of separate symbol packages for:
+
+- **Zero configuration**: Debugging works immediately in any IDE
+- **Enterprise compatibility**: No dependency on external symbol servers that may be blocked
+- **Maintainer simplicity**: Single package to manage and publish
+- **Contributor experience**: Consistent debugging for everyone contributing to QWIQ
+
+_Note: Package size is approximately 20-30% larger due to embedded symbols. For QWIQ's scale (~1 download/day), this is a negligible bandwidth cost compared to the debugging convenience._
+```
+
+## Success Criteria
+
+- [x] `Directory.Build.props` configured for embedded symbols
+- [x] Multi-agent consensus documented
+- [x] ADR-012 created with comprehensive rationale
+- [x] ADR-011 marked as superseded
+- [ ] v11.0.0 packages published with embedded symbols
+- [ ] Package size within expected range (~200-300KB increase per package)
+- [ ] Zero "debugging doesn't work" issues related to symbol access
+- [ ] README.md updated with debugging documentation
+
+## Validation
+
+### Build Validation
+
+```bash
+# Verify DebugType configuration
+dotnet build -c Release -v:minimal
+
+# Check package contents for embedded PDBs
+dotnet pack -c Release
+unzip -l artifacts/package/release/Qwiq.Core.*.nupkg | grep -i "\.pdb"
+```
+
+### CI Validation
+
+- Package size regression test (max 2MB per package)
+- No `.snupkg` files generated
+- Release workflow publishes only `.nupkg` files
+
+## Conclusion
+
+This decision prioritizes:
+
+1. **Maintainer sustainability** over theoretical optimization
+2. **User debugging experience** over package size
+3. **Enterprise compatibility** over industry patterns
+4. **Context-appropriate decisions** over cargo culting
+
+For a library with QWIQ's scale (~1 download/day) and audience (enterprise Azure DevOps/TFS users), embedded symbols are the pragmatic choice that maximizes value delivery while respecting maintainer constraints.
