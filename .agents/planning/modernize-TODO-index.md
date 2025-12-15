@@ -130,7 +130,7 @@ dotnet test Qwiq.sln --filter "TestCategory!=localOnly&TestCategory!=Benchmark&T
 | 33      | Dec 13    | Claude      | W3.3 Remove AppVeyor - migrated to GitHub Actions      |
 | 34      | Dec 13    | Claude      | W4.1 Code Coverage - 6/6 NuGet libs at 70%+ ✅         |
 | 40      | Dec 14    | Claude      | W2.22 SHA pin actions ✅, W2.33 version to 11.0 ✅     |
-| 41      | Dec 14    | Claude      | W2.34-W2.37 Reproducible Builds ✅, ADR-011 symbols ✅ |
+| 41      | Dec 14    | Claude      | W2.34-W2.37 Reproducible Builds ✅, ADR-012 symbols ✅ |
 
 ---
 
