@@ -33,9 +33,9 @@ This PRD describes the integration of the `DotNet.ReproducibleBuilds` NuGet pack
 
 ## Non-Goals (Out of Scope)
 
-1. **Changing DebugType**: QWIQ explicitly sets `DebugType=embedded` for Release builds per ADR-012. The package defaults to `embedded`, so this aligns naturally. We will NOT change this behavior.
+1. **Changing DebugType**: QWIQ explicitly sets `DebugType=embedded` for Release builds per ADR-012. The package defaults to `embedded`, so this aligns naturally and no override is required. We will NOT change this behavior.
 
-2. **Removing Explicit Settings**: Existing explicit settings (`Deterministic`, `PublishRepositoryUrl`, `EmbedUntrackedSources`) will be retained for clarity and documentation, even though the package would set them.
+2. **Retaining Redundant Explicit Settings**: The `DotNet.ReproducibleBuilds` package automatically provides `Deterministic=true`, `PublishRepositoryUrl=true`, and `EmbedUntrackedSources=true`. These redundant explicit settings were removed from `Directory.Build.props` to avoid duplication and let the package manage them.
 
 3. **Modifying CI Workflows**: The GitHub Actions workflows will not be modified as part of this integration. The `CI=true` detection remains as a fallback.
 
@@ -278,14 +278,14 @@ This epic covers adding the .NET Foundation-maintained `DotNet.ReproducibleBuild
 
 - Add `DotNet.ReproducibleBuilds` v1.2.39 to Central Package Management
 - Reference package in `Directory.Build.props` as development dependency
-- Preserve existing explicit settings (`Deterministic`, `DebugType`, etc.)
+- Remove redundant explicit settings now provided by the package (`Deterministic`, `PublishRepositoryUrl`, `EmbedUntrackedSources`)
+- Preserve `DebugType=embedded` (per ADR-012, aligns with package default)
 - Verify no regression in build behavior or SourceLink functionality
 - Document the integration
 
 **Out of Scope**:
 
-- Changing DebugType from `portable` to `embedded`
-- Removing existing explicit reproducibility settings
+- Changing DebugType (already `embedded` per ADR-012, aligns with package default)
 - Setting up multi-CI platform testing infrastructure
 - Verifying byte-for-byte build reproducibility
 
@@ -297,12 +297,13 @@ This epic covers adding the .NET Foundation-maintained `DotNet.ReproducibleBuild
 
 3. **CI Detection Works**: GitHub Actions builds show `ContinuousIntegrationBuild=true` in build output (existing behavior preserved)
 
-4. **Existing Settings Preserved**: The following remain explicitly set in `Directory.Build.props`:
+4. **Redundant Settings Removed**: The following were removed from `Directory.Build.props` since `DotNet.ReproducibleBuilds` now provides them:
 
-   - `Deterministic=true`
-   - `PublishRepositoryUrl=true`
-   - `EmbedUntrackedSources=true`
-   - `DebugType=embedded` (Release) - per ADR-012
+   - `Deterministic=true` (package default)
+   - `PublishRepositoryUrl=true` (package default)
+   - `EmbedUntrackedSources=true` (package default)
+
+   **Note**: `DebugType=embedded` (Release) is preserved per ADR-012 and aligns with the package default.
 
 5. **All Tests Pass**: CI build succeeds with no test regressions
 
