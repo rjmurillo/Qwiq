@@ -1,9 +1,10 @@
 # ADR-011: Portable Debug Symbols with Symbol Packages
 
-**Status**: Accepted
-**Date**: 2025-12-14
-**Deciders**: Architecture Team
-**Context**: v11.0.0 NuGet Release Preparation
+**Status**: Superseded by ADR-012  
+**Date**: 2025-12-14  
+**Deciders**: Architecture Team  
+**Context**: v11.0.0 NuGet Release Preparation  
+**Superseded by**: ADR-012-embedded-symbols.md (2025-12-14)
 
 ## Context and Problem Statement
 
@@ -351,6 +352,7 @@ If portable symbols prove problematic for QWIQ's audience:
 
 ## Related Decisions
 
+- **ADR-012**: Embedded Debug Symbols - Supersedes this decision (2025-12-14)
 - **ADR-005**: Central Package Management - Package versioning approach
 - **Analysis-001**: Embedded vs Portable Symbols Analysis (`.agents/analysis/001-embedded-vs-portable-symbols-analysis.md`)
 - **DotNet.ReproducibleBuilds**: External package providing deterministic build defaults
@@ -392,3 +394,26 @@ This ADR underwent multi-agent consensus review with 5 specialized agents:
 
 - `.agents/critique/001-ADR-011-portable-symbols-critique.md`
 - `.agents/qa/011-ADR-011-symbols-review.md`
+
+## Supersession Notice
+
+**Date**: 2025-12-14  
+**Superseded By**: ADR-012-embedded-symbols.md
+
+This decision was reversed following maintainer feedback and multi-agent consensus review. The original recommendation for portable symbols + snupkg was appropriate for high-scale public libraries (Microsoft's context) but not pragmatic for QWIQ's actual constraints:
+
+**Key Factors Leading to Reversal**:
+
+1. **Scale Mismatch**: QWIQ has ~1 download/day vs Microsoft's millions. Bandwidth optimization at QWIQ's scale is premature.
+
+2. **Maintainer Capacity**: Single part-time maintainer. Dual-package CI/CD complexity ("pain in the ass factor") is a real sustainability cost.
+
+3. **Enterprise Audience**: Azure DevOps/TFS users are disproportionately behind corporate firewalls where symbol servers may be blocked.
+
+4. **Debugging UX**: "Just works" debugging benefits both consumers and contributors more than 200KB package size savings.
+
+**New Decision**: Use embedded debug symbols for simplicity, maintainer sustainability, and zero-configuration debugging experience.
+
+**Consensus**: 3 of 4 agents favored embedded (architect, devops, independent-thinker) when considering QWIQ-specific constraints. QA acknowledged embedded as pragmatically justified despite technical preference for portable.
+
+See ADR-012 for complete rationale and implementation details.
