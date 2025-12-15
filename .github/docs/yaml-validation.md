@@ -29,7 +29,7 @@ git commit -m "feat: add workflow"
 # ❌ NEVER DO THIS - wastes tokens
 python3 -c "import yaml; yaml.safe_load(open('file.yml'))"
 
-# ❌ NEVER DO THIS - wastes tokens  
+# ❌ NEVER DO THIS - wastes tokens
 ./.github/scripts/validate-yaml.ps1 file.yml
 
 # ❌ NEVER DO THIS - wastes tokens
@@ -45,6 +45,7 @@ dotnet pprettier --check file.yml
 **Automatically enabled** via `copilot-setup-steps.yml` workflow.
 
 The hook automatically:
+
 1. Detects staged YAML files
 2. Runs `dotnet pprettier --write` to fix formatting
 3. Validates syntax
@@ -52,6 +53,7 @@ The hook automatically:
 5. Allows commit if valid, blocks if syntax errors remain
 
 **Configuration:**
+
 ```bash
 # Already configured - no action needed
 git config core.hooksPath .githooks
@@ -81,15 +83,15 @@ SKIP_AUTOFIX=1 git commit
 
 ## Common YAML Issues (Auto-Fixed)
 
-| Issue | Auto-Fixed? | Example |
-|-------|-------------|---------|
-| Inconsistent indentation | ✓ Yes | 2 vs 4 spaces |
-| Trailing whitespace | ✓ Yes | `value:   ` → `value:` |
-| Missing newline at EOF | ✓ Yes | Adds `\n` |
-| Line length | ✓ Yes | Wraps long lines |
-| Quote style | ✓ Yes | Normalizes quotes |
-| **Syntax errors** | ✗ No | Must fix manually |
-| **Duplicate keys** | ✗ No | Must fix manually |
+| Issue                    | Auto-Fixed? | Example                |
+| ------------------------ | ----------- | ---------------------- |
+| Inconsistent indentation | ✓ Yes       | 2 vs 4 spaces          |
+| Trailing whitespace      | ✓ Yes       | `value:   ` → `value:` |
+| Missing newline at EOF   | ✓ Yes       | Adds `\n`              |
+| Line length              | ✓ Yes       | Wraps long lines       |
+| Quote style              | ✓ Yes       | Normalizes quotes      |
+| **Syntax errors**        | ✗ No        | Must fix manually      |
+| **Duplicate keys**       | ✗ No        | Must fix manually      |
 
 ## Syntax Errors (Manual Fix Required)
 
@@ -99,7 +101,7 @@ SKIP_AUTOFIX=1 git commit
 # ❌ WRONG
 jobs:
   build:
-  runs-on: ubuntu-latest  # Not indented properly
+  runs-on: ubuntu-latest # Not indented properly
 ```
 
 ```yaml
@@ -169,13 +171,13 @@ dotnet tool restore
 
 ## For Agents: Token Efficiency Rules
 
-| Action | Allowed? | Reason |
-|--------|----------|--------|
-| Edit YAML, then commit | ✅ YES | Pre-commit hook validates automatically |
-| Run Python validation | ❌ NO | Wastes tokens - pre-commit does this |
-| Run validation script | ❌ NO | Wastes tokens - pre-commit does this |
-| Run dotnet pprettier | ❌ NO | Wastes tokens - pre-commit does this |
-| Check validation manually | ❌ NO | Wastes tokens - pre-commit does this |
+| Action                    | Allowed? | Reason                                  |
+| ------------------------- | -------- | --------------------------------------- |
+| Edit YAML, then commit    | ✅ YES   | Pre-commit hook validates automatically |
+| Run Python validation     | ❌ NO    | Wastes tokens - pre-commit does this    |
+| Run validation script     | ❌ NO    | Wastes tokens - pre-commit does this    |
+| Run dotnet pprettier      | ❌ NO    | Wastes tokens - pre-commit does this    |
+| Check validation manually | ❌ NO    | Wastes tokens - pre-commit does this    |
 
 **Rule:** After editing YAML, just commit. The pre-commit hook handles all validation.
 
@@ -184,16 +186,19 @@ dotnet tool restore
 A PowerShell validation script is available for CI/CD pipelines: `.github/scripts/Validate-Yaml.ps1`
 
 **Features:**
+
 - Uses `dotnet pprettier` for formatting and syntax validation (already in repo)
 - Optionally uses `yamllint` for enhanced linting (if installed)
 - Cross-platform (Windows, Linux, macOS)
 
 **Requirements:**
+
 - PowerShell 7+ (pwsh)
 - dotnet pprettier (via `dotnet tool restore`)
 - yamllint (optional): `pip install yamllint`
 
 **Usage:**
+
 ```powershell
 # Formatting + syntax validation only
 pwsh .github/scripts/Validate-Yaml.ps1 .github/workflows/main.yml

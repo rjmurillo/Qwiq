@@ -79,12 +79,14 @@ jobs:
 The `copilot-setup-steps.yml` workflow includes `GH_TOKEN: ${{ github.token }}` to enable GitHub CLI commands and API access. This allows:
 
 **For GitHub Agents/Copilot:**
+
 - View workflow run logs and status
 - Monitor action execution in real-time
 - Query PR information and comments
 - Check CI/CD pipeline status
 
 **Common gh commands available:**
+
 ```bash
 # View workflow runs
 gh run list --workflow=main.yml
@@ -103,12 +105,13 @@ gh pr checks <pr-number>
 ```
 
 **Usage in workflow steps:**
+
 ```yaml
 jobs:
   setup:
     env:
-      GH_TOKEN: ${{ github.token }}  # Available to all steps in copilot-setup-steps.yml
-    
+      GH_TOKEN: ${{ github.token }} # Available to all steps in copilot-setup-steps.yml
+
     steps:
       - name: Monitor other workflows
         run: gh run list --workflow=main.yml --limit 5

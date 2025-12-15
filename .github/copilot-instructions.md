@@ -558,6 +558,7 @@ When adding or updating .NET workflows in this repo, follow these guidelines:
 The `copilot-setup-steps.yml` workflow includes `GH_TOKEN: ${{ github.token }}` environment variable to enable GitHub CLI (`gh`) commands. This allows GitHub agents and Copilot to:
 
 **Monitor and debug workflow execution:**
+
 ```bash
 # View workflow runs
 gh run list --workflow=main.yml --limit 10
@@ -573,6 +574,7 @@ gh run download <run-id>
 ```
 
 **Check PR and CI status:**
+
 ```bash
 # View PR details
 gh pr view <pr-number>
@@ -585,13 +587,14 @@ gh pr checks <pr-number> --watch
 ```
 
 **Usage in workflow steps:**
+
 ```yaml
 # Only in copilot-setup-steps.yml workflow
 jobs:
   setup:
     env:
-      GH_TOKEN: ${{ github.token }}  # Available to all steps
-    
+      GH_TOKEN: ${{ github.token }} # Available to all steps
+
     steps:
       - name: Monitor other workflows
         run: gh run list --workflow=main.yml --limit 5
@@ -606,6 +609,7 @@ The `GH_TOKEN` uses the automatic `github.token` (not a PAT), which has permissi
 **CRITICAL: DO NOT manually validate YAML files.** This wastes tokens.
 
 ❌ **NEVER do this after editing YAML:**
+
 ```bash
 # ❌ WASTES TOKENS - pre-commit hook does this automatically
 python3 -c "import yaml; yaml.safe_load(open('file.yml'))"
@@ -614,6 +618,7 @@ pwsh .github/scripts/Validate-Yaml.ps1 file.yml
 ```
 
 ✅ **Correct workflow:**
+
 ```bash
 # Edit YAML file
 # Just commit - pre-commit hook validates automatically
@@ -884,6 +889,7 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 > **⚠️ CRITICAL: After Merging Branches**
 >
 > When merging from `develop` or other branches, ALWAYS run package tests if the merge adds or modifies any of these:
+>
 > - .md files in project directories (README.md, CHANGELOG.md, etc.)
 > - Project files (.csproj, Directory.Build.props, Directory.Packages.props)
 > - Files with `Pack="true"` in project files
@@ -893,6 +899,7 @@ The `Qwiq.Package.Tests` project validates NuGet package contents using Verify. 
 > **Note**: `AGENTS.md` files are explicitly excluded from all packages (in `Directory.Build.props`) as they are for AI agents working on the repository only, not for package consumers.
 >
 > **What to do**:
+>
 > 1. Complete the merge
 > 2. Run: `dotnet build Qwiq.sln -c Release`
 > 3. Run: `dotnet pack Qwiq.sln -c Release --no-build`
