@@ -28,10 +28,9 @@ None - the decision is technically sound for a public NuGet library.
 
 ### Important (Should Fix)
 
-- [ ] **Missing Size Validation**: The ADR claims "20-30% size penalty" but provides **no actual measurements** for QWIQ packages. With 9 packable projects and 6 TFMs each, this should be measured, not assumed.
+- [ ] **Missing Size Validation**: The ADR claims "20-30% size penalty" but provides **no actual measurements** for QWIQ packages. With 10 packable projects and 6 TFMs each, this should be measured, not assumed.
 
-- [ ] **Inconsistent Project Count**: The ADR states "9 packable projects" but actual count from csproj analysis shows **10** IsPackable=true projects:
-
+- [x] **~~Inconsistent Project Count~~**: ~~The ADR states "9 packable projects" but actual count from csproj analysis shows **10** IsPackable=true projects~~ **RESOLVED** - ADR updated to correct count of 10 packable projects:
   - `Qwiq.Core`
   - `Qwiq.Client.Rest`
   - `Qwiq.Client.Soap`
@@ -41,7 +40,7 @@ None - the decision is technically sound for a public NuGet library.
   - `Qwiq.Linq.Identity`
   - `Qwiq.Mapper`
   - `Qwiq.Mapper.Identity`
-  - `Qwiq.Mocks` (test project but IsPackable=true)
+  - `Qwiq.Mocks` (test library intentionally packable - shipped as NuGet)
 
 - [ ] **PublishRepositoryUrl/EmbedUntrackedSources Discrepancy**: The ADR's "Current Configuration (Verified)" section (lines 186-198) shows these properties explicitly set, but the actual `Directory.Build.props` (lines 97-105) has a comment stating "PublishRepositoryUrl and EmbedUntrackedSources are now handled by DotNet.ReproducibleBuilds" and does NOT set them explicitly. The ADR's code block is **stale/incorrect**.
 
@@ -59,7 +58,7 @@ None - the decision is technically sound for a public NuGet library.
 
 1. **Has the 20-30% size impact been measured for QWIQ specifically?** The claim is generic industry data. Given QWIQ's codebase size, the actual impact could be smaller or larger.
 
-2. **Is Qwiq.Mocks intentionally packable?** If so, it should be counted in the package count. If not, should IsPackable be set to false?
+2. **~~Is Qwiq.Mocks intentionally packable?~~** **RESOLVED** - Yes, Qwiq.Mocks is intentionally packable as it's a test library shipped as a NuGet package for consumer use.
 
 3. **What is the fallback if NuGet.org symbol server fails?** Source Link provides source browsing but not step-through debugging without PDBs.
 
@@ -143,7 +142,7 @@ Future maintainers misunderstand the dual-package requirement. CI change breaks 
 
 2. **Add Size Measurements**: Before v11.0.0 release, measure actual package sizes and document in the ADR for future reference.
 
-3. **Correct Package Count**: Update from "9 packable projects" to actual count (10, or 9 if Qwiq.Mocks is corrected).
+3. **~~Correct Package Count~~**: ~~Update from "9 packable projects" to actual count (10, or 9 if Qwiq.Mocks is corrected)~~ **RESOLVED** - Updated to 10 packable projects.
 
 4. **Document Enterprise Workaround**: Add a note that enterprise users who cannot access symbol servers can:
 

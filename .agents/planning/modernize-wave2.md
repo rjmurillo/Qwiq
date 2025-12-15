@@ -590,7 +590,9 @@ jobs:
 
 ## Phase 2G: Reproducible Builds (NEW - Session 41)
 
-> **PRD**: `.agents/planning/PRD-reproducible-builds.md` > **ADR**: `.agents/architecture/adr-012-embedded-symbols.md` (supersedes ADR-011) > **Added**: 2025-12-14 (Session 41)
+> **PRD**: `.agents/planning/PRD-reproducible-builds.md`
+> **ADR**: `.agents/architecture/ADR-012-embedded-symbols.md` (supersedes ADR-011)
+> **Added**: 2025-12-14 (Session 41)
 > **Goal**: Integrate DotNet.ReproducibleBuilds package for enhanced CI platform detection and alignment with .NET Foundation best practices.
 > **Key Decision**: Embedded symbols (ADR-012) - simpler CI/CD, enterprise firewall compatible, maintainer-friendly for QWIQ's scale.
 

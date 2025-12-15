@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-**RECOMMENDATION: Switch to embedded symbols**
+### Recommendation: Switch to embedded symbols
 
 Your instinct about the "pain in the ass factor" is validated. After multi-agent consultation, the consensus is **embedded symbols are the right choice for QWIQ**.
 
