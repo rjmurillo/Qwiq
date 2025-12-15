@@ -79,7 +79,7 @@ To prevent this in the future:
 
 ## References
 
-- CI Failure: https://github.com/rjmurillo/Qwiq/actions/runs/20213522923/job/58022939961#step:8:1
+- CI Failure: <https://github.com/rjmurillo/Qwiq/actions/runs/20213522923/job/58022939961#step:8:1>
 - PR #119: Added AGENTS.md files (commit d08d9ca)
 - Merge commit: de27c49 (develop → copilot/enable-gh-cli-in-actions)
 - Package test documentation: `.github/copilot-instructions.md` lines 823-880

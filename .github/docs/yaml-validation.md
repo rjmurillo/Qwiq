@@ -86,7 +86,7 @@ SKIP_AUTOFIX=1 git commit
 | Issue                    | Auto-Fixed? | Example                |
 | ------------------------ | ----------- | ---------------------- |
 | Inconsistent indentation | ✓ Yes       | 2 vs 4 spaces          |
-| Trailing whitespace      | ✓ Yes       | `value:   ` → `value:` |
+| Trailing whitespace      | ✓ Yes       | `value:` → `value:`    |
 | Missing newline at EOF   | ✓ Yes       | Adds `\n`              |
 | Line length              | ✓ Yes       | Wraps long lines       |
 | Quote style              | ✓ Yes       | Normalizes quotes      |
