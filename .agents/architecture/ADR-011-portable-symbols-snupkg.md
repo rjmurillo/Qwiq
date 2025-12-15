@@ -44,13 +44,13 @@ QWIQ is preparing for its v11.0.0 NuGet release. The project uses `DotNet.Reprod
 
 Survey of popular .NET libraries:
 
-| Library             | DebugType  | Symbol Distribution | Notes                                  |
-| ------------------- | ---------- | ------------------- | -------------------------------------- |
-| **dotnet/runtime**  | `portable` | snupkg              | Microsoft's own base class libraries   |
-| **dotnet/aspnetcore** | (default)  | `IncludeSymbols`    | Uses symbol packages                   |
-| **Serilog**         | (default)  | snupkg              | Popular logging library                |
-| **AutoMapper**      | (default)  | snupkg              | Popular mapping library                |
-| **Newtonsoft.Json** | N/A        | No symbols          | Users have requested PDBs              |
+| Library               | DebugType  | Symbol Distribution | Notes                                |
+| --------------------- | ---------- | ------------------- | ------------------------------------ |
+| **dotnet/runtime**    | `portable` | snupkg              | Microsoft's own base class libraries |
+| **dotnet/aspnetcore** | (default)  | `IncludeSymbols`    | Uses symbol packages                 |
+| **Serilog**           | (default)  | snupkg              | Popular logging library              |
+| **AutoMapper**        | (default)  | snupkg              | Popular mapping library              |
+| **Newtonsoft.Json**   | N/A        | No symbols          | Users have requested PDBs            |
 
 **Key observation**: Microsoft's own libraries use `portable` + snupkg for public packages.
 
@@ -302,11 +302,11 @@ If symbol packages fail validation post-publish or cause significant user fricti
 
 ### Recovery Options
 
-| Scenario | Action |
-|----------|--------|
-| Minor fix needed | Patch release (v11.0.x) with corrected symbols |
+| Scenario                          | Action                                                   |
+| --------------------------------- | -------------------------------------------------------- |
+| Minor fix needed                  | Patch release (v11.0.x) with corrected symbols           |
 | Major issue with portable symbols | Patch release with embedded symbols (revert to Option 2) |
-| Symbol server indexing failed | Re-push `.snupkg` files to NuGet.org |
+| Symbol server indexing failed     | Re-push `.snupkg` files to NuGet.org                     |
 
 ### Reverting to Embedded Symbols
 
@@ -370,13 +370,13 @@ If portable symbols prove problematic for QWIQ's audience:
 
 This ADR underwent multi-agent consensus review with 5 specialized agents:
 
-| Agent | Verdict | Key Observations |
-|-------|---------|------------------|
-| **Architect** | ACCEPT with observations | Format compliant, well-researched, minor code drift noted |
-| **Critic** | APPROVED with caveats | Enterprise audience considerations, documentation quality |
-| **DevOps** | ACCEPT with revisions | CI workflow robust, auto-push statement corrected |
-| **Independent Thinker** | RECONSIDER | Scale mismatch with Microsoft patterns (noted, not blocking) |
-| **QA** | NEEDS REVISION | Validation gaps addressed with rollback strategy |
+| Agent                   | Verdict                  | Key Observations                                             |
+| ----------------------- | ------------------------ | ------------------------------------------------------------ |
+| **Architect**           | ACCEPT with observations | Format compliant, well-researched, minor code drift noted    |
+| **Critic**              | APPROVED with caveats    | Enterprise audience considerations, documentation quality    |
+| **DevOps**              | ACCEPT with revisions    | CI workflow robust, auto-push statement corrected            |
+| **Independent Thinker** | RECONSIDER               | Scale mismatch with Microsoft patterns (noted, not blocking) |
+| **QA**                  | NEEDS REVISION           | Validation gaps addressed with rollback strategy             |
 
 **Consensus Achieved**: 4/5 agents approved the core technical decision. Revisions incorporated:
 

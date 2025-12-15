@@ -31,6 +31,7 @@ None - the decision is technically sound for a public NuGet library.
 - [ ] **Missing Size Validation**: The ADR claims "20-30% size penalty" but provides **no actual measurements** for QWIQ packages. With 9 packable projects and 6 TFMs each, this should be measured, not assumed.
 
 - [ ] **Inconsistent Project Count**: The ADR states "9 packable projects" but actual count from csproj analysis shows **10** IsPackable=true projects:
+
   - `Qwiq.Core`
   - `Qwiq.Client.Rest`
   - `Qwiq.Client.Soap`
@@ -145,6 +146,7 @@ Future maintainers misunderstand the dual-package requirement. CI change breaks 
 3. **Correct Package Count**: Update from "9 packable projects" to actual count (10, or 9 if Qwiq.Mocks is corrected).
 
 4. **Document Enterprise Workaround**: Add a note that enterprise users who cannot access symbol servers can:
+
    - Use Source Link for source browsing
    - Clone the repository and build with embedded symbols locally
    - Request IT to whitelist `symbols.nuget.org`
@@ -166,13 +168,13 @@ The ADR can proceed to implementation as-is because:
 
 The industry comparison table is **fair but incomplete**:
 
-| Claim | Assessment |
-|-------|------------|
-| dotnet/runtime uses portable | **TRUE** - verified in their Directory.Build.props |
-| dotnet/aspnetcore uses snupkg | **TRUE** - IncludeSymbols is set |
-| Serilog uses snupkg | **TRUE** - verified |
-| AutoMapper uses snupkg | **TRUE** - verified |
-| Newtonsoft.Json has no symbols | **TRUE** - historical decision |
+| Claim                          | Assessment                                         |
+| ------------------------------ | -------------------------------------------------- |
+| dotnet/runtime uses portable   | **TRUE** - verified in their Directory.Build.props |
+| dotnet/aspnetcore uses snupkg  | **TRUE** - IncludeSymbols is set                   |
+| Serilog uses snupkg            | **TRUE** - verified                                |
+| AutoMapper uses snupkg         | **TRUE** - verified                                |
+| Newtonsoft.Json has no symbols | **TRUE** - historical decision                     |
 
 **Missing from comparison**:
 
@@ -184,8 +186,8 @@ The comparison is valid but selectively highlights libraries that support the de
 
 ## Handoff
 
-| Target | When | Outcome |
-|--------|------|---------|
-| **implementer** | Now | Proceed with v11.0.0 preparation using current configuration |
-| **planner** | If revisions requested | Address documentation issues identified above |
-| **qa** | Post-release | Verify debugging experience works as documented |
+| Target          | When                   | Outcome                                                      |
+| --------------- | ---------------------- | ------------------------------------------------------------ |
+| **implementer** | Now                    | Proceed with v11.0.0 preparation using current configuration |
+| **planner**     | If revisions requested | Address documentation issues identified above                |
+| **qa**          | Post-release           | Verify debugging experience works as documented              |

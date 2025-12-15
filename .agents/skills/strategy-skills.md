@@ -158,11 +158,11 @@ Before starting work on a session:
 
 **Real Example** (Sessions 27-41):
 
-| Session | Context Assumption     | Actual Context       | Impact                  |
-| ------- | ---------------------- | -------------------- | ----------------------- |
-| 27      | Low adoption, OSS-only | 100+ team members    | Declared maintenance    |
-| 28      | (Clarified by user)    | Enterprise Kubernetes | Re-activated Waves 3-5  |
-| 41      | Priorities confirmed   | Production v11.0.0   | Strategic deferrals made |
+| Session | Context Assumption     | Actual Context        | Impact                   |
+| ------- | ---------------------- | --------------------- | ------------------------ |
+| 27      | Low adoption, OSS-only | 100+ team members     | Declared maintenance     |
+| 28      | (Clarified by user)    | Enterprise Kubernetes | Re-activated Waves 3-5   |
+| 41      | Priorities confirmed   | Production v11.0.0    | Strategic deferrals made |
 
 **Priority Deferrals Enabled by Context Clarity** (Session 41):
 

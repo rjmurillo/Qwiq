@@ -15,7 +15,7 @@ Apply this pattern any time you modify:
 - `Directory.Packages.props`
 - Build-affecting packages:
   - DotNet.ReproducibleBuilds
-  - Microsoft.SourceLink.*
+  - Microsoft.SourceLink.\*
   - Nerdbank.GitVersioning
 - Project-level package metadata properties:
   - `<DebugType>`
@@ -30,6 +30,7 @@ Apply this pattern any time you modify:
 ## Why This Matters
 
 Changes to build configuration can affect:
+
 1. **Package manifests** (.nuspec metadata)
 2. **Package contents** (files included in .nupkg)
 3. **Dependency declarations** (runtime dependencies)
@@ -55,6 +56,7 @@ dotnet test test/Qwiq.Package.Tests/Qwiq.Package.Tests.csproj --no-build -c Rele
 ```
 
 Package tests compare:
+
 - Package manifest (.nuspec) against `*.verified.nuspec` files
 - Package contents (file list) against `*.verified.txt` files
 
@@ -71,6 +73,7 @@ diff test/Qwiq.Package.Tests/PackageTests.Baseline_Qwiq.Core#manifest.{received,
 ```
 
 **Ask yourself**:
+
 - Are these changes expected given my configuration change?
 - Do the changes make sense (e.g., removing snupkg → no `<SymbolPackageFormat>` in manifest)?
 - Are there any unexpected side effects?
@@ -78,11 +81,13 @@ diff test/Qwiq.Package.Tests/PackageTests.Baseline_Qwiq.Core#manifest.{received,
 ### 4. Rebaseline if Changes Are Expected
 
 **Interactive (requires TTY)**:
+
 ```bash
 dotnet verify accept -w test/Qwiq.Package.Tests
 ```
 
 **Non-interactive (CI/automation)**:
+
 ```bash
 cd test/Qwiq.Package.Tests
 for file in *.received.*; do
@@ -110,6 +115,7 @@ git commit -m "test: update package baselines after [configuration change]"
 **Change**: `DebugType=portable` → `DebugType=embedded`
 
 **Expected baseline updates**:
+
 - Manifest: No `<SymbolPackageFormat>snupkg</SymbolPackageFormat>`
 - Manifest: No separate symbol package reference
 - Contents: PDB files may be embedded in DLLs (size increase)
@@ -119,6 +125,7 @@ git commit -m "test: update package baselines after [configuration change]"
 **Change**: Added `<PackageReadmeFile>README.md</PackageReadmeFile>`
 
 **Expected baseline updates**:
+
 - Manifest: `<readme>README.md</readme>` element appears
 - Contents: `README.md` file in package root
 
@@ -127,6 +134,7 @@ git commit -m "test: update package baselines after [configuration change]"
 **Change**: Working on `feature/my-branch` instead of `master`
 
 **Expected baseline updates**:
+
 - Manifest: `<repository ... branch="refs/heads/feature/my-branch" .../>`
 
 **Note**: This is **expected behavior** from DotNet.ReproducibleBuilds and improves traceability.
@@ -136,6 +144,7 @@ git commit -m "test: update package baselines after [configuration change]"
 **Change**: Updated `Microsoft.VisualStudio.Services.Client` version in Directory.Packages.props
 
 **Expected baseline updates**:
+
 - Manifest: `<dependency id="Microsoft.VisualStudio.Services.Client" version="16.170.0" .../>` (new version)
 - Manifest: Transitive dependency versions may change
 
