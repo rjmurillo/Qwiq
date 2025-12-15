@@ -33,22 +33,22 @@ From `Directory.Build.props`:
 
 ### Size Impact
 
-| Approach | DLL Size | Package Count | Total Download |
-|----------|----------|---------------|----------------|
-| **Portable + snupkg** | Base | 2 packages | Base (nupkg only for most users) |
-| **Embedded** | +20-30% | 1 package | Larger for ALL users |
+| Approach              | DLL Size | Package Count | Total Download                   |
+| --------------------- | -------- | ------------- | -------------------------------- |
+| **Portable + snupkg** | Base     | 2 packages    | Base (nupkg only for most users) |
+| **Embedded**          | +20-30%  | 1 package     | Larger for ALL users             |
 
 **Key finding**: Embedded PDBs increase package size by approximately 20-30% for SDK-style projects ([Microsoft Learn][ms-nuget], [Ken Muse][kenmuse]).
 
 ### Debugging Experience
 
-| Scenario | Portable + snupkg | Embedded |
-|----------|-------------------|----------|
-| **Visual Studio** | Requires symbol server config (one-time) | Works immediately |
-| **JetBrains Rider** | Works (ignores `CopyDebugSymbolFilesFromPackages`) | Works |
-| **VS Code** | Requires `CopyDebugSymbolFilesFromPackages=true` (.NET 7+) | Works |
-| **Source Link** | Full support | Full support |
-| **Corporate firewalls** | May block symbol server | No issues |
+| Scenario                | Portable + snupkg                                          | Embedded          |
+| ----------------------- | ---------------------------------------------------------- | ----------------- |
+| **Visual Studio**       | Requires symbol server config (one-time)                   | Works immediately |
+| **JetBrains Rider**     | Works (ignores `CopyDebugSymbolFilesFromPackages`)         | Works             |
+| **VS Code**             | Requires `CopyDebugSymbolFilesFromPackages=true` (.NET 7+) | Works             |
+| **Source Link**         | Full support                                               | Full support      |
+| **Corporate firewalls** | May block symbol server                                    | No issues         |
 
 ### Symbol Server Requirements
 
@@ -111,10 +111,10 @@ From `Directory.Build.props`:
 
 Given QWIQ has 9 packable projects with multi-targeting (6 TFMs each):
 
-| Metric | Portable + snupkg | Embedded |
-|--------|-------------------|----------|
-| Package files | 18 (9 nupkg + 9 snupkg) | 9 (nupkg only) |
-| Total size | Base + symbols separate | Base + 20-30% per DLL |
+| Metric        | Portable + snupkg       | Embedded              |
+| ------------- | ----------------------- | --------------------- |
+| Package files | 18 (9 nupkg + 9 snupkg) | 9 (nupkg only)        |
+| Total size    | Base + symbols separate | Base + 20-30% per DLL |
 
 ---
 
@@ -122,14 +122,14 @@ Given QWIQ has 9 packable projects with multi-targeting (6 TFMs each):
 
 ### Survey Results
 
-| Library | DebugType | Symbol Distribution | Notes |
-|---------|-----------|---------------------|-------|
-| **dotnet/runtime** | `portable` | snupkg | "Always pass portable to override arcade sdk which uses embedded for local builds" |
-| **dotnet/aspnetcore** | (not explicitly set) | `IncludeSymbols=true` | Uses symbol packages |
-| **Serilog** | (default) | `snupkg` | `<SymbolPackageFormat>snupkg</SymbolPackageFormat>` |
-| **AutoMapper** | (default) | `snupkg` | `<SymbolPackageFormat>snupkg</SymbolPackageFormat>` |
-| **Newtonsoft.Json** | N/A | No symbols in package | [Issue #881][newtonsoft-issue] requesting PDBs |
-| **DotNet.ReproducibleBuilds** | `embedded` (default) | Embedded | Recommends embedded for simplicity |
+| Library                       | DebugType            | Symbol Distribution   | Notes                                                                              |
+| ----------------------------- | -------------------- | --------------------- | ---------------------------------------------------------------------------------- |
+| **dotnet/runtime**            | `portable`           | snupkg                | "Always pass portable to override arcade sdk which uses embedded for local builds" |
+| **dotnet/aspnetcore**         | (not explicitly set) | `IncludeSymbols=true` | Uses symbol packages                                                               |
+| **Serilog**                   | (default)            | `snupkg`              | `<SymbolPackageFormat>snupkg</SymbolPackageFormat>`                                |
+| **AutoMapper**                | (default)            | `snupkg`              | `<SymbolPackageFormat>snupkg</SymbolPackageFormat>`                                |
+| **Newtonsoft.Json**           | N/A                  | No symbols in package | [Issue #881][newtonsoft-issue] requesting PDBs                                     |
+| **DotNet.ReproducibleBuilds** | `embedded` (default) | Embedded              | Recommends embedded for simplicity                                                 |
 
 ### Key Observation
 

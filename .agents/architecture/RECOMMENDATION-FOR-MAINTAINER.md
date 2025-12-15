@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-**RECOMMENDATION: Switch to embedded symbols**
+### Recommendation: Switch to embedded symbols
 
 Your instinct about the "pain in the ass factor" is validated. After multi-agent consultation, the consensus is **embedded symbols are the right choice for QWIQ**.
 
@@ -18,35 +18,39 @@ Your instinct about the "pain in the ass factor" is validated. After multi-agent
 
 **Voting Record**: 3 of 4 agents favor embedded (strong majority)
 
-| Agent | Vote | Key Insight |
-|-------|------|-------------|
-| **Architect** | EMBEDDED ✓ | "Maintainer time is the scarce resource, not bandwidth" |
-| **DevOps** | EMBEDDED ✓ | "CI/CD simplification saves 10-15 minutes per release" |
-| **Independent Thinker** | EMBEDDED ✓ | "Following Microsoft is cargo culting at QWIQ's scale" |
-| **QA** | PORTABLE ⚠️ | "Technically best practice, but pragmatically unjustified" |
+| Agent                   | Vote        | Key Insight                                                |
+| ----------------------- | ----------- | ---------------------------------------------------------- |
+| **Architect**           | EMBEDDED ✓  | "Maintainer time is the scarce resource, not bandwidth"    |
+| **DevOps**              | EMBEDDED ✓  | "CI/CD simplification saves 10-15 minutes per release"     |
+| **Independent Thinker** | EMBEDDED ✓  | "Following Microsoft is cargo culting at QWIQ's scale"     |
+| **QA**                  | PORTABLE ⚠️ | "Technically best practice, but pragmatically unjustified" |
 
 ---
 
 ## Why Your Instinct is Right
 
 ### 1. Scale Mismatch
+
 - **Microsoft**: Millions of downloads/day → bandwidth costs matter
 - **QWIQ**: ~1 download/day → bandwidth is negligible (~73MB/year total)
 - Optimizing for 200KB savings when you have limited maintainer time is **premature optimization**
 
 ### 2. Enterprise Audience Reality
+
 - QWIQ users are enterprise Azure DevOps/TFS developers
 - Disproportionately likely behind corporate firewalls
 - Symbol server access may be **blocked by policy**, not choice
 - Portable+snupkg optimizes for an access pattern that **may not exist** for your users
 
 ### 3. Maintainer Sustainability
+
 - Single maintainer (you) with limited time
 - Dual-package publishing has **ongoing cognitive overhead**
 - Simpler CI/CD = **more time for features/fixes**
 - Project longevity > following "best practices" from different contexts
 
 ### 4. "Just Works" Debugging
+
 - Contributors debugging issues get symbols **automatically**
 - No onboarding friction ("add symbol server to Visual Studio")
 - Consistent experience across VS, Rider, VS Code
@@ -120,7 +124,7 @@ QWIQ packages include embedded debug symbols for seamless debugging.
 
 **Visual Studio, Rider, or VS Code**: Press F11 to step into QWIQ source - no configuration needed.
 
-*Why embedded?* QWIQ serves enterprise users who may be behind firewalls blocking external symbol servers. Embedded symbols ensure debugging "just works" for everyone.
+_Why embedded?_ QWIQ serves enterprise users who may be behind firewalls blocking external symbol servers. Embedded symbols ensure debugging "just works" for everyone.
 ```
 
 ---
@@ -130,11 +134,13 @@ QWIQ packages include embedded debug symbols for seamless debugging.
 QA noted embedded is a **"deliberate tradeoff"** of technical best practices for pragmatism. This is **accurate and acceptable**:
 
 **Tradeoffs are not failures** - they're **informed decisions**:
+
 - You're trading ~200KB package size for simpler maintenance
 - You're trading "industry alignment" for "just works" user experience
 - You're trading theoretical best practices for practical sustainability
 
 **QA's conditions for acceptance** (all reasonable):
+
 1. ✓ Package size regression test → Prevents accidental bloat
 2. ✓ Document decision rationale → ADR-012 will explain the "why"
 3. ✓ Monitor user feedback → Watch for complaints post-v11.0.0
@@ -145,6 +151,7 @@ QA noted embedded is a **"deliberate tradeoff"** of technical best practices for
 ## When to Reconsider
 
 Monitor and reevaluate if:
+
 - Download count exceeds **100/day** (scaling assumption changes)
 - Multiple users complain about package size
 - Microsoft publishes specific guidance for low-volume libraries
@@ -158,6 +165,7 @@ Until then, embedded is the **right decision** for QWIQ's reality.
 **Your "pain in the ass factor" is a legitimate architectural constraint.**
 
 The multi-agent consensus validates that:
+
 1. Simpler CI/CD matters for single-maintainer projects
 2. Enterprise firewall reality matters for QWIQ's audience
 3. Scale-appropriate decisions matter more than cargo culting "best practices"

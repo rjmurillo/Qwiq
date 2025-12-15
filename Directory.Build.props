@@ -134,7 +134,7 @@
     - Auto-detects 11 CI platforms (GitHub Actions, Azure Pipelines, GitLab CI, Jenkins, etc.)
     - Sets ContinuousIntegrationBuild=true automatically on detected CI systems
     - Configures SourceLink for GitHub, GitLab, Azure DevOps, Bitbucket
-    - Our explicit settings (Deterministic, DebugType=portable, PublishRepositoryUrl) take precedence
+    - Our explicit DebugType=embedded setting (line 116) takes precedence over the package default
     See: https://github.com/dotnet/reproducible-builds
   -->
   <ItemGroup>
