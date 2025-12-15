@@ -1,10 +1,11 @@
 # ADR-011: Portable Debug Symbols with Symbol Packages
 
-**Status**: Superseded by ADR-012  
-**Date**: 2025-12-14  
-**Superseded Date**: 2025-12-14  
-**Deciders**: Architecture Team  
+**Status**: Superseded by ADR-012
+**Date**: 2025-12-14
+**Superseded Date**: 2025-12-14
+**Deciders**: Architecture Team
 **Context**: v11.0.0 NuGet Release Preparation
+**Superseded By**: [ADR-012: Embedded Debug Symbols](ADR-012-embedded-symbols.md)
 
 > **⚠️ This ADR has been superseded by [ADR-012: Embedded Debug Symbols](./ADR-012-embedded-symbols.md)**
 >

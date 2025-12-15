@@ -72,6 +72,7 @@ CodeRabbit appears to have misinterpreted the guidance about using `text` for ps
 1. **Maintainer feedback**: @rjmurillo correctly identified this as an error and requested documentation of the issue.
 
 2. **Current state**: ADR-011 file correctly uses:
+
    - ` ```powershell` (opening fence with language identifier)
    - Closing ` ``` ` fence
    - Actual PowerShell code content
@@ -112,7 +113,7 @@ This retrospective serves as clarification that:
 foreach ($file in Get-ChildItem *.nupkg) {
     dotnet nuget push $file.FullName
 }
-````
+```
 
 ### ✅ Use `text` for pseudo-code or workflows
 

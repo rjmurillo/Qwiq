@@ -50,12 +50,12 @@ QWIQ is preparing for its v11.0.0 NuGet release. The project uses `DotNet.Reprod
 
 A formal multi-agent review was conducted with 4 specialized agents:
 
-| Agent                   | Vote        | Rationale                                                 |
-| ----------------------- | ----------- | --------------------------------------------------------- |
-| **Architect**           | EMBEDDED ✓  | Maintainer time > bandwidth at QWIQ's scale               |
-| **DevOps**              | EMBEDDED ✓  | CI/CD simplification saves 10-15 min/release              |
+| Agent                   | Vote        | Rationale                                                  |
+| ----------------------- | ----------- | ---------------------------------------------------------- |
+| **Architect**           | EMBEDDED ✓  | Maintainer time > bandwidth at QWIQ's scale                |
+| **DevOps**              | EMBEDDED ✓  | CI/CD simplification saves 10-15 min/release               |
 | **Independent Thinker** | EMBEDDED ✓  | Following Microsoft is cargo culting; decide pragmatically |
-| **QA**                  | PORTABLE ⚠️ | Technically superior, but pragmatically unjustified       |
+| **QA**                  | PORTABLE ⚠️ | Technically superior, but pragmatically unjustified        |
 
 **Consensus Level**: Strong majority (3/4 agents favor embedded)
 

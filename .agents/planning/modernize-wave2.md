@@ -590,11 +590,10 @@ jobs:
 
 ## Phase 2G: Reproducible Builds (NEW - Session 41)
 
-> **PRD**: `.agents/planning/PRD-reproducible-builds.md`  
-> **ADR**: `.agents/architecture/ADR-012-embedded-symbols.md` (supersedes ADR-011)  
-> **Added**: 2025-12-14 (Session 41)  
-> **Goal**: Integrate DotNet.ReproducibleBuilds package for enhanced CI platform detection and alignment with .NET Foundation best practices.  
-> **Key Decision**: Embedded symbols (ADR-012) - pragmatic choice for QWIQ's scale and enterprise audience.
+> **PRD**: `.agents/planning/PRD-reproducible-builds.md` > **ADR**: `.agents/architecture/ADR-012-embedded-symbols.md` (supersedes ADR-011)
+> **Added**: 2025-12-14 (Session 41)
+> **Goal**: Integrate DotNet.ReproducibleBuilds package for enhanced CI platform detection and alignment with .NET Foundation best practices.
+> **Key Decision**: Embedded symbols (ADR-012) - simpler CI/CD, enterprise firewall compatible, maintainer-friendly for QWIQ's scale.
 
 ### W2.34 Add DotNet.ReproducibleBuilds Package Version ✅ COMPLETE
 
@@ -638,7 +637,7 @@ jobs:
 - **Acceptance Criteria**:
   - [x] Local build passes: `dotnet build Qwiq.sln -c Release` (0 warnings, 0 errors)
   - [x] CI build simulation passes with `/p:ContinuousIntegrationBuild=true`
-  - [x] `DebugType=embedded` set (package default accepted for simplicity)
+  - [x] `DebugType=embedded` preserved per ADR-012 (aligns with package default)
   - [x] No new warnings introduced
   - [x] All 724 tests pass
 
@@ -655,7 +654,7 @@ jobs:
 - **Acceptance Criteria**:
   - [x] `CLAUDE.md` Configuration Files section updated with Reproducible Builds subsection
   - [x] Comment in Directory.Build.props explains CI platforms auto-detected
-  - [x] Note that embedded symbols are used (DotNet.ReproducibleBuilds default accepted per ADR-012)
+  - [x] Note that `DebugType=embedded` per ADR-012 aligns with package defaults
 
 ---
 

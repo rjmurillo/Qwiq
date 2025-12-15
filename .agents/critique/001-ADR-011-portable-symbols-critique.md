@@ -31,6 +31,7 @@ None - the decision is technically sound for a public NuGet library.
 - [ ] **Missing Size Validation**: The ADR claims "20-30% size penalty" but provides **no actual measurements** for QWIQ packages. With 10 packable projects and 6 TFMs each, this should be measured, not assumed.
 
 - [x] **~~Inconsistent Project Count~~**: ~~The ADR states "9 packable projects" but actual count from csproj analysis shows **10** IsPackable=true projects~~ **RESOLVED** - ADR updated to correct count of 10 packable projects:
+
   - `Qwiq.Core`
   - `Qwiq.Client.Rest`
   - `Qwiq.Client.Soap`

@@ -13,7 +13,7 @@ This PRD describes the integration of the `DotNet.ReproducibleBuilds` NuGet pack
   - `Deterministic=true`
   - `PublishRepositoryUrl=true`
   - `EmbedUntrackedSources=true`
-  - `DebugType=portable` (Release)
+  - `DebugType=embedded` (Release) - See ADR-012
 - SLSA Level 3 provenance generation already in place
 - SBOM generation already configured
 
@@ -33,7 +33,7 @@ This PRD describes the integration of the `DotNet.ReproducibleBuilds` NuGet pack
 
 ## Non-Goals (Out of Scope)
 
-1. **Changing DebugType**: QWIQ explicitly sets `DebugType=portable` for Release builds. The package defaults to `embedded`, but explicit settings take precedence. We will NOT change this behavior.
+1. **Changing DebugType**: QWIQ explicitly sets `DebugType=embedded` for Release builds per ADR-012. The package defaults to `embedded`, so this aligns naturally. We will NOT change this behavior.
 
 2. **Removing Explicit Settings**: Existing explicit settings (`Deterministic`, `PublishRepositoryUrl`, `EmbedUntrackedSources`) will be retained for clarity and documentation, even though the package would set them.
 
@@ -108,7 +108,7 @@ The system must preserve existing explicit reproducibility settings that take pr
 **Acceptance Criteria**:
 
 - `Deterministic=true` remains explicitly set
-- `DebugType=portable` remains explicitly set for Release builds
+- `DebugType=embedded` remains explicitly set for Release builds (per ADR-012)
 - `PublishRepositoryUrl=true` remains explicitly set
 - `EmbedUntrackedSources=true` remains explicitly set
 - Build output is unchanged from current behavior
@@ -120,8 +120,7 @@ The system must continue to use `Microsoft.SourceLink.GitHub` for GitHub reposit
 **Acceptance Criteria**:
 
 - Existing SourceLink verification continues to pass
-- PDB files contain correct source links
-- Symbol packages (.snupkg) remain valid
+- PDB files contain correct source links (embedded in assemblies per ADR-012)
 
 ### FR-5: Documentation Update
 
@@ -158,7 +157,7 @@ The MSBuild property evaluation order ensures explicit settings take precedence:
 3. Directory.Build.props explicit settings (QWIQ)
 4. Individual project settings
 
-This means QWIQ's `DebugType=portable` will override the package's `DebugType=embedded` default.
+QWIQ explicitly sets `DebugType=embedded` per ADR-012, which aligns with the package's `DebugType=embedded` default (no override needed).
 
 ### Backward Compatibility
 
@@ -246,7 +245,7 @@ The integration should be transparent to consumers. No public API or behavior ch
    **Recommendation**: Keep it for clarity and as documentation, even though it becomes redundant. The package handles this automatically, but explicit is better than implicit.
 
 2. **Q**: Should we update `DebugType` to `embedded` to match the package default?
-   **Recommendation**: No. `portable` PDBs are already published as `.snupkg` symbol packages and work well with existing tooling. Changing would require consumer testing.
+   **Recommendation**: Already using `embedded` per ADR-012. This aligns naturally with the package default and provides just-works debugging without symbol server configuration.
 
 3. **Q**: Should we verify byte-for-byte reproducibility across machines?
    **Recommendation**: Out of scope for initial integration. Can be a follow-up investigation if needed.
@@ -303,7 +302,7 @@ This epic covers adding the .NET Foundation-maintained `DotNet.ReproducibleBuild
    - `Deterministic=true`
    - `PublishRepositoryUrl=true`
    - `EmbedUntrackedSources=true`
-   - `DebugType=portable` (Release)
+   - `DebugType=embedded` (Release) - per ADR-012
 
 5. **All Tests Pass**: CI build succeeds with no test regressions
 
