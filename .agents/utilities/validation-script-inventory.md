@@ -23,6 +23,7 @@ When changing MSBuild properties in `Directory.Build.props`:
 
 1. **Consult this inventory** for affected scripts
 2. **Test each affected script** after build:
+
    ```powershell
    dotnet build Qwiq.sln -c Release
    dotnet pack Qwiq.sln -c Release --no-build
@@ -30,6 +31,7 @@ When changing MSBuild properties in `Directory.Build.props`:
    ./build/scripts/Verify-SourceLink.ps1
    # etc.
    ```
+
 3. **Update scripts** if needed to reflect new config
 4. **Update this inventory** with "Updated By ADR" and "Last Review" date
 5. **Commit together** with the config change
