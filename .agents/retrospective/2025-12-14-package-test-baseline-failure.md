@@ -172,5 +172,5 @@ For infrastructure changes affecting all packages:
 
 - Initial baseline update: commit 6354cdf
 - Scrubber implementation: commit 90e5a15
-- Failed CI run: https://github.com/rjmurillo/Qwiq/actions/runs/20214813678/job/58027100102
+- Failed CI run: <https://github.com/rjmurillo/Qwiq/actions/runs/20214813678/job/58027100102>
 - Package test instructions: `.github/copilot-instructions.md` lines 749-815

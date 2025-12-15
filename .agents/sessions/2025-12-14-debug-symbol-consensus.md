@@ -63,7 +63,7 @@ Reach consensus on debug symbol distribution strategy for QWIQ v11.0.0 NuGet rel
 
 ## Consensus Outcome
 
-**RECOMMENDATION: Switch to EMBEDDED symbols**
+### Recommendation: Switch to EMBEDDED symbols
 
 **Consensus Level**: Strong majority (3/4 favor embedded)
 

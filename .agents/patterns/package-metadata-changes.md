@@ -175,14 +175,14 @@ Use this checklist for build configuration changes:
 
 ## Example Commit Messages
 
-```
+```text
 test: update package baselines after switching to embedded symbols
 
 - Manifest no longer includes SymbolPackageFormat (no separate snupkg)
 - Repository metadata includes branch name (DotNet.ReproducibleBuilds behavior)
 ```
 
-```
+```text
 test: rebaseline package tests after adding package readme
 
 - Manifest now includes <readme>README.md</readme> element

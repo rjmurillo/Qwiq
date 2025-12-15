@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-**RECOMMENDATION: Switch to EMBEDDED symbols**
+### Recommendation: Switch to EMBEDDED symbols
 
 **Consensus Level**: Strong majority (3/4 agents favor embedded when considering maintainer pragmatism)
 

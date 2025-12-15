@@ -309,14 +309,14 @@ Store pattern cards in agent memory:
 
 ## Success Criteria Going Forward
 
-### For this specific issue:
+### For this specific issue
 
 - ✅ Package tests pass
 - ✅ Baselines updated
 - ⚠️ Documentation updated (in progress)
 - ⚠️ Instructions enhanced (recommended)
 
-### For preventing recurrence:
+### For preventing recurrence
 
 - Build configuration changes trigger package test validation
 - Agents have clear pattern cards for configuration changes
@@ -343,7 +343,7 @@ Store pattern cards in agent memory:
 
 ## Artifacts
 
-- **Failed CI run**: https://github.com/rjmurillo/Qwiq/actions/runs/20213522923/job/58022939961#step:8:1
+- **Failed CI run**: <https://github.com/rjmurillo/Qwiq/actions/runs/20213522923/job/58022939961#step:8:1>
 - **Fix commit**: (to be created with baseline updates)
 - **Documentation updates**: (to be created per recommendations)
 
