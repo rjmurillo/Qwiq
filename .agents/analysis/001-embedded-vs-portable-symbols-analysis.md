@@ -10,7 +10,7 @@ This analysis evaluates switching QWIQ from `DebugType=portable` with separate `
 
 ## Current Configuration
 
-From `D:\src\GitHub\rjmurillo\Qwiq\Directory.Build.props`:
+From `Directory.Build.props`:
 
 ```xml
 <!-- Source Link Configuration -->
