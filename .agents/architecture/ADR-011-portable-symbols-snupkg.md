@@ -22,7 +22,7 @@ QWIQ is preparing for its v11.0.0 NuGet release. The project uses `DotNet.Reprod
 1. **Package Size Impact**:
 
    - Embedded PDBs increase assembly size by approximately 20-30%
-   - QWIQ has 9 packable projects with 6 target frameworks each
+   - QWIQ has 10 packable projects with 6 target frameworks each
    - Size penalty applies to ALL consumers, not just debuggers
 
 2. **Distribution Model**:
