@@ -8,11 +8,12 @@
 
 ## Executive Summary
 
-**RECOMMENDATION: Switch to EMBEDDED symbols**
+### Recommendation: Switch to EMBEDDED symbols
 
 **Consensus Level**: Strong majority (3/4 agents favor embedded when considering maintainer pragmatism)
 
 **Key Deciding Factors**:
+
 1. **Maintainer time is the scarce resource**, not consumer bandwidth
 2. **Enterprise audience likely blocked** from symbol servers anyway
 3. **Scale mismatch** with Microsoft's optimization strategy
@@ -29,12 +30,14 @@
 **Top 3 Architectural Factors**:
 
 1. **Design Philosophy - Simplicity for Scale**
+
    - QWIQ: ~1 download/day, <1000 total downloads
    - Microsoft: Millions of downloads daily
    - Bandwidth optimization makes sense at Microsoft scale, NOT at QWIQ scale
    - **Verdict**: Optimizing for 200KB savings per download is premature optimization
 
 2. **Maintainer Experience Weight**
+
    - Single maintainer with limited time
    - "Pain in the ass factor" is a REAL architectural constraint
    - Cognitive overhead of dual-package publishing has ongoing cost
@@ -47,11 +50,13 @@
    - **Verdict**: User experience wins over bandwidth
 
 **Risk Assessment**:
+
 - **Low Risk**: Package size increase is absolute (200-300KB), not percentage of developer workstation capacity
 - **Medium Risk**: Deviates from "best practices", may raise eyebrows in PR reviews
 - **Mitigation**: Document decision rationale in ADR with scale/audience justification
 
 **Conditions**:
+
 - Add clear documentation explaining the deliberate choice
 - Monitor package size in CI to prevent unexpected bloat
 - Reevaluate if download count exceeds 100/day (scaling assumption changes)
@@ -67,12 +72,14 @@
 **CI/CD Simplification Benefits**:
 
 1. **Fewer Failure Modes**
+
    - Current: Can have .nupkg succeed while .snupkg fails → partial publish
    - Current: Symbol server indexing can silently fail → debugging breaks
    - Embedded: Single package publish → all-or-nothing atomicity
    - **Saved Complexity**: No need for dual-push validation, retry logic, or snupkg-specific error handling
 
 2. **Maintenance Burden Reduction**
+
    - Fewer files in artifacts directory (9 files instead of 18)
    - No symbol server configuration documentation or support
    - Simpler release checklist (one package type to verify)
@@ -86,6 +93,7 @@
 
 **Trade-off Assessment**:
 Is saving 10-15 minutes per release worth 20-30% larger packages?
+
 - For 1 download/day audience: **YES**
 - For 1000 downloads/day audience: **NO**
 - QWIQ is firmly in the first category
@@ -101,16 +109,19 @@ Is saving 10-15 minutes per release worth 20-30% larger packages?
 **Assumptions Being Challenged**:
 
 1. **"Industry best practice" is universally applicable**
+
    - Microsoft's "best practice" is optimized for global scale
    - QWIQ serves a niche enterprise audience
    - Best practice is CONTEXT-DEPENDENT, not universal truth
 
 2. **"Bandwidth optimization matters for all libraries"**
+
    - At 1 download/day: Total bandwidth = ~100MB/year (with embedded)
    - This is negligible compared to a single Windows update (~1GB)
    - Optimizing for bandwidth at this scale is bikeshedding
 
 3. **"Professional = Following Microsoft"**
+
    - Professional = Making appropriate decisions for your constraints
    - Professional = Respecting maintainer time and sustainability
    - Professional ≠ Blindly copying patterns from different contexts
@@ -123,6 +134,7 @@ Is saving 10-15 minutes per release worth 20-30% larger packages?
 **Alternative Decision Framework**:
 
 Instead of "What does Microsoft do?", ask:
+
 1. **What is our scarce resource?** → Maintainer time, not bandwidth
 2. **What is our audience's reality?** → Corporate networks, not open internet
 3. **What is our scale?** → Dozens, not millions
@@ -133,14 +145,17 @@ Instead of "What does Microsoft do?", ask:
 The elephant in the room: **Who actually debugs into QWIQ source code?**
 
 Usage patterns for library dependencies:
+
 - 0-5%: Step through library source to diagnose issues
 - 95-100%: Call library APIs, never look inside
 
 For those 5%:
+
 - With portable+snupkg: Must configure symbol server (may fail in enterprise)
 - With embedded: Press F11, it works
 
 For those 95%:
+
 - With portable+snupkg: Save 200KB download
 - With embedded: Pay 200KB "convenience tax"
 
@@ -160,22 +175,24 @@ For those 95%:
 
 **Support Burden Comparison**:
 
-| Scenario | Portable+snupkg | Embedded |
-|----------|-----------------|----------|
-| "Debugging doesn't work" issues | High (symbol server config, corporate firewall blocks) | Low (works automatically) |
-| "Package is too large" complaints | Low (packages are smaller) | Medium (20-30% larger) |
-| Symbol server indexing failures | Medium (NuGet.org symbol server downtime) | N/A |
-| IDE-specific debugging issues | High (VS Code requires config, Rider quirks) | Low (uniform experience) |
+| Scenario                          | Portable+snupkg                                        | Embedded                  |
+| --------------------------------- | ------------------------------------------------------ | ------------------------- |
+| "Debugging doesn't work" issues   | High (symbol server config, corporate firewall blocks) | Low (works automatically) |
+| "Package is too large" complaints | Low (packages are smaller)                             | Medium (20-30% larger)    |
+| Symbol server indexing failures   | Medium (NuGet.org symbol server downtime)              | N/A                       |
+| IDE-specific debugging issues     | High (VS Code requires config, Rider quirks)           | Low (uniform experience)  |
 
 **Testing Recommendation**:
 
 With Portable+snupkg:
+
 - Must test debugging in Visual Studio, Rider, VS Code separately
 - Must test symbol server configuration steps in docs
 - Must test corporate firewall workaround scenarios
 - **Test Complexity**: High
 
 With Embedded:
+
 - Test debugging works (F11 steps into source)
 - Verify package size is within threshold
 - **Test Complexity**: Low
@@ -183,6 +200,7 @@ With Embedded:
 **QA Verdict**: From pure testing/debugging perspective, portable+snupkg is the RIGHT choice for public libraries. However, QA acknowledges that maintainer pragmatism and enterprise firewall realities may justify embedded for QWIQ specifically.
 
 **Caveat**: If switching to embedded, QA requests:
+
 - Package size regression test (fail if >2MB per package)
 - CI validation that DebugType=embedded is set correctly
 - Documentation that debugging "just works" (no symbol server config)
@@ -193,31 +211,34 @@ With Embedded:
 
 ### Decision Matrix
 
-| Factor | Weight | Portable+snupkg | Embedded | Winner |
-|--------|--------|-----------------|----------|--------|
-| Maintainer time | HIGH | Low (dual-package complexity) | High (single package) | **Embedded** |
-| Consumer debugging UX | HIGH | Medium (requires config) | High ("just works") | **Embedded** |
-| Package size | MEDIUM | High (smaller) | Low (20-30% larger) | Portable |
-| Enterprise firewall compatibility | HIGH | Low (symbol server blocked) | High (no network dep) | **Embedded** |
-| Industry alignment | LOW | High (matches Microsoft) | Low (deviates) | Portable |
-| Test complexity | MEDIUM | Low (complex) | High (simple) | **Embedded** |
+| Factor                            | Weight | Portable+snupkg               | Embedded              | Winner       |
+| --------------------------------- | ------ | ----------------------------- | --------------------- | ------------ |
+| Maintainer time                   | HIGH   | Low (dual-package complexity) | High (single package) | **Embedded** |
+| Consumer debugging UX             | HIGH   | Medium (requires config)      | High ("just works")   | **Embedded** |
+| Package size                      | MEDIUM | High (smaller)                | Low (20-30% larger)   | Portable     |
+| Enterprise firewall compatibility | HIGH   | Low (symbol server blocked)   | High (no network dep) | **Embedded** |
+| Industry alignment                | LOW    | High (matches Microsoft)      | Low (deviates)        | Portable     |
+| Test complexity                   | MEDIUM | Low (complex)                 | High (simple)         | **Embedded** |
 
 **Weighted Outcome**: Embedded wins on high-weight factors (maintainer time, debugging UX, firewall compatibility)
 
 ### The Pragmatic Case for Embedded
 
 1. **Scale Appropriateness**
+
    - At 1 download/day, saving 200KB/download = ~70MB/year total bandwidth
    - This is background noise compared to developer tool updates
    - Bandwidth optimization is solving a problem that doesn't exist at QWIQ's scale
 
 2. **Audience Reality**
+
    - QWIQ targets enterprise Azure DevOps/TFS users
    - Disproportionately likely to be behind corporate firewalls
    - Symbol server access may be blocked by policy, not choice
    - Portable+snupkg optimizes for an access pattern that may not exist
 
 3. **Maintainer Sustainability**
+
    - Single maintainer with limited time
    - "Pain in the ass factor" is a sustainability risk
    - Simpler CI/CD = more time for features/fixes
@@ -232,17 +253,18 @@ With Embedded:
 
 **Why Microsoft's choice doesn't apply to QWIQ**:
 
-| Constraint | Microsoft (dotnet/runtime) | QWIQ |
-|------------|---------------------------|------|
-| Download scale | Millions/day | 1/day |
-| Bandwidth cost | Millions USD/year | Negligible |
-| Support team | Dedicated full-time | Single maintainer part-time |
-| Audience | Global, diverse | Enterprise, often firewalled |
+| Constraint          | Microsoft (dotnet/runtime)    | QWIQ                         |
+| ------------------- | ----------------------------- | ---------------------------- |
+| Download scale      | Millions/day                  | 1/day                        |
+| Bandwidth cost      | Millions USD/year             | Negligible                   |
+| Support team        | Dedicated full-time           | Single maintainer part-time  |
+| Audience            | Global, diverse               | Enterprise, often firewalled |
 | Debugging frequency | Low % but high absolute count | Low % and low absolute count |
 
 Microsoft's optimization makes sense for their constraints. QWIQ's constraints are fundamentally different.
 
 **Professional vs Cargo Culting**:
+
 - Professional: Make decisions appropriate for YOUR constraints
 - Cargo culting: Copy Microsoft's decisions without understanding WHY they made them
 
@@ -323,17 +345,19 @@ Step into QWIQ source code works immediately - no symbol server configuration re
 ### Why Embedded Symbols?
 
 QWIQ uses embedded debug symbols instead of separate symbol packages for:
+
 - **Zero configuration**: Debugging works immediately in any IDE
 - **Enterprise compatibility**: No dependency on external symbol servers that may be blocked
 - **Maintainer simplicity**: Single package to manage and publish
 - **Contributor experience**: Consistent debugging for everyone contributing to QWIQ
 
-*Note: Package size is approximately 20-30% larger due to embedded symbols. For QWIQ's scale (~1 download/day), this is a negligible bandwidth cost compared to the debugging convenience.*
+_Note: Package size is approximately 20-30% larger due to embedded symbols. For QWIQ's scale (~1 download/day), this is a negligible bandwidth cost compared to the debugging convenience._
 ```
 
 **5. Document Decision in ADR**:
 
 Create `.agents/architecture/ADR-012-embedded-symbols.md` documenting:
+
 - Decision to switch from portable+snupkg to embedded
 - Rationale based on scale, audience, and maintainer constraints
 - Acknowledgment that this deviates from Microsoft's approach
@@ -348,6 +372,7 @@ Create `.agents/architecture/ADR-012-embedded-symbols.md` documenting:
 While acknowledging the pragmatic case for embedded, QA notes that portable+snupkg is the technically superior approach for public NuGet libraries. The decision to use embedded should be recognized as a **deliberate tradeoff** of technical best practices for maintainer sustainability, not as the "correct" technical choice.
 
 **Conditions for QA Acceptance**:
+
 1. Add package size regression tests to prevent bloat
 2. Document the decision rationale clearly (not just "it's simpler")
 3. Monitor for "package is too large" user feedback
@@ -358,16 +383,19 @@ While acknowledging the pragmatic case for embedded, QA notes that portable+snup
 ## Monitoring & Reevaluation Triggers
 
 **Monitor After v11.0.0 Release**:
+
 - Package size metrics (should be ~20-30% larger than theoretical portable baseline)
 - User feedback on package size vs debugging experience
 - Download count trends (if scale increases significantly)
 
 **Reevaluate Decision If**:
+
 - Download count exceeds 100/day (scaling assumption changes)
 - Multiple users report package size as a problem
 - Microsoft publishes guidance specifically for low-volume libraries
 
 **Success Metrics**:
+
 - Zero "debugging doesn't work" issues related to symbol configuration
 - Maintainer time spent on package publishing decreases
 - Contributor onboarding mentions simpler debugging experience
@@ -376,16 +404,16 @@ While acknowledging the pragmatic case for embedded, QA notes that portable+snup
 
 ## Summary Table
 
-| Criterion | Portable+snupkg | Embedded | Consensus Winner |
-|-----------|-----------------|----------|------------------|
-| **Maintainer Time** | Low (complex) | High (simple) | **Embedded** ✓ |
-| **Debugging UX** | Medium (config required) | High ("just works") | **Embedded** ✓ |
-| **Enterprise Compatibility** | Low (firewall issues) | High (no network) | **Embedded** ✓ |
-| **Package Size** | High (smaller) | Low (20-30% larger) | Portable |
-| **CI/CD Complexity** | High (dual-package) | Low (single package) | **Embedded** ✓ |
-| **Test Complexity** | High (multiple IDEs) | Low (simple) | **Embedded** ✓ |
-| **Industry Alignment** | High (matches Microsoft) | Low (deviates) | Portable |
-| **Bandwidth Cost** | Low | High | Neutral (negligible at QWIQ's scale) |
+| Criterion                    | Portable+snupkg          | Embedded             | Consensus Winner                     |
+| ---------------------------- | ------------------------ | -------------------- | ------------------------------------ |
+| **Maintainer Time**          | Low (complex)            | High (simple)        | **Embedded** ✓                       |
+| **Debugging UX**             | Medium (config required) | High ("just works")  | **Embedded** ✓                       |
+| **Enterprise Compatibility** | Low (firewall issues)    | High (no network)    | **Embedded** ✓                       |
+| **Package Size**             | High (smaller)           | Low (20-30% larger)  | Portable                             |
+| **CI/CD Complexity**         | High (dual-package)      | Low (single package) | **Embedded** ✓                       |
+| **Test Complexity**          | High (multiple IDEs)     | Low (simple)         | **Embedded** ✓                       |
+| **Industry Alignment**       | High (matches Microsoft) | Low (deviates)       | Portable                             |
+| **Bandwidth Cost**           | Low                      | High                 | Neutral (negligible at QWIQ's scale) |
 
 **Final Verdict**: Embedded symbols win on 5 of 8 criteria, including all HIGH-weight factors.
 
@@ -402,11 +430,11 @@ While acknowledging the pragmatic case for embedded, QA notes that portable+snup
 
 ## Appendix: Agent Voting Record
 
-| Agent | Vote | Strength | Key Rationale |
-|-------|------|----------|---------------|
-| **Architect** | EMBEDDED | Strong | Maintainer time > bandwidth optimization at QWIQ's scale |
-| **DevOps** | EMBEDDED | Medium | CI/CD simplification is measurable, bandwidth savings are theoretical |
-| **Independent Thinker** | EMBEDDED | Strong | Following Microsoft is cargo culting; make pragmatic decisions for context |
-| **QA** | PORTABLE (reluctant) | Weak | Technical best practice, but acknowledges embedded is pragmatically justified |
+| Agent                   | Vote                 | Strength | Key Rationale                                                                 |
+| ----------------------- | -------------------- | -------- | ----------------------------------------------------------------------------- |
+| **Architect**           | EMBEDDED             | Strong   | Maintainer time > bandwidth optimization at QWIQ's scale                      |
+| **DevOps**              | EMBEDDED             | Medium   | CI/CD simplification is measurable, bandwidth savings are theoretical         |
+| **Independent Thinker** | EMBEDDED             | Strong   | Following Microsoft is cargo culting; make pragmatic decisions for context    |
+| **QA**                  | PORTABLE (reluctant) | Weak     | Technical best practice, but acknowledges embedded is pragmatically justified |
 
 **Consensus**: 3 strong EMBEDDED, 1 weak PORTABLE → **Embedded wins**

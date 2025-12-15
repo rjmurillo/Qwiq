@@ -337,12 +337,12 @@ Implementation Tasks (W2.34, W2.35, W2.36, W2.37)
 
 **Real Example** (Session 41 - Reproducible Builds Epic):
 
-| Agent      | Output                                                       |
-| ---------- | ------------------------------------------------------------ |
-| analyst    | Research: DotNet.ReproducibleBuilds features, CI detection   |
-| roadmap    | Epic vision: Deterministic builds for production deployment  |
-| explainer  | PRD: `.agents/planning/PRD-reproducible-builds.md`           |
-| task-gen   | W2.34 (add pkg), W2.35 (integrate), W2.36 (verify), W2.37 (doc) |
+| Agent     | Output                                                          |
+| --------- | --------------------------------------------------------------- |
+| analyst   | Research: DotNet.ReproducibleBuilds features, CI detection      |
+| roadmap   | Epic vision: Deterministic builds for production deployment     |
+| explainer | PRD: `.agents/planning/PRD-reproducible-builds.md`              |
+| task-gen  | W2.34 (add pkg), W2.35 (integrate), W2.36 (verify), W2.37 (doc) |
 
 **Implementation Results**:
 
@@ -354,14 +354,14 @@ Implementation Tasks (W2.34, W2.35, W2.36, W2.37)
 
 **When to Use Epic Workflow**:
 
-| Scenario                       | Use Epic Workflow? |
-| ------------------------------ | ------------------ |
-| New feature integration        | ✅ Yes             |
-| Bug fix                        | ❌ No              |
-| Configuration change           | ❌ No              |
-| Multi-file architectural change| ✅ Yes             |
-| Research + implementation      | ✅ Yes             |
-| Simple code edit               | ❌ No              |
+| Scenario                        | Use Epic Workflow? |
+| ------------------------------- | ------------------ |
+| New feature integration         | ✅ Yes             |
+| Bug fix                         | ❌ No              |
+| Configuration change            | ❌ No              |
+| Multi-file architectural change | ✅ Yes             |
+| Research + implementation       | ✅ Yes             |
+| Simple code edit                | ❌ No              |
 
 **Invocation Pattern**:
 

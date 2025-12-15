@@ -1,14 +1,16 @@
 # ADR-011: Portable Debug Symbols with Symbol Packages
 
-**Status**: Superseded by Embedded Symbols Decision (see DECISION-SUMMARY-embedded-symbols.md)
-**Date**: 2025-12-14
-**Superseded Date**: 2025-12-14
-**Deciders**: Architecture Team
+**Status**: Superseded by ADR-012  
+**Date**: 2025-12-14  
+**Superseded Date**: 2025-12-14  
+**Deciders**: Architecture Team  
 **Context**: v11.0.0 NuGet Release Preparation
 
-> **NOTE**: This ADR documents the portable symbols analysis and initial decision. After multi-agent consensus review, the decision was **reversed** in favor of embedded symbols. See `.agents/architecture/DECISION-SUMMARY-embedded-symbols.md` and `.agents/architecture/002-symbols-consensus-recommendation.md` for the final decision rationale.
+> **⚠️ This ADR has been superseded by [ADR-012: Embedded Debug Symbols](./ADR-012-embedded-symbols.md)**
 >
-> **TL;DR**: For a library with ~1 download/day serving enterprise users often behind firewalls, maintainer simplicity and "just works" debugging outweigh the 200KB package size penalty. The current implementation uses **embedded symbols**, not portable+snupkg.
+> After initial analysis recommended portable symbols, a multi-agent consensus review reconsidered this decision based on QWIQ's specific scale, audience, and maintainer constraints. ADR-012 documents the final decision to use embedded symbols.
+>
+> This document is preserved for historical context and to understand the analysis that led to the embedded symbols decision.
 
 ## Context and Problem Statement
 
@@ -49,13 +51,13 @@ QWIQ is preparing for its v11.0.0 NuGet release. The project uses `DotNet.Reprod
 
 Survey of popular .NET libraries:
 
-| Library             | DebugType  | Symbol Distribution | Notes                                  |
-| ------------------- | ---------- | ------------------- | -------------------------------------- |
-| **dotnet/runtime**  | `portable` | snupkg              | Microsoft's own base class libraries   |
-| **dotnet/aspnetcore** | (default)  | `IncludeSymbols`    | Uses symbol packages                   |
-| **Serilog**         | (default)  | snupkg              | Popular logging library                |
-| **AutoMapper**      | (default)  | snupkg              | Popular mapping library                |
-| **Newtonsoft.Json** | N/A        | No symbols          | Users have requested PDBs              |
+| Library               | DebugType  | Symbol Distribution | Notes                                |
+| --------------------- | ---------- | ------------------- | ------------------------------------ |
+| **dotnet/runtime**    | `portable` | snupkg              | Microsoft's own base class libraries |
+| **dotnet/aspnetcore** | (default)  | `IncludeSymbols`    | Uses symbol packages                 |
+| **Serilog**           | (default)  | snupkg              | Popular logging library              |
+| **AutoMapper**        | (default)  | snupkg              | Popular mapping library              |
+| **Newtonsoft.Json**   | N/A        | No symbols          | Users have requested PDBs            |
 
 **Key observation**: Microsoft's own libraries use `portable` + snupkg for public packages.
 
@@ -330,11 +332,11 @@ If symbol packages fail validation post-publish or cause significant user fricti
 
 ### Recovery Options
 
-| Scenario | Action |
-|----------|--------|
-| Minor fix needed | Patch release (v11.0.x) with corrected symbols |
+| Scenario                          | Action                                                   |
+| --------------------------------- | -------------------------------------------------------- |
+| Minor fix needed                  | Patch release (v11.0.x) with corrected symbols           |
 | Major issue with portable symbols | Patch release with embedded symbols (revert to Option 2) |
-| Symbol server indexing failed | Re-push `.snupkg` files to NuGet.org |
+| Symbol server indexing failed     | Re-push `.snupkg` files to NuGet.org                     |
 
 ### Reverting to Embedded Symbols
 
@@ -398,13 +400,13 @@ If portable symbols prove problematic for QWIQ's audience:
 
 This ADR underwent multi-agent consensus review with 5 specialized agents:
 
-| Agent | Verdict | Key Observations |
-|-------|---------|------------------|
-| **Architect** | ACCEPT with observations | Format compliant, well-researched, minor code drift noted |
-| **Critic** | APPROVED with caveats | Enterprise audience considerations, documentation quality |
-| **DevOps** | ACCEPT with revisions | CI workflow robust, auto-push statement corrected |
-| **Independent Thinker** | RECONSIDER | Scale mismatch with Microsoft patterns (noted, not blocking) |
-| **QA** | NEEDS REVISION | Validation gaps addressed with rollback strategy |
+| Agent                   | Verdict                  | Key Observations                                             |
+| ----------------------- | ------------------------ | ------------------------------------------------------------ |
+| **Architect**           | ACCEPT with observations | Format compliant, well-researched, minor code drift noted    |
+| **Critic**              | APPROVED with caveats    | Enterprise audience considerations, documentation quality    |
+| **DevOps**              | ACCEPT with revisions    | CI workflow robust, auto-push statement corrected            |
+| **Independent Thinker** | RECONSIDER               | Scale mismatch with Microsoft patterns (noted, not blocking) |
+| **QA**                  | NEEDS REVISION           | Validation gaps addressed with rollback strategy             |
 
 **Consensus Achieved**: 4/5 agents approved the core technical decision. Revisions incorporated:
 

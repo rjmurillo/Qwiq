@@ -13,10 +13,12 @@ The package tests failed in CI with 8 out of 11 tests failing, despite all tests
 The reproducible builds feature (from `DotNet.ReproducibleBuilds` package) adds a `branch` attribute to the `<repository>` element in NuGet package manifests for **ALL** packages. However, only 2 out of 10 baseline files were updated with this attribute.
 
 **Packages Updated** (2):
+
 - `Qwiq.Client.Soap`
 - `Qwiq.Identity.Soap`
 
 **Packages Missing Update** (8):
+
 - `Qwiq.Client.Rest`
 - `Qwiq.Core`
 - `Qwiq.Identity`
@@ -33,6 +35,7 @@ The reproducible builds feature (from `DotNet.ReproducibleBuilds` package) adds 
 The package tests were run locally, but only after building with a targeted subset of projects. The full solution build (which generates ALL packages) was not run before the final commit.
 
 **What was done**:
+
 ```bash
 # Build and test cycle was incomplete
 dotnet build -c Release  # Built all packages
@@ -41,6 +44,7 @@ dotnet test test/Qwiq.Package.Tests # Only tested without rebuilding all package
 ```
 
 **What should have been done**:
+
 ```bash
 # Complete build-test cycle
 dotnet build -c Release  # Build all packages
@@ -53,6 +57,7 @@ dotnet test test/Qwiq.Package.Tests --no-build  # Test all baselines
 ### Incomplete Baseline Review
 
 When the initial package tests were run, only the two SOAP packages generated `.received` files because:
+
 1. The test was run after partial builds
 2. Only packages that had been recently built were tested
 3. The other packages' `.nupkg` files were from an earlier build that didn't have the branch attribute
@@ -145,7 +150,7 @@ For infrastructure changes affecting all packages:
 
 ### Short-Term (Prevent Recurrence)
 
-- [ ] Add package baseline validation checklist to `.github/instructions/` 
+- [ ] Add package baseline validation checklist to `.github/instructions/`
 - [ ] Update `copilot-instructions.md` with package test best practices
 - [ ] Consider adding a GitHub Action check for orphaned .received files
 
@@ -167,5 +172,5 @@ For infrastructure changes affecting all packages:
 
 - Initial baseline update: commit 6354cdf
 - Scrubber implementation: commit 90e5a15
-- Failed CI run: https://github.com/rjmurillo/Qwiq/actions/runs/20214813678/job/58027100102
+- Failed CI run: <https://github.com/rjmurillo/Qwiq/actions/runs/20214813678/job/58027100102>
 - Package test instructions: `.github/copilot-instructions.md` lines 749-815
