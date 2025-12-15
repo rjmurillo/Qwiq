@@ -144,7 +144,7 @@ Before starting work, complete these steps IN ORDER:
 
 ### Analysis Steps
 
-**1. Identify Changed Properties**
+1. Identify Changed Properties
 
 ```bash
 # If modifying Directory.Build.props
@@ -153,7 +153,7 @@ git diff HEAD -- Directory.Build.props | grep "<.*>"
 # Example output: DebugType, IncludeSymbols, SymbolPackageFormat
 ```
 
-**2. Search for Affected Validation Scripts**
+1. Search for Affected Validation Scripts
 
 ```bash
 # Search build/scripts/ for property references
@@ -163,7 +163,7 @@ for prop in DebugType IncludeSymbols SymbolPackageFormat; do
 done
 ```
 
-**3. Search for Affected Workflows**
+1. Search for Affected Workflows
 
 ```bash
 # Search CI/CD workflows for property references
@@ -173,13 +173,13 @@ for prop in DebugType IncludeSymbols SymbolPackageFormat snupkg; do
 done
 ```
 
-**4. Consult Validation Script Inventory**
+1. Consult Validation Script Inventory
 
 - Read `.agents/utilities/validation-script-inventory.md`
 - Identify scripts that depend on changed properties
 - Add to checklist
 
-**5. Create Impact Analysis Section in ADR**
+1. Create Impact Analysis Section in ADR
 
 ```markdown
 ## Impact Analysis - Affected Files
@@ -208,12 +208,14 @@ After implementing build config changes:
 - [ ] **Build succeeds:** `dotnet build Qwiq.sln -c Release`
 - [ ] **Pack succeeds:** `dotnet pack Qwiq.sln -c Release --no-build`
 - [ ] **All affected validation scripts execute successfully:**
+
   ```powershell
   # Run each script identified in Impact Analysis
   ./build/scripts/Validate-PackageOutput.ps1
   ./build/scripts/Verify-SourceLink.ps1
   # etc.
   ```
+
 - [ ] **Update validation script inventory:**
   - Set "Updated By ADR" column
   - Set "Last Review" date
