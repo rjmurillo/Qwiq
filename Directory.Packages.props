@@ -41,7 +41,7 @@
     <PackageVersion Include="FastMember" Version="1.5.0" />
 
     <!-- Identity / Auth (modern MSAL replaces ADAL) -->
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.61.3" />
+    <PackageVersion Include="Microsoft.Identity.Client" Version="4.79.2" />
 
     <!-- Testing -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
