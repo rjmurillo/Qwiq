@@ -31,8 +31,12 @@
     <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK (we'll adopt in .NET 10 LTS, skipping .NET 9 STS). For .NET 8, paths are configured manually. -->
 
     <!-- Output Configuration -->
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <!--
+      Do NOT override OutputPath or IntermediateOutputPath: the SDK must compute them per-TFM
+      so that multi-targeted inner builds don't race on shared files. The dotnet CLI enables
+      parallel builds by default (overrides Directory.Build.rsp /m:1), making TFM isolation
+      critical. With ArtifactsPath set, the SDK places outputs in artifacts/bin/<Project>/<config>_<tfm>/.
+    -->
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 
     <!-- Enable SDK analyzers -->
@@ -88,6 +92,10 @@
 
     <!-- Avoid ref-assembly emission races (CI rarely benefits from ref assemblies) -->
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+
+    <!-- Disable Roslyn shared compilation (VBCSCompiler build server) to prevent file-locking
+         races when multiple projects compile in parallel under dotnet build's default /m setting -->
+    <UseSharedCompilation>false</UseSharedCompilation>
 
     <!-- The defaults are usually fine, but being explicit won't hurt -->
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
@@ -149,6 +157,11 @@
   -->
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="All" />
+    <!--
+      System.Runtime facade from NuGet is required for net4xx targets to resolve type-forwarding
+      when TFS/Azure DevOps client libraries (targeting netstandard) are consumed in parallel builds.
+    -->
+    <PackageReference Include="System.Runtime" />
   </ItemGroup>
 
   <ItemGroup>

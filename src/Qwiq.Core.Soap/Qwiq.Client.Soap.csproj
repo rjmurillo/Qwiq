@@ -35,8 +35,6 @@
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" />
-    <!-- System.Runtime needed for net472 to resolve type conflicts with TFS client libraries -->
-    <PackageReference Include="System.Runtime" />
   </ItemGroup>
 
   <ItemGroup>
