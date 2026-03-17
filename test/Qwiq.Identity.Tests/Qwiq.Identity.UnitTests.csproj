@@ -29,10 +29,16 @@
     <ProjectReference Include="..\..\src\Qwiq.Mapper.Identity\Qwiq.Mapper.Identity.csproj" SetTargetFramework="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
 
-  <!-- SOAP-only tests - exclude from net8.0 -->
+  <!-- SOAP-only tests require Microsoft.TeamFoundationServer.ExtendedClient (net472 only) -->
   <ItemGroup Condition="'$(TargetFramework)' != 'net472'">
     <Compile Remove="Mocks\MockIdentityManagementService2.cs" />
     <Compile Remove="Soap\**" />
+  </ItemGroup>
+
+  <!-- SOAP dependencies: ExtendedClient + Identity.Soap project (net472 only) -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" />
+    <ProjectReference Include="..\..\src\Qwiq.Identity.Soap\Qwiq.Identity.Soap.csproj" />
   </ItemGroup>
 
   <!-- InternalsVisibleTo for testing -->
