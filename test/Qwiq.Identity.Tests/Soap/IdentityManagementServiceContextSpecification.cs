@@ -8,10 +8,10 @@ namespace Qwiq.Identity.Soap
 {
     public abstract class IdentityManagementServiceContextSpecification<T> : ContextSpecification
     {
-        private IIdentityManagementService2 _identityManagementService2;
-        protected IIdentityManagementService Service;
+        private IIdentityManagementService2 _identityManagementService2 = null!;
+        protected IIdentityManagementService Service { get; set; } = null!;
 
-        protected IEnumerable<T> Actual;
+        protected IEnumerable<T> Actual { get; set; } = null!;
 
         public override void Given()
         {

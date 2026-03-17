@@ -43,7 +43,7 @@ jobs:
         uses: ./.github/actions/setup-dotnet
 
       - name: Restore and Build (Windows)
-        # Windows: Use /t:Build,Pack to ensure all packages are generated during build.
+        # Windows: Build with packing enabled via GeneratePackageOnBuild.
         # This produces packages for all target frameworks including net472.
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/restore-build
@@ -151,9 +151,9 @@ jobs:
         with:
           name: binaries-${{ matrix.os }}
           path: |
-            src/**/bin/Release/**/*.dll
-            src/**/bin/Release/**/*.exe
-            !src/**/bin/Release/**/*.pdb
+            artifacts/bin/**/release*/**/*.dll
+            artifacts/bin/**/release*/**/*.exe
+            !artifacts/bin/**/release*/**/*.pdb
           if-no-files-found: warn
 
       - name: Upload packages
@@ -163,9 +163,8 @@ jobs:
         with:
           name: packages
           path: |
-            src/**/bin/Release/**/*.nupkg
-            test/**/bin/Release/**/*.nupkg
-          if-no-files-found: warn
+            artifacts/package/release/**/*.nupkg
+          if-no-files-found: error
 
       - name: Get version from nbgv
         id: nbgv

@@ -56,7 +56,7 @@ namespace Qwiq.Client.Rest
         public void Should_Have_Correct_WorkItem_Id()
         {
             _result.ShouldNotBeNull();
-            var workItem = _result.First();
+            var workItem = _result[0];
             workItem.Id.ShouldBe(TestData.BasicWorkItemId);
         }
 
@@ -64,7 +64,7 @@ namespace Qwiq.Client.Rest
         public void Should_Have_Bug_WorkItem_Type()
         {
             _result.ShouldNotBeNull();
-            var workItem = _result.First();
+            var workItem = _result[0];
             workItem.Type?.Name.ShouldBe("Bug");
         }
 
