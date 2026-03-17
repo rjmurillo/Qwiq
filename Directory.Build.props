@@ -31,8 +31,9 @@
     <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK (we'll adopt in .NET 10 LTS, skipping .NET 9 STS). For .NET 8, paths are configured manually. -->
 
     <!-- Output Configuration -->
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <!-- Let the SDK compute OutputPath and IntermediateOutputPath with target framework isolation.
+         Explicitly setting these paths prevents the SDK from appending $(TargetFramework) correctly,
+         causing multi-targeted inner builds to race on shared intermediate files (e.g., AssemblyInfo.cs). -->
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 
     <!-- Enable SDK analyzers -->
@@ -149,6 +150,13 @@
   -->
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="All" />
+    <!--
+      System.Runtime facade is required for net4xx targets to resolve type-forwarding conflicts
+      when TFS/Azure DevOps client libraries (targeting netstandard) are consumed.
+      Without this, parallel builds (dotnet build without /m:1) fail with CS7069 errors
+      because the compiler cannot find types like TimeZone and XmlElement in the facade assemblies.
+    -->
+    <PackageReference Include="System.Runtime" />
   </ItemGroup>
 
   <ItemGroup>
