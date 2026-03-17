@@ -1,5 +1,8 @@
 # Default MSBuild arguments applied to all builds
-/m:1
+# Note: dotnet build enables parallel builds by default (overrides /m:1).
+# -graph enables static graph evaluation for proper project dependency ordering,
+# preventing file-locking races when multiple projects compile in parallel.
+-graph
 /nodeReuse:false
 -p:BuildInParallel=false
 -p:MSBuildBuildInParallel=false
