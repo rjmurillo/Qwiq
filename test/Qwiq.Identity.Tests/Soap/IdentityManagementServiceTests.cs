@@ -11,9 +11,11 @@ namespace Qwiq.Identity.Soap
     [TestClass]
     public class when_ReadIdentities_using_a_search_factor_for_an_identity_that_doesnt_exist : IdentityManagementServiceContextSpecification<KeyValuePair<string, IEnumerable<ITeamFoundationIdentity>>>
     {
+        private static readonly string[] SearchValues = { "I Do Not Exist" };
+
         public override void When()
         {
-            Actual = Service.ReadIdentities(IdentitySearchFactor.AccountName, new[] {"I Do Not Exist"});
+            Actual = Service.ReadIdentities(IdentitySearchFactor.AccountName, SearchValues);
         }
 
         [TestMethod]
@@ -28,9 +30,11 @@ namespace Qwiq.Identity.Soap
     public class when_ReadIdentities_using_an_IIdentityDescriptor_for_an_identity_that_doesnt_exist :
         IdentityManagementServiceContextSpecification<ITeamFoundationIdentity>
     {
+        private static readonly IIdentityDescriptor[] Descriptors = { new MockIdentityDescriptor() };
+
         public override void When()
         {
-            Actual = Service.ReadIdentities(new [] { new MockIdentityDescriptor() });
+            Actual = Service.ReadIdentities(Descriptors);
         }
 
         [TestMethod]
