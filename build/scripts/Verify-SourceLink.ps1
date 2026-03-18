@@ -44,17 +44,12 @@ $ErrorActionPreference = "Stop"
 
 # Collect PDB files from all search paths
 # We test PDBs directly because with snupkg format, PDBs are not embedded in nupkg files
-$pdbFiles = @()
-
-foreach ($searchPath in $SearchPaths) {
+$pdbFiles = @(foreach ($searchPath in $SearchPaths) {
     if (Test-Path $searchPath) {
-        $found = Get-ChildItem -Path $searchPath -Recurse -Filter "*.pdb" -File |
+        Get-ChildItem -Path $searchPath -Recurse -Filter "*.pdb" -File |
             Where-Object { $_.FullName -match $Pattern }
-        if ($found) {
-            $pdbFiles += $found
-        }
     }
-}
+})
 
 # Deduplicate by assembly name (prefer net8.0 target)
 $uniquePdbs = @{}
@@ -83,19 +78,15 @@ if ($pdbFiles.Count -eq 0) {
 
     # With DebugType=embedded, PDB data is inside the DLL itself.
     # Fall back to testing Qwiq DLLs directly, excluding test/third-party assemblies.
-    $dllFiles = @()
-    foreach ($searchPath in $SearchPaths) {
+    $dllFiles = @(foreach ($searchPath in $SearchPaths) {
         if (Test-Path $searchPath) {
-            $found = Get-ChildItem -Path $searchPath -Recurse -Filter "Qwiq.*.dll" -File |
+            Get-ChildItem -Path $searchPath -Recurse -Filter "Qwiq.*.dll" -File |
                 Where-Object {
                     $_.FullName -match $Pattern -and
                     $_.Name -notmatch '(Test|Mock|Benchmark)'
                 }
-            if ($found) {
-                $dllFiles += $found
-            }
         }
-    }
+    })
 
     # Deduplicate by assembly name (prefer net8.0 target)
     $uniqueDlls = @{}
