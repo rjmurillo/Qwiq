@@ -40,7 +40,7 @@
     Validates packages in a custom output directory.
 
 .NOTES
-    This script should be run after 'dotnet build /t:Build,Pack' completes.
+    This script should be run after 'dotnet build' completes (packages are generated via GeneratePackageOnBuild).
     It will exit with code 1 if any expected packages are missing.
 
     Qwiq uses embedded symbols per ADR-012. Symbols are embedded in .dll files
@@ -119,6 +119,8 @@ foreach ($sourcePath in $SourcePaths) {
                 ProjectFile = $csproj.FullName
                 ProjectDir = $csproj.DirectoryName
             }
+        } elseif ($isPackable -eq "true" -and $generatePackageOnBuild -ne "true") {
+            Write-Warning "Project '$($csproj.Name)' has IsPackable=true but missing GeneratePackageOnBuild=true - it will NOT produce a package"
         }
     }
 }
@@ -144,7 +146,7 @@ Write-Host "----------------------------------------" -ForegroundColor Cyan
 # Verify the package output directory exists
 if (-not (Test-Path $PackageOutputPath)) {
     Write-Error "Package output directory not found: $PackageOutputPath"
-    Write-Host "Ensure 'dotnet build /t:Build,Pack' completed successfully." -ForegroundColor Yellow
+    Write-Host "Ensure 'dotnet build' completed successfully (packages are generated via GeneratePackageOnBuild)." -ForegroundColor Yellow
     exit 1
 }
 
@@ -193,7 +195,7 @@ if ($missingNupkg.Count -gt 0) {
 if ($missingNupkg.Count -gt 0) {
     Write-Host "`nERROR: Package validation failed!" -ForegroundColor Red
     Write-Host "Build produced $($foundPackages.Count) of $($packableProjects.Count) expected packages." -ForegroundColor Red
-    Write-Host "Ensure 'dotnet build /t:Build,Pack' completed successfully." -ForegroundColor Yellow
+    Write-Host "Ensure 'dotnet build' completed successfully (packages are generated via GeneratePackageOnBuild)." -ForegroundColor Yellow
     exit 1
 }
 

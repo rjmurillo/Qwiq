@@ -83,5 +83,8 @@
         <dependency id="System.IdentityModel.Tokens.Jwt" version="6.34.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2, .NETFramework4.8, .NETFramework4.8.1" />
+    </frameworkAssemblies>
   </metadata>
 </package>

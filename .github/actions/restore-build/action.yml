@@ -68,10 +68,10 @@ runs:
           '/nodeReuse:false'
         )
 
-        # Add pack target if enabled
-        if ($env:ENABLE_PACK -eq 'true') {
-          $buildArgs += '/t:Build,Pack'
-        } else {
+        # When pack is disabled, suppress GeneratePackageOnBuild. When enabled,
+        # rely on each project's GeneratePackageOnBuild=true, which the SDK runs
+        # in the outer build (after all inner TFM builds complete), avoiding NU5026.
+        if ($env:ENABLE_PACK -ne 'true') {
           $buildArgs += '/p:GeneratePackageOnBuild=false'
         }
 

@@ -7,8 +7,12 @@
   <Import Project="$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props" Condition="Exists('$(MSBuildThisFileDirectory)build/targets/artifacts/Artifacts.props')" />
 
   <PropertyGroup>
-    <!-- Use modern .NET 8 as default, with net472 for Windows-specific components -->
-    <TargetFramework Condition="'$(TargetFramework)' == ''">net8.0</TargetFramework>
+    <!--
+      All projects define TargetFramework(s) in their own .csproj files.
+      Do NOT set a TargetFramework default here: the SDK's cross-targeting check
+      (IsCrossTargetingBuild = TargetFrameworks != '' AND TargetFramework == '')
+      requires TargetFramework to be empty for DispatchToInnerBuilds to fire.
+    -->
     <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -28,11 +32,15 @@
 
     <!-- Artifact Output Configuration -->
     <!-- ArtifactsPath and ArtifactsTestResultsPath are defined in build/targets/artifacts/Artifacts.props -->
-    <!-- Note: Full ArtifactsPath support requires .NET 9+ SDK (we'll adopt in .NET 10 LTS, skipping .NET 9 STS). For .NET 8, paths are configured manually. -->
+    <!-- ArtifactsPath (available since .NET 8 SDK) configured for .NET 10 SDK (see global.json). -->
 
     <!-- Output Configuration -->
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <!--
+      Do NOT override OutputPath or IntermediateOutputPath: the SDK must compute them per-TFM
+      so that multi-targeted inner builds don't race on shared files. Local dotnet build runs
+      in parallel (ignores .rsp /m:1), making TFM isolation critical.
+      With ArtifactsPath set, the SDK places outputs in artifacts/bin/<Project>/<config>_<tfm>/.
+    -->
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 
     <!-- Enable SDK analyzers -->
@@ -89,8 +97,14 @@
     <!-- Avoid ref-assembly emission races (CI rarely benefits from ref assemblies) -->
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 
-    <!-- The defaults are usually fine, but being explicit won't hurt -->
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <!-- Disable Roslyn shared compilation (VBCSCompiler build server) to prevent file-locking
+         races. This primarily guards local developer builds where dotnet build ignores the
+         .rsp file's /m:1 setting and runs projects in parallel. CI explicitly passes /m:1
+         but this belt-and-suspenders approach ensures reliability everywhere.
+         Trade-off: slightly slower compilation (~2-5s) for deterministic success. -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+
+    <!-- Ensure RID-specific builds don't collide (same rationale as TFM isolation above) -->
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
@@ -149,6 +163,14 @@
   -->
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="All" />
+    <!--
+      System.Runtime facade resolves type-forwarding conflicts when TFS/Azure DevOps client
+      libraries (targeting netstandard) are consumed in parallel builds. Use a direct Reference
+      (not PackageReference) so it doesn't appear as a NuGet package dependency. It will appear
+      as a frameworkAssembly in the nuspec, which is benign — System.Runtime is always in the
+      GAC on .NET Framework.
+    -->
+    <Reference Include="System.Runtime" />
   </ItemGroup>
 
   <ItemGroup>

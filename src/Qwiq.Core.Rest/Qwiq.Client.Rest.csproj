@@ -34,11 +34,6 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" />
   </ItemGroup>
 
-  <!-- System.Runtime needed for net472 to resolve type conflicts with TFS client libraries -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="System.Runtime" />
-  </ItemGroup>
-
   <ItemGroup>
     <!-- Link polyfill files from Qwiq.Core for compatibility on older frameworks -->
     <Compile Include="..\Qwiq.Core\Compatibility\NullableAttributes.cs" Link="Compatibility\NullableAttributes.cs" />

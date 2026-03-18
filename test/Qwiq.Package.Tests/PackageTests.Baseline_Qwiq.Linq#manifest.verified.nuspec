@@ -15,7 +15,6 @@
     <dependencies>
       <group targetFramework=".NETFramework4.7.2">
         <dependency id="Qwiq.Core" version="*" exclude="Build,Analyzers" />
-        <dependency id="System.Runtime" version="4.3.1" exclude="Build,Analyzers" />
         <dependency id="Castle.Core" version="5.1.1" exclude="Build,Analyzers" />
         <dependency id="Microsoft.AspNet.WebApi.Client" version="6.0.0" exclude="Build,Analyzers" />
         <dependency id="Microsoft.Identity.Client" version="4.61.3" exclude="Build,Analyzers" />
@@ -85,7 +84,7 @@
       </group>
     </dependencies>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2, .NETFramework4.8, .NETFramework4.8.1" />
     </frameworkAssemblies>
   </metadata>
 </package>

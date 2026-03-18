@@ -31,7 +31,6 @@
     <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.6.0" />
-    <PackageVersion Include="System.Runtime" Version="4.3.1" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
     <!-- Security: CVE-2024-21319 requires >= 6.34.0. Pin to fix 38 Dependabot alerts. -->
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.34.0" />

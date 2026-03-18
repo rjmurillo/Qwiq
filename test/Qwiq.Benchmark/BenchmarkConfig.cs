@@ -12,9 +12,9 @@ namespace Qwiq.Benchmark
         public BenchmarkConfig()
         {
 #if NETFRAMEWORK
-            AddJob(Job.Clr.WithJit(Jit.RyuJit).WithPlatform(Platform.X64).WithGcServer(true));
-            AddJob(Job.Clr.WithJit(Jit.RyuJit).WithPlatform(Platform.X86).WithGcServer(true));
-            AddJob(Job.Clr.WithJit(Jit.RyuJit).WithPlatform(Platform.AnyCpu).WithGcServer(true));
+            AddJob(Job.Default.WithRuntime(ClrRuntime.Net472).WithJit(Jit.RyuJit).WithPlatform(Platform.X64).WithGcServer(true));
+            AddJob(Job.Default.WithRuntime(ClrRuntime.Net472).WithJit(Jit.RyuJit).WithPlatform(Platform.X86).WithGcServer(true));
+            AddJob(Job.Default.WithRuntime(ClrRuntime.Net472).WithJit(Jit.RyuJit).WithPlatform(Platform.AnyCpu).WithGcServer(true));
 #else
             AddJob(Job.Default.WithJit(Jit.RyuJit).WithPlatform(Platform.X64).WithGcServer(true));
             AddJob(Job.Default.WithJit(Jit.RyuJit).WithPlatform(Platform.AnyCpu).WithGcServer(true));

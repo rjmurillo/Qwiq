@@ -56,7 +56,7 @@ namespace Qwiq.Collections
         [TestMethod]
         public void Then_Equals_with_null_returns_false()
         {
-            _collection1.Equals((IWorkItemTypeCollection?)null).ShouldBeFalse();
+            _collection1.Equals((IWorkItemTypeCollection?)null!).ShouldBeFalse();
         }
 
         [TestMethod]
