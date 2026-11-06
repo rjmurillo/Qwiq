@@ -61,7 +61,7 @@
     <PackageVersion Include="WireMock.Net" Version="1.17.0" />
 
     <!-- Mocking framework for SOAP client tests -->
-    <PackageVersion Include="Moq" Version="4.16.0" />
+    <PackageVersion Include="Moq" Version="4.18.4" />
     <PackageVersion Include="Moq.Analyzers" Version="0.4.0" />
 
     <!-- Benchmarking -->
