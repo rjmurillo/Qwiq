@@ -21,11 +21,6 @@
 		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
-	<!-- System.Runtime needed for net472 to resolve type conflicts -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-		<PackageReference Include="System.Runtime" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<!-- Link polyfill files from Qwiq.Core for compatibility on older frameworks -->
 		<Compile Include="..\..\src\Qwiq.Core\Compatibility\NullableAttributes.cs" Link="Compatibility\NullableAttributes.cs" />

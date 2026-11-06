@@ -1,4 +1,7 @@
-# Default MSBuild arguments applied to all builds
+# Default MSBuild arguments applied to all builds.
+# Note: dotnet build ignores /m:1 from .rsp files (it enables parallelism by default).
+# CI explicitly passes /m:1 as a command-line argument in the build action to enforce serial builds.
+# This .rsp serves as documentation and applies when using msbuild.exe or dotnet msbuild directly.
 /m:1
 /nodeReuse:false
 -p:BuildInParallel=false
