@@ -38,6 +38,11 @@ jobs:
           # See docs/CONTRIBUTING.md for license policy rationale
           allow-licenses: MIT, Apache-2.0, BSD-3-Clause, 0BSD
 
+          # Per-package license exemptions. ExtendedClient ships under Microsoft's .NET Library
+          # license (LicenseRef-scancode-ms-net-library-2018-11) and is already referenced by the
+          # shipping SOAP projects; PR #158 added the same reference to the identity test project.
+          allow-dependencies-licenses: pkg:nuget/Microsoft.TeamFoundationServer.ExtendedClient
+
           # Always comment on PRs with dependency summary
           comment-summary-in-pr: always
 
