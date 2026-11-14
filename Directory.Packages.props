@@ -10,7 +10,8 @@
     <PackageVersion Include="Microsoft.AspNetCore.Server.Kestrel.Core" Version="2.3.6" />
     <!-- Build and Analysis -->
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.9.50" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <!-- Security: GHSA-23fw-v26w-5fgq flags Microsoft.Build.Tasks.Git 8.0.0 with no patch on the 8.0.0 line; 10.0.111 is the patched release for the SDK 10.0.1xx band pinned in global.json. -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.111" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
     <!-- Reproducible Builds: Auto-configures CI detection (11 platforms), SourceLink, and deterministic settings -->
     <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.39" />
@@ -31,7 +32,6 @@
     <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.6.0" />
-    <PackageVersion Include="System.Runtime" Version="4.3.1" />
     <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
     <!-- Security: CVE-2024-21319 requires >= 6.34.0. Pin to fix 38 Dependabot alerts. -->
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="6.34.0" />
@@ -59,6 +59,8 @@
 
     <!-- HTTP Mocking for REST client tests -->
     <PackageVersion Include="WireMock.Net" Version="1.17.0" />
+    <!-- Security: the WireMock.Net dependency chain ships Scriban.Signed 5.5.0 and 2.1.4, both flagged by 13 advisories (GHSA-5wr9-m6jw-xx44 critical; highest patched version 7.2.1). Pin transitively to the current release. -->
+    <PackageVersion Include="Scriban.Signed" Version="7.6.1" />
 
     <!-- Mocking framework for SOAP client tests -->
     <PackageVersion Include="Moq" Version="4.16.0" />

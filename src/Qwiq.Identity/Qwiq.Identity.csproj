@@ -43,8 +43,8 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- Framework-specific PublicAPI files for serialization constructors that only exist in net472 -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+  <!-- Framework-specific PublicAPI files for serialization constructors that only exist in .NET Framework -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <AdditionalFiles Include="PublicAPI.Shipped.net472.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.net472.txt" />
   </ItemGroup>
