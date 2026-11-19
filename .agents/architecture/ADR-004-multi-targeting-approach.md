@@ -1,10 +1,29 @@
 # ADR-004: Multi-Targeting Approach
 
-- **Status**: Accepted
+- **Status**: Accepted, amended 2026-11-19
 - **Date**: 2025-12-06
 - **Decision Makers**: Qwiq Development Team
 - **Supersedes**: None
 - **Superseded by**: None
+
+## Amendment (2026-11-19): Drop net8.0 and net9.0
+
+The target framework lists below are history. The current lists are:
+
+| Projects                                 | Target Frameworks             |
+| ---------------------------------------- | ----------------------------- |
+| Libraries, Mocks, and unit test projects | `net472;net48;net481;net10.0` |
+| SOAP projects and IntegrationTests       | `net472`                      |
+| Benchmark projects                       | `net472;net10.0`              |
+| Package.Tests and WireMock.Tests         | `net10.0`                     |
+
+- .NET 8 (LTS) and .NET 9 (STS) both reached end of support on 2026-11-10.
+- The maintainer dropped both targets in PR #162.
+- No project targets netstandard2.0. An earlier change replaced it with net48 and net481.
+- Consumers on .NET 8 or .NET 9 must move to .NET 10.
+- If they do not, NuGet falls back to the net472 assets with an NU1701 warning.
+- `version.json` already sets 11.0, so the break ships in a major release. The latest tag is 10.0.1.
+- Polyfills keyed to `!NET8_0_OR_GREATER` stay correct, because net10.0 meets that check.
 
 ## Context
 
@@ -268,3 +287,4 @@ Qwiq.Core.Net80
 | Date       | Author        | Changes                                          |
 | ---------- | ------------- | ------------------------------------------------ |
 | 2025-12-06 | Copilot Agent | Initial ADR documenting multi-targeting strategy |
+| 2026-11-19 | Claude Code   | Amendment: drop EOL net8.0 and net9.0 targets    |

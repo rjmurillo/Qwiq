@@ -11,7 +11,7 @@ Qwiq.Core provides the foundational interfaces and types for querying and manipu
 - **Interface-based design**: All types have interfaces for easy mocking and testing
 - **Factory patterns**: Create work item stores without tight coupling to implementations
 - **Multiple client support**: Choose between REST (modern) or SOAP (legacy) clients
-- **Multi-targeting**: Supports .NET Framework 4.7.2, .NET Standard 2.0, and .NET 8.0
+- **Multi-targeting**: Supports .NET Framework 4.7.2, 4.8, 4.8.1, and .NET 10.0
 
 ## Quick Start
 

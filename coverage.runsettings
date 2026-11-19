@@ -38,7 +38,7 @@
     <!--
       NOTE: TargetFrameworkVersion is intentionally omitted.
       The actual test framework is determined by each test project's <TargetFrameworks>
-      setting (net472, net10.0) and the dotnet test /framework parameter.
+      setting (net472, net48, net481, net10.0) and the dotnet test /framework parameter.
       The legacy Framework45 setting is vestigial and ignored by modern MSTest.
     -->
   </RunConfiguration>

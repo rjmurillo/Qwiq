@@ -45,7 +45,7 @@ dotnet build src/Qwiq.Core/Qwiq.Core.csproj -c Release 2>&1 | Select-String "err
 ### Prerequisites
 
 - **Windows machine** required for `net472` targets (SOAP client)
-- .NET 8.0 SDK (pinned in `global.json`)
+- .NET 10 SDK (pinned in `global.json`)
 - Visual Studio 2022+ or VS Code with C# extension
 
 ### Local Build Commands
@@ -174,7 +174,7 @@ The workflow runs on Windows:
 ## How to Test Locally
 
 1. Clone the repository
-2. Ensure you have .NET 8.0 SDK installed
+2. Ensure you have the .NET 10 SDK installed
 3. Run `dotnet tool restore` to restore build tools
 4. Run `dotnet build Qwiq.sln -c Release` to build
 5. Run `dotnet test Qwiq.sln -c Release --no-build --filter "TestCategory!=localOnly&TestCategory!=Benchmark&TestCategory!=SOAP&TestCategory!=REST&TestCategory!=IntegrationTests"` to run tests

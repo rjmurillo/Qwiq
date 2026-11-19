@@ -29,7 +29,7 @@ When working on project files, you MUST:
 | Core libraries | `net472;net48;net481;net10.0`  | Full multi-targeting                   |
 | SOAP projects  | `net472` only                  | Windows-only, TFS Client OM dependency |
 | REST projects  | `net472;net48;net481;net10.0`  | Cross-platform capable                 |
-| Test projects  | `net472;net48;net481;net10.0`  | Skip netstandard for tests             |
+| Test projects  | `net472;net48;net481;net10.0`  | Package and WireMock tests: net10.0    |
 
 ## Central Package Management
 
@@ -97,7 +97,7 @@ Each project should define:
 
 ```xml
 <PropertyGroup>
-  <TargetFrameworks>net472;net8.0</TargetFrameworks>
+  <TargetFrameworks>net472;net48;net481;net10.0</TargetFrameworks>
   <Description>Project-specific description for NuGet</Description>
   <PackageId>Qwiq.ProjectName</PackageId>
 </PropertyGroup>

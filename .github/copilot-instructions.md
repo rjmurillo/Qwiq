@@ -347,7 +347,7 @@ dotnet pprettier --check "**/*.md"
 - REST projects: `net472;net48;net481;net10.0`
 - Test projects: `net472;net48;net481;net10.0`
 - net8.0 and net9.0 were dropped when both reached end of support on 2026-11-10
-- netstandard2.0: Being phased out with expanded .NET Framework coverage
+- netstandard2.0: No longer targeted
 
 ### 3. Central Package Management
 
@@ -1241,7 +1241,7 @@ These instructions reflect the modernized state of the repository (PRs #31, #32,
 - ❌ packages.config → ✅ Central Package Management
 - ❌ .nuspec files → ✅ SDK-style packaging
 - ❌ JetBrains.Annotations → ✅ Runtime null checks
-- ❌ .NET Framework 4.6 → ✅ Multi-targeting (net472/netstandard2.0/net8.0)
+- ❌ .NET Framework 4.6 → ✅ Multi-targeting (net472/net48/net481/net10.0)
 - ❌ NoWarn in Directory.Build.props → ✅ Analyzer severity in .editorconfig
 
 <!-- Appended by install-vscode-repo.ps1 -->

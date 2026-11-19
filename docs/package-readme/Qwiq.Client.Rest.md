@@ -10,7 +10,7 @@ Qwiq.Client.Rest is the recommended client implementation for modern Azure DevOp
 
 - **Cross-platform**: Works on Windows, Linux, and macOS
 - **Modern API**: Uses Azure DevOps REST API (HTTP/JSON)
-- **Multi-targeting**: Supports .NET Framework 4.7.2, .NET Standard 2.0, and .NET 8.0
+- **Multi-targeting**: Supports .NET Framework 4.7.2, 4.8, 4.8.1, and .NET 10.0
 - **Full feature support**: Complete work item CRUD operations
 
 ## Installation

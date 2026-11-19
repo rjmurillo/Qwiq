@@ -16,16 +16,16 @@
 
 ### Test Projects (`test/`)
 
-| Directory                | Project Name              | Target Frameworks | Description              |
-| ------------------------ | ------------------------- | ----------------- | ------------------------ |
+| Directory                | Project Name              | Target Frameworks           | Description              |
+| ------------------------ | ------------------------- | --------------------------- | ------------------------ |
 | `Qwiq.Core.Tests`        | `Qwiq.Core.UnitTests`     | net472;net48;net481;net10.0 | Core unit tests          |
 | `Qwiq.Linq.Tests`        | `Qwiq.Linq.UnitTests`     | net472;net48;net481;net10.0 | LINQ provider tests      |
 | `Qwiq.Mapper.Tests`      | `Qwiq.Mapper.UnitTests`   | net472;net48;net481;net10.0 | Mapper tests             |
 | `Qwiq.Identity.Tests`    | `Qwiq.Identity.UnitTests` | net472;net48;net481;net10.0 | Identity tests           |
-| `Qwiq.Integration.Tests` | `Qwiq.IntegrationTests`   | net472            | Full integration tests   |
+| `Qwiq.Integration.Tests` | `Qwiq.IntegrationTests`   | net472                      | Full integration tests   |
 | `Qwiq.Mocks`             | `Qwiq.Mocks`              | net472;net48;net481;net10.0 | Mock implementations     |
 | `Qwiq.Tests.Common`      | `Qwiq.Tests.Common`       | net472;net48;net481;net10.0 | Shared test utilities    |
-| `Qwiq.Package.Tests`     | `Qwiq.Package.Tests`      | net10.0           | NuGet package validation |
+| `Qwiq.Package.Tests`     | `Qwiq.Package.Tests`      | net10.0                     | NuGet package validation |
 
 ## InternalsVisibleTo Configuration
 
