@@ -13,7 +13,7 @@
 
 ## Key Characteristics
 
-- **Target Frameworks**: `net472;net48;net481;net8.0;net9.0;net10.0`
+- **Target Frameworks**: `net472;net48;net481;net10.0`
 - **Platform**: Cross-platform (except SOAP-specific features)
 - **Public API**: Strictly controlled via PublicApiAnalyzers
 - **Packaging**: Ships as NuGet package with API compatibility validation

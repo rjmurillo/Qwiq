@@ -24,7 +24,7 @@ dotnet add package Qwiq.Mapper.Identity
 - [Qwiq.Mapper](https://www.nuget.org/packages/Qwiq.Mapper/)
 - [Qwiq.Identity](https://www.nuget.org/packages/Qwiq.Identity/)
 
-**Target Frameworks:** net472, net8.0
+**Target Frameworks:** net472, net48, net481, net10.0
 
 ## Quick Start
 

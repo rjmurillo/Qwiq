@@ -14,9 +14,3 @@
 |   |-- net481
 |   |   |-- Qwiq.Linq.dll
 |   |   |-- Qwiq.Linq.xml
-|   |-- net8.0
-|   |   |-- Qwiq.Linq.dll
-|   |   |-- Qwiq.Linq.xml
-|   |-- net9.0
-|   |   |-- Qwiq.Linq.dll
-|   |   |-- Qwiq.Linq.xml

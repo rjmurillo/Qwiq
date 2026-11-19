@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- WireMock.Net works properly on modern .NET with Kestrel hosting -->
     <!-- .NET Framework has OWIN hosting deadlock issues in test runners -->
-    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <RootNamespace>Qwiq.WireMock</RootNamespace>
     <AssemblyName>Qwiq.WireMock.Tests</AssemblyName>
     <IsPackable>false</IsPackable>

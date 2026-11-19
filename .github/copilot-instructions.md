@@ -7,7 +7,7 @@ QWIQ (**Q**uick **W**ork **I**tem **Q**uery) is a .NET library providing a simpl
 **Key Characteristics:**
 
 - Modern SDK-style projects with multi-targeting
-- Target frameworks: `net472;net48;net481;net8.0;net9.0;net10.0` (varies by project)
+- Target frameworks: `net472;net48;net481;net10.0` (varies by project)
 - **Windows-only build requirement** for full framework coverage
 - Central Package Management via `Directory.Packages.props`
 - Nerdbank.GitVersioning for version management (via dotnet tool manifest)
@@ -115,24 +115,24 @@ git status | Select-String "artifacts/"
 
 | Project              | Target Frameworks                         | Description                         |
 | -------------------- | ----------------------------------------- | ----------------------------------- |
-| `Qwiq.Core`          | net472;net48;net481;net8.0;net9.0;net10.0 | Core interfaces and abstractions    |
-| `Qwiq.Core.Rest`     | net472;net48;net481;net8.0;net9.0;net10.0 | REST API client implementation      |
+| `Qwiq.Core`          | net472;net48;net481;net10.0               | Core interfaces and abstractions    |
+| `Qwiq.Core.Rest`     | net472;net48;net481;net10.0               | REST API client implementation      |
 | `Qwiq.Core.Soap`     | net472                                    | SOAP client (Windows only)          |
-| `Qwiq.Linq`          | net472;net48;net481;net8.0;net9.0;net10.0 | LINQ query provider                 |
-| `Qwiq.Mapper`        | net472;net48;net481;net8.0;net9.0;net10.0 | Object mapping layer                |
-| `Qwiq.Identity`      | net472;net48;net481;net8.0;net9.0;net10.0 | Identity management                 |
+| `Qwiq.Linq`          | net472;net48;net481;net10.0               | LINQ query provider                 |
+| `Qwiq.Mapper`        | net472;net48;net481;net10.0               | Object mapping layer                |
+| `Qwiq.Identity`      | net472;net48;net481;net10.0               | Identity management                 |
 | `Qwiq.Identity.Soap` | net472                                    | Identity SOAP client (Windows only) |
 
 ### Test Projects (`test/`)
 
 | Project                 | Target Frameworks                         | Description            |
 | ----------------------- | ----------------------------------------- | ---------------------- |
-| `Qwiq.Core.Tests`       | net472;net48;net481;net8.0;net9.0;net10.0 | Core unit tests        |
-| `Qwiq.Linq.Tests`       | net472;net48;net481;net8.0;net9.0;net10.0 | LINQ provider tests    |
-| `Qwiq.Mapper.Tests`     | net472;net48;net481;net8.0;net9.0;net10.0 | Mapper tests           |
-| `Qwiq.Identity.Tests`   | net472;net48;net481;net8.0;net9.0;net10.0 | Identity tests         |
+| `Qwiq.Core.Tests`       | net472;net48;net481;net10.0               | Core unit tests        |
+| `Qwiq.Linq.Tests`       | net472;net48;net481;net10.0               | LINQ provider tests    |
+| `Qwiq.Mapper.Tests`     | net472;net48;net481;net10.0               | Mapper tests           |
+| `Qwiq.Identity.Tests`   | net472;net48;net481;net10.0               | Identity tests         |
 | `Qwiq.IntegrationTests` | net472                                    | Full integration tests |
-| `Qwiq.Mocks`            | net472;net48;net481;net8.0;net9.0;net10.0 | Mock implementations   |
+| `Qwiq.Mocks`            | net472;net48;net481;net10.0               | Mock implementations   |
 
 ### Key Entry Points
 
@@ -284,7 +284,7 @@ results.ShouldHaveSingleItem();
 
 | File                        | Purpose                                        |
 | --------------------------- | ---------------------------------------------- |
-| `global.json`               | Pins .NET SDK version (8.0.100)                |
+| `global.json`               | Pins .NET SDK version (10.0.100)               |
 | `Directory.Build.props`     | Shared MSBuild properties, package metadata    |
 | `Directory.Build.targets`   | Shared build targets                           |
 | `Directory.Packages.props`  | Central Package Management                     |
@@ -340,13 +340,14 @@ dotnet pprettier --check "**/*.md"
 
 ### 3. Multi-Targeting Strategy
 
-- Core libraries: `net472;net48;net481;net8.0;net9.0;net10.0`
+- Core libraries: `net472;net48;net481;net10.0`
   - net48/net481: Provide compiler optimizations and different binding decisions
   - Not just binary compatibility - actual runtime performance benefits
 - SOAP projects: `net472` only (Windows SDK dependency)
-- REST projects: `net472;net48;net481;net8.0;net9.0;net10.0`
-- Test projects: `net472;net48;net481;net8.0;net9.0;net10.0`
-- netstandard2.0: Being phased out with expanded .NET Framework coverage
+- REST projects: `net472;net48;net481;net10.0`
+- Test projects: `net472;net48;net481;net10.0`
+- net8.0 and net9.0 were dropped when both reached end of support on 2026-11-10
+- netstandard2.0: No longer targeted
 
 ### 3. Central Package Management
 
@@ -1240,7 +1241,7 @@ These instructions reflect the modernized state of the repository (PRs #31, #32,
 - ❌ packages.config → ✅ Central Package Management
 - ❌ .nuspec files → ✅ SDK-style packaging
 - ❌ JetBrains.Annotations → ✅ Runtime null checks
-- ❌ .NET Framework 4.6 → ✅ Multi-targeting (net472/netstandard2.0/net8.0)
+- ❌ .NET Framework 4.6 → ✅ Multi-targeting (net472/net48/net481/net10.0)
 - ❌ NoWarn in Directory.Build.props → ✅ Analyzer severity in .editorconfig
 
 <!-- Appended by install-vscode-repo.ps1 -->

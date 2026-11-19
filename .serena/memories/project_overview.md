@@ -6,8 +6,8 @@
 
 ## Tech Stack
 
-- **Language**: C# (.NET 8.0 default, with net472 for Windows-specific SOAP components)
-- **SDK**: .NET 10.0.101 (via global.json, rollForward: latestPatch)
+- **Language**: C# (net472, net48, net481, and net10.0; SOAP components are net472 only)
+- **SDK**: .NET 10.0.100 (via global.json, rollForward: latestPatch)
 - **Language Version**: C# preview (LangVersion)
 - **Nullable**: Enabled
 - **Implicit Usings**: Enabled

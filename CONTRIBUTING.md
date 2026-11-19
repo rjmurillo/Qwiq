@@ -19,7 +19,7 @@ Thank you for your interest in contributing to QWIQ! This guide will help you ge
 ### Prerequisites
 
 - **Windows machine** - Required for full framework coverage (`net472` SOAP client)
-- **.NET 8.0 SDK** - Pinned version in `global.json`
+- **.NET 10 SDK** - Pinned version in `global.json`
 - **Visual Studio 2022+** or **VS Code** with C# extension
 - **Git** for version control
 
@@ -616,7 +616,7 @@ public class Bug : IIdentifiable<int?>
 
 | File                        | Purpose                                        |
 | --------------------------- | ---------------------------------------------- |
-| `global.json`               | Pins .NET SDK version (8.0.100)                |
+| `global.json`               | Pins .NET SDK version (10.0.100)               |
 | `Directory.Build.props`     | Shared MSBuild properties, package metadata    |
 | `Directory.Build.targets`   | Shared build targets                           |
 | `Directory.Packages.props`  | Central Package Management                     |

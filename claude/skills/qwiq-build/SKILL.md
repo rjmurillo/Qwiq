@@ -54,10 +54,10 @@ dotnet tool restore
 
 | Project Type   | Target Frameworks              | Notes                       |
 | -------------- | ------------------------------ | --------------------------- |
-| Core libraries | `net472;netstandard2.0;net8.0` | Full multi-targeting        |
+| Core libraries | `net472;net48;net481;net10.0`  | Full multi-targeting        |
 | SOAP projects  | `net472` only                  | Windows-only, TFS Client OM |
-| REST projects  | `net472;netstandard2.0;net8.0` | Cross-platform              |
-| Test projects  | `net472;net8.0`                | Skip netstandard            |
+| REST projects  | `net472;net48;net481;net10.0`  | Cross-platform              |
+| Test projects  | `net472;net48;net481;net10.0`  | Skip netstandard            |
 
 **Windows Required:** SOAP projects require Windows for `net472` targets.
 

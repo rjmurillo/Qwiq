@@ -10,7 +10,3 @@
 |   |   |-- Qwiq.Mocks.dll
 |   |-- net481
 |   |   |-- Qwiq.Mocks.dll
-|   |-- net8.0
-|   |   |-- Qwiq.Mocks.dll
-|   |-- net9.0
-|   |   |-- Qwiq.Mocks.dll

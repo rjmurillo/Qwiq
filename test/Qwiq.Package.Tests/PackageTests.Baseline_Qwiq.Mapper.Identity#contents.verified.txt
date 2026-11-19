@@ -14,9 +14,3 @@
 |   |-- net481
 |   |   |-- Qwiq.Mapper.Identity.dll
 |   |   |-- Qwiq.Mapper.Identity.xml
-|   |-- net8.0
-|   |   |-- Qwiq.Mapper.Identity.dll
-|   |   |-- Qwiq.Mapper.Identity.xml
-|   |-- net9.0
-|   |   |-- Qwiq.Mapper.Identity.dll
-|   |   |-- Qwiq.Mapper.Identity.xml

@@ -51,15 +51,15 @@ $pdbFiles = @(foreach ($searchPath in $SearchPaths) {
     }
 })
 
-# Deduplicate by assembly name (prefer net8.0 target)
+# Deduplicate by assembly name (prefer net10.0 target)
 $uniquePdbs = @{}
 foreach ($pdb in $pdbFiles) {
     $baseName = $pdb.BaseName
     if (-not $uniquePdbs.ContainsKey($baseName)) {
         $uniquePdbs[$baseName] = $pdb
     }
-    elseif ($pdb.FullName -match 'net8\.0' -and $uniquePdbs[$baseName].FullName -notmatch 'net8\.0') {
-        # Prefer net8.0 version
+    elseif ($pdb.FullName -match 'net10\.0' -and $uniquePdbs[$baseName].FullName -notmatch 'net10\.0') {
+        # Prefer net10.0 version
         $uniquePdbs[$baseName] = $pdb
     }
 }
@@ -88,14 +88,14 @@ if ($pdbFiles.Count -eq 0) {
         }
     })
 
-    # Deduplicate by assembly name (prefer net8.0 target)
+    # Deduplicate by assembly name (prefer net10.0 target)
     $uniqueDlls = @{}
     foreach ($dll in $dllFiles) {
         $baseName = $dll.BaseName
         if (-not $uniqueDlls.ContainsKey($baseName)) {
             $uniqueDlls[$baseName] = $dll
         }
-        elseif ($dll.FullName -match 'net8\.0' -and $uniqueDlls[$baseName].FullName -notmatch 'net8\.0') {
+        elseif ($dll.FullName -match 'net10\.0' -and $uniqueDlls[$baseName].FullName -notmatch 'net10\.0') {
             $uniqueDlls[$baseName] = $dll
         }
     }
