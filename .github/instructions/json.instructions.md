@@ -31,7 +31,7 @@ Pins the .NET SDK version for reproducible builds:
 ```json
 {
   "sdk": {
-    "version": "8.0.100",
+    "version": "10.0.100",
     "rollForward": "latestPatch"
   }
 }

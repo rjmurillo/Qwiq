@@ -6,7 +6,7 @@ Enable enterprise teams (100+ developers) to efficiently query and manage Azure 
 
 ## Vision Statement
 
-QWIQ v11.0.0 delivers a production-ready library with enterprise-grade supply chain security, reproducible builds, and modern .NET runtime support (net8.0/net9.0/net10.0) while maintaining backward compatibility for legacy TFS deployments.
+QWIQ v11.0.0 delivers a production-ready library with enterprise-grade supply chain security, reproducible builds, and modern .NET runtime support (net10.0) while maintaining backward compatibility for legacy TFS deployments.
 
 ---
 
@@ -25,7 +25,7 @@ QWIQ v11.0.0 delivers a production-ready library with enterprise-grade supply ch
 | Epic                            | User Value                                                                                                | Status      |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------- |
 | Reproducible Builds Integration | Consumers can verify package integrity and trace builds back to source with byte-for-byte reproducibility | Planned     |
-| TFM Expansion (W3.1)            | Run in Kubernetes containers with net9.0/net10.0 support                                                  | Planned     |
+| TFM Expansion (W3.1)            | Run in Kubernetes containers with net10.0 support                                                         | Planned     |
 | 70% Code Coverage (Wave 4)      | High confidence in production deployments through comprehensive testing                                   | In Progress |
 
 ### P2 - Nice to Have

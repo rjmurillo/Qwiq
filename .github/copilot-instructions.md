@@ -284,7 +284,7 @@ results.ShouldHaveSingleItem();
 
 | File                        | Purpose                                        |
 | --------------------------- | ---------------------------------------------- |
-| `global.json`               | Pins .NET SDK version (8.0.100)                |
+| `global.json`               | Pins .NET SDK version (10.0.100)               |
 | `Directory.Build.props`     | Shared MSBuild properties, package metadata    |
 | `Directory.Build.targets`   | Shared build targets                           |
 | `Directory.Packages.props`  | Central Package Management                     |
