@@ -8,7 +8,7 @@
     <!-- Security: CVE-2024-21319 requires >= 6.34.0. Pin to fix 38 Dependabot alerts. -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.34.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Server.Kestrel.Core" Version="2.3.6" />
-    <!-- Security: GHSA-6527-9fp8-r4x6 (CVE-2026-118750) flags Microsoft.AspNetCore.WebUtilities 2.3.0 through 2.3.13. Kestrel.Core and WireMock.Net pull it in transitively; 2.3.14 is the patched release. -->
+    <!-- Security: GHSA-6527-9fp8-r4x6 (CVE-2026-118750) flags Microsoft.AspNetCore.WebUtilities 2.3.0 through 2.3.13. Kestrel.Core and WireMock.Net pull it in transitively; 2.3.14 is the patched release. Remove this pin once both resolve 2.3.14 or later on their own. See https://github.com/advisories/GHSA-6527-9fp8-r4x6 -->
     <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.14" />
     <!-- Build and Analysis -->
     <PackageVersion Include="Nerdbank.GitVersioning" Version="3.9.50" />

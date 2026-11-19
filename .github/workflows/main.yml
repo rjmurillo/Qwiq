@@ -104,11 +104,18 @@ jobs:
             'test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj',
             'test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj'
           )
-          foreach ($framework in @('net8.0', 'net10.0')) {
+          # Keep this list in sync with the net8.0 and net10.0 TFMs of the test projects.
+          $frameworks = @('net8.0', 'net10.0')
+          $failed = @()
+          foreach ($framework in $frameworks) {
             foreach ($project in $projects) {
               dotnet test $project -c Release --no-build --framework $framework --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
-              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+              if ($LASTEXITCODE -ne 0) { $failed += "$project ($framework)" }
             }
+          }
+          if ($failed.Count -gt 0) {
+            Write-Host "::error::Tests failed in: $($failed -join ', ')"
+            exit 1
           }
 
       - name: Upload build logs
