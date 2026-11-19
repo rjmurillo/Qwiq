@@ -111,7 +111,7 @@ jobs:
           | **Mutation Score** | **$score%** |
           | Killed | $killed |
           | Survived | $survived |
-          | Target Framework | net8.0 |
+          | Target Framework | net10.0 |
           | Mutation Level | Standard |
 
           Download the **mutation-report-html** artifact for detailed analysis.

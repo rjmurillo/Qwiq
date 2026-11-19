@@ -14,10 +14,4 @@
 |   |-- net481
 |   |   |-- Qwiq.Core.dll
 |   |   |-- Qwiq.Core.xml
-|   |-- net8.0
-|   |   |-- Qwiq.Core.dll
-|   |   |-- Qwiq.Core.xml
-|   |-- net9.0
-|   |   |-- Qwiq.Core.dll
-|   |   |-- Qwiq.Core.xml
 |-- readme.txt

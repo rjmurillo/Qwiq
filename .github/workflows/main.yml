@@ -92,7 +92,7 @@ jobs:
         id: test-linux
         if: matrix.os == 'ubuntu-latest'
         shell: pwsh
-        # Run tests on Linux with net8.0 and net10.0.
+        # Run tests on Linux with net10.0, the only modern .NET target.
         # Exclude IntegrationTests (net472-only, would require Mono).
         # Exclude Package.Tests (requires .nupkg files which are only built on Windows).
         # Benchmark tests are excluded by TEST_FILTER (TestCategory!=Benchmark).
@@ -104,8 +104,8 @@ jobs:
             'test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj',
             'test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj'
           )
-          # Keep this list in sync with the net8.0 and net10.0 TFMs of the test projects.
-          $frameworks = @('net8.0', 'net10.0')
+          # Keep this list in sync with the modern .NET TFMs of the test projects.
+          $frameworks = @('net10.0')
           $failed = @()
           foreach ($framework in $frameworks) {
             foreach ($project in $projects) {
