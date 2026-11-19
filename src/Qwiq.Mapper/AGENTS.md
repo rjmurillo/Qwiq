@@ -14,7 +14,7 @@
 
 ## Key Characteristics
 
-- **Target Frameworks**: `net472;net48;net481;net8.0;net9.0;net10.0`
+- **Target Frameworks**: `net472;net48;net481;net10.0`
 - **Platform**: Cross-platform
 - **Dependencies**: Qwiq.Core, Qwiq.Linq
 - **Pattern**: Strategy pattern for mapping approaches

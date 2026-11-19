@@ -257,7 +257,7 @@ If the workflow fails, follow these steps:
 
 - **Build Configuration**: Release, Any CPU
 - **Test Filters**: Same categories excluded (localOnly, Benchmark, SOAP, REST, IntegrationTests)
-- **Multi-targeting**: net472, netstandard2.0, net8.0
+- **Multi-targeting**: net472, net48, net481, net10.0
 
 ---
 

@@ -6,26 +6,26 @@
 
 | Project              | Target Frameworks            | Description                         |
 | -------------------- | ---------------------------- | ----------------------------------- |
-| `Qwiq.Core`          | net472;netstandard2.0;net8.0 | Core interfaces and abstractions    |
-| `Qwiq.Core.Rest`     | net472;netstandard2.0;net8.0 | REST API client implementation      |
+| `Qwiq.Core`          | net472;net48;net481;net10.0  | Core interfaces and abstractions    |
+| `Qwiq.Core.Rest`     | net472;net48;net481;net10.0  | REST API client implementation      |
 | `Qwiq.Core.Soap`     | net472                       | SOAP client (Windows only)          |
-| `Qwiq.Linq`          | net472;net8.0                | LINQ query provider                 |
-| `Qwiq.Mapper`        | net472;net8.0                | Object mapping layer                |
-| `Qwiq.Identity`      | net472;net8.0                | Identity management                 |
+| `Qwiq.Linq`          | net472;net48;net481;net10.0  | LINQ query provider                 |
+| `Qwiq.Mapper`        | net472;net48;net481;net10.0  | Object mapping layer                |
+| `Qwiq.Identity`      | net472;net48;net481;net10.0  | Identity management                 |
 | `Qwiq.Identity.Soap` | net472                       | Identity SOAP client (Windows only) |
 
 ### Test Projects (`test/`)
 
 | Directory                | Project Name              | Target Frameworks | Description              |
 | ------------------------ | ------------------------- | ----------------- | ------------------------ |
-| `Qwiq.Core.Tests`        | `Qwiq.Core.UnitTests`     | net472;net8.0     | Core unit tests          |
-| `Qwiq.Linq.Tests`        | `Qwiq.Linq.UnitTests`     | net472;net8.0     | LINQ provider tests      |
-| `Qwiq.Mapper.Tests`      | `Qwiq.Mapper.UnitTests`   | net472;net8.0     | Mapper tests             |
-| `Qwiq.Identity.Tests`    | `Qwiq.Identity.UnitTests` | net472;net8.0     | Identity tests           |
+| `Qwiq.Core.Tests`        | `Qwiq.Core.UnitTests`     | net472;net48;net481;net10.0 | Core unit tests          |
+| `Qwiq.Linq.Tests`        | `Qwiq.Linq.UnitTests`     | net472;net48;net481;net10.0 | LINQ provider tests      |
+| `Qwiq.Mapper.Tests`      | `Qwiq.Mapper.UnitTests`   | net472;net48;net481;net10.0 | Mapper tests             |
+| `Qwiq.Identity.Tests`    | `Qwiq.Identity.UnitTests` | net472;net48;net481;net10.0 | Identity tests           |
 | `Qwiq.Integration.Tests` | `Qwiq.IntegrationTests`   | net472            | Full integration tests   |
-| `Qwiq.Mocks`             | `Qwiq.Mocks`              | net472;net8.0     | Mock implementations     |
-| `Qwiq.Tests.Common`      | `Qwiq.Tests.Common`       | net472;net8.0     | Shared test utilities    |
-| `Qwiq.Package.Tests`     | `Qwiq.Package.Tests`      | net8.0            | NuGet package validation |
+| `Qwiq.Mocks`             | `Qwiq.Mocks`              | net472;net48;net481;net10.0 | Mock implementations     |
+| `Qwiq.Tests.Common`      | `Qwiq.Tests.Common`       | net472;net48;net481;net10.0 | Shared test utilities    |
+| `Qwiq.Package.Tests`     | `Qwiq.Package.Tests`      | net10.0           | NuGet package validation |
 
 ## InternalsVisibleTo Configuration
 
