@@ -92,11 +92,11 @@ jobs:
         id: test-linux
         if: matrix.os == 'ubuntu-latest'
         shell: pwsh
-        # Run tests on Linux with net8.0 only.
+        # Run tests on Linux with net8.0 and net10.0.
         # Exclude IntegrationTests (net472-only, would require Mono).
         # Exclude Package.Tests (requires .nupkg files which are only built on Windows).
         # Benchmark tests are excluded by TEST_FILTER (TestCategory!=Benchmark).
-        # Test multi-targeted projects by explicitly specifying --framework net8.0.
+        # Test multi-targeted projects by explicitly specifying each --framework.
         run: |
           $projects = @(
             'test/Qwiq.Core.Tests/Qwiq.Core.UnitTests.csproj',
@@ -104,8 +104,11 @@ jobs:
             'test/Qwiq.Linq.Tests/Qwiq.Linq.UnitTests.csproj',
             'test/Qwiq.Mapper.Tests/Qwiq.Mapper.UnitTests.csproj'
           )
-          foreach ($project in $projects) {
-            dotnet test $project -c Release --no-build --framework net8.0 --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+          foreach ($framework in @('net8.0', 'net10.0')) {
+            foreach ($project in $projects) {
+              dotnet test $project -c Release --no-build --framework $framework --filter "${{ env.TEST_FILTER }}" --logger trx --results-directory ./artifacts/TestResults --collect:"XPlat Code Coverage" --settings coverage.runsettings
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            }
           }
 
       - name: Upload build logs
