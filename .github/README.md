@@ -116,7 +116,7 @@ If you see the warning about SDK version mismatch, the script will attempt to in
 1. **Using the dotnet-install script** (Linux/macOS):
 
    ```bash
-   curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 10.0.101
+   curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 10.0.404
    export PATH="$HOME/.dotnet:$PATH"
    export DOTNET_ROOT="$HOME/.dotnet"
    ```
@@ -125,7 +125,7 @@ If you see the warning about SDK version mismatch, the script will attempt to in
 
    ```powershell
    Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-   ./dotnet-install.ps1 -Version 10.0.101
+   ./dotnet-install.ps1 -Version 10.0.404
    ```
 
 3. **Direct download from Microsoft**:
@@ -137,10 +137,10 @@ After installing, verify:
 
 ```bash
 dotnet --version
-# Should output: 10.0.101
+# Should output: 10.0.404
 
 dotnet --list-sdks
-# Should include: 10.0.101 [path]
+# Should include: 10.0.404 [path]
 ```
 
 ### Git hooks not running
