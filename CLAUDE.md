@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (<https://claude.ai/code>) when working with code in this repository.
 
+Read `AGENTS.md` at the repo root first. It lists facts that agents must not miss.
+
 ## Repository Overview
 
 QWIQ (**Q**uick **W**ork **I**tem **Q**uery) is a .NET library providing a simplified API for querying Azure DevOps / Team Foundation Server work items. It wraps the TFS Client OM with cleaner interfaces, factory patterns, and mock support.

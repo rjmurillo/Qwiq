@@ -227,7 +227,7 @@ dotnet clean && dotnet build && dotnet build
 dotnet build /p:ProduceReferenceAssembly=false
 ```
 
-### netstandard2.0 vs net472 API differences
+### net472 vs net10.0 API differences
 
 **Symptom:** Code compiles for one target but not another
 
@@ -237,7 +237,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 #if NET472
     // net472-specific code
 #else
-    // netstandard2.0/net8.0 code
+    // net48, net481 and net10.0 code
 #endif
 ```
 
