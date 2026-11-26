@@ -52,12 +52,12 @@ dotnet tool restore
 
 ### 2. Multi-Targeting Strategy
 
-| Project Type   | Target Frameworks              | Notes                       |
-| -------------- | ------------------------------ | --------------------------- |
-| Core libraries | `net472;net48;net481;net10.0`  | Full multi-targeting        |
-| SOAP projects  | `net472` only                  | Windows-only, TFS Client OM |
-| REST projects  | `net472;net48;net481;net10.0`  | Cross-platform              |
-| Test projects  | `net472;net48;net481;net10.0`  | Skip netstandard            |
+| Project Type   | Target Frameworks             | Notes                       |
+| -------------- | ----------------------------- | --------------------------- |
+| Core libraries | `net472;net48;net481;net10.0` | Full multi-targeting        |
+| SOAP projects  | `net472` only                 | Windows-only, TFS Client OM |
+| REST projects  | `net472;net48;net481;net10.0` | Cross-platform              |
+| Unit tests     | `net472;net48;net481;net10.0` | Exceptions in REFERENCE.md  |
 
 **Windows Required:** SOAP projects require Windows for `net472` targets.
 

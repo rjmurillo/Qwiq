@@ -345,7 +345,8 @@ dotnet pprettier --check "**/*.md"
   - Not just binary compatibility - actual runtime performance benefits
 - SOAP projects: `net472` only (Windows SDK dependency)
 - REST projects: `net472;net48;net481;net10.0`
-- Test projects: `net472;net48;net481;net10.0`
+- Unit test projects, Mocks, Tests.Common: `net472;net48;net481;net10.0`
+- Integration tests: `net472`. Benchmarks: `net472;net10.0`. Package and WireMock tests: `net10.0`
 - net8.0 and net9.0 were dropped when both reached end of support on 2026-11-10
 - netstandard2.0: No longer targeted
 
