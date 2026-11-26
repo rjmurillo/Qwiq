@@ -52,12 +52,12 @@ dotnet tool restore
 
 ### 2. Multi-Targeting Strategy
 
-| Project Type   | Target Frameworks              | Notes                       |
-| -------------- | ------------------------------ | --------------------------- |
-| Core libraries | `net472;net48;net481;net10.0`  | Full multi-targeting        |
-| SOAP projects  | `net472` only                  | Windows-only, TFS Client OM |
-| REST projects  | `net472;net48;net481;net10.0`  | Cross-platform              |
-| Test projects  | `net472;net48;net481;net10.0`  | Skip netstandard            |
+| Project Type   | Target Frameworks             | Notes                       |
+| -------------- | ----------------------------- | --------------------------- |
+| Core libraries | `net472;net48;net481;net10.0` | Full multi-targeting        |
+| SOAP projects  | `net472` only                 | Windows-only, TFS Client OM |
+| REST projects  | `net472;net48;net481;net10.0` | Cross-platform              |
+| Unit tests     | `net472;net48;net481;net10.0` | Exceptions in REFERENCE.md  |
 
 **Windows Required:** SOAP projects require Windows for `net472` targets.
 
@@ -227,7 +227,7 @@ dotnet clean && dotnet build && dotnet build
 dotnet build /p:ProduceReferenceAssembly=false
 ```
 
-### netstandard2.0 vs net472 API differences
+### net472 vs net10.0 API differences
 
 **Symptom:** Code compiles for one target but not another
 
@@ -237,7 +237,7 @@ dotnet build /p:ProduceReferenceAssembly=false
 #if NET472
     // net472-specific code
 #else
-    // netstandard2.0/net8.0 code
+    // net48, net481 and net10.0 code
 #endif
 ```
 
