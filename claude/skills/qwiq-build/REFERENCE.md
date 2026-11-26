@@ -41,7 +41,7 @@
 
 | Tool                   | Version      | Configuration               |
 | ---------------------- | ------------ | --------------------------- |
-| .NET SDK               | 10.0.100     | `global.json`               |
+| .NET SDK               | 10.0.404     | `global.json`               |
 | Nerdbank.GitVersioning | See manifest | `.config/dotnet-tools.json` |
 
 ## MSBuild Properties
